@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.case-defendants-organisations.json",
+  "type": "object",
+  "properties": {
+    "caseDefendantOrganisation": {
+      "$ref": "http://moj.gov.uk/cpp/defence/case-defendants-with-organisation.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "caseDefendantOrganisation"
+  ]
+}

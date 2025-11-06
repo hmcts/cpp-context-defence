@@ -1,0 +1,101 @@
+{
+  "$schema":"http://json-schema.org/draft-04/schema",
+  "id":"http://justice.gov.uk/cps/defence/defence.query.defence-client-id.json",
+  "type":"object",
+  "properties":{
+    "defenceClientId":{
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "caseId":{
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "prosecutionAuthorityCode":{
+      "type":"string"
+    },
+    "defendantId":{
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "associatedOrganisation":{
+      "$ref":"#/definitions/defenceOrganisation"
+    },
+    "idpcAccessingOrganisations":{
+      "type":"array",
+      "items":{
+        "$ref":"#/definitions/idpcAccessingOrganisation"
+      }
+    },
+    "instructingOrganisations":{
+      "type":"array",
+      "items":{
+        "$ref":"#/definitions/instructingOrganisations"
+      }
+    },
+    "lockedByRepOrder": {
+      "type": "boolean"
+    },
+    "caseUrn": {
+      "type": "string"
+    },
+    "defenceClientCount": {
+      "type": "integer"
+    }
+  },
+  "definitions":{
+    "idpcAccessingOrganisation":{
+      "type":"object",
+      "properties":{
+        "order":{
+          "type":"integer"
+        },
+        "organisationId":{
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "name":{
+          "type":"string"
+        }
+      }
+    },
+    "uuid":{
+      "type":"string"
+    },
+    "defenceOrganisation":{
+      "id":"http://justice.gov.uk/cps/defence/defence-organisation.json",
+      "type":"object",
+      "properties":{
+        "organisationId":{
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "organisationName":{
+          "type":"string"
+        }
+      }
+    },
+    "instructingOrganisations":{
+      "type":"object",
+      "properties":{
+            "instructionId": {
+              "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+            },
+            "userId": {
+              "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+            },
+            "organisationId": {
+              "$ref":"http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+            },
+            "name": {
+              "type":"string"
+            },
+            "instructionDate": {
+              "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date"
+            }
+      }
+    },
+    "associatedPersons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "http://justice.gov.uk/core/courts/associatedPerson.json"
+      }
+    }
+  }
+}

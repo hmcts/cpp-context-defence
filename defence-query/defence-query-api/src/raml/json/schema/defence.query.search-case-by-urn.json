@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.search-case-by-urn.json",
+  "type": "object",
+  "properties": {
+    "caseUrn": {
+      "description": "The case URN",
+      "type": "string"
+    },
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "authorisedDefendantIds": {
+      "type": "array",
+      "items": {
+        "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "caseUrn"
+  ]
+}

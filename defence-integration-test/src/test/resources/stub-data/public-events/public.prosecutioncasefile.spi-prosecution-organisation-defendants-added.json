@@ -1,0 +1,40 @@
+{
+  "caseId": "CASE-ID",
+  "defendants": [
+    {
+      "id": "DEFENDANT-ID",
+      "asn": "0416BH0000000090557N",
+      "prosecutorDefendantReference": "7e2f843e-d639-40b3-8611-8015f3a18959",
+      "organisation": {
+        "organisationName": "ORGANISATION-NAME"
+      },
+      "offences": [
+        {
+          "id": "7e2f843e-d639-40b3-8611-8015f3a18959",
+          "policeOffenceId": "A00PCD7073",
+          "cpr": {
+            "defendantOffender": {
+              "year": "09",
+              "organisationUnit": "XX45GD00",
+              "number": "10000000001",
+              "checkDigit": "A"
+            },
+            "cjsCode": "OF61131",
+            "offenceSequence": "001"
+          },
+          "asnSequenceNumber": "001",
+          "cjsCode": "OF61131",
+          "reason": "131",
+          "description": "Wounding/inflicting grievous bodily harm.",
+          "wording": "on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith",
+          "category": "Either Way",
+          "arrestDate": "2010-08-01",
+          "startDate": "2010-08-01",
+          "endDate": "2011-08-01",
+          "chargeDate": "2010-08-01"
+        }
+      ]
+    }
+  ],
+  "channel": "SPI"
+}

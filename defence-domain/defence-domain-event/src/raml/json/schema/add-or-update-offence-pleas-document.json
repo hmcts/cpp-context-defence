@@ -1,0 +1,364 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/add-or-update-offence-pleas-document.json",
+  "type": "object",
+  "properties": {
+    "caseUrn": {
+      "type": "string"
+    },
+    "defendantOnOpa": {
+      "type": "object",
+      "properties": {
+        "defendantName": {
+          "description": "defendant first name fo",
+          "type": "string"
+        },
+        "dateOfBirth": {
+          "type": "string"
+        },
+        "address": {
+          "type": "object",
+          "properties": {
+            "address1": {
+              "description": "The address1",
+              "type": "string"
+            },
+            "welshAddress1": {
+              "description": "The address1 in Welsh",
+              "type": "string"
+            },
+            "address2": {
+              "description": "The address2",
+              "type": "string"
+            },
+            "welshAddress2": {
+              "description": "The address2 in Welsh",
+              "type": "string"
+            },
+            "address3": {
+              "description": "The address3",
+              "type": "string"
+            },
+            "welshAddress3": {
+              "description": "The address3 in Welsh",
+              "type": "string"
+            },
+            "address4": {
+              "description": "The address4",
+              "type": "string"
+            },
+            "welshAddress4": {
+              "description": "The address4 in Welsh",
+              "type": "string"
+            },
+            "address5": {
+              "description": "The address5",
+              "type": "string"
+            },
+            "welshAddress5": {
+              "description": "The address5 in Welsh",
+              "type": "string"
+            },
+            "postcode": {
+              "description": "UK Gov post code validation following CJS Data Standards",
+              "type": "string",
+              "pattern": "^(([gG][iI][rR] {0,}0[aA]{2})|(([aA][sS][cC][nN]|[sS][tT][hH][lL]|[tT][dD][cC][uU]|[bB][bB][nN][dD]|[bB][iI][qQ][qQ]|[fF][iI][qQ][qQ]|[pP][cC][rR][nN]|[sS][iI][qQ][qQ]|[iT][kK][cC][aA]) {0,}1[zZ]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yxA-HK-XY]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) [0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$",
+              "maxLength": 8
+            }
+          }
+        },
+        "offencePleasForDocument": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "offenceId": {
+                  "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+                },
+                "offenceTitle": {
+                  "type": "string"
+                },
+                "offenceDescription": {
+                  "type": "string"
+                },
+                "indicatedPlea": {
+                  "type": "string"
+                }
+              }
+            }
+          ]
+        },
+        "consentToMagistratesCourtTrial": {
+          "type": "string"
+        },
+        "consentToMagistratesCourtTrialQuestion": {
+          "type": "string"
+        },
+        "disputeOffenceValue": {
+          "type": "boolean"
+        },
+        "disputeOffenceValueDetails": {
+          "type": "string"
+        },
+        "disputeOffenceQuestion": {
+          "type": "string"
+        },
+        "electingCrownCourtTrial": {
+          "type": "boolean"
+        },
+        "electingCrownCourtTrialDetails": {
+          "type": "string"
+        },
+        "electingCrownCourtTrialQuestion": {
+          "type": "string"
+        },
+        "representationsOnGraveCrime": {
+          "type": "boolean"
+        },
+        "representationsOnGraveCrimeQuestion": {
+          "type": "string"
+        },
+        "representationsOnGraveCrimeDetails": {
+          "type": "string"
+        },
+        "sentencingIndication": {
+          "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/yesNoNa"
+        },
+        "sentencingIndicationQuestion": {
+          "type": "string"
+        },
+        "crownCourtObjection": {
+          "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/yesNoNa"
+        },
+        "crownCourtObjectionQuestion": {
+          "type": "string"
+        },
+        "isYouthOffence": {
+          "type": "boolean"
+        },
+        "youthAcknowledgement": {
+          "type": "boolean"
+        },
+        "youthAcknowledgementQuestion": {
+          "type": "string"
+        },
+        "defendantNameDobConfirmation": {
+          "type": "boolean"
+        },
+        "defendantNameDobConfirmationQuestion": {
+          "type": "string"
+        },
+        "defendantCorrectedName": {
+          "type": "string"
+        },
+        "defendantCorrectedDob": {
+          "type": "string"
+        },
+        "defendantOrganisationName": {
+          "type": "string"
+        },
+        "offenceType": {
+          "type": "string"
+        },
+        "additionalInformation": {
+          "type": "string"
+        },
+        "additionalInformationQuestion": {
+          "type": "string"
+        },
+        "defendantTurningEighteenDetails": {
+          "type": "string"
+        },
+        "theftFromShop": {
+          "type": "string"
+        },
+        "theftFromShopDetails": {
+          "type": "string"
+        }
+      }
+    },
+    "defendantsOnCase": {
+      "type": "array",
+      "items": [
+        {
+          "properties": {
+            "defendantName": {
+              "description": "defendant first name fo",
+              "type": "string"
+            },
+            "dateOfBirth": {
+              "type": "string"
+            },
+            "address": {
+              "type": "object",
+              "properties": {
+                "address1": {
+                  "description": "The address1",
+                  "type": "string"
+                },
+                "welshAddress1": {
+                  "description": "The address1 in Welsh",
+                  "type": "string"
+                },
+                "address2": {
+                  "description": "The address2",
+                  "type": "string"
+                },
+                "welshAddress2": {
+                  "description": "The address2 in Welsh",
+                  "type": "string"
+                },
+                "address3": {
+                  "description": "The address3",
+                  "type": "string"
+                },
+                "welshAddress3": {
+                  "description": "The address3 in Welsh",
+                  "type": "string"
+                },
+                "address4": {
+                  "description": "The address4",
+                  "type": "string"
+                },
+                "welshAddress4": {
+                  "description": "The address4 in Welsh",
+                  "type": "string"
+                },
+                "address5": {
+                  "description": "The address5",
+                  "type": "string"
+                },
+                "welshAddress5": {
+                  "description": "The address5 in Welsh",
+                  "type": "string"
+                },
+                "postcode": {
+                  "description": "UK Gov post code validation following CJS Data Standards",
+                  "type": "string",
+                  "pattern": "^(([gG][iI][rR] {0,}0[aA]{2})|(([aA][sS][cC][nN]|[sS][tT][hH][lL]|[tT][dD][cC][uU]|[bB][bB][nN][dD]|[bB][iI][qQ][qQ]|[fF][iI][qQ][qQ]|[pP][cC][rR][nN]|[sS][iI][qQ][qQ]|[iT][kK][cC][aA]) {0,}1[zZ]{2})|((([a-pr-uwyzA-PR-UWYZ][a-hk-yxA-HK-XY]?[0-9][0-9]?)|(([a-pr-uwyzA-PR-UWYZ][0-9][a-hjkstuwA-HJKSTUW])|([a-pr-uwyzA-PR-UWYZ][a-hk-yA-HK-Y][0-9][abehmnprv-yABEHMNPRV-Y]))) [0-9][abd-hjlnp-uw-zABD-HJLNP-UW-Z]{2}))$",
+                  "maxLength": 8
+                }
+              }
+            },
+            "offencePleasForDocument": {
+              "type": "array",
+              "items": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "offenceId": {
+                      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+                    },
+                    "offenceTitle": {
+                      "type": "string"
+                    },
+                    "offenceDescription": {
+                      "type": "string"
+                    },
+                    "indicatedPlea": {
+                      "type": "string"
+                    }
+                  }
+                }
+              ]
+            },
+            "consentToMagistratesCourtTrial": {
+              "type": "string"
+            },
+            "consentToMagistratesCourtTrialQuestion": {
+              "type": "string"
+            },
+            "disputeOffenceValue": {
+              "type": "boolean"
+            },
+            "disputeOffenceValueDetails": {
+              "type": "string"
+            },
+            "disputeOffenceQuestion": {
+              "type": "string"
+            },
+            "electingCrownCourtTrial": {
+              "type": "boolean"
+            },
+            "electingCrownCourtTrialDetails": {
+              "type": "string"
+            },
+            "electingCrownCourtTrialQuestion": {
+              "type": "string"
+            },
+            "representationsOnGraveCrime": {
+              "type": "boolean"
+            },
+            "representationsOnGraveCrimeQuestion": {
+              "type": "string"
+            },
+            "representationsOnGraveCrimeDetails": {
+              "type": "string"
+            },
+            "sentencingIndication": {
+              "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/yesNoNa"
+            },
+            "sentencingIndicationQuestion": {
+              "type": "string"
+            },
+            "crownCourtObjection": {
+              "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/yesNoNa"
+            },
+            "crownCourtObjectionQuestion": {
+              "type": "string"
+            },
+            "isYouthOffence": {
+              "type": "boolean"
+            },
+            "youthAcknowledgement": {
+              "type": "boolean"
+            },
+            "youthAcknowledgementQuestion": {
+              "type": "string"
+            },
+            "defendantOrganisationName": {
+              "type": "string"
+            },
+            "defendantCorrectedName": {
+              "type": "string"
+            },
+            "defendantCorrectedDob": {
+              "type": "string"
+            },
+            "defendantNameDobConfirmation": {
+              "type": "boolean"
+            },
+            "defendantNameDobConfirmationQuestion": {
+              "type": "string"
+            },
+            "offenceType": {
+              "type": "string"
+            },
+            "additionalInformation": {
+              "type": "string"
+            },
+            "additionalInformationQuestion": {
+              "type": "string"
+            },
+            "defendantTurningEighteenDetails": {
+              "type": "string"
+            },
+            "theftFromShop": {
+              "type": "string"
+            },
+            "theftFromShopDetails": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "submittedBy": {
+      "type": "string"
+    },
+    "submittedDate": {
+      "type": "string"
+    }
+  }
+}

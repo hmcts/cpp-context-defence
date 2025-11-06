@@ -1,0 +1,103 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/query/api/hearings",
+  "type": "object",
+  "properties": {
+    "courtRooms": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/courtRoom"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "courtRoom": {
+      "id": "http://moj.gov.uk/cpp/defence/query/api/hearing/courtRoom.json",
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "prosecutionCases": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/prosecutionCase"
+          }
+        }
+      }
+    },
+    "prosecutionCase": {
+      "id": "http://moj.gov.uk/cpp/defence/query/api/hearing/prosecutionCase.json",
+      "type": "object",
+      "properties": {
+        "caseId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "hearingId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "caseUrn": {
+          "type": "string"
+        },
+        "defendants": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/defendant"
+          }
+        },
+        "assignedProsecutors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/definitions/assignedProsecutor"
+          }
+        }
+      }
+    },
+    "defendant": {
+      "id": "http://moj.gov.uk/cpp/defence/query/api/hearing/defendant.json",
+      "properties": {
+        "id": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "firstName": {
+          "description": "The person forename",
+          "type": "string"
+        },
+        "middleName": {
+          "description": "The person middle name",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "The person last name",
+          "type": "string"
+        },
+        "organisationName": {
+          "description": "The organisation name for corporate defendants",
+          "type": "string"
+        }
+      }
+    },
+    "assignedProsecutor": {
+      "id": "http://moj.gov.uk/cpp/defence/query/api/hearing/assignedProsecutor.json",
+      "properties": {
+        "id": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "fullName": {
+          "description": "prosecutors full name",
+          "type": "string"
+        }
+      }
+    }
+  }
+}
+
+

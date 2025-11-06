@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence-client-details",
+  "type": "object",
+  "properties": {
+    "asn": {
+      "id": "/asn",
+      "type": "string"
+    },
+    "bailConditions": {
+      "id": "/bailConditions",
+      "type": "string"
+    },
+    "bailDate": {
+      "id": "/bailDate",
+      "type": "string"
+    },
+    "policeRemandStatus": {
+      "id": "/policeRemandStatus",
+      "type": "string"
+    },
+    "policePersonId": {
+      "id": "policePersonId",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

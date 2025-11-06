@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/events/defence.event.allocation-pleas-updated.json",
+  "type": "object",
+  "properties": {
+    "pleasAllocation": {
+      "$ref": "http://justice.gov.uk/cps/defence/pleas-allocation-details.json"
+    }
+  },
+  "required": [
+    "pleasAllocation"
+  ]
+}

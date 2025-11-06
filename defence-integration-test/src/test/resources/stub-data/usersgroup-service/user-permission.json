@@ -1,0 +1,36 @@
+{
+  "groups": [
+    {
+      "groupId": "1e2f843e-d639-40b3-8611-8015f3a18958",
+      "groupName": "System Users"
+    },
+    {
+      "groupId": "5b6f843e-d639-40b3-8611-8015f3a34758",
+      "groupName": "Charging Lawyers",
+      "prosecutingAuthority": "TFL",
+      "description": "Group description"
+    }
+  ],
+  "switchableRoles": [
+    {
+      "roleId": "0e33e817-3e56-4c4d-a574-24ce090ecef4",
+      "label": "Defence Attorney",
+      "description": "Permissions required to perform the role of a defence attorney",
+      "active": true
+    },
+    {
+      "roleId": "dffdd0f2-db0d-4c95-9afa-919d44617172",
+      "label": "Prosecutor",
+      "description": "Permissions required to perform the role of a prosecutor",
+      "active": false
+    }
+  ],
+  "permissions": [
+    {
+      "object": "OBJECT-1",
+      "action": "ACTION-1",
+      "target": "TARGET-1",
+      "source": "SOURCE-1"
+    }
+  ]
+}

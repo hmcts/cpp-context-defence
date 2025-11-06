@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/defendant.json",
+  "type": "object",
+  "description": "Defendant Details",
+  "properties": {
+    "id": {
+      "type": "string",
+      "maxLength": 36
+    },
+    "asn": {
+      "type": "string",
+      "description": "Arrest / Summons number",
+      "maxLength": 36
+    },
+    "prosecutorDefendantReference": {
+      "type": "string",
+      "maxLength": 36
+    },
+    "firstName": {
+      "type": "string",
+      "description": "The first given name of a person, e.g. John ",
+      "maxLength": 130
+    },
+    "lastName": {
+      "type": "string",
+      "description": "Surname or Family name, e.g. Brown.",
+      "maxLength": 35
+    },
+    "dateOfBirth": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date",
+      "description": "The date when a person was born."
+    },
+    "offences": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "http://justice.gov.uk/cps/defence/offence"
+      }
+    },
+    "organisation": {
+      "$ref": "http://moj.gov.uk/cpp/defence/organisation.json"
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "offences",
+        "lastName"
+      ]
+    },
+    {
+      "required": [
+        "offences",
+        "organisation"
+      ]
+    }
+  ],
+  "additionalProperties": false
+}

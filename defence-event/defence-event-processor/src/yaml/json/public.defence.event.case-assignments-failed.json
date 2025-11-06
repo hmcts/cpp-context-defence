@@ -1,0 +1,11 @@
+{
+  "assignmentErrors": [
+    {
+      "caseId": "3314db07-d9c2-4d60-85a0-16bb69db4f5d",
+      "errorCode": 4,
+      "failureReason": "User not found for the given e-mail.",
+      "hearingId": "b93b3662-60a4-46ed-847d-8ed012279379"
+    }
+  ],
+  "email": "random@test.com"
+}

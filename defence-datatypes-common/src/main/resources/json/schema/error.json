@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/error.json",
+  "type": "object",
+  "properties": {
+    "errorCode": {
+      "type": "string",
+      "enum": [
+        "CASE_NOT_FOUND",
+        "ORGANISATION_NOT_PROSECUTING_AUTHORITY"
+      ]
+    },
+    "organisationName": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "errorCode"
+  ],
+  "additionalProperties": false
+}

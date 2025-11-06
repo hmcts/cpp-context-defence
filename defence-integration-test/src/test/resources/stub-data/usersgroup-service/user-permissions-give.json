@@ -1,0 +1,9 @@
+{
+  "description" : "defence context - grant access",
+  "source" : "SOURCE-1",
+  "target" : "TARGET-1",
+  "object": "defenceClientId",
+  "action": "View",
+  "active": "true",
+  "id": "ID-1"
+}

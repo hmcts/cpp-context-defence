@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="042-alter-defendant_allocation" author="tango">
+        <dropColumn tableName="defendant_allocation">
+            <column name="crown_court_objection_ack"/>
+        </dropColumn>
+
+        <modifyDataType columnName="crown_court_objection" newDataType="TEXT"
+                        tableName="defendant_allocation"/>
+
+        <modifyDataType columnName="sentencing_indication_requested" newDataType="TEXT"
+                        tableName="defendant_allocation"/>
+
+        <addColumn tableName="defendant_allocation">
+            <column name="defendant_name_dob_confirmation" type="boolean" defaultValue="false"/>
+            <column name="def_first_name" type="TEXT"/>
+            <column name="def_middle_name" type="TEXT"/>
+            <column name="def_surname" type="TEXT"/>
+            <column name="def_dob" type="DATE"/>
+            <column name="def_org_name" type="TEXT"/>
+            <column name="offence_type" type="TEXT"/>
+            <column name="additional_information" type="TEXT"/>
+            <column name="def_turning_eighteen_details" type="TEXT"/>
+            <column name="theft_from_shop" type="TEXT"/>
+            <column name="theft_from_shop_details" type="TEXT"/>
+        </addColumn>
+
+    </changeSet>
+
+</databaseChangeLog>

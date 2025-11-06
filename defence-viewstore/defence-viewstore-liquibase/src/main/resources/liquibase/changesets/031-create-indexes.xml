@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="031-create-indexes" author="Salsa">
+        <createIndex tableName="instruction" indexName="instruction_user_id_idx">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex tableName="instruction" indexName="instruction_organisation_id_idx">
+            <column name="organisation_id"/>
+        </createIndex>
+        <createIndex tableName="defence_user_details" indexName="defence_user_details_user_id_idx">
+            <column name="user_id"/>
+        </createIndex>
+        <createIndex tableName="defence_grant_access" indexName="defence_grant_access_defence_client_id_idx">
+            <column name="defence_client_id"/>
+        </createIndex>
+        <createIndex tableName="defence_association" indexName="defence_association_laa_contract_number_idx">
+            <column name="laa_contract_number"/>
+        </createIndex>
+        <createIndex tableName="defence_association" indexName="defence_association_defendant_id_idx">
+            <column name="defendant_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

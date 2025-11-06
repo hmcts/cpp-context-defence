@@ -1,0 +1,190 @@
+#%RAML 0.8
+title: Defence Query
+version: v0.1
+protocols: [ HTTP, HTTPS ]
+baseUri: http://localhost:8080/defence-command-api/command/api/rest/defence
+/defenceclients/{defenceClientId}/instruction:
+  post:
+    description: |
+      Records instruction date and user id
+      ...
+      (mapping):
+          requestType: application/vnd.defence.record-instruction-details+json
+          name: defence.record-instruction-details
+      ...
+    body:
+        application/vnd.defence.record-instruction-details+json:
+            schema: !include json/schema/defence-instruction.json
+            example: !include json/defence-instruction.json
+
+/defenceclients/{defenceClientId}/grantaccess:
+  uriParameters:
+      defenceClientId:
+        description: defenceClientId that the grant operation going to be performend
+        type: string
+  post:
+    description: |
+      Granting access to the specified defenceClientId for the given email(user)
+      ...
+      (mapping):
+          requestType: application/vnd.defence.grant-defence-access+json
+          name: defence.grant-defence-access
+      (mapping):
+          requestType: application/vnd.defence.remove-grant-defence-access+json
+          name: defence.remove-grant-defence-access
+      ...
+    body:
+        application/vnd.defence.grant-defence-access+json:
+            schema: !include json/schema/grant-defence-access.json
+            example: !include json/grant-defence-access.json
+        application/vnd.defence.remove-grant-defence-access+json:
+            schema: !include json/schema/remove-grant-defence-access.json
+            example: !include json/remove-grant-defence-access.json
+    responses:
+        202:
+            description: OK
+
+/defendants/{defendantId}/defenceorganisation :
+  uriParameters:
+      defendantId:
+        description: The id of the defendant
+        type: string
+  post:
+      description: |
+        The defendant's association with a defence organisation
+        ...
+        (mapping):
+            requestType: application/vnd.defence.associate-defence-organisation+json
+            name: defence.associate-defence-organisation
+        (mapping):
+             requestType: application/vnd.defence.disassociate-defence-organisation+json
+             name: defence.disassociate-defence-organisation
+        ...
+      body:
+        application/vnd.defence.associate-defence-organisation+json:
+          example:
+            !include json/defence.associate-defence-organisation.json
+          schema:
+             !include json/schema/defence.associate-defence-organisation.json
+        application/vnd.defence.disassociate-defence-organisation+json:
+          example:
+             !include json/defence.disassociate-defence-organisation.json
+          schema:
+             !include json/schema/defence.disassociate-defence-organisation.json
+
+
+/defendants/{defendantId}/defenceorganisation/{organisationId}/unlock-bdf :
+  uriParameters:
+      defendantId:
+        description: The id of the defendant
+        type: string
+      organisationId:
+        description: The id of the defence organisation
+        type: string
+  post:
+      description: |
+        Unlock defendant's association with a defence organisation
+        ...
+        (mapping):
+            requestType: application/vnd.defence.bdf.unlock-defence-organisation-association+json
+            name: defence.bdf.unlock-defence-organisation-association
+        ...
+      body:
+        application/vnd.defence.bdf.unlock-defence-organisation-association+json:
+          example:
+            !include json/defence.bdf.unlock-defence-organisation-association.json
+          schema:
+             !include json/schema/defence.bdf.unlock-defence-organisation-association.json
+
+/advocate:
+  post:
+    description: |
+      Assign to the specified advocateId for the given email(user)
+      ...
+      (mapping):
+          requestType: application/vnd.defence.command.advocate.assign-case+json
+          name: defence.command.advocate.assign-case
+      (mapping):
+          requestType: application/vnd.defence.command.advocate.remove-case-assignment+json
+          name: defence.command.advocate.remove-case-assignment
+      (mapping):
+          requestType: application/vnd.defence.command.advocate.assign-case-by-hearing-listing+json
+          name: defence.command.advocate.assign-case-by-hearing-listing
+      ...
+    body:
+        application/vnd.defence.command.advocate.assign-case+json:
+            schema: !include json/schema/defence.command.advocate.assign-case.json
+            example: !include json/defence.command.advocate.assign-case.json
+        application/vnd.defence.command.advocate.remove-case-assignment+json:
+            schema: !include json/schema/defence.command.advocate.remove-case-assignment.json
+            example: !include json/defence.command.advocate.remove-case-assignment.json
+        application/vnd.defence.command.advocate.assign-case-by-hearing-listing+json:
+            schema: !include json/schema/defence.command.advocate.assign-case-by-hearing-listing.json
+            example: !include json/defence.command.advocate.assign-case-by-hearing-listing.json
+    responses:
+        202:
+            description: OK
+
+/system-schedule/advocate-access:
+  post:
+    description: |
+      Triggers advocate schedule work
+      ...
+      (mapping):
+          requestType: application/vnd.defence.command.system-schedule-advocate-access+json
+          name: defence.command.system-schedule-advocate-access
+      ...
+    body:
+        application/vnd.defence.command.system-schedule-advocate-access+json:
+            schema: !include json/schema/defence.command.system-schedule-advocate-access.json
+            example: !include json/defence.command.system-schedule-advocate-access.json
+
+
+/defendants/{defendantId}/pleaallocation:
+    uriParameters:
+      defendantId:
+        description: The id of the defendant
+        type: string
+    post:
+      description: |
+        Create Plea for defendants of an offence:
+        ...
+        (mapping):
+            requestType: application/vnd.defence.add-offence-pleas+json
+            name: defence.add-offence-pleas
+        ...
+      body:
+        application/vnd.defence.add-offence-pleas+json:
+          example:
+            !include json/defence.add-offence-pleas.json
+          schema:
+            !include json/schema/defence.add-offence-pleas.json
+      responses:
+        202:
+          description: OK
+
+/defendants/{defendantId}/pleaallocation/{allocationId}:
+    uriParameters:
+      defendantId:
+        description: The id of the defendant
+        type: string
+      allocationId:
+        description: The id of the defendant
+        type: string
+    post:
+      description: |
+        Update Plea for defendants of an offence:
+        ...
+        (mapping):
+            requestType: application/vnd.defence.update-offence-pleas+json
+            name: defence.update-offence-pleas
+        ...
+      body:
+        application/vnd.defence.update-offence-pleas+json:
+          example:
+            !include json/defence.update-offence-pleas.json
+          schema:
+            !include json/schema/defence.update-offence-pleas.json
+      responses:
+        202:
+          description: OK

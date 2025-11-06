@@ -1,0 +1,18 @@
+{
+  "prosecutorAssignments": [
+    {
+      "assigneeid": "e8fa35a5-ec24-4d6d-937c-9227e8a6bd9f",
+      "assignmentExpiryDate": "2022-05-20T00:53:57.551Z",
+      "assignorOrganisationId": "3807f1b2-fd5c-4e23-931c-3d5167b281ab",
+      "assignorid": "a2c071d7-2c4d-4a7c-a1fe-e9231cfef728",
+      "caseId": "e353503c-c17a-4db6-9c70-172f40ebbc94"
+    },
+    {
+      "assigneeid": "6b786792-e252-4807-82ac-50f05c468ede",
+      "assignmentExpiryDate": "2022-05-20T00:53:57.551Z",
+      "assignorOrganisationId": "eb1e28c4-99c1-4087-ae08-a49f349d9422",
+      "assignorid": "1f569417-1096-4dea-a45f-c927a8d48aaf",
+      "caseId": "543c0790-554e-4b8a-a3de-8ccb79b4f36c"
+    }
+  ]
+}

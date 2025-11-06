@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="034-create-prosecution_organisation_access" author="Natraj">
+
+        <createTable tableName="prosecution_organisation_access">
+            <column name="case_id" type="UUID"/>
+            <column name="assignee_id" type="UUID"/>
+            <column name="assignee_organisation_id" type="UUID"/>
+            <column name="assignee_organisation_name" type="TEXT"/>
+
+            <column name="assignor_id" type="UUID"/>
+            <column name="assignor_organisation_id" type="UUID"/>
+            <column name="assignor_organisation_name" type="TEXT"/>
+            <column name="assigned_date" type="DATETIME"/>
+
+            <column name="representation_type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="representing" type="TEXT"/>
+
+            <column name="removed_date" type="DATETIME"/>
+            <column name="removed_by" type="UUID"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="case_id, assignee_organisation_id"
+                       constraintName="case_assignee_organisation_primary_key"
+                       tableName="prosecution_organisation_access"/>
+
+    </changeSet>
+
+</databaseChangeLog>

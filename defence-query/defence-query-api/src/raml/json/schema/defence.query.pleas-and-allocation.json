@@ -1,0 +1,111 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.case-pleas.json",
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "offencePleas": {
+          "type": "array",
+          "items": [
+            {
+              "id": "http://justice.gov.uk/cps/defence/query/plea/offence-plea.json",
+              "type": "object",
+              "properties": {
+                "pleaId": {
+                  "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+                },
+                "offenceId": {
+                  "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+                },
+                "indicatedPlea": {
+                  "type": "string"
+                },
+                "pleaDate": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "pleaId"
+              ]
+            }
+          ]
+        },
+        "defendantId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "crownCourtObjection": {
+          "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/yesNoNa"
+        },
+        "disputeOffenceValue": {
+          "type": "boolean"
+        },
+        "disputeOffenceValueDetails": {
+          "type": "string"
+        },
+        "electingCrownCourtTrial": {
+          "type": "boolean"
+        },
+        "electingCrownCourtTrialDetails": {
+          "type": "string"
+        },
+        "sentencingIndication": {
+          "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/yesNoNa"
+        },
+        "consentToMagistratesCourtTrial": {
+          "type": "string"
+        },
+        "acknowledgement": {
+          "type": "boolean"
+        },
+        "youthAcknowledgement": {
+          "type": "boolean"
+        },
+        "defendantNameDobConfirmation": {
+          "type": "boolean"
+        },
+        "defendantDetails": {
+          "id": "http://justice.gov.uk/cps/defence/plea/defendant-details.json",
+          "type": "object",
+          "properties":  {
+            "firstName":{
+              "type": "string"
+            },
+            "middleName": {
+              "type": "string"
+            },
+            "surname": {
+              "type": "string"
+            },
+            "dob" :{
+              "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date"
+            },
+            "organisationName": {
+              "type": "string"
+            }
+          }
+        },
+        "offenceType": {
+          "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/offenceType"
+        },
+        "additionalInformation": {
+          "type": "string"
+        },
+        "defendantTurningEighteenDetails": {
+          "type": "string"
+        },
+        "theftFromShop": {
+          "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/yesNoNa"
+        },
+        "theftFromShopDetails": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "offencePleas",
+        "defendantId"
+      ]
+    }
+  ]
+}

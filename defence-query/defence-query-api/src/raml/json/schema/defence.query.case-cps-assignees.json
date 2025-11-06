@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.case-advocate-access.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assignees": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/caseAssignee"
+      }
+    }
+  },
+  "definitions": {
+    "caseAssignee": {
+      "type": "object",
+      "properties": {
+        "assigneeUserId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "assigneeName": {
+          "description": "Assignee's full name",
+          "type": "string"
+        },
+        "assigneeOrganisationId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "assigneeOrganisationName": {
+          "description": "Assignee's organisation name",
+          "type": "string"
+        },
+        "status": {
+          "description": "Status showing who granted access",
+          "type": "string"
+        },
+        "representation": {
+          "description": "Prosecution or Defence",
+          "type": "string"
+        },
+        "representing": {
+          "description": "when representation is Defence - Defendant name and when Prosecution - prosecuting organisation",
+          "type": "string"
+        },
+        "assignedDate": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "assigneeUserId",
+        "assigneeName",
+        "assigneeOrganisationId",
+        "assigneeOrganisationName"
+      ]
+    }
+  }
+}

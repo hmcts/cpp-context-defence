@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/refdata/prosecutor-details.json",
+  "type": "object",
+  "properties": {
+    "prosecutionAuthorityId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "isPolice": {
+      "type": "boolean"
+    },
+    "isCps": {
+      "type": "boolean"
+    },
+    "shortName": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "prosecutionAuthorityId"
+  ],
+  "additionalProperties": false
+}

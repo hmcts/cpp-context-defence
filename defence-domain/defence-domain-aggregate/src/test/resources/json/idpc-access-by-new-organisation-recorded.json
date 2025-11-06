@@ -1,0 +1,12 @@
+{
+  "_metadata": {
+    "name": "defence.event.idpc-access-by-organisation-recorded"
+  },
+  "defenceClientId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "defenceClientSurname": "WRONGUN",
+  "userId": "0d2b7de7-c364-4a39-a87c-012ec06f4990",
+  "organisationId": "45f01ab9-ba9b-41ee-b4ad-869dba9167b0",
+  "materialId": "45e4dff9-f829-4514-a344-61f1d5d9690c",
+  "accessTimestamp":"2018-03-27T15:32:33.471Z",
+  "caseUrn": "55DP0028116"
+}

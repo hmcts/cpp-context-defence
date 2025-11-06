@@ -1,0 +1,137 @@
+subscriptions_descriptor:
+  spec_version: 1.0.0
+  service: defence
+  service_component: EVENT_PROCESSOR
+  subscriptions:
+    - name: event processor subscription
+      events:
+        - name: defence.event.defence-client-mapped-to-a-case
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/defence-client-mapped-to-a-case.json
+
+        - name: defence.event.defendant-added
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/defendant-added.json
+
+        - name: defence.event.instruction-details-recorded
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/instruction-details-recorded.json
+
+        - name: defence.event.idpc-access-by-organisation-recorded
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/idpc-access-by-organisation-recorded.json
+
+        - name: defence.event.defence-organisation-associated
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/defence.event.defence-organisation-associated.json
+
+        - name: defence.event.defence-organisation-disassociated
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/defence.event.defence-organisation-disassociated.json
+
+        - name: defence.event.defence-association-failed
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/defence.event.defence-association-failed.json
+
+        - name: defence.event.defence-disassociation-failed
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/defence.event.defence-disassociation-failed.json
+
+        - name: defence.event.user-not-found
+          schema_uri: http://justice.gov.uk/cps/defence/user-not-found
+
+        - name: defence.event.grantee-user-not-in-allowed-groups
+          schema_uri: http://justice.gov.uk/cps/defence/grantee-user-not-in-allowed-groups
+
+        - name: defence.event.user-already-granted
+          schema_uri: http://justice.gov.uk/cps/defence/user-already-granted
+
+        - name: defence.events.grant-access-failed
+          schema_uri: http://justice.gov.uk/cps/defence/grant-access-failed
+
+        - name: defence.event.access-granted
+          schema_uri: http://justice.gov.uk/cps/defence/events/access-granted
+
+        - name: defence.event.access-grant-removed
+          schema_uri: http://justice.gov.uk/cps/defence/events/access-grant-removed
+
+        - name: defence.events.case-assigned-to-advocate
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.events.case-assigned-to-advocate.json
+
+        - name: defence.events.case-assigned-to-organisation
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.events.case-assigned-to-organisation.json
+
+        - name: defence.events.case-assignment-to-advocate-removed
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.events.case-assignment-to-advocate-removed.json
+
+        - name: defence.events.case-assignment-to-organisation-removed
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.events.case-assignment-to-organisation-removed.json
+
+        - name: defence.event.assignee-not-in-allowed-groups
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.assignee-not-in-allowed-groups.json
+
+        - name: defence.event.user-already-assigned
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.user-already-assigned.json
+
+        - name: defence.event.assignee-for-prosecution-is-defending-case
+          schema_uri: http://justice.gov.uk/cps/defence/assignee-for-prosecution-is-defending-case.json
+
+        - name: defence.event.assignee-for-defence-is-prosecuting-case
+          schema_uri: http://justice.gov.uk/cps/defence/assignee-for-defence-is-prosecuting-case.json
+
+        - name: defence.events.cases-assigned-to-advocate
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.events.cases-assigned-to-advocate.json
+
+        - name: defence.events.cases-assigned-to-organisation
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.events.cases-assigned-to-organisation.json
+
+        - name: defence.event.case-assignments-by-hearing-listing-failed
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.case-assignments-by-hearing-listing-failed.json
+
+        - name: defence.event.system-scheduled-for-advocate-access-triggered
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.system-scheduled-for-advocate-access-triggered.json
+
+        - name: defence.event.defence-organisation-association-unlocked-bdf
+          schema_uri: http://moj.gov.uk/cpp/defence/events/processor/defence.event.defence-organisation-association-unlocked-bdf.json
+
+        - name: defence.event.allocation-pleas-added
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.allocation-pleas-added.json
+
+        - name: defence.event.opa-task-requested
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.opa-task-requested.json
+
+        - name: defence.event.allocation-pleas-updated
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.allocation-pleas-updated.json
+
+      event_source_name: defence.event.source
+
+    - name: public event subscription
+      events:
+        - name: public.progression.idpc-document-received
+          schema_uri: http://cpp.moj.gov.uk/prosecutioncasefile/json/schema/event/public-defendant-idpc-added.json
+
+        - name: public.progression.defendants-added-to-case
+          schema_uri: http://cpp.moj.gov.uk/prosecutioncasefile/json/schema/event/public.progression.defendants-added-to-case.json
+
+        - name: public.progression.prosecution-case-created
+          schema_uri: http://cpp.moj.gov.uk/progression/json/schema/event/prosecution-case-created.json
+
+        - name: public.progression.case-defendant-changed
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/events/processor.public.progression.case-defendant-changed.json
+
+        - name: public.progression.defendant-offences-changed
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/events/processor.public.progression.defendant-offences-changed.json
+
+        - name: public.progression.defence-organisation-for-laa-associated
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/events/processor.public.progression.defence-organisation-for-laa-associated.json
+
+        - name: public.progression.defence-organisation-for-laa-disassociated
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/events/processor.public.progression.defence-organisation-for-laa-disassociated.json
+
+        - name: public.progression.defendant-laa-contract-associated
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/events/processor.public.progression.defendant-laa-contract-associated.json
+
+        - name: public.progression.defendant-legalaid-status-updated
+          schema_uri: http://justice.gov.uk/progression/courts/defendant-legalaid-status-updated.json
+
+
+        - name: public.progression.case-removed-from-group-cases
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/events/processor.public.progression.case-removed-from-group-cases.json
+
+        # User Groups Events
+        - name: public.usersgroups.organisation-created
+          schema_uri: http://cpp.moj.gov.uk/usersgroups/json/schemas/public.usersgroups.organisation-created.json
+
+      event_source_name: public.event.source

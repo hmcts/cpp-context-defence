@@ -1,0 +1,28 @@
+{
+  "organisations": [
+    {
+      "organisationId": "1fc69990-bf59-4c4a-9489-d766b9abde9a",
+      "organisationType": "LEGAL_ORGANISATION",
+      "organisationName": "Bodgit and Scarper LLP",
+      "addressLine1": "Legal House",
+      "addressLine2": "15 Sewell Street",
+      "addressLine3": "Hammersmith",
+      "addressLine4": "London",
+      "addressPostcode": "SE14 2AB",
+      "phoneNumber": "080012345678",
+      "email": "joe@example.com",
+      "laaContractNumbers": ["LAA3482374WER", "LAA3482374WEM"] },
+    {
+      "organisationId": "1fc69990-bf59-4c4a-9489-d766b9abde9a",
+      "organisationType": "LEGAL_ORGANISATION",
+      "organisationName": "Bodgit and Scarper LLP",
+      "addressLine1": "Legal House",
+      "addressLine2": "16 Sewell Street",
+      "addressLine3": "Hammersmith",
+      "addressLine4": "London",
+      "addressPostcode": "SE14 2AC",
+      "phoneNumber": "080012345667",
+      "email": "bee@example.com",
+      "laaContractNumbers": ["LAA3482374WER", "LAA3482374WEM"] }
+  ]
+}

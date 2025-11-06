@@ -1,0 +1,43 @@
+package uk.gov.moj.cpp.defence.command.api.accesscontrol;
+
+import uk.gov.moj.cpp.accesscontrol.drools.Outcome;
+import uk.gov.moj.cpp.accesscontrol.drools.Action;
+global uk.gov.moj.cpp.accesscontrol.common.providers.UserAndGroupProvider userAndGroupProvider;
+
+rule "Command - grant case access"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.command.advocate.assign-case");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "CPS", "Non CPS Prosecutors"));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - remove case assignment"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.command.advocate.remove-case-assignment");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "CPS", "Non CPS Prosecutors"));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - defence.command.system-schedule-advocate-access"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.command.system-schedule-advocate-access");
+    eval(userAndGroupProvider.isSystemUser($action));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - grant case access by hearing listing"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.command.advocate.assign-case-by-hearing-listing");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "CPS", "Non CPS Prosecutors"));
+  then
+    $outcome.setSuccess(true);
+end
+
+

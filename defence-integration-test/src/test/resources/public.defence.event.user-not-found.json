@@ -1,0 +1,5 @@
+{
+  "email": "invalidEmail@hmcts.net",
+  "errorCode": 4,
+  "failureReason": "User not found for the given e-mail."
+}

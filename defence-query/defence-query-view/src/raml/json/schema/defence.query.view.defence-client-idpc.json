@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/view/defence-client-idpc",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "userId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "idpcDetailsId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "materialId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "idpcDocumentName": {
+      "type": "string"
+    },
+    "accessTimestamp": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date-time"
+    },
+    "prosecutor": {
+      "$ref": "http://justice.gov.uk/core/courts/prosecutor.json#"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "defenceClientId",
+    "userId",
+    "organisationId",
+    "idpcDetailsId",
+    "materialId",
+    "idpcDocumentName",
+    "accessTimestamp"
+  ]
+}

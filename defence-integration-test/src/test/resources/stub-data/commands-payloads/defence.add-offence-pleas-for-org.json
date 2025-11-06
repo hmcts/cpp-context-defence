@@ -1,0 +1,32 @@
+{
+  "offencePleas": [
+    {
+      "offenceId": "OFFENCE_ID",
+      "indicatedPlea": "NOTGUILTY"
+    }
+  ],
+  "allocationId" : "ALLOCATION_ID",
+  "crownCourtObjection": "Y",
+  "caseUrn": "CD56VFDR",
+  "hearingCourtCode": "OU56FTG",
+  "disputeOffenceValue": true,
+  "disputeOffenceValueDetails": "disputeOffenceValueDetails",
+  "electingCrownCourtTrial": true,
+  "electingCrownCourtTrialDetails": "electingCrownCourtTrialDetails",
+  "sentencingIndication": "Y",
+  "consentToMagistratesCourtTrial":"Text",
+  "acknowledgement": true,
+  "youthAcknowledgement": true,
+  "representationsOnGraveCrime": false,
+  "representationsOnGraveCrimeDetails": "test",
+  "additionalInformation": "New case test added",
+  "defendantDetails": {
+    "organisationName": "Org Name"
+  },
+  "defendantId": "54c2f1eb-f43c-4155-b2fb-3863aa4218f6",
+  "defendantNameDobConfirmation": false,
+  "offenceType": "adultEitherWay",
+  "defendantTurningEighteenDetails":"defendantTurningEighteenDetails",
+  "theftFromShop": "Y",
+  "theftFromShopDetails":"theftFromShopDetails"
+}

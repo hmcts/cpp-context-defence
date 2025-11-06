@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://cpp.moj.gov.uk/defence/json/schema/event/public.user-already-granted.json",
+  "type": "object",
+  "properties": {
+    "email": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/email"
+    },
+    "failureReason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "email",
+    "failureReason"
+  ],
+  "additionalProperties": false
+}

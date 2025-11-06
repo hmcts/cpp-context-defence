@@ -1,0 +1,45 @@
+{
+  "assigneeDetails": {
+    "firstName": "Richard",
+    "lastName": "Chapman",
+    "userId": "cab8f139-c0f5-4b0e-ac37-8090d19786ef"
+  },
+  "assigneeOrganisation": {
+    "address": {
+      "address1": "Legal House",
+      "address2": "15 Sewell Street",
+      "address3": "Hammersmith",
+      "address4": "London",
+      "addressPostcode": "SE14 2AB"
+    },
+    "orgId": "7e48c19c-b92f-4c16-8e53-b26b70c6b202",
+    "organisationName": "Bodgit and Scarper LLP"
+  },
+  "assignmentTimestamp": "2022-05-15T12:00:30.215Z",
+  "assignorDetails": {
+    "firstName": "Richard",
+    "lastName": "Chapman",
+    "userId": "06ca175b-f3cd-4a5a-abdd-a9156238f538"
+  },
+  "assignorOrganisation": {
+    "address": {
+      "address1": "Legal House",
+      "address2": "15 Sewell Street",
+      "address3": "Hammersmith",
+      "address4": "London",
+      "addressPostcode": "SE14 2AB"
+    },
+    "orgId": "7e48c19c-b92f-4c16-8e53-b26b70c6b202",
+    "organisationName": "Bodgit and Scarper LLP"
+  },
+  "caseHearingAssignments": [
+    {
+      "caseId": "dfbcc2b0-2c78-4b03-bc54-7e14dc7a08ea",
+      "hearingId": "654c4568-62f3-480a-bcaa-72869fae14db",
+      "isCps": true,
+      "isPolice": true,
+      "prosecutingAuthorityId": "bdc190e7-c939-37ca-be4b-9f615d6ef40e"
+    }
+  ],
+  "representingOrganisation": "CPS"
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/map-defence-client-to-case.json",
+  "type": "object",
+  "properties": {
+    "defendantDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/defendant-details.json"
+    },
+    "defenceClientDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/defence-client-details"
+    }
+  },
+  "required": [
+    "defendantDetails",
+    "defenceClientDetails"
+  ]
+}
