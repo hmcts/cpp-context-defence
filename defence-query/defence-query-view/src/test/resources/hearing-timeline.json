@@ -1,0 +1,26 @@
+{
+  "hearingSummaries": [
+    {
+      "applications": [
+        {
+          "applicants": [
+            {
+              "id": "9510e4c1-2ed4-46ed-b796-936938526877"
+            }
+          ]
+        }
+      ],
+      "defendants": [
+        {
+          "id": "2510e4c1-2ed4-46ed-b796-936938526877"
+        }
+      ],
+      "hearingId": "9810e4c1-2ed4-46ed-b796-936938526877"
+    }
+  ],
+  "unallocatedHearings": [
+    {
+      "id": "1210e4c1-2ed4-46ed-b796-936938526877"
+    }
+  ]
+}

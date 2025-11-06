@@ -1,0 +1,15 @@
+{
+  "caseHearings": [
+    {
+      "caseId": "88cdf36e-93e4-41b0-8277-17d9dba7f06f",
+      "hearingId": "381b9163-157d-4544-b9bb-a45fa3282d42"
+    },
+    {
+      "caseId": "52b193e9-6888-4f51-b767-0f1f1e280e01",
+      "hearingId": "f8066cf1-d461-4cd8-bf43-34253fbc971d"
+    }
+  ],
+  "assigneeEmailId": " email@hmcts.net",
+  "assignorId": "98cdf36e-93e4-41b0-8277-17d9dba7f06f",
+  "assignorOrganisationId": "78cdf36e-93e4-41b0-8277-17d9dba7f06f"
+}

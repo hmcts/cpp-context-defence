@@ -1,0 +1,33 @@
+{
+  "associations": [
+    {
+      "organisationId": "2fc69990-bf59-4c4a-9489-d766b9abde9a",
+      "organisationName": "Harry & Co LLP",
+      "address": {
+        "address1": "Legal House",
+        "address2": "15 Sewell Street",
+        "address3": "Hammersmith",
+        "address4": "London",
+        "addressPostcode": "SE14 2AB"
+      },
+      "status": "Active Barrister/Solicitor of record",
+      "startDate": "2025-01-01T00:00:00.000Z",
+      "representationType": "PRIVATE"
+    },
+    {
+      "organisationId": "2e24c9c0-2f97-4c74-9bda-4e45cf9aa66c",
+      "organisationName": "Sonja & Co LLP",
+      "address": {
+        "address1": "Sonja House",
+        "address2": "20 High Street",
+        "address3": "Lambeth",
+        "address4": "London",
+        "addressPostcode": "SE1 7JS"
+      },
+      "status": "Active Barrister/Solicitor of record",
+      "startDate": "2024-03-03T00:00:00.000Z",
+      "endDate": "2024-12-30T01:00:00.000Z",
+      "representationType": "PRIVATE"
+    }
+  ]
+}

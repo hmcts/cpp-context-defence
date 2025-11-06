@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/permission.json",
+  "type": "object",
+  "description": "permission object for usergroups grant access",
+  "properties": {
+    "id": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "description": {
+      "id": "/description",
+      "type": "string",
+      "description": "Permission Description",
+      "name": "description",
+      "title": "description"
+    },
+    "source": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid",
+      "description": "Permission source"
+    },
+    "target": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid",
+      "description": "Permission target"
+    },
+    "object": {
+      "id": "/object",
+      "type": "string",
+      "description": "Permission Object",
+      "name": "object",
+      "title": "object"
+    },
+    "action": {
+      "id": "/action",
+      "type": "string",
+      "description": "Permission Action",
+      "name": "action",
+      "title": "action"
+    },
+    "status": {
+      "id": "/status",
+      "type": "string",
+      "description": "status indicates if the permission has to be Deleted / Added/ Updated",
+      "name": "status",
+      "title": "status",
+      "enum": [
+        "Added",
+        "Updated",
+        "Deleted"
+      ]
+    }
+  },
+  "required": [
+    "id",
+    "object",
+    "action",
+    "source",
+    "target"
+  ],
+  "additionalProperties": false
+}

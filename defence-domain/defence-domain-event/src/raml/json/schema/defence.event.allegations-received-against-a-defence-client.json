@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/allegations-received-against-a-defence-client",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "defendantId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "defendantDetails": {
+      "$ref":"http://justice.gov.uk/cps/defence/defendant-details.json"
+    },
+    "policeDefendantId": {
+      "type": "string"
+    },
+    "offences": {
+      "type": "array",
+      "items": {
+        "$ref": "http://justice.gov.uk/cps/defence/offence"
+      }
+    },
+    "offenceCodeReferenceData": {
+      "type": "array",
+      "items": {
+        "$ref": "http://justice.gov.uk/cps/defence/offence-code-reference-data"
+      }
+    }
+  },
+  "required": [
+    "defenceClientId",
+    "defendantId",
+    "defendantDetails",
+    "offences"
+  ]
+}

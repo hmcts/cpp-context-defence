@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/hearing/application.json",
+  "type": "object",
+  "properties": {
+    "applicationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "applicants": {
+      "type": "array",
+      "items": {
+        "$ref": "http://moj.gov.uk/cpp/hearing/person.json"
+      }
+    },
+    "respondents": {
+      "type": "array",
+      "items": {
+        "$ref": "http://moj.gov.uk/cpp/hearing/person.json"
+      }
+    },
+    "subjects": {
+      "type": "array",
+      "items": {
+        "$ref": "http://moj.gov.uk/cpp/hearing/person.json"
+      }
+    }
+  },
+  "additionalProperties": false
+}

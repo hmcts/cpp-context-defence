@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                           xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                           http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+        <changeSet id="create-defendant_allocation" author="desm">
+                <createTable tableName="defendant_allocation">
+                        <column name="id" type="UUID"/>
+                        <column name="defendant_id" type="UUID"/>
+                        <column name="crown_court_objection" type="boolean" defaultValue="false"/>
+                        <column name="crown_court_objection_ack" type="boolean" defaultValue="false"/>
+                        <column name="offence_value_disputed" type="boolean" defaultValue="false"/>
+                        <column name="offence_value_representations" type="TEXT"/>
+                        <column name="elect_crown_court_trail" type="boolean" defaultValue="false"/>
+                        <column name="elect_crown_court_trail_details" type="TEXT"/>
+                        <column name="sentencing_indication_requested" type="boolean" defaultValue="false"/>
+                        <column name="consent_to_magistrate_trail" type="TEXT"/>
+                        <column name="acknowledgement" type="boolean" defaultValue="false"/>
+                        <column name="guardian_consent_provided" type="boolean" defaultValue="false"/>
+                        <column name="representations_on_grave_crime" type="boolean" defaultValue="false"/>
+                        <column name="representations_on_grave_crime_details" type="TEXT" />
+
+                </createTable>
+                <addPrimaryKey columnNames="id" constraintName="defendant_allocation_pk" tableName="defendant_allocation"/>
+        </changeSet>
+        <changeSet id="create-defendant_allocation_pleas" author="desm">
+                <createTable tableName="defendant_allocation_pleas">
+                        <column name="offence_id" type="UUID"/>
+                        <column name="plea_date" type="date"/>
+                        <column name="indicated_plea" type="TEXT"/>
+                        <column name="defendant_allocation_id" type="UUID"/>
+                </createTable>
+                <addPrimaryKey columnNames="offence_id" constraintName="defendant_allocation_pleas_pk" tableName="defendant_allocation_pleas"/>
+                <addForeignKeyConstraint baseColumnNames="defendant_allocation_id" baseTableName="defendant_allocation_pleas"
+                                         constraintName="fk_defendant_allocation_pleas_id" deferrable="false"
+                                         initiallyDeferred="false"
+                                         onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id"
+                                         referencedTableName="defendant_allocation"/>
+        </changeSet>
+
+</databaseChangeLog>

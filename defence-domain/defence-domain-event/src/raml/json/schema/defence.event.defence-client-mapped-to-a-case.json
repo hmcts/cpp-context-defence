@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence-client-mapped-to-a-case.json",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "defendantDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/defendant-details.json"
+    },
+    "defenceClientDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/defence-client-details"
+    },
+    "urn": {
+       "type": "string"
+    },
+    "defendantId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "isCivil": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "defenceClientId",
+    "defendantDetails",
+    "defenceClientDetails"
+  ]
+}

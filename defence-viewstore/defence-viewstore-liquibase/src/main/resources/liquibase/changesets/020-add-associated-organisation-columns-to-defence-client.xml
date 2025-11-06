@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="020-add-associated-organisation-columns-to-defence-client" author="electro">
+
+        <dropTable tableName="associated_organisation"/>
+
+        <addColumn tableName="defence_client">
+            <column name="associated_organisation_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+
+            <column name="last_associated_organisation_id" type="UUID">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+
+    </changeSet>
+
+</databaseChangeLog>

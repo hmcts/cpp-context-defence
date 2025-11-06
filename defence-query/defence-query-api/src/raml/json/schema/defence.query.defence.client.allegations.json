@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.defence.client.allegations.json",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "allegationDetail": {
+      "type": "array",
+      "items": {
+        "$ref":"http://justice.gov.uk/cps/defence/defence.client.allegation-detail.json"
+      }
+    },
+    "idpcPublished": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "defenceClientId",
+    "idpcPublished"
+  ]
+}

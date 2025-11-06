@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.command.advocate.assign-case-by-hearing.json",
+  "type": "object",
+  "properties": {
+    "caseHearings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "caseId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "hearingId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          }
+        },
+        "required": [
+          "caseId",
+          "hearingId"
+        ]
+      }
+    },
+    "assigneeEmailId": {
+      "type": "string",
+      "format": "email"
+    },
+    "assignorId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assignorOrganisationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    }
+  },
+  "required": [
+    "caseHearings",
+    "assigneeEmailId",
+    "assignorId",
+    "assignorOrganisationId"
+  ]
+}

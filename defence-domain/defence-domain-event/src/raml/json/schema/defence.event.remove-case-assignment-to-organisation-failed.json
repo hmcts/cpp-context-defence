@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/remove-case-assignment-to-organisation-failed",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assigneeOrganisationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assigneeUserId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "failureReason": {
+      "type": "string"
+    },
+    "errorCode": {
+      "type": "integer"
+    },
+    "isAutomaticUnassignment": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "caseId",
+    "assigneeOrganisationId",
+    "assigneeUserId",
+    "failureReason",
+    "errorCode"
+  ],
+  "additionalProperties": false
+}

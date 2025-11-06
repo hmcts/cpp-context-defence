@@ -1,0 +1,15 @@
+{
+  "reviews": [
+    {
+      "caseId": "CASE_ID",
+      "reviewId": "148dd6ed-ab86-4b71-94d3-007424e0701f",
+      "version": 1,
+      "reviewStatus": "INITIALISED",
+      "dateReviewStarted": "2016-09-07T14:30:53.294",
+      "dateReviewCompleted": "2016-09-07T14:30:53.294",
+      "applications": null,
+      "ancillaryOrders": null,
+      "sensitive": false
+    }
+  ]
+}

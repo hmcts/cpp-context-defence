@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/user-not-assigned",
+  "type": "object",
+  "properties": {
+    "assigneeUserId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "failureReason": {
+      "type": "string"
+    },
+    "errorCode": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "assigneeUserId",
+    "failureReason",
+    "errorCode"
+  ],
+  "additionalProperties": false
+}

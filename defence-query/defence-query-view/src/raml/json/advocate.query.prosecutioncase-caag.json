@@ -1,0 +1,601 @@
+{
+  "caseId": "de197db7-f0cd-46c6-a588-2f266793a612",
+  "caseDetails": {
+    "caseStatus": "ACTIVE",
+    "caseURN": "53NP3458322",
+    "initiationCode": "C"
+  },
+  "prosecutorDetails": {
+    "address": {
+      "address1": "Criminal Justice Department",
+      "address2": "Derbyshire Constabulary",
+      "address3": "Butterley Hall",
+      "address4": "Ripley",
+      "address5": "Derby",
+      "postcode": "DE5 3RS"
+    },
+    "prosecutionAuthorityCode": "DERPF",
+    "prosecutionAuthorityId": "bdc190e7-c939-37ca-be4b-9f615d6ef40e"
+  },
+  "defendants": [
+    {
+      "address": {
+        "address1": "sfFNkHvRiH",
+        "address2": "56Police House",
+        "address3": "StreetDescription",
+        "address4": "Locality2O",
+        "address5": "TownD",
+        "postcode": "TW14 9XD"
+      },
+      "age": 77,
+      "caagDefendantOffences": [
+        {
+          "allocationDecision": {
+            "allocationDecisionDate": "2022-01-27",
+            "motReasonCode": "01",
+            "motReasonDescription": "Summary-only offence",
+            "motReasonId": "b8c37e33-defd-351c-b91e-1e03e51657da",
+            "offenceId": "4a2cda13-005d-46e5-a647-1f691faacbf0",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "sequenceNumber": 90
+          },
+          "caagResults": [
+            {
+              "id": "a85961d9-faa7-4817-96fa-7b8ad7dcf92c",
+              "label": "Withdrawn",
+              "lastSharedDateTime": "2022-01-27",
+              "orderedDate": "2022-01-27"
+            }
+          ],
+          "count": 0,
+          "id": "4a2cda13-005d-46e5-a647-1f691faacbf0",
+          "offenceCode": "TW01040",
+          "offenceLegislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+          "offenceTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+          "orderIndex": 500,
+          "plea": {
+            "offenceId": "4a2cda13-005d-46e5-a647-1f691faacbf0",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "pleaDate": "2022-01-27",
+            "pleaValue": "NOT_GUILTY"
+          },
+          "startDate": "2004-12-09",
+          "verdict": {
+            "jurors": {
+              "numberOfJurors": 12,
+              "numberOfSplitJurors": 0,
+              "unanimous": true
+            },
+            "lesserOrAlternativeOffence": {
+              "offenceCode": "TW01040",
+              "offenceDefinitionId": "14f241f3-5888-43e0-8f7e-535a84da164b",
+              "offenceLegislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+              "offenceTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro"
+            },
+            "offenceId": "4a2cda13-005d-46e5-a647-1f691faacbf0",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "verdictDate": "2022-01-27",
+            "verdictType": {
+              "category": "Guilty",
+              "categoryType": "GUILTY",
+              "cjsVerdictCode": "G",
+              "description": "Found guilty",
+              "id": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+              "sequence": 10,
+              "verdictCode": "G"
+            }
+          },
+          "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+        },
+        {
+          "allocationDecision": {
+            "allocationDecisionDate": "2022-01-27",
+            "motReasonCode": "01",
+            "motReasonDescription": "Summary-only offence",
+            "motReasonId": "b8c37e33-defd-351c-b91e-1e03e51657da",
+            "offenceId": "14f1823d-db4c-4975-b33c-f35a41a9d574",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "sequenceNumber": 90
+          },
+          "caagResults": [
+            {
+              "id": "c8d3be1f-5c29-4361-9ac8-3865ac45933f",
+              "label": "Withdrawn",
+              "lastSharedDateTime": "2022-01-27",
+              "orderedDate": "2022-01-27"
+            }
+          ],
+          "count": 0,
+          "id": "14f1823d-db4c-4975-b33c-f35a41a9d574",
+          "offenceCode": "TW01046",
+          "offenceLegislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+          "offenceTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+          "orderIndex": 502,
+          "plea": {
+            "offenceId": "14f1823d-db4c-4975-b33c-f35a41a9d574",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "pleaDate": "2022-01-27",
+            "pleaValue": "NOT_GUILTY"
+          },
+          "startDate": "2014-02-09",
+          "verdict": {
+            "jurors": {
+              "numberOfJurors": 12,
+              "numberOfSplitJurors": 0,
+              "unanimous": true
+            },
+            "lesserOrAlternativeOffence": {
+              "offenceCode": "TW01046",
+              "offenceDefinitionId": "62fa56a4-3cea-41b7-a062-4d71e8ca74bc",
+              "offenceLegislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+              "offenceTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro"
+            },
+            "offenceId": "14f1823d-db4c-4975-b33c-f35a41a9d574",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "verdictDate": "2022-01-27",
+            "verdictType": {
+              "category": "Guilty",
+              "categoryType": "GUILTY",
+              "cjsVerdictCode": "G",
+              "description": "Found guilty",
+              "id": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+              "sequence": 10,
+              "verdictCode": "G"
+            }
+          },
+          "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+        }
+      ],
+      "dateOfBirth": "1944-10-09",
+      "firstName": "John",
+      "id": "a47d5ef8-8cb7-4106-be14-5ca7a04508ba",
+      "lastName": "Smith",
+      "masterDefendantId": "a47d5ef8-8cb7-4106-be14-5ca7a04508ba",
+      "remandStatus": "Not applicable"
+    },
+    {
+      "address": {
+        "address1": "sfFNkHvRiH",
+        "address2": "56Police House",
+        "address3": "StreetDescription",
+        "address4": "Locality2O",
+        "address5": "TownD",
+        "postcode": "TW14 9XD"
+      },
+      "age": 77,
+      "caagDefendantOffences": [
+        {
+          "allocationDecision": {
+            "allocationDecisionDate": "2022-01-27",
+            "motReasonCode": "01",
+            "motReasonDescription": "Summary-only offence",
+            "motReasonId": "b8c37e33-defd-351c-b91e-1e03e51657da",
+            "offenceId": "025985fe-eb9c-476d-8079-e60df8a5d2bb",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "sequenceNumber": 90
+          },
+          "caagResults": [],
+          "count": 0,
+          "id": "025985fe-eb9c-476d-8079-e60df8a5d2bb",
+          "offenceCode": "TW01040",
+          "offenceLegislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+          "offenceTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+          "orderIndex": 500,
+          "plea": {
+            "offenceId": "025985fe-eb9c-476d-8079-e60df8a5d2bb",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "pleaDate": "2022-01-27",
+            "pleaValue": "NOT_GUILTY"
+          },
+          "startDate": "2004-12-09",
+          "verdict": {
+            "jurors": {
+              "numberOfJurors": 12,
+              "numberOfSplitJurors": 0,
+              "unanimous": true
+            },
+            "lesserOrAlternativeOffence": {
+              "offenceCode": "TW01040",
+              "offenceDefinitionId": "14f241f3-5888-43e0-8f7e-535a84da164b",
+              "offenceLegislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+              "offenceTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro"
+            },
+            "offenceId": "025985fe-eb9c-476d-8079-e60df8a5d2bb",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "verdictDate": "2022-01-27",
+            "verdictType": {
+              "category": "Guilty",
+              "categoryType": "GUILTY",
+              "cjsVerdictCode": "G",
+              "description": "Found guilty",
+              "id": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+              "sequence": 10,
+              "verdictCode": "G"
+            }
+          },
+          "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+        },
+        {
+          "allocationDecision": {
+            "allocationDecisionDate": "2022-01-27",
+            "motReasonCode": "01",
+            "motReasonDescription": "Summary-only offence",
+            "motReasonId": "b8c37e33-defd-351c-b91e-1e03e51657da",
+            "offenceId": "bf0b2134-fab6-4457-8e36-97a7f39e1e37",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "sequenceNumber": 90
+          },
+          "caagResults": [
+            {
+              "caagResultPrompts": [
+                {
+                  "label": "Period of conditional discharge",
+                  "value": "7 Weeks"
+                }
+              ],
+              "id": "a8c4a62d-c0f2-4ddb-be89-f6f0b04455d3",
+              "label": "Conditional discharge",
+              "lastSharedDateTime": "2022-01-27",
+              "orderedDate": "2022-01-27"
+            }
+          ],
+          "count": 0,
+          "id": "bf0b2134-fab6-4457-8e36-97a7f39e1e37",
+          "offenceCode": "TW01046",
+          "offenceLegislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+          "offenceTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+          "orderIndex": 503,
+          "plea": {
+            "offenceId": "bf0b2134-fab6-4457-8e36-97a7f39e1e37",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "pleaDate": "2022-01-27",
+            "pleaValue": "NOT_GUILTY"
+          },
+          "startDate": "2014-02-09",
+          "verdict": {
+            "jurors": {
+              "numberOfJurors": 12,
+              "numberOfSplitJurors": 0,
+              "unanimous": true
+            },
+            "lesserOrAlternativeOffence": {
+              "offenceCode": "TW01046",
+              "offenceDefinitionId": "62fa56a4-3cea-41b7-a062-4d71e8ca74bc",
+              "offenceLegislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+              "offenceTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro"
+            },
+            "offenceId": "bf0b2134-fab6-4457-8e36-97a7f39e1e37",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "verdictDate": "2022-01-27",
+            "verdictType": {
+              "category": "Guilty",
+              "categoryType": "GUILTY",
+              "cjsVerdictCode": "G",
+              "description": "Found guilty",
+              "id": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+              "sequence": 10,
+              "verdictCode": "G"
+            }
+          },
+          "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+        }
+      ],
+      "dateOfBirth": "1944-10-09",
+      "defendantCaseJudicialResults": [
+        {
+          "alwaysPublished": false,
+          "canBeSubjectOfBreach": false,
+          "canBeSubjectOfVariation": false,
+          "category": "FINAL",
+          "cjsCode": "3011",
+          "courtClerk": {
+            "firstName": "Erica",
+            "lastName": "Wilson",
+            "userId": "a085e359-6069-4694-8820-7810e7dfe762"
+          },
+          "d20": false,
+          "excludedFromResults": false,
+          "isAdjournmentResult": false,
+          "isAvailableForCourtExtract": true,
+          "isConvictedResult": true,
+          "isDeleted": false,
+          "isFinancialResult": true,
+          "isNewAmendment": true,
+          "isUnscheduled": false,
+          "judicialResultId": "fe4b141d-6ff5-4be1-83b6-97a5e5a315b2",
+          "judicialResultPrompts": [
+            {
+              "courtExtract": "Y",
+              "isFinancialImposition": true,
+              "judicialResultPromptTypeId": "db261fd9-c6bb-4e10-b93f-9fd98418f7b0",
+              "label": "Amount of costs",
+              "promptReference": "AOC",
+              "promptSequence": 100,
+              "type": "CURR",
+              "usergroups": [],
+              "value": "£565.00",
+              "welshLabel": "Swm y costau",
+              "welshValue": "£565.00"
+            },
+            {
+              "courtExtract": "N",
+              "isFinancialImposition": false,
+              "judicialResultPromptTypeId": "5707f766-b5b5-4747-9b15-542e7d170301",
+              "label": "Minor creditor organisation name",
+              "promptReference": "minorcreditornameandaddressOrganisationName",
+              "promptSequence": 300,
+              "type": "NAMEADDRESS",
+              "usergroups": [],
+              "value": "dvla",
+              "welshValue": "dvla"
+            },
+            {
+              "courtExtract": "N",
+              "isFinancialImposition": false,
+              "judicialResultPromptTypeId": "5707f766-b5b5-4747-9b15-542e7d170301",
+              "label": "Minor creditor address line 1",
+              "promptReference": "minorcreditornameandaddressAddress1",
+              "promptSequence": 300,
+              "type": "NAMEADDRESS",
+              "usergroups": [],
+              "value": "London",
+              "welshValue": "London"
+            },
+            {
+              "courtExtract": "N",
+              "isFinancialImposition": false,
+              "judicialResultPromptTypeId": "5707f766-b5b5-4747-9b15-542e7d170301",
+              "label": "Minor creditor post code",
+              "promptReference": "minorcreditornameandaddressPostCode",
+              "promptSequence": 300,
+              "type": "NAMEADDRESS",
+              "usergroups": [],
+              "value": "TW14 9DF",
+              "welshValue": "TW14 9DF"
+            }
+          ],
+          "judicialResultTypeId": "76d43772-0660-4a33-b5c6-8f8ccaf6b4e3",
+          "label": "Costs",
+          "lastSharedDateTime": "2022-01-27",
+          "level": "C",
+          "lifeDuration": false,
+          "offenceId": "025985fe-eb9c-476d-8079-e60df8a5d2bb",
+          "orderedDate": "2022-01-27",
+          "orderedHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+          "postHearingCustodyStatus": "A",
+          "publishedAsAPrompt": false,
+          "publishedForNows": false,
+          "rank": 79000,
+          "resultDefinitionGroup": "Imposition",
+          "resultText": "Costs\nAmount of costs £565.00\nMinor creditor organisation name dvla\nMinor creditor address line 1 London\nMinor creditor post code TW14 9DF",
+          "rollUpPrompts": true,
+          "rootJudicialResultId": "fe4b141d-6ff5-4be1-83b6-97a5e5a315b2",
+          "rootJudicialResultTypeId": "76d43772-0660-4a33-b5c6-8f8ccaf6b4e3",
+          "terminatesOffenceProceedings": false,
+          "urgent": false,
+          "usergroups": [],
+          "welshLabel": "Costau"
+        }
+      ],
+      "defendantJudicialResults": [
+        {
+          "alwaysPublished": true,
+          "category": "FINAL",
+          "courtClerk": {
+            "firstName": "Erica",
+            "lastName": "Wilson",
+            "userId": "a085e359-6069-4694-8820-7810e7dfe762"
+          },
+          "d20": false,
+          "excludedFromResults": false,
+          "isAdjournmentResult": false,
+          "isAvailableForCourtExtract": true,
+          "isConvictedResult": false,
+          "isDeleted": false,
+          "isFinancialResult": false,
+          "isNewAmendment": true,
+          "isUnscheduled": false,
+          "judicialResultId": "7f5936db-f9a4-481d-9fea-f22596640502",
+          "judicialResultPrompts": [
+            {
+              "courtExtract": "Y",
+              "isFinancialImposition": false,
+              "judicialResultPromptTypeId": "ee7d253a-c629-11e8-a355-529269fb1459",
+              "label": "Date to pay in full by",
+              "promptReference": "PBD",
+              "promptSequence": 100,
+              "type": "DATE",
+              "usergroups": [],
+              "value": "01/11/2022",
+              "welshLabel": "Dyddiad terfyn ar gyfer talu'r swm llawn",
+              "welshValue": "01/11/2022"
+            }
+          ],
+          "judicialResultTypeId": "bcb5a496-f7cf-11e8-8eb2-f2801f1b9fd1",
+          "label": "Pay by date",
+          "lastSharedDateTime": "2022-01-27",
+          "level": "D",
+          "lifeDuration": false,
+          "offenceId": "025985fe-eb9c-476d-8079-e60df8a5d2bb",
+          "orderedDate": "2022-01-27",
+          "orderedHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+          "parentJudicialResultId": "f72727b6-fdfe-4e03-b6ab-71d10858c876",
+          "parentJudicialResultTypeId": "4fdd9548-c521-48c9-baa3-1bd2f13a4fcc",
+          "postHearingCustodyStatus": "A",
+          "publishedAsAPrompt": false,
+          "publishedForNows": false,
+          "rank": 76700,
+          "resultDefinitionGroup": "Payment terms",
+          "resultText": "Pay by date\nDate to pay in full by 01/11/2022",
+          "rollUpPrompts": false,
+          "rootJudicialResultId": "fe4b141d-6ff5-4be1-83b6-97a5e5a315b2",
+          "rootJudicialResultTypeId": "76d43772-0660-4a33-b5c6-8f8ccaf6b4e3",
+          "terminatesOffenceProceedings": false,
+          "urgent": false,
+          "usergroups": [],
+          "welshLabel": "Dyddiad terfyn ar gyfer talu"
+        }
+      ],
+      "firstName": "Mike",
+      "id": "dae144d7-dfc8-4bb8-9a13-f86e04dce924",
+      "lastName": "Jones",
+      "masterDefendantId": "dae144d7-dfc8-4bb8-9a13-f86e04dce924",
+      "remandStatus": "Not applicable"
+    },
+    {
+      "caagDefendantOffences": [
+        {
+          "allocationDecision": {
+            "allocationDecisionDate": "2022-01-27",
+            "motReasonCode": "01",
+            "motReasonDescription": "Summary-only offence",
+            "motReasonId": "b8c37e33-defd-351c-b91e-1e03e51657da",
+            "offenceId": "d7e3bd6b-9cde-4292-85d8-a810340fd974",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "sequenceNumber": 90
+          },
+          "caagResults": [
+            {
+              "id": "fc2b3a64-3089-4a2c-a625-b85279461845",
+              "label": "Absolute discharge",
+              "lastSharedDateTime": "2022-01-27",
+              "orderedDate": "2022-01-27"
+            }
+          ],
+          "count": 0,
+          "id": "d7e3bd6b-9cde-4292-85d8-a810340fd974",
+          "offenceCode": "TW01040",
+          "offenceLegislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+          "offenceTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+          "orderIndex": 551,
+          "plea": {
+            "offenceId": "d7e3bd6b-9cde-4292-85d8-a810340fd974",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "pleaDate": "2022-01-27",
+            "pleaValue": "NOT_GUILTY"
+          },
+          "startDate": "2004-12-09",
+          "verdict": {
+            "jurors": {
+              "numberOfJurors": 12,
+              "numberOfSplitJurors": 0,
+              "unanimous": true
+            },
+            "lesserOrAlternativeOffence": {
+              "offenceCode": "TW01040",
+              "offenceDefinitionId": "14f241f3-5888-43e0-8f7e-535a84da164b",
+              "offenceLegislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+              "offenceTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro"
+            },
+            "offenceId": "d7e3bd6b-9cde-4292-85d8-a810340fd974",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "verdictDate": "2022-01-27",
+            "verdictType": {
+              "category": "Guilty",
+              "categoryType": "GUILTY",
+              "cjsVerdictCode": "G",
+              "description": "Found guilty",
+              "id": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+              "sequence": 10,
+              "verdictCode": "G"
+            }
+          },
+          "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+        },
+        {
+          "allocationDecision": {
+            "allocationDecisionDate": "2022-01-27",
+            "motReasonCode": "01",
+            "motReasonDescription": "Summary-only offence",
+            "motReasonId": "b8c37e33-defd-351c-b91e-1e03e51657da",
+            "offenceId": "ace3d978-a381-42e3-8d70-eed7b766fa48",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "sequenceNumber": 90
+          },
+          "caagResults": [
+            {
+              "id": "39ffdecd-bfec-4312-941d-74995d7f1d02",
+              "label": "Absolute discharge",
+              "lastSharedDateTime": "2022-01-27",
+              "orderedDate": "2022-01-27"
+            }
+          ],
+          "count": 0,
+          "id": "ace3d978-a381-42e3-8d70-eed7b766fa48",
+          "offenceCode": "TW01046",
+          "offenceLegislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+          "offenceTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+          "orderIndex": 502,
+          "plea": {
+            "offenceId": "ace3d978-a381-42e3-8d70-eed7b766fa48",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "pleaDate": "2022-01-27",
+            "pleaValue": "NOT_GUILTY"
+          },
+          "startDate": "2014-02-09",
+          "verdict": {
+            "jurors": {
+              "numberOfJurors": 12,
+              "numberOfSplitJurors": 0,
+              "unanimous": true
+            },
+            "lesserOrAlternativeOffence": {
+              "offenceCode": "TW01046",
+              "offenceDefinitionId": "62fa56a4-3cea-41b7-a062-4d71e8ca74bc",
+              "offenceLegislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+              "offenceTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro"
+            },
+            "offenceId": "ace3d978-a381-42e3-8d70-eed7b766fa48",
+            "originatingHearingId": "d8677f67-5725-4c61-85bc-bdbff445e287",
+            "verdictDate": "2022-01-27",
+            "verdictType": {
+              "category": "Guilty",
+              "categoryType": "GUILTY",
+              "cjsVerdictCode": "G",
+              "description": "Found guilty",
+              "id": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+              "sequence": 10,
+              "verdictCode": "G"
+            }
+          },
+          "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+        }
+      ],
+      "id": "0fb2a4f0-06e6-4175-9c98-cc5795323f63",
+      "legalEntityDefendant": {
+        "address": {
+          "address1": "sfFNkHvRiH",
+          "address2": "Southern House",
+          "address3": "Westmister  Street",
+          "address4": "Croydon",
+          "address5": "London",
+          "postcode": "W1 9XD"
+        },
+        "name": "HMCTS"
+      },
+      "masterDefendantId": "0fb2a4f0-06e6-4175-9c98-cc5795323f63",
+      "representation": {
+        "name": "Sonja & Co LLP",
+        "address": {
+          "addressLine1": "Legal House",
+          "addressLine2": "15 Sewell Street",
+          "addressLine3": "Hammersmith",
+          "addressLine4": "London",
+          "addressPostcode": "SE14 2AB"
+        }
+      }
+    }
+  ],
+  "linkedApplications": [
+    {
+      "applicationId": "e566c7fb-7888-414e-aece-f45d15f0a390",
+      "applicationTitle": "Application to reopen case",
+      "applicationReference": "53NP3458322",
+      "applicationStatus": "IN_PROGRESS",
+      "applicantDisplayName": "John Smith",
+      "applicantId": "a47d5ef8-8cb7-4106-be14-5ca7a04508ba",
+      "subjectId": "a47d5ef8-8cb7-4106-be14-5ca7a04508ba",
+      "isAppeal": false
+    }
+  ]
+}

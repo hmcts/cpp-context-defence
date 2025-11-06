@@ -1,0 +1,22 @@
+{
+  "caseDefendantOrganisation": {
+    "caseId": "fcb1edc9-786a-462d-9400-318c95c7b700",
+    "urn": "ABCD09T56",
+    "defendants": [
+      {
+        "defendantId": "fcb1edc9-786a-462d-9400-318c95c7b700",
+        "defendantFirstName" : "Gilbert",
+        "defendantLastName" : "Ormsby",
+        "organistionName" : "FalseFlag LLP",
+        "associatedOrganisation": "fcb1edc9-786a-462d-9400-318c95c7b700"
+      },
+      {
+        "defendantId": "fcb1edc9-786a-462d-9400-318c95c7b700",
+        "defendantFirstName" : "Robert",
+        "defendantLastName" : "Ormsby",
+        "organisationName" : "Bankrupt Capital",
+        "associatedOrganisation": "fcb1edc9-786a-462d-9400-318c95c7b700"
+      }
+    ]
+  }
+}

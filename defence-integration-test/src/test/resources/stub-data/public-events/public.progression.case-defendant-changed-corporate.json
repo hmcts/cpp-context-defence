@@ -1,0 +1,63 @@
+{
+  "defendant":{
+    "aliases":[
+      {
+        "firstName":"johnny",
+        "lastName":"robber"
+      }
+    ],
+    "associatedPersons":[
+      {
+        "person":{
+          "additionalNationalityCode":"USA",
+          "additionalNationalityId":"9aa0ffba-67a4-4137-b392-3c01951eb9c2",
+          "address":{
+            "address1":"22",
+            "address2":"Acacia Avenue",
+            "address3":"Acacia Town",
+            "address4":"Acacia City",
+            "address5":"Acacia Country",
+            "postcode":"GIR 0AA"
+          },
+          "contact":{
+            "fax":"3425678",
+            "home":"123456",
+            "mobile":"45678910",
+            "primaryEmail":"harry.kane@spurs.co.uk",
+            "secondaryEmail":"harry.kane@hotmail.com",
+            "work":"7891011"
+          },
+          "dateOfBirth":"1995-01-01",
+          "disabilityStatus":"a",
+          "documentationLanguageNeeds":"WELSH",
+          "ethnicity":{
+            "selfDefinedEthnicityCode":"IC1",
+            "selfDefinedEthnicityId":"d36d2ba2-6862-4114-b9f9-0c620e1e903c"
+          },
+          "firstName":"Harry",
+          "gender":"MALE",
+          "interpreterLanguageNeeds":"Welsh",
+          "lastName":"Kane",
+          "middleName":"Jack",
+          "nationalInsuranceNumber":"NH222222B",
+          "nationalityCode":"GBR",
+          "nationalityId":"0f36a570-46ef-41d1-b290-9037a64fa1a4",
+          "occupation":"Footballer",
+          "occupationCode":"F"
+        },
+        "role":"parent"
+      }
+    ],
+    "id":"DEFENDANT_ID",
+    "masterDefendantId": "DEFENDANT_ID",
+    "numberOfPreviousConvictionsCited":5,
+    "legalEntityDefendant":{
+      "organisation": {
+        "name": "Firm-Name-Updated"
+      }
+    },
+    "pncId":"1234567",
+    "prosecutionAuthorityReference":"TFL12345-ABC",
+    "prosecutionCaseId":"CASE_ID"
+  }
+}

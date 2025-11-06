@@ -1,0 +1,12 @@
+{
+  "defendants":[
+    {
+      "id": "0baecac5-222b-402d-9047-84803679edac",
+      "laaContractNumber": "laa01"
+    },
+    {
+      "id": "0baecac3-222b-401d-9047-84803279edac",
+      "laaContractNumber": "laa02"
+    }
+  ]
+}

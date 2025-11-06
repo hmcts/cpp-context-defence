@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/expired-prosecutor-assignments.json",
+  "type": "object",
+  "properties": {
+    "prosecutorAssignments": {
+      "type": "array",
+      "items": {
+        "$ref": "http://moj.gov.uk/cpp/defence/prosecutor-assignment.json"
+      }
+    }
+  }
+}

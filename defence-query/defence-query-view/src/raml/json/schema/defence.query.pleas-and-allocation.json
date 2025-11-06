@@ -1,0 +1,74 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.case-pleas.json",
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "offencePleas": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "pleaId": {
+                  "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+                },
+                "offenceId": {
+                  "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+                },
+                "indicatedPlea": {
+                  "type": "string"
+                },
+                "pleaDate": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "pleaId"
+              ]
+            }
+          ]
+        },
+        "defendantId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "crownCourtObjection": {
+          "$ref": "http://justice.gov.uk/cps/defence/yes-no-na.json"
+        },
+        "crownCourtObjectionAcknowledgement": {
+          "type": "boolean"
+        },
+        "disputeOffenceValue": {
+          "type": "boolean"
+        },
+        "disputeOffenceValueDetails": {
+          "type": "string"
+        },
+        "electingCrownCourtTrial": {
+          "type": "boolean"
+        },
+        "electingCrownCourtTrialDetails": {
+          "type": "string"
+        },
+        "sentencingIndication": {
+          "$ref": "http://justice.gov.uk/cps/defence/yes-no-na.json"
+        },
+        "consentToMagistratesCourtTrial": {
+          "type": "string"
+        },
+        "acknowledgement": {
+          "type": "boolean"
+        },
+        "youthAcknowledgement": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "offencePleas",
+        "defendantId"
+      ]
+    }
+  ]
+}

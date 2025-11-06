@@ -1,0 +1,18 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/grantee-user-not-in-allowed-groups",
+  "type": "object",
+  "properties": {
+    "email": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/email"
+    },
+    "failureReason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "email",
+    "failureReason"
+  ],
+  "additionalProperties": false
+}

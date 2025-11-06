@@ -1,0 +1,95 @@
+{
+  "caseDetails": {
+    "caseId": "7e2f843e-d639-40b3-2611-8015f3a18958",
+    "prosecutorCaseReference": "caseRef"
+  },
+  "defendants": [
+    {
+      "id": "dddd1111-1e20-4c21-916a-81a6c90239e5",
+      "asn": "ASN",
+      "prosecutorDefendantReference":"TVL12345",
+      "firstName": "John",
+      "lastName": "Smith",
+      "dateOfBirth": "2000-11-11",
+      "offences": [
+        {
+          "id": "7e2f843e-d639-40b3-8611-8015f3a18959",
+          "policeOffenceId": "A00PCD7073",
+          "cpr": {
+            "defendantOffender": {
+              "year": "09",
+              "organisationUnit": "XX45GD00",
+              "number": "10000000001",
+              "checkDigit": "A"
+            },
+            "cjsCode": "OF61131",
+            "offenceSequence": "001"
+          },
+          "asnSequenceNumber": "001",
+          "cjsCode": "OF61131",
+          "reason": "131",
+          "description": "Wounding/inflicting grievous bodily harm.",
+          "wording": "on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith",
+          "category": "Either Way",
+          "arrestDate": "2010-08-01",
+          "startDate": "2010-08-01",
+          "endDate": "2010-08-01",
+          "chargeDate": "2010-08-01"
+        },
+        {
+          "id": "7e2f843e-d639-40b3-8611-8015f3a18959",
+          "policeOffenceId": "A00PCD7073",
+          "cpr": {
+            "defendantOffender": {
+              "year": "09",
+              "organisationUnit": "XX45GD00",
+              "number": "10000000001",
+              "checkDigit": "A"
+            },
+            "cjsCode": "OF61131",
+            "offenceSequence": "001"
+          },
+          "asnSequenceNumber": "001",
+          "cjsCode": "OF61131",
+          "reason": "131",
+          "description": "Wounding/inflicting grievous bodily harm.",
+          "wording": "on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Wayne",
+          "category": "Either Way",
+          "arrestDate": "2010-08-01",
+          "startDate": "2010-08-01",
+          "endDate": "2010-08-01",
+          "chargeDate": "2010-08-01"
+        }
+      ]
+    },
+    {
+      "asn": "asnValue",
+      "dateOfBirth": "2000-11-11",
+      "firstName": "John",
+      "id": "dddd2222-1e20-4c21-916a-81a6c90239e5",
+      "lastName": "Smith",
+      "offences": [
+        {
+          "asnSequenceNumber": "001",
+          "category": "category",
+          "cjsCode": "cjsCode",
+          "description": "desc",
+          "id": "a1e00fd9-3a27-43da-97d8-6be65044e2fc",
+          "policeOffenceId": "12345",
+          "startDate": "2019-01-01",
+          "wording": "offenceWording"
+        },
+        {
+          "asnSequenceNumber": "002",
+          "category": "category",
+          "cjsCode": "cjsCode",
+          "description": "desc",
+          "id": "a1e00fd9-3a27-43da-97d8-6be65044e2fc",
+          "policeOffenceId": "12345",
+          "startDate": "2019-01-01",
+          "wording": "offenceWording"
+        }
+      ]
+    }
+  ]
+}

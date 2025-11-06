@@ -1,0 +1,14 @@
+{
+  "grantees": [
+    {
+
+        "userId": "5aa9ad5e-f356-4603-9aec-1fcc24fac597",
+        "firstName": "firstName",
+        "lastName": "lastname",
+        "organisationId": "1b6ac089-f016-4b97-9d1c-108e6f93b22c",
+        "organisationName": "Co OpLtd",
+        "status": "Granted access",
+        "startDate": "20/13/2010"
+    }
+  ]
+}

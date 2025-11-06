@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/commands/receive-idpc-published",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "defendantId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "idpcDetails": {
+      "$ref": "http://moj.gov.uk/cpp/defence/idpc-details.json"
+    }
+  },
+  "required": [
+    "caseId",
+    "defendantId",
+    "idpcDetails"
+  ]
+}

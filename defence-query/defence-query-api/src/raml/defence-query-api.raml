@@ -1,0 +1,538 @@
+#%RAML 0.8
+title: Defence Query
+version: v0.1
+protocols: [ HTTP, HTTPS ]
+baseUri: http://localhost:8080/defence-query-api/query/api/rest/defence
+/defenceclient/individual/:
+  get:
+    description: |
+      Returns DefenceClientId if the search criteria matches against Case URN, defence client's first and last names and their DOB
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.defence-client-id+json
+          name: defence.query.defence-client-id
+      ...
+    queryParameters:
+      firstName:
+        type: string
+        required: true
+      lastName:
+        type: string
+        required: true
+      dateOfBirth:
+        type: string
+        required: false
+      hearingDate:
+        type: string
+        required: true
+      urn:
+        description: The case URN
+        type: string
+        required: false
+      isCivil:
+        type: boolean
+        required: false
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.defence.query.defence-client-id+json:
+            schema: !include json/schema/defence.query.defence.client.id.json
+            example: !include json/defence.query.defence.client.id.json
+/defenceclient/organisation/:
+  get:
+    description: |
+      Returns DefenceClientId if the search criteria matches against Case URN, Company Name for the defence client as organisation
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.defence-client-id+json
+          name: defence.query.defence-client-organisation-id
+      ...
+    queryParameters:
+      organisationName:
+        type: string
+        required: true
+      hearingDate:
+        type: string
+        required: true
+      urn:
+        description: The case URN
+        type: string
+        required: false
+      isCivil:
+        type: boolean
+        required: false
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.defence.query.defence-client-id+json:
+            schema: !include json/schema/defence.query.defence.client.id.json
+            example: !include json/defence.query.defence.client.id.json
+/case/{caseUrn}:
+  uriParameters:
+     caseUrn:
+       description: The case URN
+       type: string
+       required: true
+  get:
+    queryParameters:
+      userId:
+        type: string
+        required: false
+    description: |
+      Returns the case details and perform authorisation checks. Also used for CAAG query.
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.case-for-prosecutor-assignment+json
+          name: defence.query.case-for-prosecutor-assignment
+      (mapping):
+          responseType: application/vnd.advocate.query.role-in-case+json
+          name: advocate.query.role-in-case
+      (mapping):
+          responseType: application/vnd.defence.query.prosecutioncase-defence-caag+json
+          name: defence.query.prosecutioncase-defence-caag
+      (mapping):
+          responseType: application/vnd.advocate.query.prosecutioncase-prosecutor-caag+json
+          name: advocate.query.prosecutioncase-prosecutor-caag
+      ...
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.defence.query.case-for-prosecutor-assignment+json:
+            schema: !include json/schema/defence.query.case-for-prosecutor-assignment.json
+            example: !include json/defence.query.case-for-prosecutor-assignment.json
+          application/vnd.advocate.query.role-in-case+json:
+            schema: !include json/schema/advocate.query.role-in-case.json
+            example: !include json/advocate.query.role-in-case.json
+          application/vnd.defence.query.prosecutioncase-defence-caag+json:
+            example:  !include json/advocate.query.prosecutioncase-caag.json
+            schema:   !include json/schema/advocate.query.prosecutioncase-caag.json
+          application/vnd.advocate.query.prosecutioncase-prosecutor-caag+json:
+            example:  !include json/advocate.query.prosecutioncase-caag.json
+            schema:   !include json/schema/advocate.query.prosecutioncase-caag.json
+/allegations:
+  get:
+    description: |
+      Returns allegations for given defence client id if present
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.defence-client-allegations+json
+          name: defence.query.defence-client-allegations
+      ...
+    queryParameters:
+      defenceClientId:
+        type: string
+        required: true
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.defence.query.defence-client-allegations+json:
+            schema: !include json/schema/defence.query.defence.client.allegations.json
+            example: !include json/defence.query.defence.client.allegations.json
+
+/defenceclient/{defenceClientId}/idpc:
+  description: return a material for the given materialId
+  uriParameters:
+     defenceClientId:
+       description: The IDPC for this defence client
+       type: string
+       required: true
+  get:
+    description: |
+      ...
+      (mapping):
+        responseType: application/vnd.defence.query.defence-client-idpc+json
+        name: defence.query.defence-client-idpc
+      ...
+    responses:
+      200:
+        body:
+          application/vnd.defence.query.defence-client-idpc+json:
+
+
+/defenceclients/{defenceClientId}/idpc/metadata:
+  description: returns a idpc metadata for the specified defenceClientId
+  uriParameters:
+     defenceClientId:
+       description: The defenceClient's uuid
+       type: string
+  get:
+    description: |
+      Returns idpc metadata for given defence client id if present
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.defence-client-idpc-metadata+json
+          name: defence.query.defence-client-idpc-metadata
+      ...
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.defence.query.defence-client-idpc-metadata+json:
+            schema: !include json/schema/defence.query.defence.client.idpc.metadata.json
+            example: !include json/defence.query.defence.client.idpc.metadata.json
+
+/defendants/{defendantId}/idpc/metadata:
+  description: returns a idpc metadata for the specified defendantId
+  uriParameters:
+     defendantId:
+       description: The defendant's uuid
+       type: string
+  get:
+    description: |
+      Returns idpc metadata for given defendant id if present
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.defendant-idpc-metadata+json
+          name: defence.query.defendant-idpc-metadata
+      ...
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.defence.query.defendant-idpc-metadata+json:
+            schema: !include json/schema/defence.query.defendant.idpc.metadata.json
+            example: !include json/defence.query.defendant.idpc.metadata.json
+
+/defendants/{defendantId}/associatedOrganisation:
+  description: get associated defence organisation
+  get:
+    description: |
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.associated-organisation+json
+          name: defence.query.associated-organisation
+      ...
+    responses:
+      200:
+        body:
+          application/vnd.defence.query.associated-organisation+json:
+            example:  !include json/defence.query.associated-organisation.json
+            schema:  !include json/schema/defence.query.associated-organisation.json
+
+/defendants/{defendantId}/associatedOrganisations:
+  description: get all associated defence organisations
+  get:
+    description: |
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.associated-organisations+json
+          name: defence.query.associated-organisations
+      ...
+    responses:
+      200:
+        body:
+          application/vnd.defence.query.associated-organisations+json:
+            example:  !include json/defence.query.associated-organisations.json
+            schema:  !include json/schema/defence.query.associated-organisations.json
+
+/defenceclient/{defendantId}/:
+  get:
+    description: |
+      Returns DefenceClientId if the search criteria matches against defendant Id
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.defence-client-defendantId+json
+          name: defence.query.defence-client-defendantId
+      ...
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.defence.query.defence-client-defendantId+json:
+            schema: !include json/schema/defence.query.defence-client-defendantId.json
+            example: !include json/defence.query.defence-client-defendantId.json
+
+/defenceclient/{defendantClientId}/grantees:
+  description: get grantees user and organization details
+  get:
+    description: |
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.grantees-organisation+json
+          name: defence.query.grantees-organisation
+      ...
+    responses:
+      200:
+        body:
+          application/vnd.defence.query.grantees-organisation+json:
+            example:  !include json/defence.query.grantee-organisation.json
+            schema:  !include json/schema/defence.query.grantee-organisation.json
+
+/cases/{caseId}:
+  get:
+    description: |
+      Returns the defendants and organisation ids associated with each defendant Id
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.case-defendants-organisation+json
+          name: defence.query.case-defendants-organisation
+      (mapping):
+          responseType: application/vnd.advocate.query.role-in-case-by-caseid+json
+          name: advocate.query.role-in-case-by-caseid
+      (mapping):
+          responseType: application/vnd.advocate.query.prosecutioncase-defence+json
+          name: advocate.query.prosecutioncase-defence
+      (mapping):
+          responseType: application/vnd.advocate.query.prosecutioncase-prosecutor+json
+          name: advocate.query.prosecutioncase-prosecutor
+      ...
+    queryParameters:
+      withAddress:
+        description: when true will return organisation address from users groups; default false
+        type: boolean
+        required: false
+        default: false
+    responses:
+      200:
+        body:
+           application/vnd.defence.query.case-defendants-organisation+json:
+             example:  !include json/defence.query.case-defendants-organisations.json
+             schema:   !include json/schema/defence.query.case-defendants-organisations.json
+           application/vnd.advocate.query.role-in-case-by-caseid+json:
+             schema: !include json/schema/advocate.query.role-in-case-by-caseid.json
+             example: !include json/advocate.query.role-in-case-by-caseid.json
+           application/vnd.advocate.query.prosecutioncase-defence+json:
+             schema: !include json/schema/advocate.query.prosecutioncase.json
+             example: !include json/advocate.query.prosecutioncase.json
+           application/vnd.advocate.query.prosecutioncase-prosecutor+json:
+             schema: !include json/schema/advocate.query.prosecutioncase.json
+             example: !include json/advocate.query.prosecutioncase.json
+
+/cases/{caseId}/defenceuser/{granteeUserId}:
+  get:
+    description: |
+      Returns the defence grant access recors for the given caseId and userId
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.defence-access-for-case+json
+          name: defence.query.defence-access-for-case
+      ...
+    responses:
+      200:
+        body:
+           application/vnd.defence.query.defence-access-for-case+json:
+             example:  !include json/defence.query.defence-access-for-case.json
+             schema:  !include json/schema/defence.query.defence-access-for-case.json
+
+/cases/{caseId}/cps-assignees:
+  get:
+    description: |
+      Returns list of assignees who are assigned to the case by CPS
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.case-cps-assignees+json
+          name: defence.query.case-cps-assignees
+      ...
+    responses:
+      200:
+        body:
+           application/vnd.defence.query.case-cps-assignees+json:
+             example:  !include json/defence.query.case-cps-assignees.json
+             schema:   !include json/schema/defence.query.case-cps-assignees.json
+
+/cases/{caseId}/organisations/{organisationId}/assignees:
+  get:
+    description: |
+      Returns list of advocates assigned to the case and given organisation
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.case-organisation-assignees+json
+          name: defence.query.case-organisation-assignees
+      ...
+    responses:
+      200:
+        body:
+           application/vnd.defence.query.case-organisation-assignees+json:
+             example:  !include json/defence.query.case-organisation-assignees.json
+             schema:   !include json/schema/defence.query.case-organisation-assignees.json
+
+/hearings/timeline:
+   get:
+      description: |
+        ...
+        (mapping):
+            responseType: application/vnd.defence.query.hearings-timeline+json
+            name: defence.query.hearings-timeline
+        ...
+      queryParameters:
+        caseId:
+          description: case id
+          type: string
+          required: true
+        applicationIds:
+          description: application ids comma separated
+          type: string
+          required: false
+        advocateRole:
+          description: role of the advocate defending or prosecuting
+          type: string
+          required: true
+      responses:
+            200:
+                description: OK
+                body:
+                  application/vnd.defence.query.hearings-timeline+json:
+                    example:  !include json/defence.query.hearings-timeline.json
+                    schema:  !include  json/schema/defence.query.hearings-timeline.json
+
+/advocate-access:
+  get:
+    description: |
+      Returns the details of cases assigned to advocates based on validity period
+      ...
+      (mapping):
+          responseType: application/vnd.advocate.query.expired-prosecutor-assignments+json
+          name: advocate.query.expired-prosecutor-assignments
+      (mapping):
+          responseType: application/vnd.advocate.query.expired-prosecutor-organisation-assignments+json
+          name: advocate.query.expired-prosecutor-organisation-assignments
+      ...
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.advocate.query.expired-prosecutor-assignments+json:
+            schema: !include json/schema/advocate.query.expired-prosecutor-assignments.json
+            example: !include json/advocate.query.expired-prosecutor-assignments.json
+          application/vnd.advocate.query.expired-prosecutor-organisation-assignments+json:
+            schema: !include json/schema/advocate.query.expired-prosecutor-organisation-assignments.json
+            example: !include json/advocate.query.expired-prosecutor-organisation-assignments.json
+
+/hearings:
+   get:
+      description: |
+        ...
+        (mapping):
+            responseType: application/vnd.defence.query.hearings+json
+            name: defence.query.hearings
+        ...
+      queryParameters:
+        date:
+          description: date of hearing
+          type: string
+          required: true
+        courtCentreId:
+          description: court centre id
+          type: string
+          required: true
+      responses:
+            200:
+                description: OK
+                body:
+                  application/vnd.defence.query.hearings+json:
+                    example:  !include json/defence.query.hearings.json
+                    schema:  !include  json/schema/defence.query.hearings.json
+
+/defenceusers/{userId}:
+  description: get all the associated defendants
+  get:
+    description: |
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.get-associated-defendants+json
+          name: defence.query.get-associated-defendants
+      ...
+    responses:
+      200:
+        body:
+          application/vnd.defence.query.get-associated-defendants+json:
+            example:  !include json/defence.query.get-associated-defendants.json
+            schema:  !include json/schema/defence.query.get-associated-defendants.json
+
+/case/person-defendant:
+  get:
+    description: |
+      case by person defendant
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.get-case-by-person-defendant+json
+          name: defence.query.get-case-by-person-defendant
+      ...
+    queryParameters:
+      firstName:
+        type: string
+        required: true
+      lastName:
+        type: string
+        required: true
+      dateOfBirth:
+        type: string
+        required: false
+      isCivil:
+        type: boolean
+        required: false
+      isGroupMember:
+        type: boolean
+        required: false
+    responses:
+      200:
+        description: OK
+        body:
+          application/vnd.defence.query.get-case-by-person-defendant+json:
+            schema: !include json/schema/defence.query.case-by-defendant.json
+            example: !include json/defence.query.case-by-defendant.json
+
+/case/organisation-defendant:
+  get:
+      description: |
+        case by organisation defendant
+        ...
+        (mapping):
+            responseType: application/vnd.defence.query.get-case-by-organisation-defendant+json
+            name: defence.query.get-case-by-organisation-defendant
+        ...
+      queryParameters:
+        organisationName:
+          type: string
+          required: true
+        isCivil:
+          type: boolean
+          required: false
+        isGroupMember:
+         type: boolean
+         required: false
+      responses:
+        200:
+          description: OK
+          body:
+            application/vnd.defence.query.get-case-by-organisation-defendant+json:
+              schema: !include json/schema/defence.query.case-by-defendant.json
+              example: !include json/defence.query.case-by-defendant.json
+
+
+
+/pleasallocation/{caseId}:
+  get:
+    description: |
+      Returns the pleas associated with the case Id
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.pleas-and-allocation+json
+          name: defence.query.pleas-and-allocation
+      ...
+    responses:
+      200:
+        body:
+          application/vnd.defence.query.pleas-and-allocation+json:
+            example:  !include json/defence.query.pleas-and-allocation.json
+            schema:   !include json/schema/defence.query.pleas-and-allocation.json
+
+/onlineplea/{caseId}:
+  description: get eligible defendants to add online plea for the given case
+  get:
+    description: |
+      ...
+      (mapping):
+          responseType: application/vnd.defence.query.eligible-for-online-plea+json
+          name: defence.query.eligible-for-online-plea
+      ...
+    responses:
+      200:
+        body:
+          application/vnd.defence.query.eligible-for-online-plea+json:
+            example:  !include json/defence.query.eligible-for-online-plea.json
+            schema:  !include json/schema/defence.query.eligible-for-online-plea.json

@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/offence",
+  "type": "object",
+  "properties": {
+    "id": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "policeOffenceId": {
+      "type": "string"
+    },
+    "cpr": {
+      "id": "http://justice.gov.uk/cps/defence/cpr",
+      "type": "object",
+      "properties": {
+        "defendantOffender": {
+          "id": "http://justice.gov.uk/cps/defence/defendantOffender",
+          "type": "object",
+          "properties": {
+            "year": {
+              "type": "string"
+            },
+            "organisationUnit": {
+              "type": "string"
+            },
+            "number": {
+              "type": "string"
+            },
+            "checkDigit": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "year",
+            "organisationUnit",
+            "number",
+            "checkDigit"
+          ]
+        },
+        "cjsCode": {
+          "type": "string"
+        },
+        "offenceSequence": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "defendantOffender",
+        "cjsCode",
+        "offenceSequence"
+      ]
+    },
+    "asnSequenceNumber": {
+      "type": "string"
+    },
+    "cjsCode": {
+      "type": "string"
+    },
+    "offenceCodeDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/offence-code"
+    },
+    "reason": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "wording": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "arrestDate": {
+      "type": "string"
+    },
+    "startDate": {
+      "type": "string"
+    },
+    "endDate": {
+      "type": "string"
+    },
+    "chargeDate": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "cjsCode",
+    "startDate"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "offences": [
+    {
+      "offenceId": "f559e399-0a2b-4882-9934-03b9b74c4141",
+      "cjsOffenceCode": "PS90010",
+      "modeOfTrial": "SNONIMP",
+      "validFrom": "2017-10-10",
+      "validTo": "2017-12-10",
+      "cppDateOfLastUpdate": "2017-12-10",
+      "pnldDateOfLastUpdate": "2017-06-10",
+      "title": "REFDATA: Obstruct person acting in the execution of these Regulations",
+      "legislation": "REFDATA: Contrary to regulations 32(a) & 34(3) of the Animals and Animal Products (Import and Export) (England) Regulations 2006",
+      "details": {
+      }
+    }
+  ]
+}

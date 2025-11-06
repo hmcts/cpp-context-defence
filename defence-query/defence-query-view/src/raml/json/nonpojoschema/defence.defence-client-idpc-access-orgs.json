@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.defence-client-idpc-access-organisations.json",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "#/definitions/uuid"
+    },
+    "idpcAccessingOrganisations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "accessOrder": {
+            "type":"number"
+          },
+          "organisationId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "organisationName": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "associatedOrganisation": {
+      "type": "object",
+      "items": {
+        "type": "object",
+        "properties": {
+          "organisationId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "organisationName": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "lastAssociatedOrganisation": {
+      "type": "object",
+      "items": {
+        "type": "object",
+        "properties": {
+          "organisationId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "organisationName": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "instructingOrganisations": {
+      "type": "object",
+      "items": {
+        "type": "object",
+        "properties": {
+          "instructionId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "userId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "organisationId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "instructionDate": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "lockedByRepOrder": {"type": "boolean"}
+  }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+ http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
+
+    <persistence-unit name="defence">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:/DS.defence</jta-data-source>
+        <class>uk.gov.moj.cpp.defence.persistence.entity.Allegation</class>
+        <class>uk.gov.moj.cpp.defence.persistence.entity.DefenceClient</class>
+        <class>uk.gov.moj.cpp.defence.persistence.entity.IdpcAccess</class>
+        <class>uk.gov.moj.cpp.defence.persistence.entity.IdpcDetails</class>
+        <class>uk.gov.moj.cpp.defence.persistence.entity.Instruction</class>
+        <class>uk.gov.moj.cpp.defence.persistence.entity.DefendantAllocation</class>
+        <class>uk.gov.moj.cpp.defence.persistence.entity.DefendantAllocationPlea</class>
+        <class>uk.gov.moj.cpp.defence.persistence.entity.ProsecutionAdvocateAccess</class>
+    </persistence-unit>
+</persistence>

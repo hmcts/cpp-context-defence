@@ -1,0 +1,124 @@
+{
+  "defenceClientId": "GENERATE_ID",
+  "defendantId": "7e2f843e-d639-40b3-8611-8015f3a18958",
+  "defendantDetails": {
+    "caseId": "GENERATE_ID",
+    "id": "GENERATE_ID",
+    "lastName" : "smith"
+  },
+  "policeDefendantId": "BS2CM01ADEF1",
+  "offences": [
+    {
+      "id": "7e2f843e-d639-40b3-8611-8015f3a18959",
+      "policeOffenceId": "A00PCD7073",
+      "cpr": {
+        "defendantOffender": {
+          "year": "09",
+          "organisationUnit": "XX45GD00",
+          "number": "10000000001",
+          "checkDigit": "A"
+        },
+        "cjsCode": "OF61131",
+        "offenceSequence": "001"
+      },
+      "asnSequenceNumber": "001",
+      "cjsCode": "OF61131",
+      "offenceCodeDetails": {
+        "id": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+        "cjsoffencecode": "PS90010",
+        "title": "Public service vehicle - passenger use altered / defaced ticket",
+        "pnldref": "H3188",
+        "offencestartdate": "2006-01-27",
+        "offenceenddate": "2020-01-27",
+        "standardoffencewording": "standar wording",
+        "standardstatementoffacts": "wording of fact",
+        "welshstandardoffencewording": "welsh offence wording",
+        "welshstandardstatementoffacts": "welsh standard stmt of facts",
+        "policeandcpschargingresponsibilities": "police and charging resp",
+        "timelimitforprosecutions": "6 months",
+        "misCode": "miscode",
+        "maxfinetypemagct": "3",
+        "maxfinetypecrownct": "0",
+        "legislation": "Contrary to section 1(1)    of the Criminal Law Act 1977.",
+        "welshOffenceTitle": "welsh offence title",
+        "welshLegislation": "welsh legislation",
+        "libraCategoryCode": "CM",
+        "custodialIndicatorCode": "N",
+        "dateCreated": "2016-01-02",
+        "dateOfLastUpdate": "2016-01-03",
+        "modeoftrial": "STRAFF",
+        "modeoftrialdescription": "SUMMARY MINOR TRAFFIC"
+      },
+      "reason": "131",
+      "description": "Wounding/inflicting grievous bodily harm.",
+      "wording": "on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith",
+      "category": "Either Way",
+      "arrestDate": "2010-08-01",
+      "startDate": "2010-08-01",
+      "endDate": "2017-08-01",
+      "chargeDate": "2010-08-01"
+    },
+    {
+      "id": "7e2f843e-d639-40b3-8611-8015f3a18888",
+      "policeOffenceId": "A00PCD7074",
+      "cpr": {
+        "defendantOffender": {
+          "year": "09",
+          "organisationUnit": "XX45GD00",
+          "number": "10000000001",
+          "checkDigit": "A"
+        },
+        "cjsCode": "PS90010",
+        "offenceSequence": "001"
+      },
+      "asnSequenceNumber": "001",
+      "cjsCode": "PS90010",
+      "offenceCodeDetails": {
+        "id": "f8254db1-1683-483e-afb3-b87fde5a0a25",
+        "cjsoffencecode": "PS90010",
+        "title": "Section 18 - wounding with intent to resist / prevent arrest",
+        "pnldref": "H3188",
+        "offencestartdate": "2006-01-27",
+        "offenceenddate": "2020-01-27",
+        "standardoffencewording": "standar wording",
+        "standardstatementoffacts": "wording of fact",
+        "welshstandardoffencewording": "welsh offence wording",
+        "welshstandardstatementoffacts": "welsh standard stmt of facts",
+        "policeandcpschargingresponsibilities": "police and charging resp",
+        "timelimitforprosecutions": "6 months",
+        "misCode": "miscode",
+        "maxfinetypemagct": "3",
+        "maxfinetypecrownct": "0",
+        "legislation": "Contrary to section 18of the Offences Against the Person Act 1861.",
+        "welshOffenceTitle": "welsh offence title",
+        "welshLegislation": "welsh legislation",
+        "libraCategoryCode": "CM",
+        "custodialIndicatorCode": "N",
+        "dateCreated": "2016-01-02",
+        "dateOfLastUpdate": "2016-01-03",
+        "modeoftrial": "STRAFF",
+        "modeoftrialdescription": "SUMMARY MINOR TRAFFIC"
+      },
+      "reason": "131",
+      "description": "Wounding/inflicting grievous bodily harm.",
+      "wording": "on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith",
+      "category": "Either Way",
+      "arrestDate": "2010-08-01",
+      "startDate": "2010-08-01",
+      "endDate": "2017-08-01",
+      "chargeDate": "2010-08-01"
+    }
+  ],
+  "offenceCodeReferenceData": [
+    {
+      "cjsoffencecode": "OF61131",
+      "legislation": "on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith",
+      "title": "Wounding/inflicting grievous bodily harm."
+    },
+    {
+      "cjsoffencecode": "PS90010",
+      "legislation": "on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith",
+      "title": "Wounding/inflicting grievous bodily harm."
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/commands/defence.command.receive-defence-client.json",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "urn": {
+       "type": "string"
+    },
+    "defendantDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/defendant-details.json"
+    },
+    "defenceClientDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/defence-client-details"
+    },
+    "defendantId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    }
+  },
+  "required": [
+    "defenceClientId",
+    "defendantDetails",
+    "defenceClientDetails"
+  ]
+}

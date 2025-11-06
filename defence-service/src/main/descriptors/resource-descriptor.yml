@@ -1,0 +1,58 @@
+--
+resource_descriptor:
+  spec_version: '1.0.0'
+  version: '${project.version}'
+
+  resources:
+    - name: java:/app/defence-service/DS.eventstore
+      type: xa-datasource
+      setup:
+        - type: liquibase
+          maven:
+            groupId: uk.gov.justice.services
+            artifactId: event-repository-liquibase
+            type: jar
+            version: '${cpp.framework.version}'
+        - type: liquibase
+          maven:
+            groupId: uk.gov.justice.services
+            artifactId: aggregate-snapshot-repository-liquibase
+            type: jar
+            version: '${project.version}'
+
+    - name: java:/DS.defence
+      type: xa-datasource
+      setup:
+        - type: liquibase
+          maven:
+            groupId: uk.gov.justice.services
+            artifactId: event-buffer-liquibase
+            type: jar
+            version: '${cpp.framework.version}'
+        - type: liquibase
+          maven:
+            groupId: uk.gov.moj.cpp.defence
+            artifactId: defence-viewstore-liquibase
+            type: jar
+            version: '${project.version}'
+
+    - name: defence.handler.command
+      type: queue
+    - name: defence.event
+      type: topic
+    - name: public.event
+      type: topic
+
+  services:
+    # defence provides these service mappings
+    - name: 'defence-service'
+      id: 'defence_service'
+      target: '/defence-service'
+      map:
+        - '/defence-command-api'
+        - '/defence-command-handler'
+        - '/defence-event-listener'
+        - '/defence-event-processor'
+        - '/defence-query-api'
+        - '/defence-query-view'
+      matcher: '/defence-[^/]+'

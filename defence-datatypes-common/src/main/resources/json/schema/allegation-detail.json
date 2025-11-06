@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/defence.client.allegation-detail.json",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "legislation": {
+      "type": "string"
+    },
+    "chargedDate": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "legislation",
+    "chargedDate"
+  ]
+}
+
