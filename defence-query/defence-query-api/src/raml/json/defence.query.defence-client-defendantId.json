@@ -1,0 +1,31 @@
+{
+  "id": "fcb1edc9-786a-462d-9400-318c95c7b700",
+  "firstName": "HKKRE",
+  "lastName": "1Cg6m",
+  "dateOfBirth": "1989-07-23",
+  "allegationList": [
+    {
+      "id": "9f9645cc-61cf-49da-a30b-5579f44205ec",
+      "defenceClientId": "fcb1edc9-786a-462d-9400-318c95c7b700",
+      "offenceId": "8a5a9bd6-31de-48b6-a4db-c095504d51e2",
+      "legislation": "REFDATA LEGISLATION CODE OF61131: Contrary to regulations 32(a) & 34(3) of the Animals and Animal Products (Import and Export) (England) Regulations 2006",
+      "title": "REFDATA TITLE CODE OF61131: Obstruct person acting in the execution of these Regulations",
+      "chargeDate": "2010-08-01"
+    },
+    {
+      "id": "18730562-f156-4b3f-a958-55d4b5bc30d0",
+      "defenceClientId": "fcb1edc9-786a-462d-9400-318c95c7b700",
+      "offenceId": "7e2f843e-d639-40b3-8611-8015f3a18959",
+      "legislation": "REFDATA LEGISLATION CODE OF61131: Contrary to regulations 32(a) & 34(3) of the Animals and Animal Products (Import and Export) (England) Regulations 2006",
+      "title": "REFDATA TITLE CODE OF61131: Obstruct person acting in the execution of these Regulations",
+      "chargeDate": "2010-08-01"
+    }
+  ],
+  "instructionHistory": [],
+  "idpcDetailsId": "59a9041a-4438-4598-bde1-eedc6f3079e7",
+  "caseId": "1de928f9-f912-4c2e-b0f4-522b9dd15003",
+  "defendantId": "a3933130-7896-4da9-9a0b-ac9763b32064",
+  "associatedOrganisation": "edbed09c-a744-40a4-b7c2-9a7813858fe2",
+  "lastAssociatedOrganisation": "7e40c002-80bf-4c7a-aa9a-29e6fd53e816",
+  "visible": true
+}

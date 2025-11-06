@@ -1,0 +1,50 @@
+{
+  "defendantId" : "7597f9bd-060e-4a0d-bd80-85b9778fcd7b",
+  "permissions" : [
+    {
+      "id": "db5f9bfa-6e11-4d45-ba69-d106de45c339",
+      "description": "Permission",
+      "source": "b84dd6a8-7fb6-4018-b66d-a4037fda15a6",
+      "target": "7597f9bd-060e-4a0d-bd80-85b9778fcd7b",
+      "object": "DefenceClient",
+      "action": "View"
+    },
+    {
+      "id": "db5f9bfa-6e11-4d45-ba69-d106de45c339",
+      "description": "Permission",
+      "source": "b84dd6a8-7fb6-4018-b66d-a4037fda15a6",
+      "target": "7597f9bd-060e-4a0d-bd80-85b9778fcd7b",
+      "object": "DefendantDocuments",
+      "action": "View"
+    },
+    {
+      "id": "db5f9bfa-6e11-4d45-ba69-d106de45c339",
+      "description": "Permission",
+      "source": "b84dd6a8-7fb6-4018-b66d-a4037fda15a6",
+      "target": "7597f9bd-060e-4a0d-bd80-85b9778fcd7b",
+      "object": "DefendantDocuments",
+      "action": "Upload"
+    }
+  ],
+  "granteeOrganisation": {
+    "orgId": "4ff376b9-2acb-4de9-8a7b-fedd3a6e5b1a",
+    "organisationName": "Co Ltd",
+    "address": {
+      "address1": "Line 1",
+      "address4": "Line 2",
+      "addressPostcode": "xu 45tr"
+    }
+  },
+  "granteeDetails" : {
+    "userId": "4ff376b9-2acb-4de9-8a7b-fedd3a6e5b1a",
+    "firstName": "Grantee First Name",
+    "lastName": "Last Name",
+    "dateOfBirth": "20/02/1989"
+  },
+"granterDetails" : {
+  "userId": "4ff376b9-2acb-4de9-8a7b-fedd3a6e5b1a",
+  "firstName": "Grantee First Name",
+  "lastName": "Last Name",
+  "dateOfBirth": "20/02/1989"
+}
+}

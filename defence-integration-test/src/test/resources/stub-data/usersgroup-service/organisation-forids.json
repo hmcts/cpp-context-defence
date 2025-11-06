@@ -1,0 +1,29 @@
+{
+  "organisations" : [
+    {
+      "organisationId": "ORG-ID-0",
+      "organisationType": "LEGAL_ORGANISATION",
+      "organisationName": "A and A LLP"
+    },
+    {
+      "organisationId": "ORG-ID-1",
+      "organisationType": "LEGAL_ORGANISATION",
+      "organisationName": "B and B LLP"
+    },
+    {
+      "organisationId": "ORG-ID-2",
+      "organisationType": "LEGAL_ORGANISATION",
+      "organisationName": "C and C LLP"
+    },
+    {
+      "organisationId": "ORG-ID-3",
+      "organisationType": "LEGAL_ORGANISATION",
+      "organisationName": "D and D LLP"
+    },
+    {
+      "organisationId": "ORG-ID-4",
+      "organisationType": "LEGAL_ORGANISATION",
+      "organisationName": "E and E LLP"
+    }
+  ]
+}

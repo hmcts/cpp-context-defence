@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/prosecution.json",
+  "type": "object",
+  "description": "Prosecution Case File Details",
+  "properties": {
+    "caseDetails": {
+      "$ref": "http://moj.gov.uk/cpp/defence/case-details.json"
+    }
+  },
+  "required": [
+    "caseDetails"
+  ],
+  "additionalProperties": false
+}

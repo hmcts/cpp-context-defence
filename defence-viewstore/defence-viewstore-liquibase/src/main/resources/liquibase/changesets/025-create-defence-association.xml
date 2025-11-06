@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="create-defence-association" author="defence-uplift">
+
+       <createTable tableName="defence_association">
+            <column name="id" type="UUID"/>
+            <column name="defendant_id" type="UUID"/>
+            <column name="user_id" type="UUID"/>
+            <column name="org_id" type="UUID"/>
+            <column name="description" type="TEXT"/>
+            <column name="start_date" type="date"/>
+           <column name="end_date" type="date"/>
+           <column name="agent_flag" type="BPCHAR(1)"/>
+           <column name="representation_type" type="varchar(100)"/>
+           <column name="laa_contract_number" type="varchar(100)"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="id" constraintName="pk_defence_association"
+                       tableName="defence_association"/>
+        <addForeignKeyConstraint baseColumnNames="defendant_id" baseTableName="defence_association"
+                                 constraintName="fk_defence_association_defendant_id" deferrable="false"
+                                 initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="defendant_id"
+                                 referencedTableName="defence_association_defendant"/>
+
+
+    </changeSet>
+
+</databaseChangeLog>

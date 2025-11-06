@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/case-hearing-assignment-details.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "hearingId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "prosecutionAuthorityId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assigneeId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "isAssigneeDefendingCase": {
+      "type": "boolean"
+    },
+    "representingOrganisation": {
+      "type": "string"
+    },
+    "isCps": {
+      "type": "boolean"
+    },
+    "isPolice": {
+      "type": "boolean"
+    },
+    "failureReason": {
+      "type": "string"
+    },
+    "errorCode": {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "caseId",
+    "hearingId"
+  ]
+}

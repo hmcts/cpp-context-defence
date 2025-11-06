@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="019-create-associated-organisation" author="electro">
+        <createTable tableName="associated_organisation">
+            <column name="id" type="UUID"/>
+            <column name="organisation_id" type="UUID"/>
+            <column name="defendant_id" type="UUID">
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

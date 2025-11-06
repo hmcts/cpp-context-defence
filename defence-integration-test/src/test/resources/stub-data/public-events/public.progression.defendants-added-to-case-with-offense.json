@@ -1,0 +1,114 @@
+{
+  "defendants":[
+    {
+      "aliases":[
+        {
+          "legalEntityName":"Alias0"
+        }
+      ],
+      "courtProceedingsInitiated":"2020-06-22T16:19:26.204Z",
+      "croNumber":"jFhZJwN8vi0M",
+      "id":"DEFENDANT-ID",
+      "personDefendant" : {
+        "personDetails" : {
+          "firstName": "FIRST-NAME",
+          "lastName": "LAST-NAME",
+          "gender" : "FEMALE",
+          "dateOfBirth" : "DOB"
+        }
+      },
+      "masterDefendantId":"b2061321-ff27-4853-b8b8-4636ff262d0e",
+      "offences":[
+        {
+          "arrestDate":"2010-08-01",
+          "chargeDate":"2010-08-01",
+          "count":0,
+          "id":"1bdf4c47-1976-4ba1-b47d-0a67431a081c",
+          "modeOfTrial":"Summary",
+          "offenceCode":"OF61131",
+          "offenceDefinitionId":"14f241f3-5888-43e0-8f7e-535a84da164b",
+          "offenceLegislation":"Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+          "offenceTitle":"Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+          "orderIndex":551,
+          "startDate":"2010-08-01",
+          "wording":"Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+        }
+      ],
+      "pncId":"9540.6101398",
+      "prosecutionAuthorityReference":"CORPTFL",
+      "prosecutionCaseId":"CASE-ID"
+    },
+    {
+      "aliases":[
+        {
+          "legalEntityName":"Alias1"
+        }
+      ],
+      "courtProceedingsInitiated":"2020-06-22T16:19:26.204Z",
+      "croNumber":"jFhZJwN8vi0M",
+      "id":"DEF_ID2",
+      "personDefendant" : {
+        "personDetails" : {
+          "firstName": "FN-2",
+          "lastName": "LN-2",
+          "gender" : "FEMALE",
+          "dateOfBirth" : "D-O-B"
+        }
+      },
+      "masterDefendantId":"b2061321-ff27-4853-b8b8-4636ff262d0e",
+      "offences":[
+        {
+          "arrestDate":"2010-08-01",
+          "chargeDate":"2010-08-01",
+          "count":0,
+          "id":"1bdf4c47-1976-4ba1-b47d-0a67431a081c",
+          "modeOfTrial":"Summary",
+          "offenceCode":"OF61131",
+          "offenceDefinitionId":"14f241f3-5888-43e0-8f7e-535a84da164b",
+          "offenceLegislation":"Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973.",
+          "offenceTitle":"Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+          "orderIndex":551,
+          "startDate":"2010-08-01",
+          "wording":"Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+        }
+      ],
+      "pncId":"9540.6101398",
+      "prosecutionAuthorityReference":"CORPTFL",
+      "prosecutionCaseId":"CASE-ID"
+    }
+
+  ],
+  "listHearingRequests":[
+    {
+      "courtCentre":{
+        "id":"7e967376-eacf-4fca-9b30-21b0c5aad427",
+        "name":"Bexley Magistrates' Court"
+      },
+      "estimateMinutes":20,
+      "hearingType":{
+        "description":"First hearing",
+        "id":"4a0e892d-c0c5-3c51-95b8-704d8c781776"
+      },
+      "jurisdictionType":"MAGISTRATES",
+      "listDefendantRequests":[
+        {
+          "defendantId":"d2dfc561-9187-42e7-add9-391ce922a2d4",
+          "defendantOffences":[
+            "1bb4b24c-800d-4271-98d1-b55ccfb9337d",
+            "5dadfcdf-1c0a-4df7-b1d4-ec254b2d8b83"
+          ],
+          "hearingLanguageNeeds":"ENGLISH",
+          "prosecutionCaseId":"4ab15e2c-e29c-4ee3-ab04-1b9233e40c0b"
+        },
+        {
+          "defendantId":"b2061321-ff27-4853-b8b8-4636ff262d0e",
+          "defendantOffences":[
+            "1bdf4c47-1976-4ba1-b47d-0a67431a081c"
+          ],
+          "prosecutionCaseId":"4ab15e2c-e29c-4ee3-ab04-1b9233e40c0b"
+        }
+      ],
+      "listedStartDateTime":"2021-02-09T09:01:01.001Z"
+    }
+  ]
+}

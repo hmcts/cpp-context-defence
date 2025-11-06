@@ -1,0 +1,25 @@
+package uk.gov.moj.cpp.defence.command.api.accesscontrol;
+
+import uk.gov.moj.cpp.accesscontrol.drools.Outcome;
+import uk.gov.moj.cpp.accesscontrol.drools.Action;
+global uk.gov.moj.cpp.accesscontrol.common.providers.UserAndGroupProvider userAndGroupProvider;
+
+rule "Command - associate defence organisation"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.associate-defence-organisation");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "System Users", "Chambers Clerk", "Chambers Admin", "Defence Lawyers", "Advocates"));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - unlock associate defence organisation"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.bdf.unlock-defence-organisation-association");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "System Users"));
+  then
+    $outcome.setSuccess(true);
+end
+
+

@@ -1,0 +1,88 @@
+{
+  "prosecutionCase":{
+    "caseMarkers":[
+      {
+        "id":"99ace077-0dd1-48d2-b882-4134b5acb74e",
+        "markerTypeCode":"HT",
+        "markerTypeDescription":"Human Trafficking",
+        "markerTypeid":"e7eff972-189c-4957-8b1e-cb45213aa64e"
+      }
+    ],
+    "defendants":[
+      {
+        "aliases":[
+          {
+            "legalEntityName":"Alias0"
+          }
+        ],
+        "courtProceedingsInitiated":"2020-06-20T11:36:22.258Z",
+        "croNumber":"sjgUcV98gZAT",
+        "id":"DEFENDANT_ID",
+        "personDefendant" : {
+          "personDetails" : {
+            "firstName": "FIRST_NAME",
+            "lastName": "LAST_NAME",
+            "gender" : "FEMALE",
+            "dateOfBirth" : "DOB"
+          }
+        },
+
+        "masterDefendantId":"2af89d8e-9b40-4eac-9898-2913fe021fa1",
+        "offences":[
+          {
+            "arrestDate":"2010-08-01",
+            "chargeDate":"2010-08-01",
+            "count":0,
+            "endDate":"2005-05-05",
+            "id":"OFFENCE_ID1",
+            "modeOfTrial":"Summary",
+            "offenceCode":"OF61131",
+            "offenceDefinitionId":"20f3dd74-1d32-43fa-bec3-7ffca5b73ebe",
+            "offenceFacts":{
+              "alcoholReadingAmount":500,
+              "alcoholReadingMethodCode":"A",
+              "vehicleRegistration":"TE4654"
+            },
+            "offenceLegislation":"Contrary to regulation 7(1)(a) of the Public Service Vehicles (Conduct of Drivers, Inspectors, Conductors and Passengers) Regulations 1990 and section 25 of the Public Passenger Vehicles Act 1981.",
+            "offenceTitle":"Public service vehicle - passenger use altered / defaced   ticket",
+            "orderIndex":500,
+            "startDate":"2010-08-01",
+            "wording":"Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+          },
+          {
+            "arrestDate":"2010-08-01",
+            "chargeDate":"2010-08-01",
+            "count":0,
+            "endDate":"2005-05-05",
+            "id":"OFFENCE_ID2",
+            "modeOfTrial":"Summary",
+            "offenceCode":"OF61131",
+            "offenceDefinitionId":"20f3dd74-1d32-43fa-bec3-7ffca5b73ebe",
+            "offenceFacts":{
+              "alcoholReadingAmount":500,
+              "alcoholReadingMethodCode":"A",
+              "vehicleRegistration":"TE4654"
+            },
+            "offenceLegislation":"Contrary to regulation 7(1)(a) of the Public Service Vehicles (Conduct of Drivers, Inspectors, Conductors and Passengers) Regulations 1990 and section 25 of the Public Passenger Vehicles Act 1981.",
+            "offenceTitle":"Public service vehicle - passenger use altered / defaced   ticket",
+            "orderIndex":500,
+            "startDate":"2010-08-01",
+            "wording":"Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+          }
+        ],
+        "pncId":"0435.1015876",
+        "prosecutionAuthorityReference":"PROSECUTING_AUTHORITY",
+        "prosecutionCaseId":"8b132ecc-0013-4626-8527-9b986d44219b"
+      }
+    ],
+    "id":"CASE_ID",
+    "initiationCode":"C",
+    "originatingOrganisation":"B01BH00",
+    "prosecutionCaseIdentifier":{
+      "prosecutionAuthorityCode":"PROSECUTING_AUTHORITY",
+      "prosecutionAuthorityId":"bcdca7df-ab21-45f6-bc19-f883cf3d407e",
+      "caseURN":"URN_VALUE"
+    },
+    "statementOfFacts":"Prosecution fact text"
+  }
+}

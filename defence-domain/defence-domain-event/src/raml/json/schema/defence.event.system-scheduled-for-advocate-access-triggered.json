@@ -1,0 +1,8 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/events/defence.event.system-scheduled-for-advocate-access-triggered.json",
+  "type": "object",
+  "properties": {
+
+  }
+}

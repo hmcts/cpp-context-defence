@@ -1,0 +1,13 @@
+{
+  "_metadata": {
+    "name": "defence.event.instruction-details-recorded"
+  },
+  "caseId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "defenceClientId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "defendantId": "a4391788-f829-4514-a344-61f1d5d9690d",
+  "firstInstruction": true,
+  "instructionId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "organisationId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "userId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "instructionDate": "2018-03-13"
+}

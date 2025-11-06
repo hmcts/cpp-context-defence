@@ -1,0 +1,19 @@
+{
+  "_metadata": {
+    "name": "defence.event.defence-client-mapped-to-a-case"
+  },
+  "defenceClientId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "defendantDetails": {
+    "caseId": "a4391788-f829-4514-a344-61f1d5d9690c",
+    "lastName": "WRONGUN",
+    "id": "a4391788-f829-4514-a344-61f1d5d9690c"
+  },
+  "defenceClientDetails": {
+    "asn": "asn",
+    "bailConditions": "Lorem ipsum dolor sit amet",
+    "bailDate": "2015-02-15",
+    "policeRemandStatus": "Remanded on conditional bail",
+    "policePersonId": "policePersonId"
+  },
+  "urn":"55DP0028116"
+}

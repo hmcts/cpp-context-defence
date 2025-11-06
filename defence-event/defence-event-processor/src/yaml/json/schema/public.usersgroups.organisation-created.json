@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://cpp.moj.gov.uk/usersgroups/json/schemas/public.usersgroups.organisation-created.json",
+  "type": "object",
+  "properties": {
+    "organisationDetails": {
+      "type": "object",
+      "properties": {
+        "organisationId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "organisationType": {
+          "$ref": "http://justice.gov.uk/core/courts/courtsDefinitions.json#/definitions/organisationType"
+        },
+        "organisationName": {
+          "type": "string"
+        },
+        "addressLine1": {
+          "type": "string"
+        },
+        "addressLine2": {
+          "type": "string"
+        },
+        "addressLine3": {
+          "type": "string"
+        },
+        "addressLine4": {
+          "type": "string"
+        },
+        "addressPostcode": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "email": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/email"
+        },
+        "laaContractNumbers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "organisationId",
+        "organisationType",
+        "organisationName",
+        "addressLine1",
+        "addressLine4",
+        "addressPostcode",
+        "phoneNumber",
+        "email"
+      ],
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "organisationDetails"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.event.case-assignments-by-hearing-listing-failed",
+  "type": "object",
+  "properties": {
+    "assignmentErrors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "id": "http://justice.gov.uk/cps/defence/assignment-error.json",
+        "properties": {
+          "caseId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "hearingId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "failureReason": {
+            "type": "string"
+          },
+          "errorCode": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "caseId",
+          "hearingId",
+          "failureReason",
+          "errorCode"
+        ]
+      }
+    },
+    "assigneeOrganisationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "email": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/email"
+    },
+    "assigneeUserId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    }
+  },
+  "required": [
+    "assignmentErrors",
+    "email"
+  ],
+  "additionalProperties": false
+}

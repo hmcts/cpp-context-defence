@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://cpp.moj.gov.uk/defence/json/schema/event/public.defence-access-granted.json",
+  "type": "object",
+  "properties": {
+    "granteeDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/person-details.json"
+    }
+  },
+  "required": [
+    "granteeDetails"
+  ],
+  "additionalProperties": false
+}

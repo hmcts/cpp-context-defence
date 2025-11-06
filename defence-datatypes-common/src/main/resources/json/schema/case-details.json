@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/case-details.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "prosecutorCaseReference": {
+       "type": "string"
+    },
+    "prosecutor": {
+      "$ref": "http://moj.gov.uk/cpp/defence/prosecutor.json"
+    },
+    "isCivil": {
+      "type": "boolean"
+    },
+    "isGroupMember": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "caseId",
+    "prosecutorCaseReference"
+  ]
+}

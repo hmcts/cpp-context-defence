@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="017-alter-defence-client" author="Prasad">
+        <dropColumn tableName="defence_client">
+            <column name="pti_urn"/>
+        </dropColumn>
+
+        <addColumn tableName="defence_client">
+            <column name="case_id" type="UUID"/>
+        </addColumn>
+
+        <createIndex tableName="defence_client" indexName="defence_client_case_id_idx">
+            <column name="case_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

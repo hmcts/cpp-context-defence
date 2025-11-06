@@ -1,0 +1,13 @@
+{
+  "groups": [
+    {
+      "groupId": "7487eff6-c8e7-4af7-98c3-5fb41d8e7200",
+      "groupName": "Non CPS Prosecutors"
+    },
+    {
+      "groupId": "d71ab753-76e4-4c39-88ce-c9511d14f1a6",
+      "groupName": "DVLA Prosecutors",
+      "prosecutingAuthority": "DVLA"
+    }
+  ]
+}

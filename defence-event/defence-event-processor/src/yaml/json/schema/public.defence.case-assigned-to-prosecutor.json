@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.case-assigned-to-prosecutor.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assigneeOrganisation": {
+      "$ref": "http://moj.gov.uk/cpp/defence/organisation.json"
+    },
+    "assigneeDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/person-details.json"
+    },
+    "assignorDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/person-details.json"
+    },
+    "assignorOrganisation": {
+      "$ref": "http://moj.gov.uk/cpp/defence/organisation.json"
+    },
+    "assignmentTimestamp": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date-time"
+    },
+    "representingOrganisation": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "caseId",
+    "assigneeOrganisation",
+    "assigneeDetails",
+    "assignorDetails",
+    "assignorOrganisation",
+    "assignmentTimestamp",
+    "representingOrganisation"
+  ]
+}

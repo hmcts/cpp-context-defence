@@ -1,0 +1,11 @@
+event_sources:
+  - name: defence.event.source
+    is_default: true
+    location:
+      jms_uri:  jms:topic:defence.event
+      rest_uri: http://localhost:8080/defence-service/event-source-api/rest
+      data_source: java:/app/defence-service/DS.eventstore
+
+  - name: public.event.source
+    location:
+      jms_uri:  jms:topic:public.event

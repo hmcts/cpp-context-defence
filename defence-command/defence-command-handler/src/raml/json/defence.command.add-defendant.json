@@ -1,0 +1,63 @@
+{
+  "defenceClientId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "defendantId": "7e2f843e-d639-40b3-8611-8015f3a18958",
+  "defendantDetails": {
+    "caseId": "a4391788-f829-4514-a344-61f1d5d9690c",
+    "defenceClientId": "39a2572c-db47-473d-b1b8-69836ad5da2a",
+    "firstName" : "John",
+    "lastName" : "Micheal",
+    "dateOfBirth": "1980-01-01"
+  },
+  "policeDefendantId": "BS2CM01ADEF1",
+  "offences": [
+    {
+      "id": "7e2f843e-d639-40b3-8611-8015f3a18959",
+      "policeOffenceId": "A00PCD7073",
+      "cpr": {
+        "defendantOffender": {
+          "year": "09",
+          "organisationUnit": "XX45GD00",
+          "number": "10000000001",
+          "checkDigit": "A"
+        },
+        "cjsCode": "OF61131",
+        "offenceSequence": "001"
+      },
+      "asnSequenceNumber": "001",
+      "offenceCodeDetails": {
+        "id": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+        "cjsoffencecode": "PS90010",
+        "title": "Public service vehicle - passenger use altered / defaced ticket",
+        "pnldref": "H3188",
+        "offencestartdate": "2006-01-27",
+        "offenceenddate": "2020-01-27",
+        "standardoffencewording": "standar wording",
+        "standardstatementoffacts": "wording of fact",
+        "welshstandardoffencewording": "welsh offence wording",
+        "welshstandardstatementoffacts": "welsh standard stmt of facts",
+        "policeandcpschargingresponsibilities": "police and charging resp",
+        "timelimitforprosecutions": "6 months",
+        "misCode": "miscode",
+        "maxfinetypemagct": "3",
+        "maxfinetypecrownct": "0",
+        "legislation": "legislation",
+        "welshOffenceTitle": "welsh offence title",
+        "welshLegislation": "welsh legislation",
+        "libraCategoryCode": "CM",
+        "custodialIndicatorCode": "N",
+        "dateCreated": "2016-01-02",
+        "dateOfLastUpdate": "2016-01-03",
+        "modeoftrial": "STRAFF",
+        "modeoftrialdescription": "SUMMARY MINOR TRAFFIC"
+      },
+      "reason": "131",
+      "description": "Wounding/inflicting grievous bodily harm.",
+      "wording": "on 01/08/2009 at  the County public house, unlawfully and maliciously wounded, John Smith",
+      "category": "Either Way",
+      "arrestDate": "2010-08-01",
+      "startDate": "2010-08-01",
+      "endDate": "2017-08-01",
+      "chargeDate": "2010-08-01"
+    }
+  ]
+}

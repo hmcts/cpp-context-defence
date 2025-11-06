@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.command.update-offence-pleas.json",
+  "type": "object",
+  "properties": {
+    "pleasAllocation": {
+      "$ref": "http://justice.gov.uk/cps/defence/pleas-allocation-details.json"
+    }
+  },
+  "required": [
+    "pleasAllocation"
+  ]
+}

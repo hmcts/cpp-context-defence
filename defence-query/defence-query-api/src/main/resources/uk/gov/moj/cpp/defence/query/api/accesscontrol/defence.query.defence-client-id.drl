@@ -1,0 +1,287 @@
+package uk.gov.moj.cpp.defence.query.api.accesscontrol;
+
+import uk.gov.moj.cpp.accesscontrol.drools.Outcome;
+import uk.gov.moj.cpp.accesscontrol.drools.Action;
+import uk.gov.moj.cpp.defence.query.api.accesscontrol.ExpectedPermissionConstants;
+import uk.gov.moj.cpp.defence.query.api.accesscontrol.RuleConstants;
+
+global uk.gov.moj.cpp.accesscontrol.common.providers.UserAndGroupProvider userAndGroupProvider;
+
+rule "Command - Rule for Query for search Client by criteria"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.defence-client-id");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByOrganisationIdGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for Query for search Organisation Client by criteria"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.defence-client-organisation-id");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByOrganisationIdGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for Query for search allegations by defence client id"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.defence-client-allegations");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups())  || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for Query for defence client's idpc"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.defence-client-idpc");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups()) || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for getting metadata for defence client id"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.defence-client-idpc-metadata");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups()) || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for getting metadata for defendant id"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.defendant-idpc-metadata");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups())
+    || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)))
+    || eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action,"System Users"));
+
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for issuing a record idpc access"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.record-idpc-access");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Query - Access control for  defence.query.associated-organisation"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.associated-organisation");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientAssociatedOrganisationGroups()) || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Query - Access control for  defence.query.associated-organisations"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.associated-organisations");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientAssociatedOrganisationGroups()) || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Query - Access control for  defence.query.get-associated-defendants"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.get-associated-defendants");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientAssociatedOrganisationGroups()) || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Query - Access control for  defence.query.defence-client-defendantId"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.defence-client-defendantId");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientOrganisationGroups()) || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Query - Access control for  defence.query.grantees-organisation"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.grantees-organisation");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientOrganisationGroups()) || userAndGroupProvider.hasPermission($action, ExpectedPermissionConstants.defenceClientViewAction($action)));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Query - Access control for defence.query.case-cps-assignees"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.case-cps-assignees");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientOrganisationGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Query - Access control for defence.query.case-organisation-assignees"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.case-organisation-assignees");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientOrganisationGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for defence.query.case-defendants-organisation"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.case-defendants-organisation");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getSystemUsersGroup()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for defence.query.case-for-prosecutor-assignment"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.case-for-prosecutor-assignment");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientOrganisationGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+rule "Command - Rule for advocate.query.role-in-case"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "advocate.query.role-in-case");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientOrganisationGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for advocate.query.role-in-case-by-caseid"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "advocate.query.role-in-case-by-caseid");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientOrganisationGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for defence.query.defence-access-for-case"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.defence-access-for-case");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientOrganisationGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for defence.query.hearings-timeline"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.hearings-timeline");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+rule "Command - Rule for defence.query.prosecutioncase-defence-caag"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.prosecutioncase-defence-caag");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for advocate.query.prosecutioncase-defence"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "advocate.query.prosecutioncase-defence");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for advocate.query.prosecutioncase-prosecutor"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "advocate.query.prosecutioncase-prosecutor");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for advocate.query.prosecutioncase-prosecutor-caag"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "advocate.query.prosecutioncase-prosecutor-caag");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByCriteriaGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+rule "Command - Rule for defence.query.hearings"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.hearings");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getOnlyCPSUsers()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - advocate.query.expired-prosecutor-assignments"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "advocate.query.expired-prosecutor-assignments");
+    eval($action.userId().isPresent());
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - advocate.query.expired-prosecutor-organisation-assignments"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "advocate.query.expired-prosecutor-organisation-assignments");
+    eval($action.userId().isPresent());
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for Query for search case by person defendant"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.get-case-by-person-defendant");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByOrganisationIdGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for Query for search case by organisation defendant"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.get-case-by-organisation-defendant");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, RuleConstants.getQueryClientByOrganisationIdGroups()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - Rule for defence.query.pleas-and-allocation"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.pleas-and-allocation");
+    eval(userAndGroupProvider.hasPermission($action, RuleConstants.pleaAndAllocationPermissions()))
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Query - Access control for defence.query.eligible-for-online-plea"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.query.eligible-for-online-plea");
+    eval(userAndGroupProvider.hasPermission($action, RuleConstants.eligibleOnlinePleaPermissions()))
+  then
+    $outcome.setSuccess(true);
+end

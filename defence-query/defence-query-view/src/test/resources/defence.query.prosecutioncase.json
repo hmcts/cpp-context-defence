@@ -1,0 +1,472 @@
+{
+  "prosecutionCase": {
+    "cpsOrganisation": "A30AB00",
+    "defendants": [
+      {
+        "courtProceedingsInitiated": "2021-12-16T14:00:42.035Z",
+        "id": "732843a9-4d0d-41dd-aacb-7a6378224e5a",
+        "masterDefendantId": "732843a9-4d0d-41dd-aacb-7a6378224e5a",
+        "offences": [
+          {
+            "arrestDate": "2020-02-09",
+            "chargeDate": "2020-02-09",
+            "count": 0,
+            "endorsableFlag": false,
+            "id": "82400685-591f-4d56-9860-6640f81ff912",
+            "listingNumber": 1,
+            "modeOfTrial": "Summary",
+            "offenceCode": "CA03013",
+            "offenceDateCode": 1,
+            "offenceDefinitionId": "062cedf4-b495-3a6c-9148-cec6bef362ed",
+            "offenceLegislation": "Contrary to section 366(8)(a) and    (9) of the Communications Act 2003.",
+            "offenceTitle": "Obstruct person executing search warrant for TV receiver",
+            "orderIndex": 1,
+            "startDate": "2020-02-09",
+            "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+          }
+        ],
+        "personDefendant": {
+          "arrestSummonsNumber": "TVL",
+          "bailStatus": {
+            "code": "C",
+            "description": "Custody or remanded into custody",
+            "id": "12e69486-4d01-3403-a50a-7419ca040635"
+          },
+          "personDetails": {
+            "address": {
+              "address1": "1234",
+              "address2": "StreetDescription",
+              "address3": "Locality2O",
+              "postcode": "DA8 7ND"
+            },
+            "dateOfBirth": "1990-10-23",
+            "documentationLanguageNeeds": "ENGLISH",
+            "firstName": "Retta",
+            "gender": "MALE",
+            "hearingLanguageNeeds": "ENGLISH",
+            "lastName": "Hane",
+            "title": "Mr"
+          },
+          "policeBailStatus": {
+            "code": "C",
+            "description": "Custody or remanded into custody",
+            "id": "12e69486-4d01-3403-a50a-7419ca040635"
+          }
+        },
+        "associatedPersons": [
+          {
+            "person": {
+              "address": {
+                "address1": "1 Acacia Avenue",
+                "address2": "Reading",
+                "postcode": "RG1 1DL"
+              },
+              "firstName": "Joe",
+              "gender": "NOT_SPECIFIED",
+              "lastName": "Bloggs"
+            },
+            "role": "PARENT"
+          }
+        ],
+        "prosecutionAuthorityReference": "TVL",
+        "prosecutionCaseId": "e53b10a1-4302-4148-879a-7ed397ff2c5d"
+      },
+      {
+        "courtProceedingsInitiated": "2021-12-16T14:00:42.035Z",
+        "id": "DEFENDANT_ID",
+        "masterDefendantId": "DEFENDANT_ID",
+        "offences": [
+          {
+            "arrestDate": "2020-02-09",
+            "chargeDate": "2020-02-09",
+            "count": 0,
+            "endorsableFlag": false,
+            "id": "82400685-591f-4d56-9860-6640f81ff912",
+            "listingNumber": 1,
+            "modeOfTrial": "Summary",
+            "offenceCode": "CA03013",
+            "offenceDateCode": 1,
+            "offenceDefinitionId": "062cedf4-b495-3a6c-9148-cec6bef362ed",
+            "offenceLegislation": "Contrary to section 366(8)(a) and    (9) of the Communications Act 2003.",
+            "offenceTitle": "Obstruct person executing search warrant for TV receiver",
+            "orderIndex": 1,
+            "startDate": "2020-02-09",
+            "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+          }
+        ],
+        "personDefendant": {
+          "arrestSummonsNumber": "TVL",
+          "bailStatus": {
+            "code": "C",
+            "description": "Custody or remanded into custody",
+            "id": "12e69486-4d01-3403-a50a-7419ca040635"
+          },
+          "personDetails": {
+            "address": {
+              "address1": "1234",
+              "address2": "StreetDescription",
+              "address3": "Locality2O",
+              "postcode": "DA8 7ND"
+            },
+            "dateOfBirth": "1990-10-23",
+            "documentationLanguageNeeds": "ENGLISH",
+            "firstName": "Retta",
+            "gender": "MALE",
+            "hearingLanguageNeeds": "ENGLISH",
+            "lastName": "Hane",
+            "title": "Mr"
+          },
+          "policeBailStatus": {
+            "code": "C",
+            "description": "Custody or remanded into custody",
+            "id": "12e69486-4d01-3403-a50a-7419ca040635"
+          }
+        },
+        "associatedPersons": [
+          {
+            "person": {
+              "address": {
+                "address1": "1 Acacia Avenue",
+                "address2": "Reading",
+                "postcode": "RG1 1DL"
+              },
+              "firstName": "Joe",
+              "gender": "NOT_SPECIFIED",
+              "lastName": "Bloggs"
+            },
+            "role": "PARENT"
+          }
+        ],
+        "prosecutionAuthorityReference": "TVL",
+        "prosecutionCaseId": "e53b10a1-4302-4148-879a-7ed397ff2c5d"
+      }
+    ],
+    "id": "e53b10a1-4302-4148-879a-7ed397ff2c5d",
+    "initiationCode": "C",
+    "originatingOrganisation": "GAFTL00",
+    "prosecutionCaseIdentifier": {
+      "address": {
+        "address1": "6th Floor Windsor House",
+        "address2": "42-50 Victoria Street",
+        "address3": "London",
+        "postcode": "SW1H 0TL"
+      },
+      "majorCreditorCode": "TFL2",
+      "prosecutionAuthorityCode": "TFL",
+      "prosecutionAuthorityId": "31af405e-7b60-4dd8-a244-c24c2d3fa595",
+      "prosecutionAuthorityName": "Transport for London",
+      "prosecutionAuthorityOUCode": "GAFTL00",
+      "caseURN": "40GD3454121"
+    },
+    "caseStatus": "ACTIVE"
+  },
+  "linkedApplicationsSummary": [
+    {
+      "applicationId": "50e68cd5-99d5-460f-9801-e0ac3e1f4fca",
+      "applicationTitle": "Application to vary conditions of bail",
+      "applicationReference": "40GD3454121",
+      "applicationStatus": "LISTED",
+      "applicantDisplayName": "Retta Hane",
+      "respondentDisplayNames": [
+        "TFL"
+      ],
+      "isAppeal": false
+    },
+    {
+      "applicationId": "ab9fa837-385a-4fec-ae84-6d4ed3ac9495",
+      "applicationTitle": "Application to vary conditions of bail",
+      "applicationReference": "40GD3454144",
+      "applicationStatus": "LISTED",
+      "applicantDisplayName": "John Lewis",
+      "applicantId": "DEFENDANT_ID",
+      "respondentDisplayNames": [
+        "TFL"
+      ],
+      "isAppeal": false
+    }
+  ],
+  "hearingsAtAGlance": {
+    "courtApplications": [
+      {
+        "applicant": {
+          "id": "46f69164-eb25-4f2f-a104-472685c3362f",
+          "masterDefendant": {
+            "defendantCase": [
+              {
+                "caseId": "e53b10a1-4302-4148-879a-7ed397ff2c5d",
+                "caseReference": "40GD3454121",
+                "defendantId": "732843a9-4d0d-41dd-aacb-7a6378224e5a"
+              }
+            ],
+            "masterDefendantId": "732843a9-4d0d-41dd-aacb-7a6378224e5a",
+            "personDefendant": {
+              "arrestSummonsNumber": "TVL",
+              "bailStatus": {
+                "code": "C",
+                "description": "Custody or remanded into custody",
+                "id": "12e69486-4d01-3403-a50a-7419ca040635"
+              },
+              "personDetails": {
+                "address": {
+                  "address1": "1234",
+                  "address2": "StreetDescription",
+                  "address3": "Locality2O",
+                  "postcode": "DA8 7ND"
+                },
+                "dateOfBirth": "1990-10-23",
+                "documentationLanguageNeeds": "ENGLISH",
+                "firstName": "Retta",
+                "gender": "MALE",
+                "hearingLanguageNeeds": "ENGLISH",
+                "lastName": "Hane",
+                "title": "Mr"
+              },
+              "policeBailStatus": {
+                "code": "C",
+                "description": "Custody or remanded into custody",
+                "id": "12e69486-4d01-3403-a50a-7419ca040635"
+              }
+            }
+          },
+          "notificationRequired": true,
+          "summonsRequired": false
+        },
+        "applicationParticulars": "TEst",
+        "applicationReceivedDate": "2021-12-16",
+        "applicationReference": "40GD3454121",
+        "applicationStatus": "LISTED",
+        "commissionerOfOath": false,
+        "courtApplicationCases": [
+          {
+            "caseStatus": "ACTIVE",
+            "isSJP": false,
+            "prosecutionCaseId": "e53b10a1-4302-4148-879a-7ed397ff2c5d",
+            "prosecutionCaseIdentifier": {
+              "address": {
+                "address1": "6th Floor Windsor House",
+                "address2": "42-50 Victoria Street",
+                "address3": "London",
+                "postcode": "SW1H 0TL"
+              },
+              "majorCreditorCode": "TFL2",
+              "prosecutionAuthorityCode": "TFL",
+              "prosecutionAuthorityId": "31af405e-7b60-4dd8-a244-c24c2d3fa595",
+              "prosecutionAuthorityName": "Transport for London",
+              "prosecutionAuthorityOUCode": "GAFTL00",
+              "caseURN": "40GD3454121"
+            }
+          }
+        ],
+        "id": "50e68cd5-99d5-460f-9801-e0ac3e1f4fca",
+        "respondents": [
+          {
+            "id": "30206df7-342b-4118-b13b-93b337b49847",
+            "notificationRequired": true,
+            "prosecutingAuthority": {
+              "address": {
+                "address1": "6th Floor Windsor House",
+                "address2": "42-50 Victoria Street",
+                "address3": "London",
+                "postcode": "SW1H 0TL"
+              },
+              "majorCreditorCode": "TFL2",
+              "name": "Transport for London",
+              "prosecutionAuthorityCode": "TFL",
+              "prosecutionAuthorityId": "31af405e-7b60-4dd8-a244-c24c2d3fa595",
+              "prosecutionAuthorityOUCode": "GAFTL00",
+              "welshName": "Transport for London"
+            },
+            "summonsRequired": false
+          }
+        ],
+        "subject": {
+          "id": "46f69164-eb25-4f2f-a104-472685c3362f",
+          "masterDefendant": {
+            "defendantCase": [
+              {
+                "caseId": "e53b10a1-4302-4148-879a-7ed397ff2c5d",
+                "caseReference": "40GD3454121",
+                "defendantId": "732843a9-4d0d-41dd-aacb-7a6378224e5a"
+              }
+            ],
+            "masterDefendantId": "732843a9-4d0d-41dd-aacb-7a6378224e5a",
+            "personDefendant": {
+              "arrestSummonsNumber": "TVL",
+              "bailStatus": {
+                "code": "C",
+                "description": "Custody or remanded into custody",
+                "id": "12e69486-4d01-3403-a50a-7419ca040635"
+              },
+              "personDetails": {
+                "address": {
+                  "address1": "1234",
+                  "address2": "StreetDescription",
+                  "address3": "Locality2O",
+                  "postcode": "DA8 7ND"
+                },
+                "dateOfBirth": "1990-10-23",
+                "documentationLanguageNeeds": "ENGLISH",
+                "firstName": "Retta",
+                "gender": "MALE",
+                "hearingLanguageNeeds": "ENGLISH",
+                "lastName": "Hane",
+                "title": "Mr"
+              },
+              "policeBailStatus": {
+                "code": "C",
+                "description": "Custody or remanded into custody",
+                "id": "12e69486-4d01-3403-a50a-7419ca040635"
+              }
+            }
+          },
+          "notificationRequired": true,
+          "summonsRequired": false
+        },
+        "type": {
+          "appealFlag": false,
+          "applicantAppellantFlag": false,
+          "boxworkNotifTemplate": "NOT_APPLICABLE",
+          "breachType": "NOT_APPLICABLE",
+          "categoryCode": "CO",
+          "code": "BA76504",
+          "commrOfOathFlag": false,
+          "courtExtractAvlFlag": true,
+          "courtOfAppealFlag": false,
+          "hearingCode": "BVA",
+          "id": "26c7e337-5697-3448-9b9b-f71a6a6e6b1f",
+          "jurisdiction": "EITHER",
+          "legislation": "In accordance with section 3(8) of the Bail Act 1976.",
+          "linkType": "LINKED",
+          "listingNotifTemplate": "POSTAL_NOTIFICATION",
+          "offenceActiveOrder": "OFFENCE",
+          "pleaApplicableFlag": false,
+          "prosecutorThirdPartyFlag": false,
+          "spiOutApplicableFlag": true,
+          "summonsTemplateType": "NOT_APPLICABLE",
+          "type": "Application to vary conditions of bail"
+        }
+      }
+    ],
+    "defendantHearings": [
+      {
+        "defendantId": "732843a9-4d0d-41dd-aacb-7a6378224e5a",
+        "defendantName": "Retta Hane",
+        "hearingIds": [
+          "045714ca-e8ae-4aeb-b511-7352e04e869c"
+        ]
+      }
+    ],
+    "hearings": [
+      {
+        "courtCentre": {
+          "address": {
+            "address1": "176A Lavender Hill",
+            "address2": "London",
+            "address3": "",
+            "address4": "",
+            "address5": "",
+            "postcode": "SW11 1JU"
+          },
+          "code": "B01LY00",
+          "id": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+          "lja": {
+            "ljaCode": "2577",
+            "ljaName": "South West London Magistrates' Court"
+          },
+          "name": "Lavender Hill Magistrates' Court",
+          "roomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+          "roomName": "Courtroom 01"
+        },
+        "defendants": [
+          {
+            "address": {
+              "address1": "1234",
+              "address2": "StreetDescription",
+              "address3": "Locality2O",
+              "postcode": "DA8 7ND"
+            },
+            "age": "31",
+            "courtApplications": [],
+            "dateOfBirth": "1990-10-23",
+            "defenceOrganisation": {
+              "defenceCounsels": [],
+              "defendantId": "732843a9-4d0d-41dd-aacb-7a6378224e5a"
+            },
+            "id": "732843a9-4d0d-41dd-aacb-7a6378224e5a",
+            "judicialResults": [],
+            "name": "Retta Hane",
+            "offences": [
+              {
+                "count": 0,
+                "id": "82400685-591f-4d56-9860-6640f81ff912",
+                "judicialResults": [],
+                "offenceCode": "CA03013",
+                "offenceDefinitionId": "062cedf4-b495-3a6c-9148-cec6bef362ed",
+                "offenceLegislation": "Contrary to section 366(8)(a) and    (9) of the Communications Act 2003.",
+                "offenceTitle": "Obstruct person executing search warrant for TV receiver",
+                "pleas": [],
+                "startDate": "2020-02-09",
+                "verdicts": [],
+                "wording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse"
+              }
+            ]
+          },
+          {
+            "courtApplications": [
+              {
+                "applicant": "Retta Hane",
+                "applicationId": "50e68cd5-99d5-460f-9801-e0ac3e1f4fca",
+                "applicationReceivedDate": "2021-12-16",
+                "applicationType": "Application to vary conditions of bail",
+                "isAppeal": false,
+                "judicialResults": [],
+                "respondents": [
+                  {
+                    "name": "TFL"
+                  }
+                ]
+              }
+            ],
+            "id": "30206df7-342b-4118-b13b-93b337b49847",
+            "judicialResults": [],
+            "name": "TFL"
+          }
+        ],
+        "hasResultAmended": false,
+        "hearingDays": [
+          {
+            "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+            "courtRoomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+            "isCancelled": false,
+            "listedDurationMinutes": 20,
+            "listingSequence": 0,
+            "sittingDay": "2021-12-16T09:01:01.001Z"
+          }
+        ],
+        "hearingListingStatus": "HEARING_INITIALISED",
+        "id": "045714ca-e8ae-4aeb-b511-7352e04e869c",
+        "jurisdictionType": "MAGISTRATES",
+        "type": {
+          "description": "First hearing",
+          "id": "4a0e892d-c0c5-3c51-95b8-704d8c781776"
+        }
+      }
+    ],
+    "id": "e53b10a1-4302-4148-879a-7ed397ff2c5d",
+    "latestHearingJurisdictionType": "MAGISTRATES",
+    "prosecutionCaseIdentifier": {
+      "address": {
+        "address1": "6th Floor Windsor House",
+        "address2": "42-50 Victoria Street",
+        "address3": "London",
+        "postcode": "SW1H 0TL"
+      },
+      "majorCreditorCode": "TFL2",
+      "prosecutionAuthorityCode": "TFL",
+      "prosecutionAuthorityId": "31af405e-7b60-4dd8-a244-c24c2d3fa595",
+      "prosecutionAuthorityName": "Transport for London",
+      "prosecutionAuthorityOUCode": "GAFTL00",
+      "caseURN": "40GD3454121"
+    }
+  }
+}

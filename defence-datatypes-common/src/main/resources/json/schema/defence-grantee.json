@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.client.grantee.json",
+  "type": "object",
+  "description": "Grantees data",
+  "properties": {
+    "userId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    },
+    "organisationName": {
+      "type": "string"
+    },
+    "granteeStatus": {
+      "type": "string"
+    },
+    "organisationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "startDate": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date-time"
+    }
+  },
+  "required": [
+    "userId",
+    "firstName",
+    "lastName",
+    "organisationName",
+    "granteeStatus",
+    "organisationId",
+    "startDate"
+  ],
+  "additionalProperties": false
+}

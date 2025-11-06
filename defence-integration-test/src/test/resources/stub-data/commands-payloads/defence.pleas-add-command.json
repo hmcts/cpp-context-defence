@@ -1,0 +1,26 @@
+{
+  "offencePleas": [
+    {
+      "offenceId": "OFFENCE_ID_1",
+      "indicatedPlea": "INDICATED_PLEA_1",
+      "pleaDate":"PLEA_DATE_1",
+      "pleaId" :"PLEA_ID_1"
+    },
+    {
+      "offenceId": "OFFENCE_ID_2",
+      "indicatedPlea": "INDICATED_PLEA_2",
+      "pleaDate":"PLEA_DATE_2",
+      "pleaId" :"PLEA_ID_2"
+    }
+  ],
+  "crownCourtObjection": false,
+  "crownCourtObjectionAcknowledgement": false,
+  "disputeOffenceValue": true,
+  "disputeOffenceValueDetails": "DISPUTE_OFFENCE_VALUE_DETAILS_1",
+  "electingCrownCourtTrial": true,
+  "electingCrownCourtTrialDetails": "ELECTING_CROWN_COURT_TRIAL_DETAILS_1",
+  "sentencingIndication": true,
+  "consentToMagistratesCourtTrial":"CONSENT_TO_MAGISTRATES_COURT_TRIAL_1",
+  "acknowledgement": true,
+  "youthAcknowledgement": true
+}

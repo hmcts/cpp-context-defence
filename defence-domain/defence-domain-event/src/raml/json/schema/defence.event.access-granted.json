@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/events/access-granted",
+  "type": "object",
+  "properties": {
+    "defendantId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "$ref": "http://justice.gov.uk/cps/defence/permission.json"
+      }
+    },
+    "granteeOrganisation": {
+      "$ref": "http://moj.gov.uk/cpp/defence/organisation.json"
+    },
+    "granteeDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/person-details.json"
+    },
+    "granterDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/person-details.json"
+    }
+  },
+  "required": [
+    "defendantId",
+    "permissions",
+    "granteeOrganisation",
+    "granteeDetails",
+    "granterDetails"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "id": "1c2a2913-8908-33fb-8833-0b6198fa9dc2",
+  "sequenceNumber": 1001,
+  "majorCreditorCode": "2070C",
+  "shortName": "CPS-CYN",
+  "fullName": "CPS Wales (North)",
+  "spiInFlag": true,
+  "spiOutFlag": true,
+  "sjpFlag": true,
+  "policeFlag": false,
+  "cpsFlag": true,
+  "cpsMcEmailAddress": "NorthWalesCPS@cps.gov.uk.cjsm.net",
+  "cpsCcEmailAddress": "NorthWalesCPS@cps.gov.uk.cjsm.net",
+  "majorCreditorFlag": false,
+  "standard": true
+}

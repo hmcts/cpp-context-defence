@@ -1,0 +1,22 @@
+{
+  "_metadata": {
+    "name": "defence.events.defence-client-received"
+  },
+  "defenceClientId": "a4391788-f829-4514-a344-61f1d5d9690c",
+  "urn": "55DP0028116",
+  "defendantDetails": {
+    "caseId": "a4391788-f829-4514-a344-61f1d5d9690c",
+    "lastName": "WRONGUN",
+    "firstName": "JOHNNY",
+    "dateOfBirth": "1985-10-17",
+    "id": "a4391788-f829-4514-a344-61f1d5d9690c"
+  },
+  "defenceClientDetails": {
+    "asn": "asn",
+    "bailConditions": "Lorem ipsum dolor sit amet",
+    "bailDate": "2015-02-15",
+    "policeRemandStatus": "Remanded on conditional bail",
+    "policePersonId": "policePersonId"
+  },
+  "defendantId": "a4391788-f829-4514-a344-61f1d5d9690d"
+}

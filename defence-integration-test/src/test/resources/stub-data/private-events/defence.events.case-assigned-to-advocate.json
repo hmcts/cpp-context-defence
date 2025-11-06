@@ -1,0 +1,36 @@
+{
+  "caseId": "CASE_ID",
+  "assigneeDetails": {
+    "userId": "ASSIGNEE_USER_ID",
+    "firstName": "Assignee First Name",
+    "lastName": "Last Name",
+    "dateOfBirth": "1970-07-15"
+  },
+  "assigneeOrganisation": {
+    "orgId": "ASSIGNEE_ORG_ID",
+    "organisationName": "Assignee Co Ltd",
+    "address": {
+      "address1": "Line 1",
+      "address4": "Line 2",
+      "addressPostcode": "xu 45tr"
+    }
+  },
+  "assignorDetails": {
+    "userId": "ASSIGNOR_USER_ID",
+    "firstName": "Assignor First Name",
+    "lastName": "Last Name",
+    "dateOfBirth": "1980-07-15"
+  },
+  "assignorOrganisation": {
+    "orgId": "ASSIGNOR_ORG_ID",
+    "organisationName": "Assignor Co Ltd",
+    "address": {
+      "address1": "Line 1",
+      "address4": "Line 2",
+      "addressPostcode": "xu 45tr"
+    }
+  },
+  "representingOrganisation": "CPS",
+  "prosecutingAuthorityId": "9197ead4-4261-43f7-83b0-9ccd36a96c6d",
+  "assignmentTimestamp": "ASSIGNMENT_TIMESTAMP"
+}

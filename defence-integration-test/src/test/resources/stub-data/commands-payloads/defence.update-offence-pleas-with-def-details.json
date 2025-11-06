@@ -1,0 +1,30 @@
+{
+
+  "offencePleas": [
+    {
+      "offenceId": "OFFENCE_ID",
+      "indicatedPlea": "NOTGUILTY"
+    }
+  ],
+  "crownCourtObjection": "Y",
+  "disputeOffenceValue": true,
+  "disputeOffenceValueDetails": "dispute-details-updated",
+  "electingCrownCourtTrial": true,
+  "electingCrownCourtTrialDetails": "",
+  "sentencingIndication": "Y",
+  "consentToMagistratesCourtTrial": "Text-update",
+  "acknowledgement": true,
+  "youthAcknowledgement": true,
+  "representationsOnGraveCrime": false,
+  "representationsOnGraveCrimeDetails": "test-updated",
+  "defendantNameDobConfirmation": false,
+  "defendantDetails": {
+    "firstName": "John",
+    "middleName": "Nick",
+    "surname": "Smith",
+    "dob": "1980-01-01"
+  },
+  "offenceType": "adultEitherWay",
+  "additionalInformation": "no additional information",
+  "theftFromShop": "N"
+}

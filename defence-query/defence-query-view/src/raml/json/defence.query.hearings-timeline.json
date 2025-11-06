@@ -1,0 +1,27 @@
+{
+  "caseHearingSummaries": [
+    {
+      "defendants": [
+        {
+          "id": "fa6cd58f-90d2-46ae-99b4-85e106b217fd"
+        }
+      ],
+      "hearingId": "d213d35a-7902-4206-9ab5-2767bf4996ae"
+    }
+  ],
+  "applicationHearingSummaries": [
+    {
+      "applicants": [
+        {
+          "id": "15eeeb26-eaae-4ed2-8274-c9bc9c5f4a1d"
+        }
+      ],
+      "hearingId": "39e88d2b-73c3-496f-bcc2-9e3f5cf72643"
+    }
+  ],
+  "unallocatedHearings": [
+    {
+      "id": "20c1bf18-5c51-4551-b5ff-1b86679c55bd"
+    }
+  ]
+}

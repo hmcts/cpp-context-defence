@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/query/api/defence.query.defence-client-idpc-metadata.json",
+  "type": "object",
+  "properties": {
+    "idpcMetadata": {
+      "$ref": "http://moj.gov.uk/cpp/defence/idpc-metadata.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "idpcMetadata"
+  ]
+}

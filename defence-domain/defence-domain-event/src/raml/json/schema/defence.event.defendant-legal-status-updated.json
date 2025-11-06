@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/events/defence.event.defendant-legal-status-updated.json",
+  "type": "object",
+  "properties": {
+
+    "defendantId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+
+    "organisationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "legalAidStatus" : {
+      "type": "string"
+    }
+  },
+  "required": [
+    "defendantId",
+    "legalAidStatus"
+  ]
+}
