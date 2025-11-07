@@ -3,12 +3,14 @@
     <parent>
         <artifactId>defence-viewstore</artifactId>
         <groupId>uk.gov.moj.cpp.defence</groupId>
-        <version>17.0.85-SNAPSHOT</version>
+        <version>17.0.85-CCT-2415-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>defence-viewstore-persistence</artifactId>
-
+    <properties>
+        <h2.version>1.4.196</h2.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -109,7 +111,12 @@
             <artifactId>activemq-ra</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>
