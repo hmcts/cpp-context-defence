@@ -1,0 +1,5 @@
+{
+  "prosecutionCaseId" : "CASE_ID",
+  "defendantId" :"DEFENDANT_ID",
+  "lockedByRepOrder" : true
+}

@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.associated-organisation",
+  "type": "object",
+  "properties": {
+    "associations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/association"
+      }
+    }
+  },
+  "definitions": {
+    "association": {
+      "type": "object",
+      "properties": {
+        "organisationId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "organisationName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "startDate": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date"
+        },
+        "representationType": {
+          "type": "string",
+          "enum": [
+            "REPRESENTATION_ORDER",
+            "REPRESENTATION_ORDER_APPLIED_FOR",
+            "COURT_APPOINTED",
+            "PRO_BONO",
+            "PRIVATE"
+          ]
+        },
+        "address": {
+          "$ref": "http://moj.gov.uk/cpp/defence/address.json"
+        }
+      },
+      "required": [
+        "organisationId",
+        "status",
+        "startDate"
+      ]
+    }
+  }
+}

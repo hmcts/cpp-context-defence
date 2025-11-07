@@ -1,0 +1,18 @@
+{
+  "prosecutorAssignments": [
+    {
+      "assigneeUserId": "038d0500-3436-4320-bc68-b465534931c8",
+      "assignmentExpiryDate": "2022-05-24T22:40:28.000Z",
+      "assignorOrganisationId": "0f53e7f8-1ff0-4ccb-8c45-8bd83c1cfbb1",
+      "assignorUserId": "02f551c8-e516-4f7e-b650-8fe997259d8e",
+      "caseId": "5bc84b03-0fdc-49bd-bb47-b365ade0bb42"
+    },
+    {
+      "assigneeUserId": "02f551c8-e516-4f7e-b650-8fe997259d8e",
+      "assignmentExpiryDate": "2022-05-24T22:40:28.000Z",
+      "assignorOrganisationId": "31328e25-2ba1-4faf-8670-b2fc5c4343a9",
+      "assignorUserId": "038d0500-3436-4320-bc68-b465534931c8",
+      "caseId": "870d5ebb-b652-437b-b15d-55db95f07821"
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+#%RAML 0.8
+title: API Using media type in the URL
+baseUri: message://command/handler/message/defence
+version: v1
+
+/defence.handler.command:
+  post:
+    body:
+        application/vnd.defence.command.map-defence-client-to-case+json:
+            schema: !include json/schema/defence.command.map-defence-client-to-case.json
+            example: !include json/defence.command.map-defence-client-to-case.json
+        application/vnd.defence.command.receive-defence-client+json:
+            schema: !include json/schema/defence.command.receive-defence-client.json
+            example: !include json/defence.command.receive-defence-client.json
+        application/vnd.defence.command.prosecution-case-receive-details+json:
+            schema: !include json/schema/defence.command.prosecution-case-receive-details.json
+            example: !include json/defence.command.prosecution-case-receive-details.json
+        application/vnd.defence.command.receive-allegations-against-a-defence-client+json:
+            schema: !include json/schema/defence.command.receive-allegations-against-a-defence-client.json
+            example: !include json/defence.command.receive-allegations-against-a-defence-client.json
+        application/vnd.defence.command.add-defendant+json:
+            schema: !include json/schema/defence.command.add-defendant.json
+            example: !include json/defence.command.add-defendant.json
+        application/vnd.defence.command.record-instruction-details+json:
+            schema: !include json/schema/defence.command.record-instruction-details.json
+            example: !include json/defence.command.record-instruction-details.json
+        application/vnd.defence.command.receive-urn-for-defence-client+json:
+            schema: !include json/schema/defence.command.receive-urn-for-defence-client.json
+            example: !include json/defence.command.receive-urn-for-defence-client.json
+        application/vnd.defence.command.receive-idpc-published+json:
+            schema: !include json/schema/defence.command.receive-idpc-published.json
+            example: !include json/defence.command.receive-idpc-published.json
+        application/vnd.defence.command.record-idpc-details+json:
+            schema: !include json/schema/defence.command.record-idpc-details.json
+            example: !include json/defence.command.record-idpc-details.json
+        application/vnd.defence.command.record-access-to-idpc+json:
+            schema: !include json/schema/defence.command.record-access-to-idpc.json
+            example: !include json/defence.command.record-access-to-idpc.json
+        application/vnd.defence.command.receive-defence-association+json:
+            schema: !include json/schema/defence.command.receive-defence-association.json
+            example: !include json/defence.command.receive-defence-association.json
+        application/vnd.defence.command.receive-defence-disassociation+json:
+            schema: !include json/schema/defence.command.receive-defence-disassociation.json
+            example: !include json/defence.command.receive-defence-disassociation.json
+        application/vnd.defence.command.case-defendant-changed+json:
+            schema: !include json/schema/defence.command.case-defendant-changed.json
+            example: !include json/defence.command.case-defendant-changed.json
+        application/vnd.defence.command.update-defendant-offences+json:
+            schema: !include json/schema/defence.command.update-defendant-offences.json
+            example: !include json/defence.command.update-defendant-offences.json
+        application/vnd.defence.command.grant-defence-access+json:
+            schema: !include json/schema/defence.command.grant-defence-access.json
+            example: !include json/defence.command.grant-defence-access.json
+        application/vnd.defence.command.remove-grant-defence-access+json:
+            schema: !include json/schema/defence.command.remove-grant-defence-access.json
+            example: !include json/defence.command.remove-grant-defence-access.json
+        application/vnd.defence.command.remove-all-grant-defence-access+json:
+            schema: !include json/schema/defence.command.remove-all-grant-defence-access.json
+            example: !include json/defence.command.remove-all-grant-defence-access.json
+        application/vnd.defence.command.associate-defence-organisation+json:
+          example:  !include json/defence.command.associate-defence-organisation.json
+          schema: !include json/schema/defence.command.associate-defence-organisation.json
+        application/vnd.defence.command.disassociate-defence-organisation+json:
+          example:  !include json/defence.command.disassociate-defence-organisation.json
+          schema: !include json/schema/defence.command.disassociate-defence-organisation.json
+        application/vnd.defence.command.associate-defence-organisation-for-laa+json:
+          example:  !include json/defence.command.associate-defence-organisation-for-laa.json
+          schema: !include json/schema/defence.command.associate-defence-organisation-for-laa.json
+        application/vnd.defence.command.handler.associate-orphaned-case+json:
+            example:  !include json/defence.command.handler.associate-orphaned-case.json
+            schema: !include json/schema/defence.command.handler.associate-orphaned-case.json
+        application/vnd.defence.command.handler.lock-defence-association-for-laa+json:
+            example:  !include json/defence.command.lock-defence-association-for-laa.json
+            schema: !include json/schema/defence.command.lock-defence-association-for-laa.json
+        application/vnd.defence.command.handler.advocate.assign-case+json:
+            example:  !include json/defence.command.handler.advocate.assign-case.json
+            schema: !include json/schema/defence.command.handler.advocate.assign-case.json
+        application/vnd.defence.command.handler.advocate.remove-case-assignment+json:
+            schema: !include json/schema/defence.command.advocate.remove-case-assignment.json
+            example: !include json/defence.command.advocate.remove-case-assignment.json
+        application/vnd.defence.command.handler.advocate.assign-case-by-hearing-listing+json:
+            example:  !include json/defence.command.handler.advocate.assign-case-by-hearing-listing.json
+            schema: !include json/schema/defence.command.handler.advocate.assign-case-by-hearing-listing.json
+        application/vnd.defence.command.handler.system-schedule-advocate-access+json:
+            example:  !include json/defence.command.handler.system-schedule-advocate-access.json
+            schema: !include json/schema/defence.command.handler.system-schedule-advocate-access.json
+        application/vnd.defence.bdf.command.unlock-defence-organisation-association+json:
+            example:  !include json/defence.bdf.command.unlock-defence-organisation-association.json
+            schema: !include json/schema/defence.bdf.command.unlock-defence-organisation-association.json
+        application/vnd.defence.command.record-defendant-legal-status-updated+json:
+            example:  !include json/defence.command.record-defendant-legal-status-updated.json
+            schema: !include json/schema/defence.command.record-defendant-legal-status-updated.json
+
+        # Plea
+        application/vnd.defence.command.add-offence-pleas+json:
+            schema: !include json/schema/defence.command.add-offence-pleas.json
+            example: !include json/defence.command.add-offence-pleas.json
+        application/vnd.defence.command.update-offence-pleas+json:
+            schema: !include json/schema/defence.command.update-offence-pleas.json
+            example: !include json/defence.command.update-offence-pleas.json

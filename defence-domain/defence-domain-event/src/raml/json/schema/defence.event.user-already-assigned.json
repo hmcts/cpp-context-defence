@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/user-already-assigned",
+  "type": "object",
+  "properties": {
+    "email": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/email"
+    },
+    "failureReason": {
+      "type": "string"
+    },
+    "errorCode" : {
+      "type": "integer"
+    }
+  },
+  "required": [
+    "email",
+    "failureReason",
+    "errorCode"
+  ],
+  "additionalProperties": false
+}

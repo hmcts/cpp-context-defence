@@ -1,0 +1,37 @@
+{
+  "offences": [
+    {
+      "offenceId": "d57bd290-7c74-4056-a0ba-0bb1ba63ba1f",
+      "cjsOffenceCode": "OF61131",
+      "modeOfTrial": "SNONIMP",
+      "validFrom": "2017-10-10",
+      "validTo": "2017-12-10",
+      "cppDateOfLastUpdate": "2017-12-10",
+      "pnldDateOfLastUpdate": "2017-06-10",
+      "title": "REFDATA TITLE CODE OF61131: Obstruct person acting in the execution of these Regulations",
+      "legislation": "REFDATA LEGISLATION CODE OF61131: Contrary to regulations 32(a) & 34(3) of the Animals and Animal Products (Import and Export) (England) Regulations 2006",
+      "terminalEntry": [
+        {
+          "Max": "0",
+          "Min": "1",
+          "OteId": "1721776",
+          "value": "1",
+          "OteNumber": "1",
+          "EntryFormat": "DT",
+          "EntryPrompt": "Date of Order"
+        },
+        {
+          "Max": "70",
+          "Min": "1",
+          "OteId": "1721778",
+          "value": "2",
+          "OteNumber": "2",
+          "EntryFormat": "TXT",
+          "EntryPrompt": "Name Court that made Order"
+        }
+      ],
+      "details": {
+      }
+    }
+  ]
+}

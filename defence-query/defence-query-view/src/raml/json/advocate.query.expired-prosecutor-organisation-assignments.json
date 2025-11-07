@@ -1,0 +1,14 @@
+{
+  "organisationAssignments": [
+    {
+      "assigneeOrganisationId": "815db89f-c2d9-42c8-927c-af7c41d14b98",
+      "assigneeOrganisationName": "Bodgit and Scarper LLP",
+      "assigneeUserId": "9cc46992-5e7d-4eab-a65f-75cd00feecd2",
+      "assignmentExpiryDate": "2022-05-18T16:31:54.000Z",
+      "assignorOrganisationId": "31328e25-2ba1-4faf-8670-b2fc5c4343a9",
+      "assignorOrganisationName": "Assignor Co Ltd",
+      "assignorUserId": "4c4f0036-d78b-4a17-ba82-35fe0385291d",
+      "caseId": "8b3c08e3-99f4-487f-92e0-50d8fd24825c"
+    }
+  ]
+}

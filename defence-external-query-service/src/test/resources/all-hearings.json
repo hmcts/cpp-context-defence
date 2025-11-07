@@ -1,0 +1,67 @@
+{
+  "hearingSummaries": [
+    {
+      "courtApplicationSummaries": [],
+      "courtCentre": {
+        "id": "67aa82ba-67bb-4699-8176-5f572048352b",
+        "name": "Westminster Magistrates' Court",
+        "roomId": "c5f066ff-0aff-3dde-8bd9-40a587d3c58e",
+        "roomName": "Courtroom 01"
+      },
+      "hasSharedResults": false,
+      "hearingDays": [
+        {
+          "courtCentreId": "67aa82ba-67bb-4699-8176-5f572048352b",
+          "courtRoomId": "c5f066ff-0aff-3dde-8bd9-40a587d3c58e",
+          "isCancelled": false,
+          "listedDurationMinutes": 20,
+          "listingSequence": 0,
+          "sittingDay": "2022-05-26T09:00:00.000Z"
+        }
+      ],
+      "hearingLanguage": "ENGLISH",
+      "id": "4fa738b5-82e4-413f-943b-2b5c05b997cf",
+      "jurisdictionType": "MAGISTRATES",
+      "prosecutionCaseSummaries": [
+        {
+          "defendants": [
+            {
+              "courtProceedingsInitiated": "2022-05-25T09:28:55.758Z",
+              "firstName": "Nyah",
+              "id": "59beafa6-3377-4f89-af6c-c36cac81130d",
+              "lastName": "Weber",
+              "masterDefendantId": "59beafa6-3377-4f89-af6c-c36cac81130d",
+              "offences": [
+                {
+                  "id": "0b239da3-ed3e-4149-83cf-3bd47993dd2a",
+                  "offenceTitle": "Use / install a television set without a licence",
+                  "offenceTitleWelsh": "Defnyddio set deledu heb drwydded",
+                  "reportingRestrictions": [],
+                  "wording": "From 25 April 2022, used a television receiver without a licence."
+                },
+                {
+                  "id": "80e4b4a1-facd-4525-ac87-fcbb4c1512f5",
+                  "offenceTitle": "Possess a television set with intent to install / use without a licence",
+                  "offenceTitleWelsh": "Bod â meddiant teledu gan fwriadu'i osod/ddefnyddio heb drwydded",
+                  "reportingRestrictions": [],
+                  "wording": "From 25 April 2022, used a television receiver without a licence."
+                }
+              ],
+              "synonym": "is this from aliases ?"
+            }
+          ],
+          "id": "d4ffc160-7375-4c70-aa4a-1db1f0708d29",
+          "prosecutionCaseIdentifier": {
+            "prosecutionAuthorityCode": "CITYPF",
+            "prosecutionAuthorityId": "baa2ec52-296b-3f38-922a-9e641c1f94d3",
+            "caseURN": "84GD4630722"
+          }
+        }
+      ],
+      "type": {
+        "description": "First hearing",
+        "id": "4a0e892d-c0c5-3c51-95b8-704d8c781776"
+      }
+    }
+  ]
+}

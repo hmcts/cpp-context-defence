@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://cpp.moj.gov.uk/prosecutioncasefile/json/schema/event/public-spi-prosecution-defendants-added.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "defendants": {
+      "type": "array",
+      "items": {
+        "$ref": "http://moj.gov.uk/cpp/defence/defendant.json"
+      }
+    },
+    "channel": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/channel"
+    }
+  },
+  "required": [
+    "caseId",
+    "defendants",
+    "channel"
+  ],
+  "additionalProperties": true
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/events/defence.event.defence-client-marked-not-visible",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    }
+  },
+  "required": [
+    "defenceClientId"
+  ]
+}

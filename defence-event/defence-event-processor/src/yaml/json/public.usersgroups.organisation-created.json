@@ -1,0 +1,17 @@
+{
+  "organisationDetails":{
+    "organisationId": "10cb15eb-6d9a-47e4-96c3-d30edfdd9860",
+    "organisationType": "LEGAL_ORGANISATION",
+    "organisationName": "LAA2 & Co LLP",
+    "addressLine1": "Legal House",
+    "addressLine2": "15 Sewell Street",
+    "addressLine3": "Hammersmith",
+    "addressLine4": "London",
+    "addressPostcode": "SE14 2AB",
+    "phoneNumber": "080012345678",
+    "email": "joe@example.com",
+    "laaContractNumbers": [
+      "55555553"
+    ]
+  }
+}

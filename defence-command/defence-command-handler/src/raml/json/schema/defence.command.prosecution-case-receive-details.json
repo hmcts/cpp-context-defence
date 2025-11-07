@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/command/handler/commands/prosecution-case-receive-details.json",
+  "type": "object",
+  "properties": {
+    "caseDetails": {
+      "$ref": "http://moj.gov.uk/cpp/defence/case-details.json"
+    },
+    "defendants": {
+      "type": "array",
+      "items": {
+        "$ref": "http://moj.gov.uk/cpp/defence/defendant.json"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "caseDetails",
+    "defendants"
+  ]
+}

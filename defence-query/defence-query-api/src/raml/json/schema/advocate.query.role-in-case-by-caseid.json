@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/case-for-advocate.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assigneeId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "isAdvocateDefendingOrProsecuting": {
+      "$ref": "http://justice.gov.uk/cps/defence/enum-def.json#/definitions/isAdvocateDefendingOrProsecuting"
+    },
+    "authorizedDefendantIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "caseId",
+    "assigneeId",
+    "isAdvocateDefendingOrProsecuting"
+  ]
+}

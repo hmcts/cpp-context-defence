@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://justice.gov.uk/cps/defence/case-for-prosecutor-assignment.json",
+  "type": "object",
+  "properties": {
+    "caseURN": {
+      "type": "string"
+    },
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "error": {
+      "$ref": "http://justice.gov.uk/cps/defence/error.json"
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "caseURN",
+        "caseId"
+      ]
+    },
+    {
+      "required": [
+        "error"
+      ]
+    }
+  ]
+}

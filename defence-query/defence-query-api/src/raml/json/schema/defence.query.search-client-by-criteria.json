@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/defence.query.search-client-by-criteria.json",
+  "type": "object",
+  "properties": {
+    "urn": {
+      "description": "The case URN",
+      "type": "string"
+    },
+    "firstName": {
+      "description": "The defence clients first name",
+      "type": "string"
+    },
+    "lastName": {
+      "description": "The defence clients last name",
+      "type": "string"
+    },
+    "dateOfBirth": {
+      "description": "The defence clients DOB",
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "urn",
+    "firstName",
+    "lastName",
+    "dateOfBirth"
+  ]
+}

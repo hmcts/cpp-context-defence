@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="016-create_case" author="Prasad">
+        <createTable tableName="defence_case">
+            <column name="id" type="UUID"/>
+            <column name="urn" type="TEXT"/>
+        </createTable>
+
+        <createIndex tableName="defence_case" indexName="case_urn_idx">
+            <column name="urn"/>
+        </createIndex>
+
+        <createIndex tableName="defence_case" indexName="case_id_idx">
+            <column name="id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/event/listener/events/defence.event.defendant-offences-updated.json",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "modifiedDate": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date"
+    },
+    "updatedOffences": {
+      "type": "array",
+      "minItems": 1,
+      "additionalItems": false,
+      "items": {
+        "$ref": "#/definitions/defendantCaseOffences"
+      }
+    },
+    "addedOffences": {
+      "type": "array",
+      "minItems": 1,
+      "additionalItems": false,
+      "items": {
+        "$ref": "#/definitions/defendantCaseOffences"
+      }
+    },
+    "deletedOffences": {
+      "type": "array",
+      "minItems": 1,
+      "additionalItems": false,
+      "items": {
+        "$ref": "#/definitions/deletedDefendantCaseOffences"
+      }
+    }
+  },
+  "required": [
+    "modifiedDate"
+  ],
+  "definitions": {
+    "defendantCaseOffences": {
+      "type": "object",
+      "required": [
+        "defendantId",
+        "prosecutionCaseId",
+        "offences"
+      ],
+      "properties": {
+        "defendantId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "prosecutionCaseId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "defenceClientId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "offences": {
+          "type": "array",
+          "minItems": 1,
+          "additionalItems": false,
+          "items": {
+            "$ref": "http://justice.gov.uk/cps/defence/offence"
+          }
+        },
+        "isCivil": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "deletedDefendantCaseOffences": {
+      "type": "object",
+      "required": [
+        "defendantId",
+        "prosecutionCaseId",
+        "offences"
+      ],
+      "properties": {
+        "defendantId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "prosecutionCaseId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "defenceClientId": {
+          "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+        },
+        "offences": {
+          "type": "array",
+          "minItems": 1,
+          "additionalItems": false,
+          "items": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          }
+        },
+        "isCivil": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

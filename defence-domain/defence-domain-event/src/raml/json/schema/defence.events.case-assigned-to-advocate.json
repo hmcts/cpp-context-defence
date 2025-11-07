@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/events/defence.events.case-assigned-to-advocate.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assigneeOrganisation": {
+      "$ref": "http://moj.gov.uk/cpp/defence/organisation.json"
+    },
+    "assigneeDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/person-details.json"
+    },
+    "assignorDetails": {
+      "$ref": "http://justice.gov.uk/cps/defence/person-details.json"
+    },
+    "assignorOrganisation": {
+      "$ref": "http://moj.gov.uk/cpp/defence/organisation.json"
+    },
+    "assignmentTimestamp": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date-time"
+    },
+    "representingOrganisation": {
+      "type": "string"
+    },
+    "prosecutingAuthorityId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "isCps": {
+      "type": "boolean"
+    },
+    "isPolice": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "caseId",
+    "assigneeOrganisation",
+    "assigneeDetails",
+    "assignorDetails",
+    "assignorOrganisation",
+    "assignmentTimestamp",
+    "representingOrganisation",
+    "prosecutingAuthorityId"
+  ]
+}

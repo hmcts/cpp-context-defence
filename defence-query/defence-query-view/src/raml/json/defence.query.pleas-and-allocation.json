@@ -1,0 +1,44 @@
+[
+  {
+    "offencePleas": [
+      {
+        "pleaId": "b3e4a343-eca0-43b5-abfe-f84fdfc06e14",
+        "offenceId": "6b9df1fb-7bce-4e33-88dd-db91f75adeb8",
+        "indicatedPlea": "NOTGUILTY",
+        "pleaDate":"2022-01-01"
+      }
+    ],
+    "defendantId": "88cdf36e-93e4-41b0-8277-17d9dba7f06f",
+    "crownCourtObjection": true,
+    "crownCourtObjectionAcknowledgement": true,
+    "disputeOffenceValue": true,
+    "disputeOffenceValueDetails": "",
+    "electingCrownCourtTrial": true,
+    "electingCrownCourtTrialDetails": "",
+    "sentencingIndication": true,
+    "consentToMagistratesCourtTrial":"Text",
+    "acknowledgement": true,
+    "youthAcknowledgement": true
+  },
+  {
+    "offencePleas": [
+      {
+        "pleaId": "1bea494a-cfbe-4422-89b0-0dcc47fac6e2",
+        "offenceId": "6b9df1fb-7bce-4e33-88dd-db91f75adeb8",
+        "indicatedPlea": "NOTGUILTY",
+        "pleaDate":"2022-01-01"
+      }
+    ],
+    "defendantId": "88cdf36e-93e4-41b0-8277-17d9dba7f06f",
+    "crownCourtObjection": true,
+    "crownCourtObjectionAcknowledgement": true,
+    "disputeOffenceValue": true,
+    "disputeOffenceValueDetails": "",
+    "electingCrownCourtTrial": true,
+    "electingCrownCourtTrialDetails": "",
+    "sentencingIndication": true,
+    "consentToMagistratesCourtTrial":"Text",
+    "acknowledgement": true,
+    "youthAcknowledgement": true
+  }
+]

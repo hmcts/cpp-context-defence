@@ -1,0 +1,10 @@
+{
+  "_metadata": {
+    "name": "defence.event.suspect-already-added"
+  },
+  "defendantDetails": {
+    "caseId": "a4391788-f829-4514-a344-61f1d5d9690c",
+    "lastName": "WRONGUN",
+    "id": "a4391788-f829-4514-a344-61f1d5d9690c"
+  }
+}

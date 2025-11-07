@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="add-allegation-id-pk" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists tableName="allegation"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey columnNames="id" constraintName="allegation_id_pk"
+                       tableName="allegation"/>
+    </changeSet>
+
+    <changeSet id="add-idpc-access-history-id-pk" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists tableName="idpc_access_history"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey columnNames="id" constraintName="idpc_access_history_id_pk"
+                       tableName="idpc_access_history"/>
+    </changeSet>
+
+    <changeSet id="drop-case-id-idx" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <indexExists indexName="case_id_idx" tableName="defence_case"/>
+        </preConditions>
+        <dropIndex tableName="defence_case" indexName="case_id_idx"/>
+    </changeSet>
+
+    <changeSet id="drop-defence-client-id-idx" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <indexExists indexName="defence_client_id_idx" tableName="defence_client"/>
+        </preConditions>
+        <dropIndex tableName="defence_client" indexName="defence_client_id_idx"/>
+    </changeSet>
+
+    <changeSet id="drop-idpc-details-id-idx" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <indexExists indexName="idpc_details_id_idx" tableName="idpc_details"/>
+        </preConditions>
+        <dropIndex tableName="idpc_details" indexName="idpc_details_id_idx"/>
+    </changeSet>
+
+    <changeSet id="drop-instruction-id-idx" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <indexExists indexName="instruction_id_idx" tableName="instruction"/>
+        </preConditions>
+        <dropIndex tableName="instruction" indexName="instruction_id_idx"/>
+    </changeSet>
+
+    <changeSet id="add-defence_case_id_pk" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists tableName="defence_case"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey columnNames="id" constraintName="defence_case_id_pk"
+                       tableName="defence_case"/>
+    </changeSet>
+
+    <changeSet id="add-defence_client_id_pk" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists tableName="defence_client"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey columnNames="id" constraintName="defence_client_id_pk"
+                       tableName="defence_client"/>
+    </changeSet>
+
+    <changeSet id="add-idpc_details_id_pk" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists tableName="idpc_details"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey columnNames="id" constraintName="idpc_details_id_pk"
+                       tableName="idpc_details"/>
+    </changeSet>
+
+    <changeSet id="add-instruction_id_pk" author="Salsa">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <primaryKeyExists tableName="instruction"/>
+            </not>
+        </preConditions>
+        <addPrimaryKey columnNames="id" constraintName="instruction_id_pk"
+                       tableName="instruction"/>
+    </changeSet>
+
+</databaseChangeLog>

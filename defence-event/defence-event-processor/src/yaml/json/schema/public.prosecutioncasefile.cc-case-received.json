@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://cpp.moj.gov.uk/prosecutioncasefile/json/schema/event/public-cc-case-received.json",
+  "type": "object",
+  "properties": {
+    "caseDetails": {
+      "$ref": "http://moj.gov.uk/cpp/defence/case-details.json"
+    },
+    "defendants": {
+      "type": "array",
+      "items": {
+        "$ref": "http://moj.gov.uk/cpp/defence/defendant.json"
+      }
+    },
+    "channel": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/channel"
+    }
+  },
+    "required": [
+      "caseDetails",
+      "defendants",
+      "channel"
+    ]
+}

@@ -1,0 +1,22 @@
+{
+  "permissions": [
+    {
+      "permissionId": "7309ff12-dfff-435e-b3f6-295956b80311",
+      "object": "defenceClientId",
+      "action": "View",
+      "description": "defence context - grant access",
+      "source": "1fc69990-bf59-4c4a-9489-d766b9abde9a",
+      "target": "7bdea7ea-6d37-4919-8b20-e1b693ee6838",
+      "active": true
+    },
+    {
+      "permissionId": "12533613-6a52-49c4-bb0e-69bffb8fa329",
+      "object": "defenceClientId",
+      "action": "View",
+      "description": "defence context - grant access",
+      "source": "902cff6c-a18b-439c-8c93-8b6e7084dfa1",
+      "target": "7bdea7ea-6d37-4919-8b20-e1b693ee6838",
+      "active": true
+    }
+  ]
+}

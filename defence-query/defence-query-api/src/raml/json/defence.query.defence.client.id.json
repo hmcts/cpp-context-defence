@@ -1,0 +1,70 @@
+{
+  "defenceClientId":"b5faf3b9-5ec5-4ad8-8177-816adef2d6f9",
+  "caseId":"958f0907-d5a1-4de4-a050-56d03c81e8d4",
+  "prosecutionAuthorityCode": "CPS-MC",
+  "defendantId":"d6409c4e-0cfc-4d49-8a5f-e667d347a75e",
+  "associatedOrganisation":{
+    "organisationId":"feb1ff3d-ed01-46ea-8ed0-8d4e7de9c7d9",
+    "organisationName":"ORG_NAME_1"
+  },
+  "idpcAccessingOrganisations":[
+    {
+      "order":5,
+      "organisationId":"b3e4a343-eca0-43b5-abfe-f84fdfc06e14",
+      "name":"A and A LLP"
+    },
+    {
+      "order":4,
+      "organisationId":"1bea494a-cfbe-4422-89b0-0dcc47fac6e2",
+      "name":"B and B LLP"
+    },
+    {
+      "order":3,
+      "organisationId":"2983246e-933e-44fc-9d89-10fcd7456b34",
+      "name":"C and C LLP"
+    },
+    {
+      "order":2,
+      "organisationId":"52f22108-aca8-4e11-ad4d-fd4cd3ee6202",
+      "name":"D and D LLP"
+    },
+    {
+      "order":1,
+      "organisationId":"24e228bb-83e4-4275-8f54-ccafb2cfbc27",
+      "name":"E and E LLP"
+    }
+  ],
+  "instructingOrganisations": [
+    {
+      "instructionId": "1bea494a-cfbe-4422-89b0-0dcc47fac6e3",
+      "userId": "21ea494a-cfbe-4422-89b0-0dcc47fac6e2",
+      "organisationId": "1cea494a-cfbe-1122-89b0-0dcc47fac4e2",
+      "name": "APT Ltd",
+      "instructionDate": "30/03/2018"
+    },
+    {
+      "instructionId": "2bea494a-afbe-4422-79b0-0dcc47fac6e4",
+      "userId": "12ea494a-cfbe-1122-19b0-4dcc47fac6e2",
+      "organisationId": "1aba494a-cfbe-1122-89b0-0dcc47fac4e2",
+      "name": "KPT ltd",
+      "instructionDate": "30/03/2018"
+    }
+  ],
+  "associatedPersons": [
+    {
+      "person": {
+        "address": {
+          "address1": "22",
+          "address2": "Acacia Avenue",
+          "address3": "Acacia Town",
+          "postcode": "SW11 1JU"
+        },
+        "firstName": "TestName4",
+        "gender": "NOT_SPECIFIED",
+        "lastName": "Surname4",
+        "middleName": "A"
+      },
+      "role": "PARENT"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "groups": [
+    {
+      "groupId": "37967f34-2c5b-49b2-b019-82b4eafa3517",
+      "groupName": "Chambers Clerk"
+    }
+  ],
+  "switchableRoles": [],
+  "permissions": [
+    {
+      "permissionId": "f3acc1cf-656a-4f0f-8b2b-4ce69eea801c",
+      "object": "Case",
+      "action": "Disassociate"
+    },
+    {
+      "permissionId": "a2b393ff-820f-4f4d-bed5-33930c0c320e",
+      "object": "DefenceClient",
+      "action": "GrantAccess"
+    },
+    {
+      "permissionId": "6d1a6f64-9cf3-4953-a780-ac3f9bc1dc52",
+      "object": "DefenceClient",
+      "action": "View"
+    },
+    {
+      "permissionId": "6d1a6f64-9cf3-4953-a780-ac3f9bc1dc52",
+      "object": "DefenceClient",
+      "action": "View",
+      "description": "defence context - grant access",
+      "source": "6701dca7-9804-43a7-92f7-832ab539b691",
+      "target": "94892835-963c-421a-b9c1-495294169e23"
+    }
+  ]
+}

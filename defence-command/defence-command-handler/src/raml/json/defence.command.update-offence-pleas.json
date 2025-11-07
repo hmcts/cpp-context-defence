@@ -1,0 +1,23 @@
+{
+  "defendantId": "7e2f843e-d639-40b3-8611-8015f3a18958",
+  "offencePleas": [
+    {
+      "offenceId": "6b9df1fb-7bce-4e33-88dd-db91f75adeb8",
+      "indicatedPlea": "NOTGUILTY",
+      "pleaDate":"2022-01-01",
+      "pleaId": "8b9df1fb-7bce-4e33-88dd-db91f75adeb8"
+    }
+  ],
+  "crownCourtObjection": true,
+  "crownCourtObjectionAcknowledgement": true,
+  "disputeOffenceValue": true,
+  "disputeOffenceValueDetails": "",
+  "electingCrownCourtTrial": true,
+  "electingCrownCourtTrialDetails": "",
+  "sentencingIndication": "Y",
+  "consentToMagistratesCourtTrial":"Text",
+  "acknowledgement": true,
+  "youthAcknowledgement": true,
+  "representationsOnGraveCrime": false,
+  "representationsOnGraveCrimeDetails": "test"
+}

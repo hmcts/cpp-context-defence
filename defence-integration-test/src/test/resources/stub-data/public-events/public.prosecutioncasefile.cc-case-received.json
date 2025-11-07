@@ -1,0 +1,14 @@
+{
+  "caseDetails": {
+    "caseId": "CASE_ID",
+    "prosecutorCaseReference": "URN",
+    "prosecutor": {
+      "prosecutionAuthorityId": "bb06efdc-1f22-461b-8264-024df64f6109",
+      "prosecutingAuthority": "TFL"
+    }
+  },
+  "defendants": [
+
+  ],
+  "channel":"CHANNEL-NAME"
+}

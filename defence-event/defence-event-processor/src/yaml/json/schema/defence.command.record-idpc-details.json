@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/event/processor/commands/record-idpc-details",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "idpcDetails": {
+      "$ref": "http://moj.gov.uk/cpp/defence/idpc-details.json"
+    }
+  },
+  "required": [
+    "defenceClientId",
+    "idpcDetails"
+  ]
+}

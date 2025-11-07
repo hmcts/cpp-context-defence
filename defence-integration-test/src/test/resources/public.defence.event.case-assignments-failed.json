@@ -1,0 +1,11 @@
+{
+  "assignmentErrors": [
+    {
+      "caseId": "CASE_ID",
+      "errorCode": 4,
+      "failureReason": "USER_NOT_FOUND",
+      "hearingId": "HEARING_ID"
+    }
+  ],
+  "email": "invalidEmail@hmcts.net"
+}

@@ -1,0 +1,14 @@
+{
+  "defendantDetails": {
+    "caseId": "a4391788-f829-4514-a344-61f1d5d9690c",
+    "suspectId": "39a2572c-db47-473d-b1b8-69836ad5da2a",
+    "personId": "a4391788-f829-4514-a344-61f1d5d9690c"
+  },
+  "defenceClientDetails": {
+    "asn": "asn",
+    "bailConditions": "Lorem ipsum dolor sit amet",
+    "bailDate": "2015-02-15",
+    "policeRemandStatus": "Remanded on conditional bail",
+    "policePersonId": "policePersonId"
+  }
+}

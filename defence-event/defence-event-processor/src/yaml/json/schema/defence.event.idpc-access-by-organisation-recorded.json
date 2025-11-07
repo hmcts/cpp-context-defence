@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://cpp.moj.gov.uk/defence/json/schema/event/idpc-access-by-organisation-recorded.json",
+  "type": "object",
+  "properties": {
+    "defenceClientId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "defenceClientSurname": {
+      "type": "string"
+    },
+    "defenceClientOrganisationName": {
+      "type": "string"
+    },
+    "userId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "organisationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "materialId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "accessTimestamp": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date-time"
+    },
+    "caseUrn": {
+       "type": "string"
+    }
+  },
+  "oneOf": [
+    {
+      "required": [
+        "defenceClientId",
+        "defenceClientSurname",
+        "userId",
+        "organisationId",
+        "materialId",
+        "accessTimestamp"
+      ]
+    },
+    {
+      "required": [
+        "defenceClientId",
+        "defenceClientOrganisationName",
+        "userId",
+        "organisationId",
+        "materialId",
+        "accessTimestamp"
+      ]
+    }
+  ]
+}

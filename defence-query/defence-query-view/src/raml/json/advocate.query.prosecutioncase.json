@@ -1,0 +1,497 @@
+{
+  "prosecutionCase": {
+    "cpsOrganisation": "A30AB00",
+    "defendants": [
+      {
+        "courtProceedingsInitiated": "2021-09-15T10:52:00.474Z",
+        "id": "2403d8fe-2a42-4285-8886-5aaa5e4586f9",
+        "masterDefendantId": "2403d8fe-2a42-4285-8886-5aaa5e4586f9",
+        "offences": [
+          {
+            "arrestDate": "2017-12-12",
+            "chargeDate": "2017-12-12",
+            "count": 0,
+            "endorsableFlag": false,
+            "id": "2309b0e2-5503-4afc-96e4-ecb2e37e14a2",
+            "listingNumber": 1,
+            "modeOfTrial": "Summary",
+            "offenceCode": "CA03012",
+            "offenceDateCode": 1,
+            "offenceDefinitionId": "51ed3322-499a-4430-94cc-d52964f108db",
+            "offenceLegislation": "Contrary to section 363(3)(b) and (4) of the    Communications Act 2003.",
+            "offenceTitle": "Possess /    control TV set with intent another use install without a licence",
+            "orderIndex": 1,
+            "startDate": "2017-12-12",
+            "wording": "On Offence 1 TEST  at  TEST  used or threatened unlawful violence towards another and your conduct was such as would cause a person of reasonable firmness present at the scene to fear for his personal safety. Contrary to section 3(1) and (7) of the Public Order Act 1986."
+          },
+          {
+            "arrestDate": "2017-12-12",
+            "chargeDate": "2017-12-12",
+            "count": 0,
+            "endorsableFlag": false,
+            "id": "9bb2e2f1-643f-45e6-b39b-c5be054edbe9",
+            "listingNumber": 1,
+            "modeOfTrial": "Summary",
+            "offenceCode": "CA03012",
+            "offenceDateCode": 1,
+            "offenceDefinitionId": "51ed3322-499a-4430-94cc-d52964f108db",
+            "offenceLegislation": "Contrary to section 363(3)(b) and (4) of the    Communications Act 2003.",
+            "offenceTitle": "Possess /    control TV set with intent another use install without a licence",
+            "orderIndex": 2,
+            "startDate": "2017-12-12",
+            "wording": "On Offence 2 TEST  at  TEST  used or threatened unlawful violence towards another and your conduct was such as would cause a person of reasonable firmness present at the scene to fear for his personal safety. Contrary to section 3(1) and (7) of the Public Order Act 1986."
+          },
+          {
+            "arrestDate": "2016-12-12",
+            "chargeDate": "2016-12-12",
+            "count": 0,
+            "endorsableFlag": false,
+            "id": "b4f8285b-947d-4773-ab71-384a14130842",
+            "listingNumber": 1,
+            "modeOfTrial": "Summary",
+            "offenceCode": "CA03012",
+            "offenceDateCode": 1,
+            "offenceDefinitionId": "51ed3322-499a-4430-94cc-d52964f108db",
+            "offenceLegislation": "Contrary to section 363(3)(b) and (4) of the    Communications Act 2003.",
+            "offenceTitle": "Possess /    control TV set with intent another use install without a licence",
+            "orderIndex": 3,
+            "startDate": "2017-12-12",
+            "wording": "On Offence 3 TEST  at  TEST  used or threatened unlawful violence towards another and your conduct was such as would cause a person of reasonable firmness present at the scene to fear for his personal safety. Contrary to section 3(1) and (7) of the Public Order Act 1986."
+          }
+        ],
+        "personDefendant": {
+          "arrestSummonsNumber": "REF1",
+          "bailStatus": {
+            "code": "C",
+            "description": "Custody",
+            "id": "12e69486-4d01-3403-a50a-7419ca040635"
+          },
+          "personDetails": {
+            "address": {
+              "address1": "783 MALLERTON WAY",
+              "address2": "DUNSTABLE",
+              "postcode": "LN5 5TT"
+            },
+            "contact": {
+              "home": "015324443756"
+            },
+            "dateOfBirth": "1976-03-05",
+            "documentationLanguageNeeds": "ENGLISH",
+            "ethnicity": {
+              "observedEthnicityCode": "1",
+              "observedEthnicityDescription": "White",
+              "observedEthnicityId": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+              "selfDefinedEthnicityCode": "W1",
+              "selfDefinedEthnicityDescription": "British",
+              "selfDefinedEthnicityId": "c4ca4238-a0b9-3382-8dcc-509a6f75849b"
+            },
+            "firstName": "Robert1",
+            "gender": "MALE",
+            "hearingLanguageNeeds": "ENGLISH",
+            "lastName": "Smith1",
+            "occupation": "Accountant",
+            "occupationCode": "2201",
+            "title": "MR"
+          },
+          "policeBailStatus": {
+            "code": "C",
+            "description": "Custody",
+            "id": "12e69486-4d01-3403-a50a-7419ca040635"
+          }
+        },
+        "prosecutionAuthorityReference": "REF1",
+        "prosecutionCaseId": "64b3e0f1-073c-41e6-b194-1036cd361a3d"
+      }
+    ],
+    "id": "64b3e0f1-073c-41e6-b194-1036cd361a3d",
+    "initiationCode": "C",
+    "originatingOrganisation": "0450000",
+    "prosecutionCaseIdentifier": {
+      "address": {
+        "address1": "Surrey Police",
+        "address2": "Mount Browne",
+        "address3": "Sandy Lane",
+        "postcode": "GU3 1HG"
+      },
+      "contact": {
+        "primaryEmail": "mail_data_bureau_res@surrey.pnn.police.uk"
+      },
+      "majorCreditorCode": "PO45",
+      "prosecutionAuthorityCode": "SURRPF",
+      "prosecutionAuthorityId": "764bff92-a135-34cb-b858-8bb6b4b66301",
+      "prosecutionAuthorityName": "Surrey Police",
+      "prosecutionAuthorityOUCode": "0450000",
+      "caseURN": "65GD9454521"
+    },
+    "caseStatus": "ACTIVE"
+  },
+  "linkedApplicationsSummary": [
+    {
+      "applicationId": "c43f404a-9c88-40ff-b36b-ecadebedec18",
+      "applicationTitle": "Application within criminal proceedings",
+      "applicationReference": "65GD9454521",
+      "applicationStatus": "LISTED",
+      "applicantDisplayName": "SURRPF",
+      "respondentDisplayNames": [
+        "Robert1 Smith1"
+      ],
+      "respondentIds": [
+        "2403d8fe-2a42-4285-8886-5aaa5e4586f9"
+      ],
+      "subjectId": "2403d8fe-2a42-4285-8886-5aaa5e4586f9",
+      "isAppeal": false
+    }
+  ],
+  "hearingsAtAGlance": {
+    "courtApplications": [
+      {
+        "applicant": {
+          "id": "55881b2d-6f42-4364-9a55-5575301f4035",
+          "notificationRequired": true,
+          "prosecutingAuthority": {
+            "address": {
+              "address1": "Surrey Police",
+              "address2": "Mount Browne",
+              "address3": "Sandy Lane",
+              "address4": "Guildford",
+              "postcode": "GU3 1HG"
+            },
+            "contact": {
+              "primaryEmail": "mail_data_bureau_res@surrey.pnn.police.uk"
+            },
+            "majorCreditorCode": "PO45",
+            "name": "Surrey Police",
+            "prosecutionAuthorityCode": "SURRPF",
+            "prosecutionAuthorityId": "764bff92-a135-34cb-b858-8bb6b4b66301",
+            "prosecutionAuthorityOUCode": "0450000",
+            "welshName": "Heddlu Surrey"
+          },
+          "summonsRequired": false
+        },
+        "applicationParticulars": "njbkb",
+        "applicationReceivedDate": "2021-04-27",
+        "applicationReference": "65GD9454521",
+        "applicationStatus": "LISTED",
+        "commissionerOfOath": false,
+        "courtApplicationCases": [
+          {
+            "caseStatus": "ACTIVE",
+            "isSJP": false,
+            "prosecutionCaseId": "64b3e0f1-073c-41e6-b194-1036cd361a3d",
+            "prosecutionCaseIdentifier": {
+              "address": {
+                "address1": "Surrey Police",
+                "address2": "Mount Browne",
+                "address3": "Sandy Lane",
+                "postcode": "GU3 1HG"
+              },
+              "contact": {
+                "primaryEmail": "mail_data_bureau_res@surrey.pnn.police.uk"
+              },
+              "majorCreditorCode": "PO45",
+              "prosecutionAuthorityCode": "SURRPF",
+              "prosecutionAuthorityId": "764bff92-a135-34cb-b858-8bb6b4b66301",
+              "prosecutionAuthorityName": "Surrey Police",
+              "prosecutionAuthorityOUCode": "0450000",
+              "caseURN": "65GD9454521"
+            }
+          }
+        ],
+        "id": "c43f404a-9c88-40ff-b36b-ecadebedec18",
+        "respondents": [
+          {
+            "id": "78a95e3a-2569-4981-8703-768b606910be",
+            "masterDefendant": {
+              "defendantCase": [
+                {
+                  "caseId": "64b3e0f1-073c-41e6-b194-1036cd361a3d",
+                  "caseReference": "65GD9454521",
+                  "defendantId": "2403d8fe-2a42-4285-8886-5aaa5e4586f9"
+                }
+              ],
+              "masterDefendantId": "2403d8fe-2a42-4285-8886-5aaa5e4586f9",
+              "personDefendant": {
+                "arrestSummonsNumber": "REF1",
+                "bailStatus": {
+                  "code": "C",
+                  "description": "Custody",
+                  "id": "12e69486-4d01-3403-a50a-7419ca040635"
+                },
+                "personDetails": {
+                  "address": {
+                    "address1": "783 MALLERTON WAY",
+                    "address2": "DUNSTABLE",
+                    "postcode": "LN5 5TT"
+                  },
+                  "contact": {
+                    "home": "015324443756"
+                  },
+                  "dateOfBirth": "1976-03-05",
+                  "documentationLanguageNeeds": "ENGLISH",
+                  "ethnicity": {
+                    "observedEthnicityCode": "1",
+                    "observedEthnicityDescription": "White",
+                    "observedEthnicityId": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+                    "selfDefinedEthnicityCode": "W1",
+                    "selfDefinedEthnicityDescription": "British",
+                    "selfDefinedEthnicityId": "c4ca4238-a0b9-3382-8dcc-509a6f75849b"
+                  },
+                  "firstName": "Robert1",
+                  "gender": "MALE",
+                  "hearingLanguageNeeds": "ENGLISH",
+                  "lastName": "Smith1",
+                  "occupation": "Accountant",
+                  "occupationCode": "2201",
+                  "title": "MR"
+                },
+                "policeBailStatus": {
+                  "code": "C",
+                  "description": "Custody",
+                  "id": "12e69486-4d01-3403-a50a-7419ca040635"
+                }
+              }
+            },
+            "notificationRequired": true,
+            "summonsRequired": false
+          }
+        ],
+        "subject": {
+          "id": "78a95e3a-2569-4981-8703-768b606910be",
+          "masterDefendant": {
+            "defendantCase": [
+              {
+                "caseId": "64b3e0f1-073c-41e6-b194-1036cd361a3d",
+                "caseReference": "65GD9454521",
+                "defendantId": "2403d8fe-2a42-4285-8886-5aaa5e4586f9"
+              }
+            ],
+            "masterDefendantId": "2403d8fe-2a42-4285-8886-5aaa5e4586f9",
+            "personDefendant": {
+              "arrestSummonsNumber": "REF1",
+              "bailStatus": {
+                "code": "C",
+                "description": "Custody",
+                "id": "12e69486-4d01-3403-a50a-7419ca040635"
+              },
+              "personDetails": {
+                "address": {
+                  "address1": "783 MALLERTON WAY",
+                  "address2": "DUNSTABLE",
+                  "postcode": "LN5 5TT"
+                },
+                "contact": {
+                  "home": "015324443756"
+                },
+                "dateOfBirth": "1976-03-05",
+                "documentationLanguageNeeds": "ENGLISH",
+                "ethnicity": {
+                  "observedEthnicityCode": "1",
+                  "observedEthnicityDescription": "White",
+                  "observedEthnicityId": "c4ca4238-a0b9-3382-8dcc-509a6f75849b",
+                  "selfDefinedEthnicityCode": "W1",
+                  "selfDefinedEthnicityDescription": "British",
+                  "selfDefinedEthnicityId": "c4ca4238-a0b9-3382-8dcc-509a6f75849b"
+                },
+                "firstName": "Robert1",
+                "gender": "MALE",
+                "hearingLanguageNeeds": "ENGLISH",
+                "lastName": "Smith1",
+                "occupation": "Accountant",
+                "occupationCode": "2201",
+                "title": "MR"
+              },
+              "policeBailStatus": {
+                "code": "C",
+                "description": "Custody",
+                "id": "12e69486-4d01-3403-a50a-7419ca040635"
+              }
+            }
+          },
+          "notificationRequired": true,
+          "summonsRequired": false
+        },
+        "type": {
+          "appealFlag": false,
+          "applicantAppellantFlag": false,
+          "boxworkNotifTemplate": "NOT_APPLICABLE",
+          "breachType": "NOT_APPLICABLE",
+          "categoryCode": "CO",
+          "code": "AP00501",
+          "commrOfOathFlag": false,
+          "courtExtractAvlFlag": true,
+          "courtOfAppealFlag": false,
+          "hearingCode": "APN",
+          "id": "4e281610-96aa-3711-aecf-59df86b6c6bb",
+          "jurisdiction": "EITHER",
+          "legislation": "Refer to nature of application.",
+          "legislationWelsh": "Cyfeiriwch at natur y cais.",
+          "linkType": "LINKED",
+          "listingNotifTemplate": "POSTAL_NOTIFICATION",
+          "offenceActiveOrder": "OFFENCE",
+          "pleaApplicableFlag": false,
+          "prosecutorThirdPartyFlag": false,
+          "spiOutApplicableFlag": true,
+          "summonsTemplateType": "NOT_APPLICABLE",
+          "type": "Application within criminal proceedings",
+          "typeWelsh": "Cais o fewn achos troseddol"
+        }
+      }
+    ],
+    "defendantHearings": [
+      {
+        "defendantId": "2403d8fe-2a42-4285-8886-5aaa5e4586f9",
+        "defendantName": "Robert1 Smith1",
+        "hearingIds": [
+          "e0e0a949-bec3-4e8a-b82a-43f7a0e033e9"
+        ]
+      }
+    ],
+    "hearings": [
+      {
+        "courtCentre": {
+          "address": {
+            "address1": "The Law Courts",
+            "address2": "Alexandra Road",
+            "address3": "Wimbledon",
+            "address4": "",
+            "address5": "",
+            "postcode": "SW19 7JP"
+          },
+          "code": "B01OK00",
+          "id": "d9bff7d8-6168-4163-ad77-3b98d61de174",
+          "lja": {
+            "ljaCode": "2577",
+            "ljaName": "South West London Magistrates' Court"
+          },
+          "name": "Wimbledon Magistrates' Court",
+          "roomId": "1414ea28-8b0e-3ba7-8f97-f2bb6d5dd38c",
+          "roomName": "Courtroom 05"
+        },
+        "defendants": [
+          {
+            "address": {
+              "address1": "783 MALLERTON WAY",
+              "address2": "DUNSTABLE",
+              "postcode": "LN5 5TT"
+            },
+            "age": "45",
+            "courtApplications": [
+              {
+                "applicant": "SURRPF",
+                "applicationId": "c43f404a-9c88-40ff-b36b-ecadebedec18",
+                "applicationReceivedDate": "2021-04-27",
+                "applicationType": "Application within criminal proceedings",
+                "isAppeal": false,
+                "respondents": [
+                  {
+                    "name": "Robert1 Smith1"
+                  }
+                ]
+              }
+            ],
+            "dateOfBirth": "1976-03-05",
+            "defenceOrganisation": {
+              "defenceCounsels": [],
+              "defendantId": "2403d8fe-2a42-4285-8886-5aaa5e4586f9"
+            },
+            "id": "2403d8fe-2a42-4285-8886-5aaa5e4586f9",
+            "judicialResults": [],
+            "name": "Robert1 Smith1",
+            "offences": [
+              {
+                "count": 0,
+                "id": "2309b0e2-5503-4afc-96e4-ecb2e37e14a2",
+                "judicialResults": [],
+                "offenceCode": "CA03012",
+                "offenceDefinitionId": "51ed3322-499a-4430-94cc-d52964f108db",
+                "offenceLegislation": "Contrary to section 363(3)(b) and (4) of the    Communications Act 2003.",
+                "offenceTitle": "Possess /    control TV set with intent another use install without a licence",
+                "pleas": [],
+                "startDate": "2017-12-12",
+                "verdicts": [],
+                "wording": "On Offence 1 TEST  at  TEST  used or threatened unlawful violence towards another and your conduct was such as would cause a person of reasonable firmness present at the scene to fear for his personal safety. Contrary to section 3(1) and (7) of the Public Order Act 1986."
+              },
+              {
+                "count": 0,
+                "id": "9bb2e2f1-643f-45e6-b39b-c5be054edbe9",
+                "judicialResults": [],
+                "offenceCode": "CA03012",
+                "offenceDefinitionId": "51ed3322-499a-4430-94cc-d52964f108db",
+                "offenceLegislation": "Contrary to section 363(3)(b) and (4) of the    Communications Act 2003.",
+                "offenceTitle": "Possess /    control TV set with intent another use install without a licence",
+                "pleas": [],
+                "startDate": "2017-12-12",
+                "verdicts": [],
+                "wording": "On Offence 2 TEST  at  TEST  used or threatened unlawful violence towards another and your conduct was such as would cause a person of reasonable firmness present at the scene to fear for his personal safety. Contrary to section 3(1) and (7) of the Public Order Act 1986."
+              },
+              {
+                "count": 0,
+                "id": "b4f8285b-947d-4773-ab71-384a14130842",
+                "judicialResults": [],
+                "offenceCode": "CA03012",
+                "offenceDefinitionId": "51ed3322-499a-4430-94cc-d52964f108db",
+                "offenceLegislation": "Contrary to section 363(3)(b) and (4) of the    Communications Act 2003.",
+                "offenceTitle": "Possess /    control TV set with intent another use install without a licence",
+                "pleas": [],
+                "startDate": "2017-12-12",
+                "verdicts": [],
+                "wording": "On Offence 3 TEST  at  TEST  used or threatened unlawful violence towards another and your conduct was such as would cause a person of reasonable firmness present at the scene to fear for his personal safety. Contrary to section 3(1) and (7) of the Public Order Act 1986."
+              }
+            ]
+          }
+        ],
+        "hasResultAmended": false,
+        "hearingDays": [
+          {
+            "courtCentreId": "d9bff7d8-6168-4163-ad77-3b98d61de174",
+            "courtRoomId": "1414ea28-8b0e-3ba7-8f97-f2bb6d5dd38c",
+            "isCancelled": false,
+            "listedDurationMinutes": 20,
+            "listingSequence": 0,
+            "sittingDay": "2021-09-15T09:00:00.000Z"
+          }
+        ],
+        "hearingListingStatus": "HEARING_INITIALISED",
+        "id": "e0e0a949-bec3-4e8a-b82a-43f7a0e033e9",
+        "judiciary": [
+          {
+            "firstName": "Andrew Francis",
+            "isBenchChairman": true,
+            "isDeputy": false,
+            "judicialId": "c873a153-7b49-39e9-901d-8f8a9323e401",
+            "judicialRoleType": {
+              "judicialRoleTypeId": "c873a153-7b49-39e9-901d-8f8a9323e401",
+              "judiciaryType": "District Judge (MC)"
+            },
+            "lastName": "Sweet",
+            "title": ""
+          }
+        ],
+        "jurisdictionType": "MAGISTRATES",
+        "type": {
+          "description": "First hearing",
+          "id": "4a0e892d-c0c5-3c51-95b8-704d8c781776"
+        }
+      }
+    ],
+    "id": "64b3e0f1-073c-41e6-b194-1036cd361a3d",
+    "latestHearingJurisdictionType": "MAGISTRATES",
+    "prosecutionCaseIdentifier": {
+      "address": {
+        "address1": "Surrey Police",
+        "address2": "Mount Browne",
+        "address3": "Sandy Lane",
+        "postcode": "GU3 1HG"
+      },
+      "contact": {
+        "primaryEmail": "mail_data_bureau_res@surrey.pnn.police.uk"
+      },
+      "majorCreditorCode": "PO45",
+      "prosecutionAuthorityCode": "SURRPF",
+      "prosecutionAuthorityId": "764bff92-a135-34cb-b858-8bb6b4b66301",
+      "prosecutionAuthorityName": "Surrey Police",
+      "prosecutionAuthorityOUCode": "0450000",
+      "caseURN": "65GD9454521"
+    }
+  }
+}

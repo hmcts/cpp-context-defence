@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/offence-code",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "cjsoffencecode": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "pnldref": {
+      "type": "string"
+    },
+    "offencestartdate": {
+      "type": "string"
+    },
+    "offenceenddate": {
+      "type": "string"
+    },
+    "standardoffencewording": {
+      "type": "string"
+    },
+    "standardstatementoffacts": {
+      "type": "string"
+    },
+    "welshstandardoffencewording": {
+      "type": "string"
+    },
+    "welshstandardstatementoffacts": {
+      "type": "string"
+    },
+    "policeandcpschargingresponsibilities": {
+      "type": "string"
+    },
+    "timelimitforprosecutions": {
+      "type": "string"
+    },
+    "misCode": {
+      "type": "string"
+    },
+    "maxfinetypemagct": {
+      "type": "string"
+    },
+    "maxfinetypecrownct": {
+      "type": "string"
+    },
+    "legislation": {
+      "type": "string"
+    },
+    "welshOffenceTitle": {
+      "type": "string"
+    },
+    "welshLegislation": {
+      "type": "string"
+    },
+    "libraCategoryCode": {
+      "type": "string"
+    },
+    "custodialIndicatorCode": {
+      "type": "string"
+    },
+    "dateCreated": {
+      "type": "string"
+    },
+    "dateOfLastUpdate": {
+      "type": "string"
+    },
+    "modeoftrial": {
+      "type": "string"
+    },
+    "modeoftrialdescription": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "cjsoffencecode",
+    "title",
+    "legislation",
+    "standardoffencewording"
+  ]
+}

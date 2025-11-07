@@ -1,0 +1,27 @@
+package uk.gov.moj.cpp.defence.command.api.accesscontrol;
+
+import uk.gov.moj.cpp.accesscontrol.drools.Outcome;
+import uk.gov.moj.cpp.accesscontrol.drools.Action;
+import java.util.Arrays;
+import uk.gov.moj.cpp.defence.command.api.accesscontrol.PermissionConstants;
+global uk.gov.moj.cpp.accesscontrol.common.providers.UserAndGroupProvider userAndGroupProvider;
+
+rule "Command - API - Action - defence.add-offence-pleas"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.add-offence-pleas");
+    eval( userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "System Users") ||
+    userAndGroupProvider.hasPermission($action, PermissionConstants.eligibleOnlinePleaPermissions()));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - API - Action - defence.update-offence-pleas"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.update-offence-pleas");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "System Users") ||
+    userAndGroupProvider.hasPermission($action, PermissionConstants.eligibleOnlinePleaPermissions()));
+  then
+    $outcome.setSuccess(true);
+end

@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/case-defendants-with-organisation.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "urn": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/caseURN"
+    },
+    "defendants": {
+      "type": "array",
+      "items": {
+        "id": "http://moj.gov.uk/cpp/defence/common/defendant.json",
+        "type": "object",
+        "properties": {
+          "defendantId": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "associatedOrganisation": {
+            "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+          },
+          "defendantFirstName": {
+            "type": "string"
+          },
+          "defendantLastName": {
+            "type": "string"
+          },
+          "organisationName": {
+            "type" : "string"
+          },
+          "organisationAddress": {
+            "$ref": "http://moj.gov.uk/cpp/defence/address.json"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "defendantId",
+          "associatedOrganisation"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "caseId",
+    "urn",
+    "defendants"
+  ]
+}

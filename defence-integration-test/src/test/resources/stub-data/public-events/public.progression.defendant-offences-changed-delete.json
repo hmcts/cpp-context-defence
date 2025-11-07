@@ -1,0 +1,13 @@
+{
+  "modifiedDate":"2018-03-01",
+  "deletedOffences":[
+    {
+      "defendantId":"DEFENDANT_ID",
+      "prosecutionCaseId":"CASE_ID",
+      "offences":[
+        "OFFENCE_ID1",
+        "OFFENCE_ID2"
+      ]
+    }
+  ]
+}

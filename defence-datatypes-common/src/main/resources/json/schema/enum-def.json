@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/enum-def.json",
+  "definitions": {
+    "representingType": {
+      "id": "http://justice.gov.uk/cps/defence/representingType.json",
+      "type": "string",
+      "enum": [
+        "CPS"
+      ]
+    },
+    "isAdvocateDefendingOrProsecuting": {
+      "id": "http://justice.gov.uk/cps/defence/isAdvocateDefendingOrProsecuting.json",
+      "type": "string",
+      "enum": [
+        "prosecuting",
+        "defending",
+        "both"
+      ]
+    },
+    "yesNoNa": {
+      "id": "http://justice.gov.uk/cps/defence/yes-no-na.json",
+      "type": "string",
+      "enum": ["Y","N","NA"]
+    },
+    "offenceType": {
+      "id": "http://justice.gov.uk/cps/defence/offence-type.json",
+      "type": "string",
+      "enum": [
+        "adultEitherWay",
+        "adultIndictableOnly",
+        "youthGraveCrime"
+      ]
+    }
+  }
+}

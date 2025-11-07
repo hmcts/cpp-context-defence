@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/events/suspect-already-added",
+  "type": "object",
+  "properties": {
+    "defendantDetails": {
+      "$ref":"http://justice.gov.uk/cps/defence/defendant-details.json"
+    }
+  },
+  "required": [
+    "defendantDetails"
+  ]
+}

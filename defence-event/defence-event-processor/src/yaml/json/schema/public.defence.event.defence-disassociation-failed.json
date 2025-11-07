@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/event/processor/public.defence.defence-organisation-disassociation-failed.json",
+  "type": "object",
+  "properties": {
+    "defendantId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "failureReason": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "defendantId",
+    "failureReason"
+  ]
+}

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+    <changeSet id="add-is-group-member-column-to-defence-case" author="M.Duran">
+        <addColumn tableName="defence_case">
+            <column name="is_group_member" type="boolean" defaultValue="false" />
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

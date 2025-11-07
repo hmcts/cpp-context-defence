@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://moj.gov.uk/cpp/defence/query/api/hearing/hearings",
+  "type": "object",
+  "properties": {
+    "hearingSummaries": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "http://moj.gov.uk/cpp/defence/query/hearing/api/hearingSummary.json"
+      }
+    }
+  },
+  "required": [
+    "hearingSummaries"
+  ],
+  "additionalProperties": false
+}
+
+

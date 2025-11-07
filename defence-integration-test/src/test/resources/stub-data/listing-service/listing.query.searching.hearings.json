@@ -1,0 +1,280 @@
+{
+  "hearings": [
+    {
+      "id": "c74192b8-dd4b-4142-871a-c43496fa6896",
+      "type": {
+        "id": "3449743b-95d6-4836-8941-57f588b52068",
+        "description": "Application"
+      },
+      "endDate": "2021-07-09",
+      "allocated": true,
+      "judiciary": [],
+      "startDate": "START_DATE",
+      "courtRoomId": "7cb09222-49e1-3622-a5a6-ad253d2b3c39",
+      "hearingDays": [
+        {
+          "endTime": "2021-07-25T13:30:00.000Z",
+          "sequence": 0,
+          "startTime": "2021-12-22T14:55:05.544Z",
+          "courtRoomId": "7cb09222-49e1-3622-a5a6-ad253d2b3c39",
+          "hearingDate": "2021-07-09",
+          "courtCentreId": "9b583616-049b-30f9-a14f-028a53b7cfe8",
+          "durationMinutes": 180
+        }
+      ],
+      "listedCases": [
+        {
+          "id": "fa29e166-f7d0-4611-b6ce-7c4d713d026d",
+          "markers": [],
+          "defendants": [
+            {
+              "id": "4c86e6a5-c237-410b-ac70-bfb716d99139",
+              "address": {
+                "address1": "Address line 1",
+                "address2": "Address line 2",
+                "address3": "Address line 3",
+                "address4": "Address line 4",
+                "address5": "Candidatown",
+                "postcode": "TW14 9XD"
+              },
+              "isYouth": false,
+              "lastName": "Kertzmann",
+              "offences": [
+                {
+                  "id": "a66f1571-cd83-48cc-a4b3-078b3bacf162",
+                  "endDate": "2021-06-30",
+                  "startDate": "2021-06-02",
+                  "offenceCode": "CA03010",
+                  "shadowListed": false,
+                  "offenceWording": "From 2 June 2021, used a television receiver without a licence.",
+                  "seedingHearing": {
+                    "sittingDay": "2021-07-08",
+                    "jurisdictionType": "MAGISTRATES",
+                    "seedingHearingId": "9083ae1a-0cfb-443f-b6f5-106d4c074bbf"
+                  },
+                  "statementOfOffence": {
+                    "title": "Use / install a television set without a licence",
+                    "welshTitle": "Use / install a television set without a licence",
+                    "legislation": "Contrary to section 363(2) and (4) of the    Communications Act 2003."
+                  },
+                  "restrictFromCourtList": false
+                }
+              ],
+              "firstName": "Karley",
+              "bailStatus": {
+                "id": "86009c70-759d-3308-8de4-194886ff9a77",
+                "code": "A",
+                "description": "Not applicable"
+              },
+              "dateOfBirth": "1995-03-13",
+              "masterDefendantId": "4c86e6a5-c237-410b-ac70-bfb716d99139",
+              "restrictFromCourtList": false,
+              "courtProceedingsInitiated": "2021-07-02T14:54:01.633Z"
+            }
+          ],
+          "shadowListed": false,
+          "caseIdentifier": {
+            "authorityId": "baa2ec52-296b-3f38-922a-9e641c1f94d3",
+            "authorityCode": "CITYPF",
+            "caseReference": "59GD2698021"
+          },
+          "restrictFromCourtList": false
+        }
+      ],
+      "courtCentreId": "9b583616-049b-30f9-a14f-028a53b7cfe8",
+      "isSlotsBooked": false,
+      "nonDefaultDays": [
+        {
+          "roomId": "7cb09222-49e1-3622-a5a6-ad253d2b3c39",
+          "duration": 180,
+          "startTime": "2021-07-09T10:30:00.000Z",
+          "courtCentreId": "9b583616-049b-30f9-a14f-028a53b7cfe8"
+        }
+      ],
+      "nonSittingDays": [],
+      "hearingLanguage": "ENGLISH",
+      "estimatedMinutes": 180,
+      "jurisdictionType": "MAGISTRATES",
+      "adjournedFromDate": "2021-07-08",
+      "courtApplications": [],
+      "courtCentreDetails": {
+        "id": "9b583616-049b-30f9-a14f-028a53b7cfe8",
+        "defaultDuration": 360,
+        "defaultStartTime": "10:30:00"
+      }
+    },
+    {
+      "id": "9083ae1a-0cfb-443f-b6f5-106d4c074bbf",
+      "type": {
+        "id": "4a0e892d-c0c5-3c51-95b8-704d8c781776",
+        "description": "First hearing"
+      },
+      "endDate": "2021-07-10",
+      "allocated": true,
+      "judiciary": [],
+      "startDate": "2021-07-08",
+      "courtRoomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+      "hearingDays": [
+        {
+          "endTime": "2021-07-08T09:20:00.000Z",
+          "sequence": 0,
+          "startTime": "2021-07-08T09:00:00.000Z",
+          "courtRoomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+          "hearingDate": "2021-07-08",
+          "isCancelled": false,
+          "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+          "courtScheduleId": "e148226b-31ac-311b-917a-9130ad39d0a8",
+          "durationMinutes": 20
+        },
+        {
+          "endTime": "2021-07-10T09:20:00.000Z",
+          "sequence": 1,
+          "startTime": "2021-07-10T09:00:00.000Z",
+          "courtRoomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+          "hearingDate": "2021-07-10",
+          "isCancelled": false,
+          "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+          "courtScheduleId": "93bed603-8c7b-3a13-bd31-613c73758ba0",
+          "durationMinutes": 20
+        }
+      ],
+      "listedCases": [
+        {
+          "id": "fa29e166-f7d0-4611-b6ce-7c4d713d026d",
+          "markers": [],
+          "caseStatus": "ACTIVE",
+          "defendants": [
+            {
+              "id": "e3764c3d-3a19-4b1f-a1b9-563c752c16bf",
+              "address": {
+                "address1": "Address line 1",
+                "address2": "Address line 2",
+                "address3": "Address line 3",
+                "address4": "Address line 4",
+                "address5": "Port Cieloport",
+                "postcode": "TW14 9XD"
+              },
+              "isYouth": false,
+              "lastName": "Schneider",
+              "offences": [
+                {
+                  "id": "d7d14e53-2088-4ae1-be23-82c960f658f4",
+                  "endDate": "2021-06-30",
+                  "startDate": "2021-06-02",
+                  "offenceCode": "CA03010",
+                  "shadowListed": false,
+                  "offenceWording": "From 2 June 2021, used a television receiver without a licence.",
+                  "statementOfOffence": {
+                    "title": "Use / install a television set without a licence",
+                    "welshTitle": "Use / install a television set without a licence",
+                    "legislation": "Contrary to section 363(2) and (4) of the    Communications Act 2003."
+                  },
+                  "restrictFromCourtList": false
+                }
+              ],
+              "firstName": "Hattie",
+              "bailStatus": {
+                "id": "12e69486-4d01-3403-a50a-7419ca040635",
+                "code": "C",
+                "description": "Custody or remanded into custody"
+              },
+              "dateOfBirth": "1997-12-25",
+              "masterDefendantId": "e3764c3d-3a19-4b1f-a1b9-563c752c16bf",
+              "hearingLanguageNeeds": "ENGLISH",
+              "proceedingsConcluded": true,
+              "restrictFromCourtList": false,
+              "courtProceedingsInitiated": "2021-07-02T14:54:01.633Z"
+            },
+            {
+              "id": "4c86e6a5-c237-410b-ac70-bfb716d99139",
+              "address": {
+                "address1": "Address line 1",
+                "address2": "Address line 2",
+                "address3": "Address line 3",
+                "address4": "Address line 4",
+                "address5": "Candidatown",
+                "postcode": "TW14 9XD"
+              },
+              "isYouth": false,
+              "lastName": "Kertzmann",
+              "offences": [
+                {
+                  "id": "a66f1571-cd83-48cc-a4b3-078b3bacf162",
+                  "endDate": "2021-06-30",
+                  "startDate": "2021-06-02",
+                  "offenceCode": "CA03010",
+                  "shadowListed": false,
+                  "offenceWording": "From 2 June 2021, used a television receiver without a licence.",
+                  "statementOfOffence": {
+                    "title": "Use / install a television set without a licence",
+                    "welshTitle": "Use / install a television set without a licence",
+                    "legislation": "Contrary to section 363(2) and (4) of the    Communications Act 2003."
+                  },
+                  "restrictFromCourtList": false
+                }
+              ],
+              "firstName": "Karley",
+              "bailStatus": {
+                "id": "12e69486-4d01-3403-a50a-7419ca040635",
+                "code": "C",
+                "description": "Custody or remanded into custody"
+              },
+              "dateOfBirth": "1995-03-13",
+              "masterDefendantId": "4c86e6a5-c237-410b-ac70-bfb716d99139",
+              "hearingLanguageNeeds": "ENGLISH",
+              "proceedingsConcluded": false,
+              "restrictFromCourtList": false,
+              "courtProceedingsInitiated": "2021-07-02T14:54:01.633Z"
+            }
+          ],
+          "shadowListed": false,
+          "caseIdentifier": {
+            "authorityId": "baa2ec52-296b-3f38-922a-9e641c1f94d3",
+            "authorityCode": "CITYPF",
+            "caseReference": "59GD2698021"
+          },
+          "restrictFromCourtList": false
+        }
+      ],
+      "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+      "isSlotsBooked": false,
+      "isVacatedTrial": false,
+      "nonDefaultDays": [
+        {
+          "oucode": "B01LY00",
+          "roomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+          "session": "AD",
+          "duration": 20,
+          "startTime": "2021-07-08T09:00:00.000Z",
+          "courtRoomId": 2330,
+          "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+          "courtScheduleId": "e148226b-31ac-311b-917a-9130ad39d0a8"
+        },
+        {
+          "oucode": "B01LY00",
+          "roomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+          "session": "AD",
+          "duration": 20,
+          "startTime": "2021-07-10T09:00:00.000Z",
+          "courtRoomId": 2330,
+          "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+          "courtScheduleId": "93bed603-8c7b-3a13-bd31-613c73758ba0"
+        }
+      ],
+      "nonSittingDays": [
+        "2021-07-09"
+      ],
+      "publicListNote": "",
+      "hearingLanguage": "ENGLISH",
+      "estimatedMinutes": 20,
+      "jurisdictionType": "MAGISTRATES",
+      "courtApplications": [],
+      "courtCentreDetails": {
+        "id": "67aa82ba-67bb-4699-8176-5f572048352b",
+        "defaultDuration": 420,
+        "defaultStartTime": "10:00:00"
+      },
+      "vacatedTrialReasonId": ""
+    }
+  ]
+}

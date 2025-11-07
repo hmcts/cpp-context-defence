@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="030-defence_case-add-columns-prosecution_authority.xml" author="defence-uplift">
+        <addColumn tableName="defence_case">
+            <column name="prosecution_authority_code" type="TEXT" />
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,79 @@
+subscriptions_descriptor:
+  spec_version: 1.0.0
+  service: defence
+  service_component: EVENT_PROCESSOR
+  subscriptions:
+    - name: public event processor subscription
+      events:
+        - name: public.defence.event.record-instruction-details
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public-record-instruction-details.json
+
+        - name: public.defence.event.idpc-accessed-by-organisation
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public-idpc-accessed-by-organisation.json
+
+        - name: public.defence.defence-organisation-associated
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/public.defence.defence-organisation-associated.json
+
+        - name: public.defence.defence-organisation-disassociated
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/public.defence.defence-organisation-disassociated.json
+
+        - name: public.defence.defence-organisation-association-failed
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/public.defence.defence-organisation-association-failed.json
+
+        - name: public.defence.defence-organisation-disassociation-failed
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/public.defence.defence-organisation-disassociation-failed.json
+
+        - name: public.defence.event.user-not-found
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.user-not-found.json
+
+        - name: public.defence.event.grantee-user-not-in-allowed-groups
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.grantee-user-not-in-allowed-groups.json
+
+        - name: public.defence.event.user-already-granted
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.user-already-granted.json
+
+        - name: public.defence.events.grant-access-failed
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.grant-access-failed.json
+
+        - name: public.defence.event.defence-access-granted
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence-access-granted.json
+
+        - name: public.defence.event.defence-access-grant-removed
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence-access-grant-removed.json
+
+        - name: public.defence.event.case-assigned-to-prosecutor
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.event.case-assigned-to-prosecutor.json
+
+        - name: public.defence.event.case-assignment-to-prosecutor-removed
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.event.case-assignment-to-prosecutor-removed.json
+
+        - name: public.defence.event.cases-assigned-to-prosecutor
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.event.cases-assigned-to-prosecutor.json
+
+        - name: public.defence.event.case-assignments-failed
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.event.case-assignments-failed.json
+
+        - name: public.defence.event.assignee-not-in-allowed-groups
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.assignee-not-in-allowed-groups.json
+
+        - name: public.defence.event.user-already-assigned
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.user-already-assigned.json
+
+        - name: public.defence.event.assignee-for-prosecution-is-defending-case
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.assignee-for-prosecution-is-defending-case.json
+
+        - name: public.defence.event.assignee-for-defence-is-prosecuting-case
+          schema_uri: http://cpp.moj.gov.uk/defence/json/schema/event/public.defence.event.assignee-for-defence-is-prosecuting-case.json
+
+
+        - name: public.defence.allocation-pleas-added
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.allocation-pleas-added.json
+
+        - name: public.defence.allocation-pleas-updated
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.allocation-pleas-updated.json
+
+        - name: public.defence.opa-task-requested
+          schema_uri: http://moj.gov.uk/cpp/defence/events/public.defence.opa-task-requested.json
+
+
+      event_source_name: public.event.source

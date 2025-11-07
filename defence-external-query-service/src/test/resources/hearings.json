@@ -1,0 +1,453 @@
+{
+  "hearings": [
+    {
+      "id": "8e380ecf-1f69-48b9-ad5b-d20cdebabe04",
+      "type": {
+        "id": "bd30a723-a375-3ae9-9332-871724cd8edd",
+        "description": "Appeal"
+      },
+      "allocated": false,
+      "judiciary": [
+      ],
+      "hearingDays": [
+      ],
+      "listedCases": [
+        {
+          "id": "fbff6340-16a8-4754-b5a7-676190bcbb9e",
+          "markers": [
+          ],
+          "caseStatus": "ACTIVE",
+          "defendants": [
+            {
+              "id": "e7a2ceda-682e-4a10-bb48-2a14e4840a8a",
+              "address": {
+                "address1": "SiEfTfv24h",
+                "address2": "Southern House",
+                "address3": "Westmister  Street",
+                "address4": "Croydon",
+                "address5": "London",
+                "postcode": "W1 9XD"
+              },
+              "offences": [
+                {
+                  "id": "9dc1ee0f-00df-4ffc-be9b-c15351953389",
+                  "startDate": "2014-02-09",
+                  "offenceCode": "TW01046",
+                  "shadowListed": false,
+                  "offenceWording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse",
+                  "seedingHearing": {
+                    "sittingDay": "2021-08-08",
+                    "jurisdictionType": "CROWN",
+                    "seedingHearingId": "95993466-cc9c-4a49-8b07-ff477b8d7579"
+                  },
+                  "statementOfOffence": {
+                    "title": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+                    "welshTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+                    "legislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973."
+                  },
+                  "restrictFromCourtList": false
+                }
+              ],
+              "organisationName": "ABC Corp",
+              "masterDefendantId": "e7a2ceda-682e-4a10-bb48-2a14e4840a8a",
+              "proceedingsConcluded": false,
+              "restrictFromCourtList": false,
+              "courtProceedingsInitiated": "2021-07-06T10:56:26.624Z"
+            }
+          ],
+          "shadowListed": false,
+          "caseIdentifier": {
+            "authorityId": "bdc190e7-c939-37ca-be4b-9f615d6ef40e",
+            "authorityCode": "DERPF",
+            "caseReference": "77GD6264421"
+          },
+          "restrictFromCourtList": false
+        }
+      ],
+      "courtCentreId": "9b583616-049b-30f9-a14f-028a53b7cfe8",
+      "isSlotsBooked": false,
+      "nonDefaultDays": [
+      ],
+      "nonSittingDays": [
+      ],
+      "hearingLanguage": "ENGLISH",
+      "estimatedMinutes": 180,
+      "jurisdictionType": "CROWN",
+      "adjournedFromDate": "2021-07-06",
+      "courtApplications": [
+      ],
+      "courtCentreDetails": {
+        "id": "9b583616-049b-30f9-a14f-028a53b7cfe8",
+        "defaultDuration": 360,
+        "defaultStartTime": "10:30:00"
+      },
+      "weekCommencingEndDate": "2021-09-08",
+      "weekCommencingStartDate": "2021-09-01",
+      "weekCommencingDurationInWeeks": 1
+    },
+    {
+      "id": "2858e0bc-8079-484b-8b26-1cd77e2787fb",
+      "type": {
+        "id": "bd30a723-a375-3ae9-9332-871724cd8edd",
+        "description": "Appeal"
+      },
+      "endDate": "2021-08-08",
+      "allocated": true,
+      "judiciary": [
+      ],
+      "startDate": "2021-08-08",
+      "courtRoomId": "731816c1-5ee4-373a-9bda-840e13a5bcb0",
+      "hearingDays": [
+        {
+          "endTime": "2021-08-08T12:30:00.000Z",
+          "sequence": 0,
+          "startTime": "2021-08-08T10:30:00.000Z",
+          "courtRoomId": "731816c1-5ee4-373a-9bda-840e13a5bcb0",
+          "hearingDate": "2021-08-08",
+          "courtCentreId": "07e45c88-9e5d-3e44-b664-d5345bb13be2",
+          "durationMinutes": 120
+        }
+      ],
+      "listedCases": [
+        {
+          "id": "fbff6340-16a8-4754-b5a7-676190bcbb9e",
+          "markers": [
+          ],
+          "defendants": [
+            {
+              "id": "936d134a-f98d-4dda-a178-e84b9ffa458f",
+              "address": {
+                "address1": "SiEfTfv24h",
+                "address2": "56Police House",
+                "address3": "StreetDescription",
+                "address4": "Locality2O",
+                "address5": "TownD",
+                "postcode": "TW14 9XD"
+              },
+              "isYouth": false,
+              "lastName": "Smith",
+              "offences": [
+                {
+                  "id": "08dc34d0-3723-457f-a7ee-c00ef0a53d49",
+                  "startDate": "2004-12-09",
+                  "offenceCode": "TW01040",
+                  "shadowListed": false,
+                  "offenceWording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse",
+                  "seedingHearing": {
+                    "sittingDay": "2021-07-10",
+                    "jurisdictionType": "MAGISTRATES",
+                    "seedingHearingId": "bf7fbe6c-ee5d-40a4-975d-b5bf877e5f46"
+                  },
+                  "statementOfOffence": {
+                    "title": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+                    "welshTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+                    "legislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973."
+                  },
+                  "restrictFromCourtList": false
+                }
+              ],
+              "firstName": "John",
+              "bailStatus": {
+                "id": "86009c70-759d-3308-8de4-194886ff9a77",
+                "code": "A",
+                "description": "Not applicable"
+              },
+              "dateOfBirth": "1941-09-26",
+              "masterDefendantId": "936d134a-f98d-4dda-a178-e84b9ffa458f",
+              "restrictFromCourtList": false,
+              "courtProceedingsInitiated": "2021-07-06T10:56:26.623Z"
+            }
+          ],
+          "shadowListed": false,
+          "caseIdentifier": {
+            "authorityId": "bdc190e7-c939-37ca-be4b-9f615d6ef40e",
+            "authorityCode": "DERPF",
+            "caseReference": "77GD6264421"
+          },
+          "restrictFromCourtList": false
+        }
+      ],
+      "courtCentreId": "07e45c88-9e5d-3e44-b664-d5345bb13be2",
+      "isSlotsBooked": false,
+      "nonDefaultDays": [
+        {
+          "roomId": "731816c1-5ee4-373a-9bda-840e13a5bcb0",
+          "duration": 120,
+          "startTime": "2021-08-08T10:30:00.000Z",
+          "courtCentreId": "07e45c88-9e5d-3e44-b664-d5345bb13be2"
+        }
+      ],
+      "nonSittingDays": [
+      ],
+      "hearingLanguage": "ENGLISH",
+      "estimatedMinutes": 120,
+      "jurisdictionType": "CROWN",
+      "adjournedFromDate": "2021-07-06",
+      "courtApplications": [
+      ],
+      "courtCentreDetails": {
+        "id": "07e45c88-9e5d-3e44-b664-d5345bb13be2",
+        "defaultDuration": 420,
+        "defaultStartTime": "10:00:00"
+      }
+    },
+    {
+      "id": "a0190753-6bc1-49b4-844f-78935d6f3035",
+      "type": {
+        "id": "3449743b-95d6-4836-8941-57f588b52068",
+        "description": "Application"
+      },
+      "endDate": "2021-08-08",
+      "allocated": true,
+      "judiciary": [
+      ],
+      "startDate": "2021-08-08",
+      "courtRoomId": "7cb09222-49e1-3622-a5a6-ad253d2b3c39",
+      "hearingDays": [
+        {
+          "endTime": "2021-08-08T11:30:00.000Z",
+          "sequence": 0,
+          "startTime": "2021-08-08T09:30:00.000Z",
+          "courtRoomId": "7cb09222-49e1-3622-a5a6-ad253d2b3c39",
+          "hearingDate": "2021-08-08",
+          "courtCentreId": "9b583616-049b-30f9-a14f-028a53b7cfe8",
+          "durationMinutes": 120
+        }
+      ],
+      "listedCases": [
+        {
+          "id": "fbff6340-16a8-4754-b5a7-676190bcbb9e",
+          "markers": [
+          ],
+          "defendants": [
+            {
+              "id": "e7a2ceda-682e-4a10-bb48-2a14e4840a8a",
+              "address": {
+                "address1": "SiEfTfv24h",
+                "address2": "Southern House",
+                "address3": "Westmister  Street",
+                "address4": "Croydon",
+                "address5": "London",
+                "postcode": "W1 9XD"
+              },
+              "offences": [
+                {
+                  "id": "9dc1ee0f-00df-4ffc-be9b-c15351953389",
+                  "startDate": "2014-02-09",
+                  "offenceCode": "TW01046",
+                  "shadowListed": false,
+                  "offenceWording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse",
+                  "seedingHearing": {
+                    "sittingDay": "2021-07-10",
+                    "jurisdictionType": "MAGISTRATES",
+                    "seedingHearingId": "bf7fbe6c-ee5d-40a4-975d-b5bf877e5f46"
+                  },
+                  "statementOfOffence": {
+                    "title": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+                    "welshTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+                    "legislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973."
+                  },
+                  "restrictFromCourtList": false
+                }
+              ],
+              "organisationName": "ABC Corp",
+              "masterDefendantId": "e7a2ceda-682e-4a10-bb48-2a14e4840a8a",
+              "restrictFromCourtList": false,
+              "courtProceedingsInitiated": "2021-07-06T10:56:26.624Z"
+            }
+          ],
+          "shadowListed": false,
+          "caseIdentifier": {
+            "authorityId": "bdc190e7-c939-37ca-be4b-9f615d6ef40e",
+            "authorityCode": "DERPF",
+            "caseReference": "77GD6264421"
+          },
+          "restrictFromCourtList": false
+        }
+      ],
+      "courtCentreId": "9b583616-049b-30f9-a14f-028a53b7cfe8",
+      "isSlotsBooked": false,
+      "nonDefaultDays": [
+        {
+          "roomId": "7cb09222-49e1-3622-a5a6-ad253d2b3c39",
+          "duration": 120,
+          "startTime": "2021-08-08T09:30:00.000Z",
+          "courtCentreId": "9b583616-049b-30f9-a14f-028a53b7cfe8"
+        }
+      ],
+      "nonSittingDays": [
+      ],
+      "hearingLanguage": "ENGLISH",
+      "estimatedMinutes": 120,
+      "jurisdictionType": "CROWN",
+      "adjournedFromDate": "2021-07-06",
+      "courtApplications": [
+      ],
+      "courtCentreDetails": {
+        "id": "9b583616-049b-30f9-a14f-028a53b7cfe8",
+        "defaultDuration": 360,
+        "defaultStartTime": "10:30:00"
+      }
+    },
+    {
+      "id": "bf7fbe6c-ee5d-40a4-975d-b5bf877e5f46",
+      "type": {
+        "id": "4a0e892d-c0c5-3c51-95b8-704d8c781776",
+        "description": "First hearing"
+      },
+      "endDate": "2021-07-10",
+      "allocated": true,
+      "judiciary": [
+      ],
+      "startDate": "2021-07-10",
+      "courtRoomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+      "hearingDays": [
+        {
+          "endTime": "2021-07-10T09:21:01.001Z",
+          "sequence": 0,
+          "startTime": "2021-07-10T09:01:01.001Z",
+          "courtRoomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+          "hearingDate": "2021-07-10",
+          "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+          "durationMinutes": 20
+        }
+      ],
+      "listedCases": [
+        {
+          "id": "fbff6340-16a8-4754-b5a7-676190bcbb9e",
+          "markers": [
+          ],
+          "caseStatus": "ACTIVE",
+          "defendants": [
+            {
+              "id": "936d134a-f98d-4dda-a178-e84b9ffa458f",
+              "address": {
+                "address1": "SiEfTfv24h",
+                "address2": "56Police House",
+                "address3": "StreetDescription",
+                "address4": "Locality2O",
+                "address5": "TownD",
+                "postcode": "TW14 9XD"
+              },
+              "isYouth": false,
+              "lastName": "Smith",
+              "offences": [
+                {
+                  "id": "08dc34d0-3723-457f-a7ee-c00ef0a53d49",
+                  "startDate": "2004-12-09",
+                  "offenceCode": "TW01040",
+                  "shadowListed": false,
+                  "offenceWording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse",
+                  "statementOfOffence": {
+                    "title": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+                    "welshTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+                    "legislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973."
+                  },
+                  "restrictFromCourtList": false
+                },
+                {
+                  "id": "c5c1f768-3f05-4812-b7cb-42c448bd9f1f",
+                  "startDate": "2014-02-09",
+                  "offenceCode": "TW01046",
+                  "shadowListed": false,
+                  "offenceWording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse",
+                  "statementOfOffence": {
+                    "title": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+                    "welshTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+                    "legislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973."
+                  },
+                  "restrictFromCourtList": false
+                }
+              ],
+              "firstName": "John",
+              "bailStatus": {
+                "id": "12e69486-4d01-3403-a50a-7419ca040635",
+                "code": "C",
+                "description": "Custody or remanded into custody"
+              },
+              "dateOfBirth": "1941-09-26",
+              "masterDefendantId": "936d134a-f98d-4dda-a178-e84b9ffa458f",
+              "hearingLanguageNeeds": "ENGLISH",
+              "proceedingsConcluded": false,
+              "restrictFromCourtList": false,
+              "courtProceedingsInitiated": "2021-07-06T10:56:26.623Z"
+            },
+            {
+              "id": "e7a2ceda-682e-4a10-bb48-2a14e4840a8a",
+              "address": {
+                "address1": "SiEfTfv24h",
+                "address2": "Southern House",
+                "address3": "Westmister  Street",
+                "address4": "Croydon",
+                "address5": "London",
+                "postcode": "W1 9XD"
+              },
+              "offences": [
+                {
+                  "id": "2a000c6e-a8ce-4056-a788-b431564357ee",
+                  "startDate": "2004-12-09",
+                  "offenceCode": "TW01040",
+                  "shadowListed": false,
+                  "offenceWording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse",
+                  "statementOfOffence": {
+                    "title": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+                    "welshTitle": "Fail to carry an animal on a moving escalator on the Tyne and Wear Metro",
+                    "legislation": "Contrary to byelaw 16(6) and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973."
+                  },
+                  "restrictFromCourtList": false
+                },
+                {
+                  "id": "9dc1ee0f-00df-4ffc-be9b-c15351953389",
+                  "startDate": "2014-02-09",
+                  "offenceCode": "TW01046",
+                  "shadowListed": false,
+                  "offenceWording": "Has a violent past and fear that he will commit further offences and\n                interfere with witnesse",
+                  "statementOfOffence": {
+                    "title": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+                    "welshTitle": "Occupy reserved seat / berth without a valid ticket on the Tyne and Wear Metro",
+                    "legislation": "Contrary to byelaw 19 and 31(1) of the Tyne and Wear Metro Byelaws made under sections 58 and 62 of the Tyneside Metropolitan Railway Act 1973."
+                  },
+                  "restrictFromCourtList": false
+                }
+              ],
+              "organisationName": "ABC Corp",
+              "masterDefendantId": "e7a2ceda-682e-4a10-bb48-2a14e4840a8a",
+              "proceedingsConcluded": false,
+              "restrictFromCourtList": false,
+              "courtProceedingsInitiated": "2021-07-06T10:56:26.624Z"
+            }
+          ],
+          "shadowListed": false,
+          "caseIdentifier": {
+            "authorityId": "bdc190e7-c939-37ca-be4b-9f615d6ef40e",
+            "authorityCode": "DERPF",
+            "caseReference": "77GD6264421"
+          },
+          "restrictFromCourtList": false
+        }
+      ],
+      "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+      "isSlotsBooked": false,
+      "nonDefaultDays": [
+        {
+          "roomId": "9e4932f7-97b2-3010-b942-ddd2624e4dd8",
+          "duration": 20,
+          "startTime": "2021-07-10T09:01:01.001Z",
+          "courtCentreId": "f8254db1-1683-483e-afb3-b87fde5a0a26"
+        }
+      ],
+      "nonSittingDays": [
+      ],
+      "hearingLanguage": "ENGLISH",
+      "estimatedMinutes": 20,
+      "jurisdictionType": "MAGISTRATES",
+      "courtApplications": [
+      ],
+      "courtCentreDetails": {
+        "id": "f8254db1-1683-483e-afb3-b87fde5a0a26",
+        "defaultDuration": 420,
+        "defaultStartTime": "10:00:00"
+      }
+    }
+  ]
+}

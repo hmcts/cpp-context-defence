@@ -1,0 +1,34 @@
+package uk.gov.moj.cpp.defence.command.api.accesscontrol;
+
+import uk.gov.moj.cpp.accesscontrol.drools.Outcome;
+import uk.gov.moj.cpp.accesscontrol.drools.Action;
+import java.util.Arrays;
+
+global uk.gov.moj.cpp.accesscontrol.common.providers.UserAndGroupProvider userAndGroupProvider;
+
+rule "Command - API - Action - defence.record-instruction-details"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.record-instruction-details");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "Chambers Clerk", "Chambers Admin", "Defence Lawyers", "Advocates"));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - API - Action - defence.grant-defence-access"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.grant-defence-access");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "Chambers Clerk", "Chambers Admin", "Defence Lawyers", "Advocates"));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - API - Action - defence.remove-grant-defence-access"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.remove-grant-defence-access");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "Chambers Clerk", "Chambers Admin", "Defence Lawyers", "Advocates"));
+  then
+    $outcome.setSuccess(true);
+end

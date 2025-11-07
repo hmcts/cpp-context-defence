@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "id": "http://moj.gov.uk/cpp/defence/organisation-assignment.json",
+  "type": "object",
+  "properties": {
+    "caseId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assigneeOrganisationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assignorOrganisationId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assigneeOrganisationName": {
+      "type": "string",
+      "description": "Name of an organisation, e.g., Marks and Spencer.",
+      "maxLength": 255
+    },
+    "assignorOrganisationName": {
+      "type": "string",
+      "description": "Name of an organisation, e.g., Marks and Spencer.",
+      "maxLength": 255
+    },
+    "assigneeUserId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assignorUserId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "assignmentExpiryDate": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
+
+
+

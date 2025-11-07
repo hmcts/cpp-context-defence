@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "http://justice.gov.uk/cps/defence/person-details.json",
+  "type": "object",
+  "properties": {
+    "userId": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
+    },
+    "firstName": {
+       "type": "string"
+    },
+    "lastName": {
+       "type": "string"
+    },
+    "dateOfBirth": {
+      "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/date"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "firstName",
+    "lastName"
+  ]
+}

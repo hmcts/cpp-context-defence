@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="006-create-allegation" author="Sachin">
+        <createTable tableName="allegation">
+            <column name="id" type="UUID"/>
+            <column name="defence_client_id" type="UUID"/>
+            <column name="legislation" type="TEXT" />
+            <column name="title" type="TEXT" />
+        </createTable>
+        <createIndex tableName="allegation" indexName="allegation_client_id_idx">
+            <column name="defence_client_id"/>
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>

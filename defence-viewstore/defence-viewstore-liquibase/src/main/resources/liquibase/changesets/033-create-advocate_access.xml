@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
+
+    <changeSet id="033-create-advocate_access" author="Natraj">
+
+        <createTable tableName="assignment_user_details">
+            <column name="id" type="UUID"/>
+            <column name="user_id" type="UUID"/>
+            <column name="first_name" type="TEXT"/>
+            <column name="last_name" type="TEXT"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="id" constraintName="pk_assignment_user_details"
+                       tableName="assignment_user_details"/>
+
+        <createTable tableName="advocate_access">
+            <column name="id" type="UUID"/>
+            <column name="assignor_id" type="UUID"/>
+            <column name="assignor_organisation_id" type="UUID"/>
+            <column name="assignee_id" type="UUID"/>
+            <column name="assignee_organisation_id" type="UUID"/>
+            <column name="case_id" type="UUID"/>
+            <column name="assigned_date" type="DATETIME"/>
+
+            <column name="representation_type" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="representing" type="TEXT"/>
+
+            <column name="removed_date" type="DATETIME"/>
+            <column name="removed_by" type="UUID"/>
+        </createTable>
+
+        <addPrimaryKey columnNames="id" constraintName="pk_advocate_access"
+                       tableName="advocate_access"/>
+
+        <createIndex tableName="advocate_access" indexName="advocate_access_case_id_idx">
+            <column name="case_id"/>
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>
