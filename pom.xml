@@ -10,7 +10,7 @@
 
     <groupId>uk.gov.moj.cpp.defence</groupId>
     <artifactId>defence-parent</artifactId>
-    <version>17.101.10-CIVIL-TOGGLEON-SNAPSHOT</version>
+    <version>17.101.11-CIVIL-TOGGLEON-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
