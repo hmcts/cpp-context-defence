@@ -95,4 +95,13 @@ public class TestUtils {
             publicTopicHelper.sendMessage(publicEventToIssue, stringToJsonObjectConverter.convert(payload));
         }
     }
+
+    public static void postPublicMessageToTopic(final String payload, final String commandName) {
+        final StringToJsonObjectConverter stringToJsonObjectConverter = new StringToJsonObjectConverter();
+
+        try (final JMSTopicHelper publicTopicHelper = new JMSTopicHelper()) {
+            publicTopicHelper.startProducer("public.event");
+            publicTopicHelper.sendMessage(commandName, stringToJsonObjectConverter.convert(payload));
+        }
+    }
 }

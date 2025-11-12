@@ -35,6 +35,7 @@ public class RestQueryUtil {
     private static final String DEFENCE_QUERY_URI_PARAMETERS_FOR_CIVIL = "/defence-query-api/query/api/rest/defence/defenceclient/individual?firstName=%s&lastName=%s&dateOfBirth=%s&hearingDate=%s&urn=%s&isCivil=%s";
     private static final String DEFENCE_QUERY_URI_PARAMETERS_WITHOUT_URN = "/defence-query-api/query/api/rest/defence/defenceclient/individual?firstName=%s&lastName=%s&dateOfBirth=%s&hearingDate=%s";
     private static final String DEFENCE_QUERY_URI_PARAMETERS_WITHOUT_URN_FOR_CIVIL = "/defence-query-api/query/api/rest/defence/defenceclient/individual?firstName=%s&lastName=%s&dateOfBirth=%s&hearingDate=%s&isCivil=%s";
+    private static final String DEFENCE_QUERY_URI_PARAMETERS_WITHOUT_URN_WITHOUT_DOB_FOR_CIVIL = "/defence-query-api/query/api/rest/defence/defenceclient/individual?firstName=%s&lastName=%s&hearingDate=%s&isCivil=%s";
     private static final String DEFENCE_CASE_QUERY_URI_PARAMETERS = "/defence-query-api/query/api/rest/defence/cases/%s/organisations/%s/assignees";
     private static final String DEFENCE_QUERY_API_QUERY_API_REST_DEFENCE_CASE = "/defence-query-api/query/api/rest/defence/case/%s";
 
@@ -62,6 +63,7 @@ public class RestQueryUtil {
 
     private static final String DEFENCE_CASE_QUERY_BY_PERSON_DEFENDANT = "/defence-query-api/query/api/rest/defence/case/person-defendant?firstName=%s&lastName=%s&dateOfBirth=%s";
     private static final String DEFENCE_CASE_QUERY_BY_PERSON_DEFENDANT_FOR_CIVIL = "/defence-query-api/query/api/rest/defence/case/person-defendant?firstName=%s&lastName=%s&dateOfBirth=%s&isCivil=%s&isGroupMember=%s";
+    private static final String DEFENCE_CASE_QUERY_BY_PERSON_DEFENDANT_FOR_CIVIL_WITHOUT_DOB = "/defence-query-api/query/api/rest/defence/case/person-defendant?firstName=%s&lastName=%s&isCivil=%s&isGroupMember=%s";
     private static final String DEFENCE_CASE_QUERY_BY_ORGANISATION_DEFENDANT = "/defence-query-api/query/api/rest/defence/case/organisation-defendant?organisationName=%s";
     private static final String DEFENCE_CASE_QUERY_BY_ORGANISATION_DEFENDANT_FOR_CIVIL = "/defence-query-api/query/api/rest/defence/case/organisation-defendant?organisationName=%s&isCivil=%s&isGroupMember=%s";
 
@@ -72,6 +74,7 @@ public class RestQueryUtil {
     private static final int POLL_INTERVAL_IN_SECONDS = 1;
 
     public static final ResponseStatusMatcher responseMatcher = status().is(Response.Status.OK);
+    public static final ResponseStatusMatcher responseMatcherNotFound = status().is(Response.Status.NOT_FOUND);
     public static final ResponseStatusMatcher forbiddenResponseMatcher = status().is(Response.Status.FORBIDDEN);
 
 
@@ -172,6 +175,16 @@ public class RestQueryUtil {
         return pollDefenceClientWithMatcherForPersonDefendantForCivil(firstName, lastName, dob, hearingDate, userId, payloadMatcher);
     }
 
+    public static ResponseData pollDefenceClientWithoutUrnWithOutDobForCivil(final String firstName, final String lastName, String hearingDate,  final UUID userId) {
+
+        final ResponsePayloadMatcher payloadMatcher = payload()
+                .isJson(
+                        withJsonPath("defendantId", notNullValue())
+                );
+        return pollDefenceClientWithMatcherForPersonDefendantWithOutDobForCivil(firstName, lastName, hearingDate, userId, payloadMatcher);
+    }
+
+
     public static ResponseData pollDefenceClientForOrganisationWithoutUrn(final String organisationName, final String hearingDate, final UUID userId) {
 
         final ResponsePayloadMatcher payloadMatcher = payload()
@@ -181,15 +194,20 @@ public class RestQueryUtil {
         return pollDefenceClientWithMatcherForOrganisationDefendant(organisationName, hearingDate, userId, payloadMatcher);
     }
 
-    public static ResponseData pollDefenceClientForOrganisationWithoutUrnForCivil(final String organisationName, final String hearingDate, final UUID userId) {
+    public static ResponseData pollDefenceClientForOrganisationWithoutUrnForCivil(final String organisationName, final String hearingDate, final UUID userId, final boolean isCivil) {
 
         final ResponsePayloadMatcher payloadMatcher = payload()
                 .isJson(
                         withJsonPath("defendantId", notNullValue())
                 );
-        return pollDefenceClientWithMatcherForOrganisationDefendantForCivil(organisationName, hearingDate, userId, payloadMatcher);
+
+        return pollDefenceClientWithMatcherForOrganisationDefendantForCivil(organisationName, hearingDate, userId, payloadMatcher, isCivil);
     }
 
+    public static ResponseData pollDefenceClientForOrganisationWithoutUrnFor404(final String organisationName, final String hearingDate, final UUID userId, final boolean isCivil) {
+
+        return pollDefenceClientWithMatcherForOrganisationDefendantFor404(organisationName, hearingDate, userId, payload(), isCivil);
+    }
 
     public static ResponseData pollDefenceClientForDefenceClientCountByPerson(final String firstName, final String lastName, final String dob, final String hearingDate, final UUID userId) {
 
@@ -198,6 +216,15 @@ public class RestQueryUtil {
                         withJsonPath("defenceClientCount", notNullValue())
                 );
         return pollDefenceClientWithMatcherForPersonDefendant(firstName, lastName, dob, hearingDate, userId, payloadMatcher);
+    }
+
+    public static ResponseData pollDefenceClientForDefenceClientCountByPersonNoDob(final String firstName, final String lastName, final String hearingDate, final UUID userId) {
+
+        final ResponsePayloadMatcher payloadMatcher = payload()
+                .isJson(
+                        withJsonPath("defenceClientCount", notNullValue())
+                );
+        return pollDefenceClientWithMatcherForPersonDefendantWithOutDobForCivil(firstName, lastName, hearingDate, userId, payloadMatcher);
     }
 
     public static ResponseData pollDefenceClientForDefenceClientCountByOrganisation(final String organisationName, final String hearingDate, final UUID userId) {
@@ -257,6 +284,16 @@ public class RestQueryUtil {
                 responseMatcher, payloadMatcher);
     }
 
+    public static ResponseData pollDefenceClientWithMatcherForPersonDefendantWithOutDobForCivil(final String firstName, final String lastName, final String hearingDate, final UUID userId, final ResponsePayloadMatcher payloadMatcher) {
+        final String queryString = format(DEFENCE_QUERY_URI_PARAMETERS_WITHOUT_URN_WITHOUT_DOB_FOR_CIVIL, firstName, lastName, hearingDate, true);
+
+        return pollForMatchingResponse(
+                getBaseUri() + queryString,
+                DEFENCE_CLIENT_QUERY_MEDIA_TYPE,
+                userId.toString(),
+                responseMatcher, payloadMatcher);
+    }
+
     public static ResponseData pollDefenceClientWithMatcherForOrganisationDefendant(final String organisationName, final String hearingDate, final UUID userId, final ResponsePayloadMatcher payloadMatcher) {
         final String queryString = format(ORGANISATION_DEFENCE_QUERY_URI_PARAMETERS_WITHOUT_URN, organisationName, hearingDate);
 
@@ -267,14 +304,22 @@ public class RestQueryUtil {
                 responseMatcher, payloadMatcher);
     }
 
-    public static ResponseData pollDefenceClientWithMatcherForOrganisationDefendantForCivil(final String organisationName, final String hearingDate, final UUID userId, final ResponsePayloadMatcher payloadMatcher) {
-        final String queryString = format(ORGANISATION_DEFENCE_QUERY_URI_PARAMETERS_WITHOUT_URN_FOR_CIVIL, organisationName, hearingDate, true);
+    public static ResponseData pollDefenceClientWithMatcherForOrganisationDefendantForCivil(final String organisationName, final String hearingDate, final UUID userId, final ResponsePayloadMatcher payloadMatcher, final boolean isCivil) {
+        final String queryString = format(ORGANISATION_DEFENCE_QUERY_URI_PARAMETERS_WITHOUT_URN_FOR_CIVIL, organisationName, hearingDate, isCivil);
 
         return pollForMatchingResponse(
                 getBaseUri() + queryString,
                 DEFENCE_CLIENT_QUERY_MEDIA_TYPE,
-                userId.toString(),
-                responseMatcher, payloadMatcher);
+                userId.toString(), isCivil ? responseMatcher : responseMatcherNotFound, isCivil ? payloadMatcher : payload());
+    }
+
+    public static ResponseData pollDefenceClientWithMatcherForOrganisationDefendantFor404(final String organisationName, final String hearingDate, final UUID userId, final ResponsePayloadMatcher payloadMatcher, final boolean isCivil) {
+        final String queryString = format(ORGANISATION_DEFENCE_QUERY_URI_PARAMETERS_WITHOUT_URN_FOR_CIVIL, organisationName, hearingDate, isCivil);
+
+        return pollForMatchingResponse(
+                getBaseUri() + queryString,
+                DEFENCE_CLIENT_QUERY_MEDIA_TYPE,
+                userId.toString(), responseMatcherNotFound, payloadMatcher);
     }
 
     public static ResponseData pollDefenceOrganisationWithMatcher(final UUID caseId, final UUID userId, final ResponsePayloadMatcher payloadMatcher) {
@@ -402,6 +447,15 @@ public class RestQueryUtil {
         return pollForCaseByPersonDefendantForCivil(firstName, lastName, dob, userId, payloadMatcher);
     }
 
+    public static ResponseData pollCaseByPersonDefendantForCivilWithOutDob(final String firstName, final String lastName, final UUID userId) {
+
+        final ResponsePayloadMatcher payloadMatcher = payload()
+                .isJson(
+                        withJsonPath("caseIds", notNullValue())
+                );
+        return pollForCaseByPersonDefendantForCivilWithoutDob(firstName, lastName, userId, payloadMatcher);
+    }
+
     public static ResponseData pollCaseByOrganisationDefendant(final String organisationName, final UUID userId) {
 
         final ResponsePayloadMatcher payloadMatcher = payload()
@@ -432,6 +486,16 @@ public class RestQueryUtil {
 
     public static ResponseData pollForCaseByPersonDefendantForCivil(final String firstName, final String lastName, final String dob, final UUID userId, final ResponsePayloadMatcher payloadMatcher) {
         final String queryString = format(DEFENCE_CASE_QUERY_BY_PERSON_DEFENDANT_FOR_CIVIL, firstName, lastName, dob, true, false);
+
+        return pollForMatchingResponse(
+                getBaseUri() + queryString,
+                DEFENCE_QUERY_BY_PERSON_DEFENDANT_MEDIA_TYPE,
+                userId.toString(),
+               responseMatcher, payloadMatcher);
+    }
+
+    public static ResponseData pollForCaseByPersonDefendantForCivilWithoutDob(final String firstName, final String lastName, final UUID userId, final ResponsePayloadMatcher payloadMatcher) {
+        final String queryString = format(DEFENCE_CASE_QUERY_BY_PERSON_DEFENDANT_FOR_CIVIL_WITHOUT_DOB, firstName, lastName, true, false);
 
         return pollForMatchingResponse(
                 getBaseUri() + queryString,

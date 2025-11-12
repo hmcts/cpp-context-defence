@@ -1,5 +1,6 @@
 package uk.gov.moj.cpp.defence.query.view;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -39,6 +40,7 @@ import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static java.util.UUID.randomUUID;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -456,6 +458,38 @@ public class DefenceQueryViewTest {
     }
 
     @Test
+    public void shouldReturnIdpcAccessOrganisationAndAssociatedOrganisation_WithIsCivilTrue_DobAbsent() {
+
+        //Given
+        final UUID defenceClientId = randomUUID();
+        final UUID caseId = randomUUID();
+        final UUID defendantid = randomUUID();
+        final UUID associatedOrganisationId = randomUUID();
+        final UUID lastAssociatedOrganisationId = randomUUID();
+        final UUID idpcAccessingOrganisationId_1 = randomUUID();
+        final String fName = "Donald";
+        final String lName = "Knuth";
+        final String urn = "55DP0028117";
+        final String dob = EMPTY;
+        final Optional<Boolean> isCivil = Optional.of(true);
+
+        when(defenceQueryService.getClientAndIDPCAccessOrganisations(fName, lName, dob, urn, isCivil))
+                .thenReturn(stubbedDefenceClientIdpcAccessOrganisationsDetails(defenceClientId, caseId, defendantid, associatedOrganisationId, lastAssociatedOrganisationId, idpcAccessingOrganisationId_1, urn));
+
+        //When
+        final JsonEnvelope clientByCriteria = defenceQueryView.findClientByCriteria(createRequestEnvelopeWithoutDob(isCivil));
+
+        final JsonObject payload = clientByCriteria.asJsonObject();
+        assertThat(payload.getString(DEFENCE_CLIENT_ID), is(defenceClientId.toString()));
+        assertThat(payload.getString(CASE_ID), is(caseId.toString()));
+        assertThat(payload.getString(DEFENDANT_ID), is(defendantid.toString()));
+        assertAssociatedOrgDetails(associatedOrganisationId, payload, ASSOCIATED_ORGANISATION);
+        assertAssociatedOrgDetails(lastAssociatedOrganisationId, payload, LAST_ASSOCIATED_ORGANISATION);
+        final JsonArray idpcAccessingOrganisations = payload.getJsonArray(IDPC_ACCESSING_ORGANISATIONS);
+        assertThat(idpcAccessingOrganisations.size(), is(1));
+    }
+
+    @Test
     public void shouldReturnIdpcAccessOrganisationAndAssociatedOrganisationWhileOnlyOneCaseIsAssociated() {
 
         //Given
@@ -747,6 +781,68 @@ public class DefenceQueryViewTest {
     }
 
     @Test
+    public void shouldGetCasesByPersonDefendantForCivil() {
+        final UUID caseId = randomUUID();
+        final UUID defendantId = randomUUID();
+
+        when(defenceQueryService.getCasesAssociatedWithDefenceClientByPersonDefendant(any(), any(), any(), any(), any())).thenReturn(asList(caseId));
+        when(defenceQueryService.getPersonDefendant(any(), any(), any(), any(), any())).thenReturn(asList(defendantId));
+
+        final JsonEnvelope response = defenceQueryView.getCasesByPersonDefendant(createRequestEnvelopeForCaseByPersonDefendantForCivil());
+
+        final JsonObject payload = response.asJsonObject();
+
+        assertThat(payload.getJsonArray("caseIds").size(), is(1));
+        assertThat(payload.getJsonArray("defendants").size(), is(1));
+
+        final List<UUID> caseIds = payload.getJsonArray("caseIds").stream()
+                .map(JsonString.class::cast)
+                .map(JsonString::getString)
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+
+        final List<UUID> defendants = payload.getJsonArray("defendants").stream()
+                .map(JsonString.class::cast)
+                .map(JsonString::getString)
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+
+        assertThat(caseIds.get(0), is(caseId));
+        assertThat(defendants.get(0), is(defendantId));
+    }
+
+    @Test
+    public void shouldGetCasesByPersonDefendantWithDobForCivil() {
+        final UUID caseId = randomUUID();
+        final UUID defendantId = randomUUID();
+
+        when(defenceQueryService.getCasesAssociatedWithDefenceClientByPersonDefendant(any(), any(), any(), any(), any())).thenReturn(asList(caseId));
+        when(defenceQueryService.getPersonDefendant(any(), any(), any(), any(), any())).thenReturn(asList(defendantId));
+
+        final JsonEnvelope response = defenceQueryView.getCasesByPersonDefendant(createRequestEnvelopeForCaseByPersonDefendantWithoutDobForCivil());
+
+        final JsonObject payload = response.asJsonObject();
+
+        assertThat(payload.getJsonArray("caseIds").size(), is(1));
+        assertThat(payload.getJsonArray("defendants").size(), is(1));
+
+        final List<UUID> caseIds = payload.getJsonArray("caseIds").stream()
+                .map(JsonString.class::cast)
+                .map(JsonString::getString)
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+
+        final List<UUID> defendants = payload.getJsonArray("defendants").stream()
+                .map(JsonString.class::cast)
+                .map(JsonString::getString)
+                .map(UUID::fromString)
+                .collect(Collectors.toList());
+
+        assertThat(caseIds.get(0), is(caseId));
+        assertThat(defendants.get(0), is(defendantId));
+    }
+
+    @Test
     public void shouldGetCasesByOrganisationDefendant() {
         final UUID caseId = randomUUID();
         final UUID defendantId = randomUUID();
@@ -805,6 +901,23 @@ public class DefenceQueryViewTest {
                 .add(FIRST_NAME, "Donald")
                 .add(LAST_NAME, "Knuth")
                 .add(DOB, "1983-04-20")
+                .add(HEARING_DATE, "2022-10-11")
+                .add(URN, "55DP0028117");
+
+        isCivil.ifPresent(aBoolean -> objectBuilder.add(IS_CIVIL, aBoolean));
+
+        return JsonEnvelope.envelopeFrom(JsonEnvelope.metadataBuilder()
+                        .withName("defence.query.defence-client-id")
+                        .withId(randomUUID())
+                        .build(),
+                objectBuilder.build());
+    }
+
+    private JsonEnvelope createRequestEnvelopeWithoutDob(Optional<Boolean> isCivil) {
+
+        JsonObjectBuilder objectBuilder = Json.createObjectBuilder()
+                .add(FIRST_NAME, "Donald")
+                .add(LAST_NAME, "Knuth")
                 .add(HEARING_DATE, "2022-10-11")
                 .add(URN, "55DP0028117");
 
@@ -913,6 +1026,31 @@ public class DefenceQueryViewTest {
                         .add(FIRST_NAME, "Donald")
                         .add(LAST_NAME, "Knuth")
                         .add(DOB, "1983-04-20")
+                        .build());
+    }
+
+    private JsonEnvelope createRequestEnvelopeForCaseByPersonDefendantForCivil() {
+        return JsonEnvelope.envelopeFrom(JsonEnvelope.metadataBuilder()
+                        .withName("defence.query.get-case-by-person-defendant")
+                        .withId(randomUUID())
+                        .build(),
+                Json.createObjectBuilder()
+                        .add(FIRST_NAME, "Donald")
+                        .add(LAST_NAME, "Knuth")
+                        .add(DOB, "1983-04-20")
+                        .add(IS_CIVIL, true)
+                        .build());
+    }
+
+    private JsonEnvelope createRequestEnvelopeForCaseByPersonDefendantWithoutDobForCivil() {
+        return JsonEnvelope.envelopeFrom(JsonEnvelope.metadataBuilder()
+                        .withName("defence.query.get-case-by-person-defendant")
+                        .withId(randomUUID())
+                        .build(),
+                Json.createObjectBuilder()
+                        .add(FIRST_NAME, "Donald")
+                        .add(LAST_NAME, "Knuth")
+                        .add(IS_CIVIL, true)
                         .build());
     }
 

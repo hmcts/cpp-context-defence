@@ -452,6 +452,10 @@ public class CpsCaseAccessQueryApi {
                         .withCaseURN(prosecutioncaseCaag.getCaseDetails().getCaseURN())
                         .withInitiationCode(prosecutioncaseCaag.getCaseDetails().getInitiationCode())
                         .withRemovalReason(prosecutioncaseCaag.getCaseDetails().getRemovalReason())
+                        .withIsCivil(prosecutioncaseCaag.getCaseDetails().getIsCivil())
+                        .withGroupId(prosecutioncaseCaag.getCaseDetails().getGroupId())
+                        .withIsGroupMaster(prosecutioncaseCaag.getCaseDetails().getIsGroupMaster())
+                        .withIsGroupMember(prosecutioncaseCaag.getCaseDetails().getIsGroupMember())
                         .build())
                 .build();
     }
