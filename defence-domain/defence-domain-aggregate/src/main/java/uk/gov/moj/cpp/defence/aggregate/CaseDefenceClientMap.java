@@ -1,6 +1,7 @@
 package uk.gov.moj.cpp.defence.aggregate;
 
 import static java.util.stream.Stream.of;
+import static uk.gov.justice.cps.defence.DefendantDetails.defendantDetails;
 import static uk.gov.justice.cps.defence.DuplicateDefendantReceivedAgainstADefenceClient.duplicateDefendantReceivedAgainstADefenceClient;
 import static uk.gov.justice.domain.aggregate.matcher.EventSwitcher.match;
 import static uk.gov.justice.domain.aggregate.matcher.EventSwitcher.otherwiseDoNothing;
@@ -30,6 +31,7 @@ public class CaseDefenceClientMap implements Aggregate {
     private final Set<UUID> defendants = new HashSet();
     private UUID caseId;
     private String urn;
+    private Boolean isCivil;
 
     public Stream<Object> receiveDetails(final UUID caseId, final String urn, final String prosecutingAuthority, final Boolean isCivil, final Boolean isGroupMember) {
 
@@ -49,7 +51,10 @@ public class CaseDefenceClientMap implements Aggregate {
             //Duplicate defendant id.ignore
             return apply(
                     of(duplicateDefendantReceivedAgainstADefenceClient()
-                            .withDefendantDetails(defendantDetails)
+                            .withDefendantDetails(defendantDetails()
+                                    .withValuesFrom(defendantDetails)
+                                    .withIsCivil(isCivil)
+                                    .build())
                             .withPoliceDefendantId(policeDefendantId)
                             .withDuplicateDefendantId(defendantId)
                             .build()));
@@ -63,7 +68,10 @@ public class CaseDefenceClientMap implements Aggregate {
             defenceClientId = defendantId;
             final DefenceClientMappedToACase defenceClientMappedToACase = DefenceClientMappedToACase.defenceClientMappedToACase()
                     .withDefenceClientId(defenceClientId)
-                    .withDefendantDetails(defendantDetails)
+                    .withDefendantDetails(defendantDetails()
+                            .withValuesFrom(defendantDetails)
+                            .withIsCivil(isCivil)
+                            .build())
                     .withDefenceClientDetails(DefenceClientDetails.defenceClientDetails().build())
                     .withUrn(urn)
                     .withDefendantId(defendantId)
@@ -75,7 +83,10 @@ public class CaseDefenceClientMap implements Aggregate {
 
         streamBuilder.add(DefendantAdded.defendantAdded()
                 .withDefenceClientId(defenceClientId)
-                .withDefendantDetails(defendantDetails)
+                .withDefendantDetails(defendantDetails()
+                        .withValuesFrom(defendantDetails)
+                        .withIsCivil(isCivil)
+                        .build())
                 .withDefendantId(defendantId)
                 .withOffences(offences)
                 .withPoliceDefendantId(policeDefendantId)
@@ -103,10 +114,6 @@ public class CaseDefenceClientMap implements Aggregate {
                         .apply(suspectAlreadyAdded -> {
                             //do nothing
                         }),
-                when(SuspectAlreadyAdded.class)
-                        .apply(suspectAlreadyAdded -> {
-                            //do nothing
-                        }),
                 when(DuplicateDefendantReceivedAgainstADefenceClient.class)
                         .apply(duplicateDefendantReceivedAgainstADefenceClient -> {
                             //do nothing
@@ -115,11 +122,15 @@ public class CaseDefenceClientMap implements Aggregate {
                         .apply(x -> {
                             this.caseId = x.getCaseId();
                             this.urn = x.getUrn();
+                            this.isCivil = x.getIsCivil();
                         }),
                 otherwiseDoNothing());
     }
 
     public UUID getCaseId() {
         return caseId;
+    }
+    public Boolean getIsCivil() {
+        return isCivil;
     }
 }

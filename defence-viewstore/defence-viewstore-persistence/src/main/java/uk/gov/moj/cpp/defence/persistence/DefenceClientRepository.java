@@ -29,6 +29,13 @@ public interface DefenceClientRepository extends EntityRepository<DefenceClient,
                                                     @QueryParam("ptiUrn") final String ptiUrn,
                                                     @QueryParam("isCivil") final boolean isCivil);
 
+    @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and "
+            + "c.urn = :ptiUrn and dc.visible = true and c.isCivil = :isCivil")
+    List<DefenceClient> findDefenceClientByCriteriaWithOutDob(@QueryParam("firstName") final String firstName,
+                                                    @QueryParam("lastName") final String lastName,
+                                                    @QueryParam("ptiUrn") final String ptiUrn,
+                                                    @QueryParam("isCivil") final boolean isCivil);
+
     @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON  c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
             + "dc.dateOfBirth = :dateOfBirth and dc.visible = true")
     List<DefenceClient> findDefenceClientByCriteria(@QueryParam("firstName") final String firstName,
@@ -40,6 +47,12 @@ public interface DefenceClientRepository extends EntityRepository<DefenceClient,
     List<DefenceClient> findDefenceClientByCriteria(@QueryParam("firstName") final String firstName,
                                                     @QueryParam("lastName") final String lastName,
                                                     @QueryParam("dateOfBirth") final LocalDate dateOfBirth,
+                                                    @QueryParam("isCivil") final boolean isCivil);
+
+    @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON  c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and "
+            + "dc.visible = true and c.isCivil = :isCivil")
+    List<DefenceClient> findDefenceClientByCriteriaWithOutDob(@QueryParam("firstName") final String firstName,
+                                                    @QueryParam("lastName") final String lastName,
                                                     @QueryParam("isCivil") final boolean isCivil);
 
     @Query(value = "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName)  and upper(c.urn) = upper(:ptiUrn) and"
@@ -86,6 +99,13 @@ public interface DefenceClientRepository extends EntityRepository<DefenceClient,
                                                                      @QueryParam("isCivil") final boolean isCivil,
                                                                      @QueryParam("isGroupMember") final boolean isGroupMember);
 
+    @Query(value = "SELECT DISTINCT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and "
+            + "dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember")
+    List<UUID> findCasesAssociatedWithDefenceClientByPersonDefendantWithoutDob(@QueryParam("firstName") final String firstName,
+                                                                     @QueryParam("lastName") final String lastName,
+                                                                     @QueryParam("isCivil") final boolean isCivil,
+                                                                     @QueryParam("isGroupMember") final boolean isGroupMember);
+
 
     @Query(value = "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and"
             + " dc.visible = true and dc.caseId = c.id")
@@ -111,6 +131,13 @@ public interface DefenceClientRepository extends EntityRepository<DefenceClient,
                                   @QueryParam("dateOfBirth") final LocalDate dateOfBirth,
                                   @QueryParam("isCivil") final boolean isCivil,
                                   @QueryParam("isGroupMember") final boolean isGroupMember);
+
+    @Query(value = "SELECT dc.defendantId FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and "
+            + "c.isCivil = :isCivil and c.isGroupMember = :isGroupMember")
+    List<UUID> getPersonDefendantWithOutDob(@QueryParam("firstName") final String firstName,
+                                            @QueryParam("lastName") final String lastName,
+                                            @QueryParam("isCivil") final boolean isCivil,
+                                            @QueryParam("isGroupMember") final boolean isGroupMember);
 
 
     @Query(value = "SELECT dc.defendantId FROM DefenceClient dc WHERE upper(dc.organisationName) = upper(:organisationName)")

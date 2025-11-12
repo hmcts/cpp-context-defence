@@ -69,4 +69,54 @@ public class DefenceQueryApiValidationTest {
         var e = assertThrows(BadRequestException.class, () -> defenceQueryApi.findClientByCriteria(query));
         assertThat(e.getMessage(), is("Invalid date format. Input date string: 1978-02-xx"));
     }
+
+    @Test
+    public void shouldThrowBadRequestExceptionWhenDateOfBirthIsOptionalForNonCivilCase() {
+        final JsonObject requestPayload = Json.createObjectBuilder()
+                .add(FIRST_NAME, "John")
+                .add(LAST_NAME, "Smith")
+                .add(URN, "55DP00281XX")
+                .build();
+        when(query.payloadAsJsonObject()).thenReturn(requestPayload);
+        var e = assertThrows(BadRequestException.class, () -> defenceQueryApi.findClientByCriteria(query));
+        assertThat(e.getMessage(), is("Invalid date format. Input date string: "));
+    }
+
+    @Test
+    public void shouldThrowBadRequestExceptionWhenDateOfBirthIsWrongFormatPresentForCivilCase() {
+        final JsonObject requestPayload = Json.createObjectBuilder().add(DOB, "1978-02-xx")
+                .add(FIRST_NAME, "John")
+                .add(LAST_NAME, "Smith")
+                .add(URN, "55DP00281XX")
+                .add(IS_CIVIL, true)
+                .build();
+        when(query.payloadAsJsonObject()).thenReturn(requestPayload);
+        var e = assertThrows(BadRequestException.class, () -> defenceQueryApi.findClientByCriteria(query));
+        assertThat(e.getMessage(), is("Invalid date format. Input date string: 1978-02-xx"));
+    }
+
+    @Test
+    public void shouldThrowBadRequestExceptionWhenDateOfBirthIsWrongFormatPresentForCivilCase_CasesByPersonDefendant() {
+        final JsonObject requestPayload = Json.createObjectBuilder().add(DOB, "1978-02-xx")
+                .add(FIRST_NAME, "John")
+                .add(LAST_NAME, "Smith")
+                .add(URN, "55DP00281XX")
+                .add(IS_CIVIL, true)
+                .build();
+        when(query.payloadAsJsonObject()).thenReturn(requestPayload);
+        var e = assertThrows(BadRequestException.class, () -> defenceQueryApi.getCasesByPersonDefendant(query));
+        assertThat(e.getMessage(), is("Invalid date format. Input date string: 1978-02-xx"));
+    }
+
+    @Test
+    public void shouldThrowBadRequestExceptionWhenDateOfBirthIsOptionalForNonCivilCase_CasesByPersonDefendant() {
+        final JsonObject requestPayload = Json.createObjectBuilder()
+                .add(FIRST_NAME, "John")
+                .add(LAST_NAME, "Smith")
+                .add(URN, "55DP00281XX")
+                .build();
+        when(query.payloadAsJsonObject()).thenReturn(requestPayload);
+        var e = assertThrows(BadRequestException.class, () -> defenceQueryApi.getCasesByPersonDefendant(query));
+        assertThat(e.getMessage(), is("Invalid date format. Input date string: "));
+    }
 }

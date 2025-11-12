@@ -1,5 +1,7 @@
 package uk.gov.moj.cpp.defence.service.referencedata;
 
+import static java.lang.Boolean.TRUE;
+
 import uk.gov.justice.cps.defence.Offence;
 import uk.gov.justice.cps.defence.OffenceCodeReferenceData;
 import uk.gov.justice.cps.defence.ReferenceDataOffencesListRequest;
@@ -27,11 +29,11 @@ public class ReferenceDataService {
     @Inject
     GenericEnveloper genericEnveloper;
 
-    public List<OffenceCodeReferenceData> retrieveReferenceDataForOffences(final List<Offence> offenceList, final Metadata metadata) {
+    public List<OffenceCodeReferenceData> retrieveReferenceDataForOffences(final List<Offence> offenceList, final Metadata metadata, final Boolean isCaseCivil) {
 
         return offenceList.stream()
                 .map(offence -> {
-                    final Offences refDataOffences = getRefDataOffences(offence.getCjsCode(),offence.getStartDate(),metadata);
+                    final Offences refDataOffences = getRefDataOffences(offence.getCjsCode(),offence.getStartDate(),metadata,  isCaseCivil);
 
                     final English english = refDataOffences
                             .getDetails()
@@ -47,13 +49,17 @@ public class ReferenceDataService {
                 }).collect(Collectors.toList());
     }
 
-    public Offences getRefDataOffences(final String cjsCode, final String startDate, final Metadata metadata){
-        final ReferenceDataOffencesListRequest request = ReferenceDataOffencesListRequest.referenceDataOffencesListRequest()
+    public Offences getRefDataOffences(final String cjsCode, final String startDate, final Metadata metadata, final Boolean isCaseCivil){
+        final ReferenceDataOffencesListRequest.Builder requestBuilder = ReferenceDataOffencesListRequest.referenceDataOffencesListRequest()
                 .withCjsoffencecode(cjsCode)
                 .withDate(startDate)
-                .build();
+                ;
 
-        final Envelope envelope = genericEnveloper.envelopeWithNewActionName(request, metadata, "referencedataoffences.query.offences-list");
+        if(TRUE.equals(isCaseCivil)){
+            requestBuilder.withSowRef("moj");
+        }
+
+        final Envelope envelope = genericEnveloper.envelopeWithNewActionName(requestBuilder.build(), metadata, "referencedataoffences.query.offences-list");
         final Envelope<OffencesList> response = requester.request(envelope, OffencesList.class);
         final OffencesList refDataOffencesList = response.payload();
 

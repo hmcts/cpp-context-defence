@@ -17,6 +17,5 @@ public class DateValidator {
         } catch (DateTimeParseException e) {
             throw new BadRequestException("Invalid date format. Input date string: " + dateString, e);
         }
-
     }
 }

@@ -478,6 +478,118 @@
           }
         }
       }
+    },
+    "SubMenuOptionsType": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "Min": {
+          "type": "string"
+        },
+        "Max": {
+          "type": "string"
+        },
+        "EntryFormat": {
+          "type": "string"
+        },
+        "EntryPrompt": {
+          "type": "string"
+        },
+        "OMOP_ID": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "OptionNumberType": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "OptionText": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        },
+        "OmoId": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        },
+        "SubMenuOptions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SubMenuOptionsType"
+          },
+          "minItems": 0
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "MenuOptionType": {
+      "type": "object",
+      "properties": {
+        "OptionNumber": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionNumberType"
+          },
+          "minItems": 0
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "OffenceTerminalEntryType": {
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "properties": {
+        "OteNumber": {
+          "type": "string"
+        },
+        "Min": {
+          "type": "string"
+        },
+        "Max": {
+          "type": "string"
+        },
+        "EntryFormat": {
+          "type": "string"
+        },
+        "EntryPrompt": {
+          "type": "string"
+        },
+        "StandardEntryIdentifier": {
+          "type": "string"
+        },
+        "OteId": {
+          "type": "string"
+        },
+        "MenuOption": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MenuOptionType"
+          },
+          "minItems": 0
+        },
+        "value": {
+          "type": "string"
+        }
+      }
     }
   },
   "properties": {
@@ -492,7 +604,13 @@
           "cjsOffenceCode": {
             "type": "string"
           },
+          "legislation": {
+            "type": "string"
+          },
           "modeOfTrial": {
+            "type": "string"
+          },
+          "title": {
             "type": "string"
           },
           "validFrom": {
@@ -509,6 +627,13 @@
           },
           "details": {
             "$ref": "#/definitions/details"
+          },
+          "terminalEntry": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/OffenceTerminalEntryType"
+            },
+            "minItems": 0
           }
         },
         "additionalProperties": true,

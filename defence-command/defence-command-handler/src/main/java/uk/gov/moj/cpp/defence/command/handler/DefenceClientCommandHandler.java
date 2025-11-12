@@ -1,8 +1,10 @@
 package uk.gov.moj.cpp.defence.command.handler;
 
 import static java.time.LocalDate.parse;
+import static java.util.Objects.nonNull;
 import static java.util.UUID.fromString;
 import static java.util.UUID.randomUUID;
+import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static uk.gov.justice.cps.defence.OffenceCode.offenceCode;
 import static uk.gov.moj.cpp.defence.command.util.EventStreamAppender.appendEventsToStream;
 
@@ -30,8 +32,6 @@ import uk.gov.moj.cpp.defence.event.listener.events.AddedOffences;
 import uk.gov.moj.cpp.defence.event.listener.events.DeletedOffences;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
 import uk.gov.moj.cpp.defence.service.referencedata.ReferenceDataService;
-import uk.gov.moj.cpp.referencedata.query.English;
-
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,20 +75,24 @@ public class DefenceClientCommandHandler {
 
 
         final AtomicReference<UUID> defenceClientIdAtomicReference = new AtomicReference<>();
+        setDefenceClientIdAtomicReference(defenceClientIdAtomicReference, updateDefendantOffences);
+
+        final EventStream defendantEventStream = eventSource.getStreamById(defenceClientIdAtomicReference.get());
+        final DefenceClient defenceClientAggregate = aggregateService.get(defendantEventStream, DefenceClient.class);
 
         List<uk.gov.moj.cpp.defence.event.listener.events.AddedOffences> addedOffenceList = null;
         List<uk.gov.moj.cpp.defence.event.listener.events.DeletedOffences> deletedOffenceList = null;
 
-        addedOffenceList = getAddedOffences(envelope, updateDefendantOffences, defenceClientIdAtomicReference);
+        addedOffenceList = getAddedOffences(envelope, updateDefendantOffences, defenceClientAggregate.getIsCivil(), defenceClientIdAtomicReference);
         LOGGER.info("Inside addedOffenceList={}", addedOffenceList);
-        deletedOffenceList = getDeletedOffences(updateDefendantOffences, defenceClientIdAtomicReference);
+        deletedOffenceList = getDeletedOffences(updateDefendantOffences, defenceClientAggregate.getIsCivil(), defenceClientIdAtomicReference);
         LOGGER.info("Inside deletedOffenceList={}", deletedOffenceList);
         if (updateDefendantOffences.getUpdatedOffences() != null) {
-
+            final Boolean isCivil = defenceClientAggregate.getIsCivil();
             final List<uk.gov.moj.cpp.defence.event.listener.events.AddedOffences> addedOffenceUpdateList = updateDefendantOffences.getUpdatedOffences().stream()
                     .map(updatedOffences -> {
 
-                        final List<uk.gov.justice.cps.defence.Offence> offenceList = getOffenceList(updatedOffences.getOffences(), envelope);
+                        final List<uk.gov.justice.cps.defence.Offence> offenceList = getOffenceList(updatedOffences.getOffences(), envelope, isCivil);
 
                         defenceClientIdAtomicReference.set(updatedOffences.getDefendantId());
                         return AddedOffences.addedOffences()
@@ -96,6 +100,7 @@ public class DefenceClientCommandHandler {
                                 .withDefenceClientId(updatedOffences.getDefendantId())
                                 .withDefendantId(updatedOffences.getDefendantId())
                                 .withProsecutionCaseId(updatedOffences.getProsecutionCaseId())
+                                .withIsCivil(isCivil)
                                 .build();
 
                     }).collect(Collectors.toList());
@@ -106,13 +111,14 @@ public class DefenceClientCommandHandler {
             final List<uk.gov.moj.cpp.defence.event.listener.events.DeletedOffences> deletedOffenceUpdateList = updateDefendantOffences.getUpdatedOffences().stream()
                     .map(deletedOffence -> {
 
-                                final List<uk.gov.justice.cps.defence.Offence> offenceList = getOffenceList(deletedOffence.getOffences(), envelope);
+                                final List<uk.gov.justice.cps.defence.Offence> offenceList = getOffenceList(deletedOffence.getOffences(), envelope, defenceClientAggregate.getIsCivil());
 
                                 return uk.gov.moj.cpp.defence.event.listener.events.DeletedOffences.deletedOffences()
                                         .withDefenceClientId(deletedOffence.getDefendantId())
                                         .withDefendantId(deletedOffence.getDefendantId())
                                         .withOffences(offenceList.stream().map(uk.gov.justice.cps.defence.Offence::getId).collect(Collectors.toList()))
                                         .withProsecutionCaseId(deletedOffence.getProsecutionCaseId())
+                                        .withIsCivil(isCivil)
                                         .build();
                             }
                     ).collect(Collectors.toList());
@@ -120,75 +126,122 @@ public class DefenceClientCommandHandler {
             deletedOffenceList.addAll(deletedOffenceUpdateList);
         }
 
-        final EventStream defendantEventStream = eventSource.getStreamById(defenceClientIdAtomicReference.get());
-        final DefenceClient defenceClientAggregate = aggregateService.get(defendantEventStream, DefenceClient.class);
-
         final Stream<Object> events = defenceClientAggregate.receiveUpdateOffences(parse(updateDefendantOffences.getModifiedDate()), addedOffenceList, deletedOffenceList);
 
         appendEventsToStream(envelope, defendantEventStream, events);
 
     }
 
-    private List<DeletedOffences> getDeletedOffences(final UpdateDefendantOffences updateDefendantOffences, final AtomicReference<UUID> defenceClientIdAtomicReference) {
+
+
+    private void setDefenceClientIdAtomicReference(final AtomicReference<UUID> defenceClientIdAtomicReference, final UpdateDefendantOffences updateDefendantOffences) {
+
+        setDefenceClientIdAtomicReferenceFromAddedOffences(defenceClientIdAtomicReference, updateDefendantOffences.getAddedOffences());
+
+        if (nonNull(defenceClientIdAtomicReference.get())) {
+            return;
+        }
+
+        setDefenceClientIdAtomicReferenceFromUpdatedOffences(defenceClientIdAtomicReference, updateDefendantOffences.getUpdatedOffences());
+
+        if (nonNull(defenceClientIdAtomicReference.get())) {
+            return;
+        }
+        setDefenceClientIdAtomicReferenceFromDeletedOffences(defenceClientIdAtomicReference, updateDefendantOffences.getDeletedOffences());
+    }
+
+    private static void setDefenceClientIdAtomicReferenceFromDeletedOffences(final AtomicReference<UUID> defenceClientIdAtomicReference, final List<uk.gov.moj.cpp.defence.commands.DeletedOffences> deletedOffencesList) {
+        if (isNotEmpty(deletedOffencesList)) {
+            for (uk.gov.moj.cpp.defence.commands.DeletedOffences deletedOffences : deletedOffencesList) {
+                if (nonNull(defenceClientIdAtomicReference.get())) {
+                    return;
+                } else {
+                    defenceClientIdAtomicReference.set(deletedOffences.getDefendantId());
+                }
+            }
+
+        }
+    }
+
+    private static void setDefenceClientIdAtomicReferenceFromUpdatedOffences(final AtomicReference<UUID> defenceClientIdAtomicReference, final List<uk.gov.moj.cpp.defence.commands.UpdatedOffences> updatedOffencesList) {
+        if (isNotEmpty(updatedOffencesList)) {
+            for (uk.gov.moj.cpp.defence.commands.UpdatedOffences updatedOffences : updatedOffencesList) {
+                if (nonNull(defenceClientIdAtomicReference.get())) {
+                    return;
+                } else {
+                    defenceClientIdAtomicReference.set(updatedOffences.getDefendantId());
+                }
+            }
+        }
+    }
+
+    private static void setDefenceClientIdAtomicReferenceFromAddedOffences(final AtomicReference<UUID> defenceClientIdAtomicReference, final List<uk.gov.moj.cpp.defence.commands.AddedOffences> addedOffencesList) {
+        if (isNotEmpty(addedOffencesList)) {
+            for (uk.gov.moj.cpp.defence.commands.AddedOffences addedOffences : addedOffencesList) {
+                if (nonNull(defenceClientIdAtomicReference.get())) {
+                    return;
+                } else {
+                    defenceClientIdAtomicReference.set(addedOffences.getDefendantId());
+                }
+            }
+        }
+    }
+
+    private List<DeletedOffences> getDeletedOffences(final UpdateDefendantOffences updateDefendantOffences, final Boolean isCivil, final AtomicReference<UUID> defenceClientIdAtomicReference) {
         if (updateDefendantOffences.getDeletedOffences() != null) {
 
             return updateDefendantOffences.getDeletedOffences().stream()
                     .map(deletedOffence -> {
+                        if (defenceClientIdAtomicReference.get() == null) {
+                            defenceClientIdAtomicReference.set(deletedOffence.getDefendantId());
 
-                                if (defenceClientIdAtomicReference.get() == null) {
-                                    defenceClientIdAtomicReference.set(deletedOffence.getDefendantId());
-                                }
-
-                                return DeletedOffences.deletedOffences()
-                                        .withDefenceClientId(deletedOffence.getDefendantId())
-                                        .withDefendantId(deletedOffence.getDefendantId())
-                                        .withOffences(deletedOffence.getOffences())
-                                        .withProsecutionCaseId(deletedOffence.getProsecutionCaseId())
-                                        .build();
-                            }
-                    ).collect(Collectors.toList());
+                        }
+                        return DeletedOffences.deletedOffences()
+                                .withDefenceClientId(deletedOffence.getDefendantId())
+                                .withDefendantId(deletedOffence.getDefendantId())
+                                .withOffences(deletedOffence.getOffences())
+                                .withProsecutionCaseId(deletedOffence.getProsecutionCaseId())
+                                .withIsCivil(isCivil)
+                                .build();
+                    }).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
 
-    private List<AddedOffences> getAddedOffences(final Envelope<UpdateDefendantOffences> envelope, final UpdateDefendantOffences updateDefendantOffences, final AtomicReference<UUID> defenceClientIdAtomicReference) {
+    private List<AddedOffences> getAddedOffences(final Envelope<UpdateDefendantOffences> envelope, final UpdateDefendantOffences updateDefendantOffences, final Boolean isCivil, final AtomicReference<UUID> defenceClientIdAtomicReference) {
         if (updateDefendantOffences.getAddedOffences() == null) {
             return new ArrayList<>();
         } else {
             return updateDefendantOffences.getAddedOffences().stream()
                     .map(addedOffence -> {
 
-                        final List<uk.gov.justice.cps.defence.Offence> offenceList = getOffenceList(addedOffence.getOffences(), envelope);
-
+                        final List<uk.gov.justice.cps.defence.Offence> offenceList = getOffenceList(addedOffence.getOffences(), envelope, isCivil);
                         defenceClientIdAtomicReference.set(addedOffence.getDefendantId());
                         return AddedOffences.addedOffences()
                                 .withOffences(offenceList)
                                 .withDefenceClientId(addedOffence.getDefendantId())
                                 .withDefendantId(addedOffence.getDefendantId())
                                 .withProsecutionCaseId(addedOffence.getProsecutionCaseId())
+                                .withIsCivil(isCivil)
                                 .build();
 
                     }).collect(Collectors.toList());
         }
     }
 
-    private List<uk.gov.justice.cps.defence.Offence> getOffenceList(final List<Offence> offenceList, final Envelope<UpdateDefendantOffences> envelope) {
+    private List<uk.gov.justice.cps.defence.Offence> getOffenceList(final List<Offence> offenceList, final Envelope<UpdateDefendantOffences> envelope, final Boolean isCivil) {
 
         return offenceList.stream()
                 .map(offence -> {
 
-                    final uk.gov.moj.cpp.referencedata.query.Offences refDataOffences = referenceDataService.getRefDataOffences(offence.getOffenceCode(), offence.getStartDate(), envelope.metadata());
-                    final English english = refDataOffences
-                            .getDetails()
-                            .getDocument()
-                            .getEnglish();
+                    final uk.gov.moj.cpp.referencedata.query.Offences refDataOffences = referenceDataService.getRefDataOffences(offence.getOffenceCode(), offence.getStartDate(), envelope.metadata(), isCivil);
 
-                    return getOffence(offence, english);
+                    return getOffence(offence, refDataOffences);
                 }).collect(Collectors.toList());
 
     }
 
-    private uk.gov.justice.cps.defence.Offence getOffence(final Offence offence, final English english) {
+    private uk.gov.justice.cps.defence.Offence getOffence(final Offence offence, final uk.gov.moj.cpp.referencedata.query.Offences refDataOffences) {
         return uk.gov.justice.cps.defence.Offence.offence()
                 .withStartDate(offence.getStartDate())
                 .withId(offence.getId())
@@ -196,8 +249,8 @@ public class DefenceClientCommandHandler {
                 .withOffenceCodeDetails(offenceCode()
                         .withId(offence.getId().toString())
                         .withCjsoffencecode(offence.getOffenceCode())
-                        .withTitle(english.getTitle())
-                        .withLegislation(english.getLegislation())
+                        .withTitle(refDataOffences.getTitle())
+                        .withLegislation(refDataOffences.getLegislation())
                         .withStandardoffencewording(offence.getWording())
                         .build()
                 )
@@ -212,12 +265,15 @@ public class DefenceClientCommandHandler {
     public void receiveAllegationsAgainstDefenceClient(final Envelope<ReceiveAllegationsAgainstADefenceClient> envelope) throws EventStreamException {
         final ReceiveAllegationsAgainstADefenceClient payload = envelope.payload();
         final UUID defenceClientId = payload.getDefenceClientId();
-
-        final List<OffenceCodeReferenceData> offenceCodeReferenceDataList =
-                referenceDataService.retrieveReferenceDataForOffences(payload.getOffences(), envelope.metadata());
-
         final EventStream eventStream = eventSource.getStreamById(defenceClientId);
         final DefenceClient defenceClientAggregate = aggregateService.get(eventStream, DefenceClient.class);
+
+        final Boolean isCaseCivil = nonNull(defenceClientAggregate.getIsCivil()) ? defenceClientAggregate.getIsCivil() : payload.getDefendantDetails().getIsCivil();
+
+        final List<OffenceCodeReferenceData> offenceCodeReferenceDataList =
+                referenceDataService.retrieveReferenceDataForOffences(payload.getOffences(), envelope.metadata(), isCaseCivil);
+
+
         final Stream<Object> events = defenceClientAggregate.receiveAllegations(
                 defenceClientId,
                 payload.getDefendantId(),

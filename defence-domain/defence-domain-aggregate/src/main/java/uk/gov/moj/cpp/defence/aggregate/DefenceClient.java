@@ -79,6 +79,8 @@ public class DefenceClient implements Aggregate {
     private UUID defendantId;
     private IdpcDetails pendingIdpc;
 
+    private Boolean isCivil;
+
     public Stream<Object> removeAllGrantees() {
 
         final Stream.Builder<Object> streamBuilder = Stream.builder();
@@ -342,6 +344,7 @@ public class DefenceClient implements Aggregate {
                             this.defenceClientId = defenceClientReceived.getDefenceClientId();
                             this.caseUrn = defenceClientReceived.getUrn();
                             this.caseId = defenceClientReceived.getDefendantDetails().getCaseId();
+                            this.isCivil = defenceClientReceived.getDefendantDetails().getIsCivil();
                             this.defendantId = defenceClientReceived.getDefendantId();
                             if (nonNull(defenceClientReceived.getDefendantDetails().getOrganisation())) {
                                 this.defenceClientOrganisationName = defenceClientReceived.getDefendantDetails().getOrganisation().getOrganisationName();
@@ -438,6 +441,9 @@ public class DefenceClient implements Aggregate {
 
     public String getCaseUrn() {
         return this.caseUrn;
+    }
+    public Boolean getIsCivil() {
+        return isCivil;
     }
 
 
