@@ -31,7 +31,7 @@
         <people.version>2.0.114</people.version>
         <charging.version>2.0.274</charging.version>
         <usersgroups.version>17.0.40</usersgroups.version>
-        <progression.version>17.0.198</progression.version>
+        <progression.version>17.0.206</progression.version>
         <referencedataoffences.version>17.0.38</referencedataoffences.version>
         <json-generator.version>0.1.0</json-generator.version>
         <criminal-court-public-model.version>${coredomain.version}</criminal-court-public-model.version>

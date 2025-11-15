@@ -9,6 +9,7 @@ import static uk.gov.justice.cps.defence.OffenceCode.offenceCode;
 import static uk.gov.moj.cpp.defence.command.util.EventStreamAppender.appendEventsToStream;
 
 import uk.gov.justice.core.courts.Offence;
+import uk.gov.justice.cps.defence.OffenceCode;
 import uk.gov.justice.cps.defence.OffenceCodeReferenceData;
 import uk.gov.justice.cps.defence.ReceiveAllegationsAgainstADefenceClient;
 import uk.gov.justice.cps.defence.RecordAccessToIdpc;
@@ -246,19 +247,24 @@ public class DefenceClientCommandHandler {
                 .withStartDate(offence.getStartDate())
                 .withId(offence.getId())
                 .withWording(offence.getWording())
-                .withOffenceCodeDetails(offenceCode()
-                        .withId(offence.getId().toString())
-                        .withCjsoffencecode(offence.getOffenceCode())
-                        .withTitle(refDataOffences.getTitle())
-                        .withLegislation(refDataOffences.getLegislation())
-                        .withStandardoffencewording(offence.getWording())
-                        .build()
-                )
+                .withOffenceCodeDetails(getOffenceCode(offence, refDataOffences))
                 .withArrestDate(offence.getArrestDate())
                 .withEndDate(offence.getEndDate())
                 .withChargeDate(offence.getChargeDate())
                 .withCjsCode(offence.getOffenceCode())
                 .build();
+    }
+
+    private OffenceCode getOffenceCode(final Offence offence, final uk.gov.moj.cpp.referencedata.query.Offences refDataOffences) {
+
+        OffenceCode.Builder builder = offenceCode()
+                .withId(offence.getId().toString())
+                .withCjsoffencecode(offence.getOffenceCode())
+                .withStandardoffencewording(offence.getWording());
+
+        return refDataOffences.getDetails() != null ?
+                builder.withTitle(refDataOffences.getTitle()).withLegislation(refDataOffences.getLegislation()).build() :
+                builder.withTitle(offence.getOffenceTitle()).withLegislation(offence.getOffenceLegislation()).build();
     }
 
     @Handles("defence.command.receive-allegations-against-a-defence-client")
