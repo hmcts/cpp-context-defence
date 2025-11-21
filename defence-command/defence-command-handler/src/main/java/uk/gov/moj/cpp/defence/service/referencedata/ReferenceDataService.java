@@ -52,8 +52,7 @@ public class ReferenceDataService {
     public Offences getRefDataOffences(final String cjsCode, final String startDate, final Metadata metadata, final Boolean isCaseCivil){
         final ReferenceDataOffencesListRequest.Builder requestBuilder = ReferenceDataOffencesListRequest.referenceDataOffencesListRequest()
                 .withCjsoffencecode(cjsCode)
-                .withDate(startDate)
-                ;
+                .withDate(startDate);
 
         if(TRUE.equals(isCaseCivil)){
             requestBuilder.withSowRef("moj");
