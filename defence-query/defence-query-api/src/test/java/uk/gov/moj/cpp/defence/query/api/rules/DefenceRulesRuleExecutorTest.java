@@ -58,10 +58,10 @@ public class DefenceRulesRuleExecutorTest extends BaseDroolsAccessControlTest {
     @Test
     public void whenUserIsNotAMemberOfAllowedUserGroups_thenFailUpload() throws Exception {
         Arrays.stream(DefenceRules.values()).forEach(ruleTest -> {
-            Map<String, String> metadata = new HashMap();
+            Map<String, String> metadata = new HashMap<>();
             metadata.putIfAbsent("id", UUID.randomUUID().toString());
             metadata.putIfAbsent("name", ruleTest.actionName);
-            final JsonEnvelope envelope = JsonEnvelopeBuilder.envelope().with(MetadataBuilderFactory.metadataOf(UUID.randomUUID().toString(), (String)metadata.get("name"))).withPayloadOf(UUID.randomUUID().toString(),"defenceClientId").build();
+            final JsonEnvelope envelope = JsonEnvelopeBuilder.envelope().with(MetadataBuilderFactory.metadataOf(UUID.randomUUID().toString(), metadata.get("name"))).withPayloadOf(UUID.randomUUID().toString(),"defenceClientId").build();
             action = new Action(envelope);
             when(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups(action, ruleTest.allowedUserGroups)).thenReturn(false);
             lenient().when(userAndGroupProvider.hasPermission(any(), any())).thenReturn(false);

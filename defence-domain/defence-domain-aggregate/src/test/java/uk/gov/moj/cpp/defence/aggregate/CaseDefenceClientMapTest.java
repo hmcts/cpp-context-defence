@@ -1,5 +1,7 @@
 package uk.gov.moj.cpp.defence.aggregate;
 
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
 import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.hamcrest.CoreMatchers.is;
@@ -50,6 +52,7 @@ public class CaseDefenceClientMapTest {
             .withFirstName(FIRST_NAME)
             .withLastName(LAST_NAME)
             .withDateOfBirth(DOB)
+            .withIsCivil(false)
             .build();
 
     private CaseDefenceClientMap caseDefenceClientMap;
@@ -105,6 +108,27 @@ public class CaseDefenceClientMapTest {
     }
 
     @Test
+    public void shouldHandleDuplicateDefendantAddedAfterSupspectCharged_WhenCaseIsCivil() throws Exception {
+
+        caseDefenceClientMap.receiveDetails(CASE_ID, URN, PROSECUTION_AUTHORITY, IS_CIVIL, IS_GROUP_MEMBER);
+
+        final List<Offence> offenceList = getTestOffenceList();
+
+        caseDefenceClientMap.addADefendant(DEFENDANT_ID, DEFENCE_CLIENT_IDS, POLICE_DEFENDANT_ID, offenceList);
+
+        final Stream<Object> duplicateDefendantReceivedEventStreams = caseDefenceClientMap.addADefendant(DEFENDANT_ID, DEFENCE_CLIENT_IDS, POLICE_DEFENDANT_ID, offenceList);
+
+        final DuplicateDefendantReceivedAgainstADefenceClient duplicateDefendantReceivedAgainstADefenceClient
+                = duplicateDefendantReceivedEventStreams.filter(event -> event.getClass().equals(DuplicateDefendantReceivedAgainstADefenceClient.class))
+                .map(e -> ((DuplicateDefendantReceivedAgainstADefenceClient) e))
+                .findFirst()
+                .orElseThrow(() -> new Exception("Expected DuplicateDefendantReceivedAgainstADefenceClient event!"));
+
+        assertThat(duplicateDefendantReceivedAgainstADefenceClient.getDuplicateDefendantId(), is(DEFENDANT_ID));
+        assertThat(duplicateDefendantReceivedAgainstADefenceClient.getDefendantDetails().getIsCivil(), is(TRUE));
+    }
+
+    @Test
     public void shouldHandleSuspectChargedBeforeSuspectAddedToCase() {
 
         caseDefenceClientMap.receiveDetails(CASE_ID, URN, PROSECUTION_AUTHORITY, !IS_CIVIL, !IS_GROUP_MEMBER);
@@ -113,7 +137,7 @@ public class CaseDefenceClientMapTest {
 
         final Stream<Object> eventStream = caseDefenceClientMap.addADefendant(DEFENDANT_ID, DEFENCE_CLIENT_IDS, POLICE_DEFENDANT_ID, offenceList);
 
-        final List<?> eventList = eventStream.collect(Collectors.toList());
+        final List<?> eventList = eventStream.toList();
 
         assertThat(eventList.size(),is(2));
         assertThat(eventList.get(0).getClass().getName(), is(DefenceClientMappedToACase.class.getName()));
@@ -131,6 +155,7 @@ public class CaseDefenceClientMapTest {
         assertThat(defendantAddedEvent.getDefendantId(), is(DEFENDANT_ID));
         assertThat(defendantAddedEvent.getOffences(),notNullValue());
         assertThat(defendantAddedEvent.getPoliceDefendantId(), is(POLICE_DEFENDANT_ID));
+        assertThat(defendantAddedEvent.getDefendantDetails().getIsCivil(), is(FALSE));
 
         final Offence offenceFromEventOne = defendantAddedEvent.getOffences().get(0);
         final Offence offenceFromEventTwo = defendantAddedEvent.getOffences().get(1);

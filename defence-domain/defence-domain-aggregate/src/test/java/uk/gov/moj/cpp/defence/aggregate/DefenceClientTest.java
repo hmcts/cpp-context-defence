@@ -99,7 +99,10 @@ public class DefenceClientTest {
     @Test
     public void shouldHandleRecordInstructionDetails() {
         final DefenceClient defenceClient = new DefenceClient();
-        final DefendantDetails defendantDetails = DefendantDetails.defendantDetails().withId(randomUUID()).withLastName("BADDUN").build();
+        final DefendantDetails defendantDetails = DefendantDetails.defendantDetails()
+                .withId(randomUUID())
+                .withLastName("BADDUN")
+                .build();
         defenceClient.receiveADefenceClient(DEFENCE_CLIENT_ID, EMPTY_STRING, defendantDetails, null, null);
 
         final UUID userId = randomUUID();
@@ -109,7 +112,7 @@ public class DefenceClientTest {
 
         final Stream<Object> eventStream = defenceClient.recordInstructionDetails(instructionDate, userId, organisationId, instructionId, DEFENCE_CLIENT_ID);
 
-        final List<?> eventList = eventStream.collect(Collectors.toList());
+        final List<?> eventList = eventStream.toList();
         assertThat(eventList.size(), is(1));
         assertThat(eventList.get(0).getClass().getName(), is(InstructionDetailsRecorded.class.getName()));
 

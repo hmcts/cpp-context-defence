@@ -5,6 +5,7 @@ import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
 import static javax.json.Json.createArrayBuilder;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static uk.gov.justice.cps.defence.ErrorCode.CASE_NOT_FOUND;
 import static uk.gov.justice.cps.defence.ErrorCode.ORGANISATION_NOT_PROSECUTING_AUTHORITY;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
@@ -49,6 +50,8 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.InternalServerErrorException;
+
+import org.apache.commons.lang3.StringUtils;
 
 @ServiceComponent(Component.QUERY_VIEW)
 public class DefenceQueryView {
@@ -122,7 +125,7 @@ public class DefenceQueryView {
         final JsonObject payload = request.payloadAsJsonObject();
         final String firstName = payload.getString(FIRST_NAME);
         final String lastName = payload.getString(LAST_NAME);
-        final String dateOfBirth = payload.getString(DOB);
+        final String dateOfBirth = payload.getString(DOB, EMPTY);
         final String hearingDate = payload.getString(HEARING_DATE);
         final Optional<String> caseUrn = getString(payload, URN);
         final Optional<Boolean> isCivil = getBoolean(payload, IS_CIVIL);
@@ -328,7 +331,7 @@ public class DefenceQueryView {
         final JsonObject payload = request.payloadAsJsonObject();
         final String firstName = payload.getString(FIRST_NAME);
         final String lastName = payload.getString(LAST_NAME);
-        final String dateOfBirth = payload.getString(DOB);
+        final String dateOfBirth = payload.getString(DOB, EMPTY);
         final Optional<Boolean> isCivil = getBoolean(payload, IS_CIVIL);
         final Optional<Boolean> isGroupMember = getBoolean(payload, IS_GROUP_MEMBER);
 

@@ -1,0 +1,46 @@
+{
+  "addedOffences": [
+    {
+      "defenceClientId": "93990b06-5a47-426e-a88e-9372dca5d75e",
+      "defendantId": "93990b06-5a47-426e-a88e-9372dca5d75e",
+      "offences": [
+        {
+          "arrestDate": "2018-01-01",
+          "chargeDate": "2018-01-01",
+          "cjsCode": "AAA",
+          "endDate": "2018-01-01",
+          "id": "3789ab16-0bb7-4ef1-87ef-c936bf0364f1",
+          "offenceCodeDetails": {
+            "cjsoffencecode": "AAA",
+            "id": "3789ab16-0bb7-4ef1-87ef-c936bf0364f1",
+            "legislation": "REFDATA LEGISLATION CODE OF61131: Contrary to regulations 32(a) & 34(3) of the Animals and Animal Products (Import and Export) (England) Regulations 2006",
+            "standardoffencewording": "No Travel Card",
+            "title": "REFDATA TITLE CODE OF61131: Obstruct person acting in the execution of these Regulations"
+          },
+          "startDate": "2018-01-01",
+          "wording": "No Travel Card"
+        }
+      ],
+      "prosecutionCaseId": "ff624a4a-411f-4575-8c50-1ecb5163984e"
+    }
+  ],
+  "deletedOffences": [
+    {
+      "defenceClientId": "93990b06-5a47-426e-a88e-9372dca5d75e",
+      "defendantId": "93990b06-5a47-426e-a88e-9372dca5d75e",
+      "offences": [
+        "30e18ce4-d15d-4340-8d07-f7bc92cea0ac"
+      ],
+      "prosecutionCaseId": "ff624a4a-411f-4575-8c50-1ecb5163984e"
+    },
+    {
+      "defenceClientId": "93990b06-5a47-426e-a88e-9372dca5d75e",
+      "defendantId": "93990b06-5a47-426e-a88e-9372dca5d75e",
+      "offences": [
+        "3789ab16-0bb7-4ef1-87ef-c936bf0364f1"
+      ],
+      "prosecutionCaseId": "ff624a4a-411f-4575-8c50-1ecb5163984e"
+    }
+  ],
+  "modifiedDate": "2018-03-01"
+} 

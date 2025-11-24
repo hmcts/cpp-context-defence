@@ -8,6 +8,7 @@ import static java.util.UUID.fromString;
 import static javax.json.Json.createArrayBuilder;
 import static javax.json.Json.createObjectBuilder;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
 import static uk.gov.justice.services.messaging.JsonObjects.getLong;
@@ -121,6 +122,7 @@ public class DefenceQueryApi {
     private static final String HEARING = "hearing";
     private static final String HEARING_DAYS = "hearingDays";
     private static final String SITTING_DAY = "sittingDay";
+    public static final String IS_CIVIL = "isCivil";
 
     @Inject
     private Requester requester;
@@ -174,12 +176,14 @@ public class DefenceQueryApi {
     public JsonEnvelope findClientByCriteria(final JsonEnvelope request) {
         validateInputParams(request);
         final JsonEnvelope response = processRequestForIndividual(request);
-        return processQueryResultConsolidation(response);
+        final boolean isCivil = request.payloadAsJsonObject().getBoolean(IS_CIVIL, false);
+        return processQueryResultConsolidation(response, isCivil);
 
     }
 
     @Handles("defence.query.get-case-by-person-defendant")
     public JsonEnvelope getCasesByPersonDefendant(final JsonEnvelope request) {
+        validateInputParams(request);
         return defenceQueryView.getCasesByPersonDefendant(request);
     }
 
@@ -200,7 +204,8 @@ public class DefenceQueryApi {
     public JsonEnvelope findOrganisationClientByCriteria(final JsonEnvelope request) {
 
         final JsonEnvelope response = processRequestForOrganisation(request);
-        return processQueryResultConsolidation(response);
+        final boolean isCivil = request.payloadAsJsonObject().getBoolean(IS_CIVIL, false);
+        return processQueryResultConsolidation(response, isCivil);
 
     }
 
@@ -262,7 +267,7 @@ public class DefenceQueryApi {
                 : CaseDefendantOrganisationHelper.toDefendantOrganisationWithNoAddressJson(defendant);
     }
 
-    private JsonEnvelope processQueryResultConsolidation(final JsonEnvelope response) {
+    private JsonEnvelope processQueryResultConsolidation(final JsonEnvelope response, final boolean isCivil) {
 
         final JsonObject responsePayload = response.payloadAsJsonObject();
         //If no response received, return null
@@ -272,7 +277,10 @@ public class DefenceQueryApi {
 
         final Optional<Long> defenceClientCount = getLong(responsePayload, DEFENCE_CLIENT_COUNT);
         if (defenceClientCount.isPresent()) {
-            final JsonObject responseWithDefenceClientCount = createObjectBuilder().add(DEFENCE_CLIENT_COUNT, defenceClientCount.get()).build();
+            final JsonObject responseWithDefenceClientCount = createObjectBuilder()
+                    .add(DEFENCE_CLIENT_COUNT, defenceClientCount.get())
+                    .add(IS_CIVIL, isCivil)
+                    .build();
             return JsonEnvelope.envelopeFrom(response.metadata(), responseWithDefenceClientCount);
         }
 
@@ -294,7 +302,7 @@ public class DefenceQueryApi {
         final String caseUrn = responsePayload.getString(CASE_URN);
 
         //populate idpc access organisation details if present and return final response
-        return createResponseWithIdpcAccessOrganisation(response, associatedOrganisationJsonObject, lastAssociatedOrganisation, associatedPersons, caseUrn);
+        return createResponseWithIdpcAccessOrganisation(response, associatedOrganisationJsonObject, lastAssociatedOrganisation, associatedPersons, caseUrn, isCivil);
     }
 
     @Handles("defence.query.defendant-idpc-metadata")
@@ -476,9 +484,11 @@ public class DefenceQueryApi {
         final String organizationName = payload.getString(ORGANISATION_NAME);
         final Optional<String> urn = getString(payload, URN);
         final String hearingDate = payload.getString(HEARING_DATE);
+        final boolean isCivil = payload.getBoolean(IS_CIVIL, false);
         final JsonObjectBuilder builder = createObjectBuilder()
                 .add(ORGANISATION_NAME, organizationName)
-                .add(HEARING_DATE, hearingDate);
+                .add(HEARING_DATE, hearingDate)
+                .add(IS_CIVIL, isCivil);
         if (urn.isPresent()) {
             builder.add(URN, urn.get());
         }
@@ -523,7 +533,8 @@ public class DefenceQueryApi {
         return associatedOrganisationJsonObjectBuilder.build();
     }
 
-    private JsonEnvelope createResponseWithIdpcAccessOrganisation(final JsonEnvelope response, final JsonObject associatedOrganisation, final JsonObject lastAssociatedOrganisation, final Optional<JsonArray> associatedPersons, final String caseUrn) {
+    private JsonEnvelope createResponseWithIdpcAccessOrganisation(final JsonEnvelope response, final JsonObject associatedOrganisation, final JsonObject lastAssociatedOrganisation,
+                                                                  final Optional<JsonArray> associatedPersons, final String caseUrn, final boolean isCivil) {
 
         final JsonObject responsePayload = response.payloadAsJsonObject();
         final JsonArrayBuilder associatedPersonsArray = Json.createArrayBuilder();
@@ -554,6 +565,7 @@ public class DefenceQueryApi {
         prosecutor.ifPresent(jsonObject -> jsonObjectBuilder.add(PROSECUTOR, jsonObject));
 
         jsonObjectBuilder.add(CASE_URN, caseUrn);
+        jsonObjectBuilder.add(IS_CIVIL, isCivil);
 
         return JsonEnvelope.envelopeFrom(response.metadata(), jsonObjectBuilder.build());
     }
@@ -668,7 +680,14 @@ public class DefenceQueryApi {
 
     private void validateInputParams(final JsonEnvelope request) {
         final JsonObject payload = request.payloadAsJsonObject();
-        final String dateOfBirth = payload.getString(DOB);
+        if (payload.getBoolean(IS_CIVIL, false)) {
+            if (payload.containsKey(DOB)) {
+                final String dateOfBirth = payload.getString(DOB);
+                validateDateString(dateOfBirth);
+            }
+            return;
+        }
+        final String dateOfBirth = payload.getString(DOB, EMPTY);
         validateDateString(dateOfBirth);
     }
 

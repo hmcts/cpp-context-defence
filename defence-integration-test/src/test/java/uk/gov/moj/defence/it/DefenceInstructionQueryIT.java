@@ -16,7 +16,6 @@ import static uk.gov.moj.defence.util.WiremockHelper.resetWiremock;
 
 import uk.gov.justice.services.test.utils.core.rest.RestClient;
 
-import java.sql.SQLException;
 import java.util.UUID;
 
 import javax.ws.rs.core.Response;

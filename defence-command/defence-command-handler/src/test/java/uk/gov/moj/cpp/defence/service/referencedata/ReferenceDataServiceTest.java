@@ -26,6 +26,7 @@ import uk.gov.moj.cpp.referencedata.query.OffencesList;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.Resources;
@@ -61,7 +62,7 @@ public class ReferenceDataServiceTest {
         ).when(requesterMock).request(any(Envelope.class), eq(OffencesList.class));
 
         final List<OffenceCodeReferenceData> offenceCodeReferenceDataList =
-                referenceDataService.retrieveReferenceDataForOffences(createTestOffenceList(), metadataFor("command", randomUUID()));
+                referenceDataService.retrieveReferenceDataForOffences(createTestOffenceList(), metadataFor("command", randomUUID()), false);
 
         assertThat(offenceCodeReferenceDataList, is(notNullValue()));
         assertThat(offenceCodeReferenceDataList.size(), is(4));
@@ -73,6 +74,35 @@ public class ReferenceDataServiceTest {
             assertThat(refData.getLegislation(), is(notNullValue()));
             assertThat(substringToColon(refData.getTitle()), is("REFDATA TITLE CODE " + cjsCode));
             assertThat(substringToColon(refData.getLegislation()), is("REFDATA LEGISLATION CODE " + cjsCode));
+        });
+    }
+
+    @Test
+    public void shouldGenerateListContainingReferenceDataValuesForSowRef() {
+
+        final AtomicReference<ReferenceDataOffencesListRequest> request = new AtomicReference<>();
+
+        doAnswer(invocation -> {
+                    final Envelope<ReferenceDataOffencesListRequest> envelope = invocation.getArgument(0, Envelope.class);
+                    request.set(envelope.payload());
+                    return refDataOffenceDataForCjsOffencecode(request.get().getCjsoffencecode());
+                }
+        ).when(requesterMock).request(any(Envelope.class), eq(OffencesList.class));
+
+        final List<OffenceCodeReferenceData> offenceCodeReferenceDataList =
+                referenceDataService.retrieveReferenceDataForOffences(createTestOffenceList(), metadataFor("command", randomUUID()), true);
+
+        assertThat(offenceCodeReferenceDataList, is(notNullValue()));
+        assertThat(offenceCodeReferenceDataList.size(), is(4));
+
+        offenceCodeReferenceDataList.forEach(refData -> {
+            final String cjsCode = refData.getCjsoffencecode();
+            assertThat(cjsCode, is(notNullValue()));
+            assertThat(refData.getTitle(), is(notNullValue()));
+            assertThat(refData.getLegislation(), is(notNullValue()));
+            assertThat(substringToColon(refData.getTitle()), is("REFDATA TITLE CODE " + cjsCode));
+            assertThat(substringToColon(refData.getLegislation()), is("REFDATA LEGISLATION CODE " + cjsCode));
+            assertThat(request.get().getSowRef(), is("moj"));
         });
     }
 
