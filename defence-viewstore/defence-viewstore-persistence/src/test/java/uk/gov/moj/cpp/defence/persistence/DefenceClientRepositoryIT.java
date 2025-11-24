@@ -8,6 +8,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 
 import uk.gov.justice.services.test.utils.persistence.BaseTransactionalJunit4Test;
@@ -21,6 +22,7 @@ import java.util.UUID;
 import javax.inject.Inject;
 
 import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -87,6 +89,27 @@ public class DefenceClientRepositoryIT extends BaseTransactionalJunit4Test {
     }
 
     @Test
+    public void shouldFindDefenceClientByCriteriaWhenUrnAndIsCivilSet_DobNoPresent() {
+        final DefenceCase defenceCase = new DefenceCase(randomUUID(), PTI_URN, PROSECUTING_AUTHORITY, TRUE, FALSE);
+        final DefenceClient defClient1 = getDefenceClientWithDob(defenceCase.getId());
+        final DefenceClient defClient2 = getDefenceClientWithDob(defenceCase.getId());
+
+        defenceClientRepository.save(defClient1);
+        defenceClientRepository.save(defClient2);
+        defenceCaseRepository.save(defenceCase);
+
+        final DefenceClient client = defenceClientRepository.findDefenceClientByCriteriaWithOutDob(defClient1.getFirstName(), defClient1.getLastName(), PTI_URN, TRUE).get(0);
+        assertThat("No Entity returned", client, notNullValue());
+        assertThat("Unexpected ID value in retrieved DefenceClient Entity", client.getId(), is(defClient1.getId()) );
+        assertThat("Unexpected FIRSTNAME value in retrieved DefenceClient Entity", client.getFirstName(), is(defClient1.getFirstName()));
+        assertThat("Unexpected LASTNAME value in retrieved DefenceClient Entity", client.getLastName(), is(defClient1.getLastName()));
+        assertThat("Unexpected Defendant Id value in retrieved DefenceClient Entity", client.getDefendantId(), is(defClient1.getDefendantId()));
+
+        defenceClientRepository.remove(defClient1);
+        defenceClientRepository.remove(defClient2);
+    }
+
+    @Test
     public void shouldFindDefenceClientByCriteriaWhenIsCivilSet() {
         final DefenceCase defenceCase = new DefenceCase(randomUUID(), PTI_URN, PROSECUTING_AUTHORITY, TRUE, FALSE);
         final DefenceClient defClient1 = getDefenceClient1(defenceCase.getId());
@@ -102,6 +125,27 @@ public class DefenceClientRepositoryIT extends BaseTransactionalJunit4Test {
         assertThat("Unexpected FIRSTNAME value in retrieved DefenceClient Entity", client.getFirstName(), is(defClient1.getFirstName()));
         assertThat("Unexpected LASTNAME value in retrieved DefenceClient Entity", client.getLastName(), is(defClient1.getLastName()));
         assertThat("Unexpected DOB value in retrieved DefenceClient Entity", client.getDateOfBirth(), is(defClient1.getDateOfBirth()));
+        assertThat("Unexpected Defendant Id value in retrieved DefenceClient Entity", client.getDefendantId(), is(defClient1.getDefendantId()));
+
+        defenceClientRepository.remove(defClient1);
+        defenceClientRepository.remove(defClient2);
+    }
+
+    @Test
+    public void shouldFindDefenceClientByCriteriaWhenIsCivilSetWithoutDob() {
+        final DefenceCase defenceCase = new DefenceCase(randomUUID(), PTI_URN, PROSECUTING_AUTHORITY, TRUE, FALSE);
+        final DefenceClient defClient1 = getDefenceClientWithDob(defenceCase.getId());
+        final DefenceClient defClient2 = getDefenceClientWithDob(defenceCase.getId());
+
+        defenceClientRepository.save(defClient1);
+        defenceClientRepository.save(defClient2);
+        defenceCaseRepository.save(defenceCase);
+
+        final DefenceClient client = defenceClientRepository.findDefenceClientByCriteriaWithOutDob(defClient1.getFirstName(), defClient1.getLastName(), TRUE).get(0);
+        assertThat("No Entity returned", client, notNullValue());
+        assertThat("Unexpected ID value in retrieved DefenceClient Entity", client.getId(), is(defClient1.getId()) );
+        assertThat("Unexpected FIRSTNAME value in retrieved DefenceClient Entity", client.getFirstName(), is(defClient1.getFirstName()));
+        assertThat("Unexpected LASTNAME value in retrieved DefenceClient Entity", client.getLastName(), is(defClient1.getLastName()));
         assertThat("Unexpected Defendant Id value in retrieved DefenceClient Entity", client.getDefendantId(), is(defClient1.getDefendantId()));
 
         defenceClientRepository.remove(defClient1);
@@ -157,6 +201,44 @@ public class DefenceClientRepositoryIT extends BaseTransactionalJunit4Test {
 
         defenceClientRepository.refresh(defClient2);
         assertThat("Unexpected isVisible value in saved DefenceClient Entity", defClient2.getVisible(), is(true) );
+
+        defenceClientRepository.remove(defClient1);
+        defenceClientRepository.remove(defClient2);
+    }
+
+    @Test
+    public void shouldFindCasesAssociatedWithDefenceClientByPersonDefendantWhenIsCivilSet() {
+        final UUID caseId = randomUUID();
+        final DefenceCase defenceCase = new DefenceCase(caseId, PTI_URN, PROSECUTING_AUTHORITY, TRUE, FALSE);
+        final DefenceClient defClient1 = getDefenceClient1(defenceCase.getId());
+        final DefenceClient defClient2 = getDefenceClient2(defenceCase.getId());
+
+        defenceClientRepository.save(defClient1);
+        defenceClientRepository.save(defClient2);
+        defenceCaseRepository.save(defenceCase);
+
+        final List<UUID> caseIds = defenceClientRepository.findCasesAssociatedWithDefenceClientByPersonDefendant(defClient1.getFirstName(), defClient1.getLastName(), defClient1.getDateOfBirth(), true, false);
+        assertThat(caseIds, hasSize(1));
+        assertThat(caseIds.get(0), is(caseId) );
+
+        defenceClientRepository.remove(defClient1);
+        defenceClientRepository.remove(defClient2);
+    }
+
+    @Test
+    public void shouldFindCasesAssociatedWithDefenceClientByPersonDefendantWhenIsCivilSet_WithoutDob() {
+        final UUID caseId = randomUUID();
+        final DefenceCase defenceCase = new DefenceCase(caseId, PTI_URN, PROSECUTING_AUTHORITY, TRUE, FALSE);
+        final DefenceClient defClient1 = getDefenceClientWithDob(defenceCase.getId());
+        final DefenceClient defClient2 = getDefenceClientWithDob(defenceCase.getId());
+
+        defenceClientRepository.save(defClient1);
+        defenceClientRepository.save(defClient2);
+        defenceCaseRepository.save(defenceCase);
+
+        final List<UUID> caseIds = defenceClientRepository.findCasesAssociatedWithDefenceClientByPersonDefendantWithoutDob(defClient1.getFirstName(), defClient1.getLastName(), true, false);
+        assertThat(caseIds, hasSize(1));
+        assertThat(caseIds.get(0), is(caseId) );
 
         defenceClientRepository.remove(defClient1);
         defenceClientRepository.remove(defClient2);
@@ -341,6 +423,27 @@ public class DefenceClientRepositoryIT extends BaseTransactionalJunit4Test {
     }
 
     @Test
+    public void shouldRetrievePersonDefendantIdWhenIsCivilSetWithoutDob() {
+        final DefenceCase defenceCase = new DefenceCase(randomUUID(), PTI_URN, PROSECUTING_AUTHORITY, TRUE, FALSE);
+
+        final UUID defendantId = randomUUID();
+        final DefenceClient defenceClient = new DefenceClient(
+                randomUUID(),
+                "FIRST_NAME",
+                "LAST_NAME",
+                defenceCase.getId(),
+                null,
+                defendantId);
+
+        defenceClientRepository.save(defenceClient);
+        defenceCaseRepository.save(defenceCase);
+
+        final List<UUID> defendantIdFromDB = defenceClientRepository.getPersonDefendantWithOutDob("FIRST_NAME", "LAST_NAME", TRUE, FALSE);
+
+        assertThat(defendantIdFromDB.get(0), is(defendantId));
+    }
+
+    @Test
     public void shouldRetrieveOrganisationDefendantId() {
 
        final UUID defendantId = randomUUID();
@@ -399,6 +502,13 @@ public class DefenceClientRepositoryIT extends BaseTransactionalJunit4Test {
         final LocalDate defenceClientOneDob = of(1985, 10, 21);
 
         return new DefenceClient(randomUUID(), defenceClientOneFirstName, defenceClientOneLastName, caseId, defenceClientOneDob, randomUUID());
+    }
+
+    private DefenceClient getDefenceClientWithDob(final UUID caseId) {
+        final String defenceClientOneFirstName = "TEST ONE FIRST NAME";
+        final String defenceClientOneLastName = "TEST ONE LAST NAME";
+
+        return new DefenceClient(randomUUID(), defenceClientOneFirstName, defenceClientOneLastName, caseId, null, randomUUID());
     }
 
     private DefenceClient getDefenceClient2(final UUID caseId) {

@@ -1,5 +1,6 @@
 package uk.gov.moj.cpp.defence.query.view;
 
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -39,6 +40,7 @@ import java.util.UUID;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static java.time.LocalDate.now;
+import static java.time.LocalDate.parse;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.UUID.fromString;
@@ -46,6 +48,7 @@ import static java.util.UUID.randomUUID;
 import static javax.json.Json.createArrayBuilder;
 import static javax.json.Json.createObjectBuilder;
 import static org.apache.commons.io.FileUtils.readFileToString;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.deltaspike.core.util.ArraysUtils.asSet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -604,6 +607,30 @@ public class DefenceQueryServiceTest {
         when(defenceClientRepository.getPersonDefendant(anyString(), anyString(), any(), anyBoolean(), anyBoolean())).thenReturn(asList(defendantId));
         final List<UUID> defendantIdFromDB = defenceQueryService.getPersonDefendant("John", "Thomas", now().toString(), Optional.of(TRUE));
         assertThat(defendantId, is(defendantIdFromDB.get(0)));
+    }
+
+    @Test
+    public void shouldGetDefendantIdByPersonDefendantDetailsWithIsCivilWithoutDob() {
+        final UUID defendantId = randomUUID();
+        when(defenceClientRepository.getPersonDefendantWithOutDob(anyString(), anyString(), anyBoolean(), anyBoolean())).thenReturn(asList(defendantId));
+        final List<UUID> defendantIdFromDB = defenceQueryService.getPersonDefendant("John", "Thomas", EMPTY, Optional.of(TRUE));
+        assertThat(defendantId, is(defendantIdFromDB.get(0)));
+    }
+
+    @Test
+    public void shouldGetCasesAssociatedWithDefenceClientByPersonDefendantWithIsCivil() {
+        final UUID caseId = randomUUID();
+        when(defenceClientRepository.findCasesAssociatedWithDefenceClientByPersonDefendant(anyString(), anyString(), any(), anyBoolean(), anyBoolean())).thenReturn(asList(caseId));
+        final List<UUID> caseIdFromDB = defenceQueryService.getCasesAssociatedWithDefenceClientByPersonDefendant("John", "Thomas", now().toString(), Optional.of(TRUE));
+        assertThat(caseId, is(caseIdFromDB.get(0)));
+    }
+
+    @Test
+    public void shouldGetCasesAssociatedWithDefenceClientByPersonDefendantWithIsCivilWithoutDob() {
+        final UUID caseId = randomUUID();
+        when(defenceClientRepository.findCasesAssociatedWithDefenceClientByPersonDefendantWithoutDob(anyString(), anyString(), anyBoolean(), anyBoolean())).thenReturn(asList(caseId));
+        final List<UUID> caseIdFromDB = defenceQueryService.getCasesAssociatedWithDefenceClientByPersonDefendant("John", "Thomas", EMPTY, Optional.of(TRUE));
+        assertThat(caseId, is(caseIdFromDB.get(0)));
     }
 
     @Test

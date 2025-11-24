@@ -164,7 +164,7 @@ class DefenceClientCommandHandlerTest {
         final UUID defenceClientId = defendantId;
         when(eventSourceMock.getStreamById(any())).thenReturn(eventStreamMock);
         when(aggregateServiceMock.get(eventStreamMock, DefenceClient.class)).thenReturn(defenceClientAggregate);
-        when(referenceDataServiceMock.getRefDataOffences(any(), any(), any())).thenReturn(getRefDataMock());
+        when(referenceDataServiceMock.getRefDataOffences(any(), any(), any(), any())).thenReturn(getRefDataMock());
         caseDefenceClientMapAggregate.apply(DefenceClientMappedToACase.defenceClientMappedToACase()
                 .withDefenceClientId(defenceClientId)
                 .withDefendantDetails(defendantDetails().withId(defendantId).build())
@@ -180,6 +180,87 @@ class DefenceClientCommandHandlerTest {
         matchEvent(verifyAppendAndGetArgumentFrom(eventStreamMock),
                 "defence.event.defendant-offences-updated",
                 handlerTestHelper.convertFromFile("json/receiveOffenceUpdateReceivedEvent.json", JsonValue.class));
+
+    }
+
+    @Test
+    public void shouldProvideDefendantOffencesUpdatedEventForCivilCase() throws EventStreamException, IOException {
+        final UUID defendantId = UUID.fromString("93990b06-5a47-426e-a88e-9372dca5d75e");
+        final UUID defenceClientId = defendantId;
+        when(eventSourceMock.getStreamById(any())).thenReturn(eventStreamMock);
+        when(aggregateServiceMock.get(eventStreamMock, DefenceClient.class)).thenReturn(defenceClientAggregate);
+        when(referenceDataServiceMock.getRefDataOffences(any(), any(), any(), any())).thenReturn(getRefDataMock());
+        caseDefenceClientMapAggregate.apply(DefenceClientMappedToACase.defenceClientMappedToACase()
+                .withDefenceClientId(defenceClientId)
+                .withDefendantDetails(defendantDetails()
+                        .withId(defendantId)
+                        .withIsCivil(true)
+                        .build())
+                .build());
+
+
+        final Envelope<UpdateDefendantOffences> envelope =
+                envelopeFrom(metadataFor("defence.command.update-defendant-offences",
+                                COMMAND_ID),
+                        handlerTestHelper.convertFromFile("json/receiveOffenceUpdateReceived.json", UpdateDefendantOffences.class));
+        when(objectToJsonObjectConverter.convert(envelope.payload())).thenReturn(jsonObject);
+        defenceClientCommandHandler.receiveDefendantOffencesChanged(envelope);
+        matchEvent(verifyAppendAndGetArgumentFrom(eventStreamMock),
+                "defence.event.defendant-offences-updated",
+                handlerTestHelper.convertFromFile("json/receiveOffenceUpdateReceivedEvent.json", JsonValue.class));
+
+    }
+
+    @Test
+    public void shouldProvideDefendantOffencesUpdatedEventForCivilCase_WhenNoAddedOffences() throws EventStreamException, IOException {
+        final UUID defendantId = UUID.fromString("93990b06-5a47-426e-a88e-9372dca5d75e");
+        final UUID defenceClientId = defendantId;
+        when(eventSourceMock.getStreamById(any())).thenReturn(eventStreamMock);
+        when(aggregateServiceMock.get(eventStreamMock, DefenceClient.class)).thenReturn(defenceClientAggregate);
+        when(referenceDataServiceMock.getRefDataOffences(any(), any(), any(), any())).thenReturn(getRefDataMock());
+        caseDefenceClientMapAggregate.apply(DefenceClientMappedToACase.defenceClientMappedToACase()
+                .withDefenceClientId(defenceClientId)
+                .withDefendantDetails(defendantDetails()
+                        .withId(defendantId)
+                        .withIsCivil(true)
+                        .build())
+                .build());
+
+
+        final Envelope<UpdateDefendantOffences> envelope =
+                envelopeFrom(metadataFor("defence.command.update-defendant-offences",
+                                COMMAND_ID),
+                        handlerTestHelper.convertFromFile("json/receiveOffenceUpdateReceived-noaddedoffences.json", UpdateDefendantOffences.class));
+        defenceClientCommandHandler.receiveDefendantOffencesChanged(envelope);
+        matchEvent(verifyAppendAndGetArgumentFrom(eventStreamMock),
+                "defence.event.defendant-offences-updated",
+                handlerTestHelper.convertFromFile("json/receiveOffenceUpdateReceivedEvent-noaddedoffences.json", JsonValue.class));
+
+    }
+
+    @Test
+    public void shouldProvideDefendantOffencesUpdatedEventForCivilCase_WhenOnlyDeletedOffences() throws EventStreamException, IOException {
+        final UUID defendantId = UUID.fromString("93990b06-5a47-426e-a88e-9372dca5d75e");
+        final UUID defenceClientId = defendantId;
+        when(eventSourceMock.getStreamById(any())).thenReturn(eventStreamMock);
+        when(aggregateServiceMock.get(eventStreamMock, DefenceClient.class)).thenReturn(defenceClientAggregate);
+        caseDefenceClientMapAggregate.apply(DefenceClientMappedToACase.defenceClientMappedToACase()
+                .withDefenceClientId(defenceClientId)
+                .withDefendantDetails(defendantDetails()
+                        .withId(defendantId)
+                        .withIsCivil(true)
+                        .build())
+                .build());
+
+
+        final Envelope<UpdateDefendantOffences> envelope =
+                envelopeFrom(metadataFor("defence.command.update-defendant-offences",
+                                COMMAND_ID),
+                        handlerTestHelper.convertFromFile("json/receiveOffenceUpdateReceived-onlydeletedoffences.json", UpdateDefendantOffences.class));
+        defenceClientCommandHandler.receiveDefendantOffencesChanged(envelope);
+        matchEvent(verifyAppendAndGetArgumentFrom(eventStreamMock),
+                "defence.event.defendant-offences-updated",
+                handlerTestHelper.convertFromFile("json/receiveOffenceUpdateReceivedEvent-onlydeletedoffences.json", JsonValue.class));
 
     }
 
@@ -305,6 +386,31 @@ class DefenceClientCommandHandlerTest {
         matchEvent(jsonEnvelopeList,
                 "defence.event.idpc-access-by-organisation-recorded",
                 handlerTestHelper.convertFromFile("json/idpcAccessByOrganisationRecorded.json", JsonValue.class));
+
+    }
+
+    @Test
+    void shouldProvideDefendantOffencesUpdatedEventWhen() throws EventStreamException, IOException {
+        final UUID defendantId = UUID.fromString("93990b06-5a47-426e-a88e-9372dca5d75e");
+        final UUID defenceClientId = defendantId;
+        when(eventSourceMock.getStreamById(any())).thenReturn(eventStreamMock);
+        when(aggregateServiceMock.get(eventStreamMock, DefenceClient.class)).thenReturn(defenceClientAggregate);
+        when(referenceDataServiceMock.getRefDataOffences(any(), any(), any(), any())).thenReturn(Offences.offences().build());
+        caseDefenceClientMapAggregate.apply(DefenceClientMappedToACase.defenceClientMappedToACase()
+                .withDefenceClientId(defenceClientId)
+                .withDefendantDetails(defendantDetails().withId(defendantId).build())
+                .build());
+
+
+        final Envelope<UpdateDefendantOffences> envelope =
+                envelopeFrom(metadataFor("defence.command.update-defendant-offences",
+                                COMMAND_ID),
+                        handlerTestHelper.convertFromFile("json/receiveOffenceUpdateReceived.json", UpdateDefendantOffences.class));
+        when(objectToJsonObjectConverter.convert(envelope.payload())).thenReturn(jsonObject);
+        defenceClientCommandHandler.receiveDefendantOffencesChanged(envelope);
+        matchEvent(verifyAppendAndGetArgumentFrom(eventStreamMock),
+                "defence.event.defendant-offences-updated",
+                handlerTestHelper.convertFromFile("json/notReceiveOffenceUpdateReceivedEvent.json", JsonValue.class));
 
     }
 

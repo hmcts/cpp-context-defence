@@ -8,6 +8,9 @@
     },
     "date": {
       "type": "string"
+    },
+    "sowRef": {
+      "type": "string"
     }
   },
   "required": [

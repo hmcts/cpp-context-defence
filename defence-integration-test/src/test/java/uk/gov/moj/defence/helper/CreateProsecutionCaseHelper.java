@@ -1,17 +1,22 @@
 package uk.gov.moj.defence.helper;
 
+import static java.time.LocalDate.parse;
+import static java.time.Period.ofYears;
 import static java.util.UUID.fromString;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static uk.gov.justice.services.test.utils.core.random.DateGenerator.Direction.FUTURE;
 import static uk.gov.moj.defence.util.DBUtils.selectDefenceClient;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollCaseByOrganisationDefendant;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollCaseByPersonDefendant;
 import static uk.gov.moj.defence.util.TestUtils.getPayloadForCreatingRequest;
 import static uk.gov.moj.defence.util.TestUtils.postMessageToTopic;
 import static uk.gov.moj.defence.util.TestUtils.postMessageToTopicAndVerify;
+import static uk.gov.moj.defence.util.TestUtils.postPublicMessageToTopic;
 import static uk.gov.moj.defence.util.TestUtils.waitForDefenceClientToBeUpdated;
 
+import uk.gov.justice.services.test.utils.core.random.LocalDateGenerator;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceClient;
 
 import java.time.LocalDate;
@@ -24,7 +29,6 @@ public class CreateProsecutionCaseHelper {
     private static final String DEFENDANT_ID = "DEFENDANT_ID";
     private static final String ORGANISATION_ID = "ORGANISATION_ID";
     private static final String CASE_ID = "CASE_ID";
-
     private static final String URN = "URN_VALUE";
     private static final String ORGANISATION_1_NAME = "ORGANISATION_1_NAME";
     public static final String FIRST_NAME = "FIRST_NAME";
@@ -35,9 +39,13 @@ public class CreateProsecutionCaseHelper {
     private static final String PROSECUTING_AUTHORITY = "PROSECUTING_AUTHORITY";
     private static final String ORGANISATION_2_NAME = "ORGANISATION_2_NAME";
     private static final String DEF_ID2 = "DEF_ID2";
+    private static final String FN_2 = "FN_2";
+    private static final String LN_2 = "LN_2";
+    private static final String D_O_B = "D-O-B";
+    public static final String DATE_OF_BIRTH = new LocalDateGenerator(ofYears(10), parse("1983-04-20"), FUTURE).next().toString();
     private String caseId;
 
-    public void createAndVerifyProsecutionCase(final UUID caseId, final String urn, final String channel, final String defendantId, final String dateOfBirth, final UUID userId) {
+    public void createAndVerifyProsecutionCase(final UUID caseId, final String urn, final String channel, final String defendantId, String dateOfBirth, final UUID userId) {
         this.caseId = caseId.toString();
         final String caseCreatedData = getPayloadForCreatingRequest("stub-data/public-events/public.progression.prosecution-case-created.json")
                 .replace("CASE_ID", caseId.toString())
@@ -50,7 +58,7 @@ public class CreateProsecutionCaseHelper {
                 .replace("CHANNEL-NAME", channel);
 
         postMessageToTopic(caseCreatedData, "public.progression.prosecution-case-created");
-        pollCaseByPersonDefendant(FIRST_NAME, LAST_NAME, dateOfBirth, userId);
+        pollCaseByPersonDefendant(FIRST_NAME, LAST_NAME, DATE_OF_BIRTH, userId);
     }
 
     public void createAndVerifyProsecutionCase(final UUID caseId, final String urn, final String channel, final String dateOfBirth, final UUID userId) {
@@ -117,6 +125,7 @@ public class CreateProsecutionCaseHelper {
                 .replace(CASE_ID, caseId.toString())
                 .replace("URN_VALUE", urn)
                 .replace(DEFENDANT_ID, defendantId)
+                .replace(DOB, dateOfBirth)
                 .replace(FIRST_NAME, firstName)
                 .replace(LAST_NAME, lastName)
                 .replace(DOB, dateOfBirth)
@@ -128,7 +137,27 @@ public class CreateProsecutionCaseHelper {
         pollCaseByPersonDefendant(firstName, lastName, dateOfBirth, userId);
     }
 
+    public void createAndVerifyCivilProsecutionCaseWithoutDob(final UUID caseId, final String urn, final String defendantId, final String firstName, final String lastName) {
+        this.caseId = caseId.toString();
+
+        final String caseCreatedData = getPayloadForCreatingRequest("stub-data/public-events/public.progression.prosecution-case-created-civils-no-dob.json")
+                .replace(CASE_ID, caseId.toString())
+                .replace("URN_VALUE", urn)
+                .replace(DEFENDANT_ID, defendantId)
+                .replace(FIRST_NAME, firstName)
+                .replace(LAST_NAME, lastName)
+                .replace(OFFENCE_ID1, randomUUID().toString())
+                .replace(OFFENCE_ID2, randomUUID().toString())
+                .replace(PROSECUTING_AUTHORITY, PROSECUTING_AUTHORITY_TFL);
+
+        postPublicMessageToTopic(caseCreatedData, "public.progression.prosecution-case-created");
+
+    }
+
+
     public void createDefenceAssociationForLAA(final String defendantId, final String organisationId) {
+        this.caseId = caseId;
+
         final String defenceAssociationForLAA = getPayloadForCreatingRequest("stub-data/public-events/public.progression.associate.defence-organisation-for-laa.json")
                 .replace(DEFENDANT_ID, defendantId)
                 .replace(ORGANISATION_ID, organisationId);

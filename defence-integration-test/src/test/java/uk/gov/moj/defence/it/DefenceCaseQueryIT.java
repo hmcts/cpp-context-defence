@@ -28,16 +28,20 @@ import static uk.gov.moj.defence.util.RestQueryUtil.pollCaseByOrganisationDefend
 import static uk.gov.moj.defence.util.RestQueryUtil.pollCaseByOrganisationDefendantForCivil;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollCaseByPersonDefendant;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollCaseByPersonDefendantForCivil;
+import static uk.gov.moj.defence.util.RestQueryUtil.pollCaseByPersonDefendantForCivilWithOutDob;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClient;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientForCivil;
+import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientForDefenceClientCountByPersonNoDob;
+import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientForOrganisationWithoutUrnFor404;
+import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientForOrganisationWithoutUrnForCivil;
+import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientWithoutUrn;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientForDefenceClientCountByOrganisation;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientForDefenceClientCountByPerson;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientForOrganisationWithoutUrn;
-import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientForOrganisationWithoutUrnForCivil;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientWithMatcher;
-import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientWithoutUrn;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientWithoutUrnForCivil;
 import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceOrganisationWithMatcher;
+import static uk.gov.moj.defence.util.RestQueryUtil.pollDefenceClientWithoutUrnWithOutDobForCivil;
 import static uk.gov.moj.defence.util.RestQueryUtil.queryDefenceClient;
 import static uk.gov.moj.defence.util.RestQueryUtil.queryIDPCMetadataForDefendant;
 import static uk.gov.moj.defence.util.UrnGeneratorUtil.generateUrn;
@@ -138,6 +142,7 @@ public class DefenceCaseQueryIT {
                 withJsonPath("$.prosecutor", notNullValue()),
                 withJsonPath("$.prosecutor.prosecutorCode", is("CPS")),
                 withJsonPath("$.prosecutor.prosecutorId", notNullValue()),
+                withJsonPath("$.isCivil", is(false)),
                 withJsonPath("$.caseUrn", is(urn))
 
         )));
@@ -158,6 +163,7 @@ public class DefenceCaseQueryIT {
                 withJsonPath("$.prosecutor", notNullValue()),
                 withJsonPath("$.prosecutor.prosecutorCode", is("CPS")),
                 withJsonPath("$.prosecutor.prosecutorId", notNullValue()),
+                withJsonPath("$.isCivil", is(true)),
                 withJsonPath("$.caseUrn", is(urn))
 
         )));
@@ -219,6 +225,33 @@ public class DefenceCaseQueryIT {
         )));
     }
 
+    @Test
+    public void shouldReturnDefenceClientDetailsWhileMultipleUrnInDefenceButOneHearingRecordForCivil_NoDobForDefendant() {
+        final String hearingDate = LocalDate.now().toString();
+
+        createProsecutionCaseHelper.createAndVerifyCivilProsecutionCaseWithoutDob(caseId, urn, defendantId, firstName, lastName);
+        createProsecutionCaseHelper.createAndVerifyCivilProsecutionCaseWithoutDob(caseId1, urn1, defendantId1, firstName, lastName);
+
+        stubListingServiceForCasesByPersonDefendantAndHearingDate(urn, resource1);
+        stubUserPermissions();
+        stubForProsecutionCaseQuery();
+        stubAccessControl(true, userId, "Defence Lawyers");
+
+        final ResponseData response =  pollDefenceClientWithoutUrnWithOutDobForCivil(firstName, lastName, hearingDate, userId);
+
+        final String responseEntity = response.getPayload();
+        assertThat(responseEntity, isJson(Matchers.allOf(
+                withJsonPath("$.defendantId", is(defendantId)),
+                withJsonPath("$.caseId", is(caseId.toString())),
+                withJsonPath("$.caseUrn", is(urn)),
+                withJsonPath("$.prosecutionAuthorityCode", is("TFL")),
+                withJsonPath("$.prosecutor", notNullValue()),
+                withJsonPath("$.prosecutor.prosecutorCode", is("CPS")),
+                withJsonPath("$.prosecutor.prosecutorId", notNullValue())
+        )));
+    }
+
+
 
     @Test
     public void shouldReturnDefenceClientDetailsWhileMultipleUrnInDefenceAndHearing() {
@@ -247,6 +280,22 @@ public class DefenceCaseQueryIT {
         stubAccessControl(true, userId, "Defence Lawyers");
 
         final ResponseData response = pollDefenceClientForDefenceClientCountByPerson(firstName, lastName, dateOfBirth, hearingDate, userId);
+
+        final String responseEntity = response.getPayload();
+        assertThat(responseEntity, isJson(Matchers.allOf(
+                withJsonPath("$.defenceClientCount", is(2)))));
+    }
+
+    @Test
+    public void shouldReturnDefenceClientDetailsWhileMultipleUrnInDefenceAndNoHearingRecord_ForCivilNoDob() {
+        final String hearingDate = LocalDate.now().toString();
+        createProsecutionCaseHelper.createAndVerifyCivilProsecutionCaseWithoutDob(caseId, urn, defendantId, firstName, lastName);
+        createProsecutionCaseHelper.createAndVerifyCivilProsecutionCaseWithoutDob(caseId1, urn1, defendantId1, firstName, lastName);
+
+        stubListingServiceForCasesByPersonDefendantAndHearingDate(urn, resource3);
+        stubAccessControl(true, userId, "Defence Lawyers");
+
+        final ResponseData response =  pollDefenceClientForDefenceClientCountByPersonNoDob(firstName, lastName, hearingDate, userId);
 
         final String responseEntity = response.getPayload();
         assertThat(responseEntity, isJson(Matchers.allOf(
@@ -294,7 +343,7 @@ public class DefenceCaseQueryIT {
         stubForProsecutionCaseQuery();
         stubAccessControl(true, userId, "Defence Lawyers");
 
-        final ResponseData response = pollDefenceClientForOrganisationWithoutUrnForCivil(organisationName, hearingDate, userId);
+        final ResponseData response = pollDefenceClientForOrganisationWithoutUrnForCivil(organisationName, hearingDate, userId, true);
 
         final String responseEntity = response.getPayload();
         assertThat(responseEntity, isJson(Matchers.allOf(
@@ -304,8 +353,39 @@ public class DefenceCaseQueryIT {
                 withJsonPath("$.prosecutionAuthorityCode", is("DVL2")),
                 withJsonPath("$.prosecutor", notNullValue()),
                 withJsonPath("$.prosecutor.prosecutorCode", is("CPS")),
+                withJsonPath("$.isCivil", is(true)),
                 withJsonPath("$.prosecutor.prosecutorId", notNullValue())
         )));
+    }
+
+    @Test
+    public void shouldNotReturnCivilDefenceClientDetailsByOrganisationForCriminalDefendant() {
+        final String hearingDate = LocalDate.now().toString();
+        createProsecutionCaseHelper.createAndVerifyProsecutionCaseWithOrganisationDefendantForCivil(caseId, urn, defendantId, organisationName, userId);
+
+        stubListingServiceForCasesByOrganisationDefendantAndHearingDate(urn, resource1);
+        stubUserPermissions();
+        stubForProsecutionCaseQuery();
+        stubAccessControl(true, userId, "Defence Lawyers");
+
+        final ResponseData response =  pollDefenceClientForOrganisationWithoutUrnFor404(organisationName, hearingDate, userId, false);
+
+        assertThat(response.getStatus(), is(Response.Status.NOT_FOUND));
+    }
+
+    @Test
+    public void shouldNotReturnCriminalDefenceClientDetailsByOrganisationForCivilRespondent() {
+        final String hearingDate = LocalDate.now().toString();
+        createProsecutionCaseHelper.createAndVerifyProsecutionCaseWithOrganisationDefendant(caseId, urn, defendantId, organisationName, userId);
+
+        stubListingServiceForCasesByOrganisationDefendantAndHearingDate(urn, resource1);
+        stubUserPermissions();
+        stubForProsecutionCaseQuery();
+        stubAccessControl(true, userId, "Defence Lawyers");
+
+        final ResponseData response =  pollDefenceClientForOrganisationWithoutUrnFor404(organisationName, hearingDate, userId, true);
+
+        assertThat(response.getStatus(), is(Response.Status.NOT_FOUND));
     }
 
     @Test
@@ -474,6 +554,22 @@ public class DefenceCaseQueryIT {
         stubAccessControl(true, userId, "Defence Lawyers");
 
         final ResponseData response = pollCaseByPersonDefendantForCivil(firstName, lastName, dateOfBirth, userId);
+        final String responseEntity = response.getPayload();
+
+        assertThat(responseEntity, isJson(Matchers.allOf(
+                withJsonPath("$.caseIds[0]", is(caseId.toString())),
+                withJsonPath("$.defendants[0]", is(defendantId))
+        )));
+    }
+
+    @Test
+    public void shouldGetCaseByPersonDefendantForCivilWithOutDob() {
+
+        createProsecutionCaseHelper.createAndVerifyCivilProsecutionCaseWithoutDob(caseId, urn, defendantId, firstName, lastName);
+
+        stubAccessControl(true, userId, "Defence Lawyers");
+
+        final ResponseData response =  pollCaseByPersonDefendantForCivilWithOutDob(firstName, lastName, userId);
         final String responseEntity = response.getPayload();
 
         assertThat(responseEntity, isJson(Matchers.allOf(

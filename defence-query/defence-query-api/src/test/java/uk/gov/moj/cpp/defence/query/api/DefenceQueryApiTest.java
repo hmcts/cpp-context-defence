@@ -172,6 +172,9 @@ public class DefenceQueryApiTest {
     @Mock
     private CalendarService calendarService;
 
+    @Captor
+    ArgumentCaptor<JsonEnvelope> captorArg;
+
     @Test
     public void verifyAllPassThroughQueryHandlerMethods() {
         assertThat(new DefenceQueryApi(), isHandler(QUERY_API)
@@ -233,6 +236,7 @@ public class DefenceQueryApiTest {
         //Then
         final JsonObject payload = response.asJsonObject();
         assertThat(payload.getJsonObject(PROSECUTOR), is(CoreMatchers.nullValue()));
+        assertThat(payload.getBoolean(IS_CIVIL), is(true));
     }
 
     @Test
@@ -310,7 +314,7 @@ public class DefenceQueryApiTest {
         final String additionalInstructingOrgName = "ADD LTD";
         final String caseUrn = "TVL123MXC";
 
-        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisation();
+        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisationCriminalDefendent();
         final JsonEnvelope responseFromView = stubbedSuccessResponse(defenceClientId, caseId, defendantid,
                 associatedOrganisationId, lastAssociatedOrganisationId, idpcAccessingOrganisationId_1, idpcAccessingOrganisationId_2, asList(associatedOrganisationId, additionalInstructingOrganisation),
                 requestEnvelope, false, caseUrn);
@@ -338,6 +342,7 @@ public class DefenceQueryApiTest {
         assertThat(payload.getString(DEFENCE_CLIENT_ID), is(defenceClientId.toString()));
         assertThat(payload.getString(CASE_ID), is(caseId.toString()));
         assertThat(payload.getString(DEFENDANT_ID), is(defendantid.toString()));
+        assertThat(payload.getBoolean(IS_CIVIL), is(false));
         assertAssociatedOrganisation(associatedOrganisationId, associatedOrgName, payload);
         assertLastAssociatedOrganisation(lastAssociatedOrganisationId, lastAssociatedOrgName, payload);
         assertIdpcAccessingOrganisationDetails(idpcAccessingOrganisationId_1, idpcAccessingOrganisationId_2, idpcOrgName_1, idpcOrgName_2, payload);
@@ -393,6 +398,19 @@ public class DefenceQueryApiTest {
         mockPermissionService.close();
     }
 
+    @Test
+    public void shouldReturnNotFoundIdpcAccessCriminalOrganisationsDetailsAndAssociatedOrganisationDetailsForCivilRespondent() {
+
+        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisationCivilRespondent();
+        when(defenceQueryView.findOrganisationClientByCriteria((any(JsonEnvelope.class)))).thenReturn(JsonEnvelope.envelopeFrom(requestEnvelope.metadata(),
+                createObjectBuilder().build()));
+        //When
+        JsonEnvelope response = defenceQueryApi.findOrganisationClientByCriteria(requestEnvelope);
+        verify(defenceQueryView).findOrganisationClientByCriteria(captorArg.capture());
+        final JsonObject jsonObject = captorArg.getValue().asJsonObject();
+        assertTrue(response.payloadIsNull());
+        assertThat(jsonObject.getBoolean("isCivil"), is(true));
+    }
 
     @Test
     public void shouldReturnNullWhenNoCriteriaMatchFound() {
@@ -411,15 +429,16 @@ public class DefenceQueryApiTest {
     }
 
     @Test
-    public void shouldReturnNullWhenNoCriteriaMatchFoundForOrganisation() {
+    public void shouldReturnNullWhenNoCriteriaMatchFoundForCivilCase_AndDobIsNotProvidedInQueryParam() {
         //Given
-        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisation();
-        when(defenceQueryView.findOrganisationClientByCriteria((any(JsonEnvelope.class)))).thenReturn(envelopeFrom(
+        final JsonEnvelope requestEnvelope = createRequestEnvelopeForCivilWithoutDob();
+        when(defenceQueryView.findClientByCriteria((any(JsonEnvelope.class)))).thenReturn(envelopeFrom(
                 requestEnvelope.metadata(),
                 createObjectBuilder().build()));
 
+
         //When
-        JsonEnvelope response = defenceQueryApi.findOrganisationClientByCriteria(requestEnvelope);
+        JsonEnvelope response = defenceQueryApi.findClientByCriteria(requestEnvelope);
 
         //Then
         assertThat(response.payload(), is(NULL));
@@ -428,7 +447,7 @@ public class DefenceQueryApiTest {
     @Test
     void shouldReturnEmptyOrganizationAddressWhenOrganizationDoesntExists() {
         //Given
-        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisation();
+        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisationCivilRespondent();
         final CaseDefendantsOrganisations caseDefendantsOrganisations = CaseDefendantsOrganisations.caseDefendantsOrganisations()
                 .withCaseDefendantOrganisation(CaseDefendantsWithOrganisation.caseDefendantsWithOrganisation()
                         .withDefendants(Collections.singletonList(Defendant.defendant()
@@ -463,7 +482,7 @@ public class DefenceQueryApiTest {
     @Test
     void shouldReturnOrganizationAddressWhenOrganizationExists() {
         //Given
-        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisation();
+        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisationCivilRespondent();
         final CaseDefendantsOrganisations caseDefendantsOrganisations = CaseDefendantsOrganisations.caseDefendantsOrganisations()
                 .withCaseDefendantOrganisation(CaseDefendantsWithOrganisation.caseDefendantsWithOrganisation()
                         .withDefendants(Collections.singletonList(Defendant.defendant()
@@ -564,7 +583,7 @@ public class DefenceQueryApiTest {
         final String caseUrn = "TVL123MXC";
 
 
-        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisation();
+        final JsonEnvelope requestEnvelope = createRequestEnvelopeForOrganisationCriminalDefendent();
         final JsonEnvelope responseFromView = stubbedSuccessResponse(defenceClientId, caseId, defendantid,
                 associatedOrganisationId, randomUUID(), idpcAccessingOrganisationId_1, idpcAccessingOrganisationId_2, asList(associatedOrganisationId, organisationIdOfLoggedInUser),
                 requestEnvelope, false, caseUrn);
@@ -953,11 +972,25 @@ public class DefenceQueryApiTest {
                         .add(DOB, "1983-04-20")
                         .add(URN, "55DP0028117")
                         .add(HEARING_DATE, "2022-10-15")
-                        .add(IS_CIVIL, false)
+                        .add(IS_CIVIL, true)
                         .build());
     }
 
-    private JsonEnvelope createRequestEnvelopeForOrganisation() {
+    private JsonEnvelope createRequestEnvelopeForCivilWithoutDob() {
+        return envelopeFrom(Envelope.metadataBuilder()
+                        .withName("defence.query.defence-client-id")
+                        .withId(randomUUID())
+                        .build(),
+                createObjectBuilder()
+                        .add(FIRST_NAME, "Donald")
+                        .add(LAST_NAME, "Knuth")
+                        .add(URN, "55DP0028117")
+                        .add(HEARING_DATE, "2022-10-15")
+                        .add(IS_CIVIL, true)
+                        .build());
+    }
+
+    private JsonEnvelope createRequestEnvelopeForOrganisationCriminalDefendent() {
         return envelopeFrom(Envelope.metadataBuilder()
                         .withName("defence.query.defence-client-id")
                         .withId(randomUUID())
@@ -968,6 +1001,20 @@ public class DefenceQueryApiTest {
                         .add(URN, "55DP0028117")
                         .add(HEARING_DATE, "2022-10-15")
                         .add(IS_CIVIL, false)
+                        .build());
+    }
+
+    private JsonEnvelope createRequestEnvelopeForOrganisationCivilRespondent() {
+        return envelopeFrom(Envelope.metadataBuilder()
+                        .withName("defence.query.defence-client-id")
+                        .withId(randomUUID())
+                        .build(),
+                createObjectBuilder()
+                        .add(IS_ORGANISATION, true)
+                        .add(ORGANISATION_NAME, "Knuth LTD")
+                        .add(URN, "55DP0028117")
+                        .add(HEARING_DATE, "2022-10-15")
+                        .add(IS_CIVIL, true)
                         .add(WITH_ADDRESS, true)
                         .build());
     }

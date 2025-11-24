@@ -22,8 +22,7 @@
           "personDetails" : {
             "firstName": "FIRST_NAME",
             "lastName": "LAST_NAME",
-            "gender" : "FEMALE",
-            "dateOfBirth" : "DOB"
+            "gender" : "FEMALE"
           }
         },
 
@@ -84,6 +83,6 @@
       "caseURN":"URN_VALUE"
     },
     "statementOfFacts":"Prosecution fact text",
-    "isCivil": false
+    "isCivil": true
   }
 }

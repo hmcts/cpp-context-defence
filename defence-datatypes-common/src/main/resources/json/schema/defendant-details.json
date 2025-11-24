@@ -20,6 +20,9 @@
     },
     "organisation": {
       "$ref": "http://moj.gov.uk/cpp/defence/organisation.json"
+    },
+    "isCivil": {
+      "type": "boolean"
     }
   },
   "additionalProperties": false,

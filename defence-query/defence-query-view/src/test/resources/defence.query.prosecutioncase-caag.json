@@ -3,7 +3,15 @@
   "caseDetails": {
     "caseStatus": "ACTIVE",
     "caseURN": "53NP3458322",
-    "initiationCode": "C"
+    "initiationCode": "C",
+    "civilFees": [
+      {
+        "feeId": "c1e561fa-a73e-4c43-a8b5-57cb1f9be2cc",
+        "feeStatus": "OUTSTANDING",
+        "feeType": "INITIAL"
+      }
+    ],
+    "isCivil": true
   },
   "prosecutorDetails": {
     "address": {

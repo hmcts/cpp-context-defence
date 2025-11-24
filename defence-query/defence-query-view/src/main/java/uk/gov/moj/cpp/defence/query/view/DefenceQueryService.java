@@ -9,7 +9,9 @@ import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 import static java.util.stream.Collectors.toList;
 import static javax.json.Json.createObjectBuilder;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.SPACE;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static uk.gov.justice.cps.defence.CaseDefendantsOrganisations.caseDefendantsOrganisations;
 import static uk.gov.justice.services.core.annotation.Component.QUERY_API;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
@@ -96,7 +98,11 @@ public class DefenceQueryService {
     public List<UUID> getCasesAssociatedWithDefenceClientByPersonDefendant(final String firstName, final String lastName, final String dob, final Optional<Boolean> isCivil, final Optional<Boolean> isGroupMemberOpt) {
         if (isCivil.isPresent()) {
             final boolean isGroupMember = isGroupMemberOpt.orElse(false);
-            return defenceClientRepository.findCasesAssociatedWithDefenceClientByPersonDefendant(firstName, lastName, parse(dob), isCivil.get(), isGroupMember);
+            if (EMPTY.equalsIgnoreCase(dob)) {
+                return defenceClientRepository.findCasesAssociatedWithDefenceClientByPersonDefendantWithoutDob(firstName, lastName, isCivil.get(), isGroupMember);
+            } else {
+                return defenceClientRepository.findCasesAssociatedWithDefenceClientByPersonDefendant(firstName, lastName, parse(dob), isCivil.get(), isGroupMember);
+            }
         } else {
             return getCasesAssociatedWithDefenceClientByPersonDefendant(firstName, lastName, dob);
         }
@@ -113,7 +119,11 @@ public class DefenceQueryService {
     public List<UUID> getPersonDefendant(final String firstName, final String lastName, final String dateOfBirth, final Optional<Boolean> isCivil, final Optional<Boolean> isGroupMemberOpt) {
         if (isCivil.isPresent()) {
             final boolean isGroupMember = isGroupMemberOpt.orElse(false);
-            return defenceClientRepository.getPersonDefendant(firstName, lastName, parse(dateOfBirth), isCivil.get(), isGroupMember);
+            if (EMPTY.equalsIgnoreCase(dateOfBirth)) {
+                return defenceClientRepository.getPersonDefendantWithOutDob(firstName, lastName, isCivil.get(), isGroupMember);
+            } else {
+                return defenceClientRepository.getPersonDefendant(firstName, lastName, parse(dateOfBirth), isCivil.get(), isGroupMember);
+            }
         } else {
             return getPersonDefendant(firstName, lastName, dateOfBirth);
         }
@@ -313,13 +323,16 @@ public class DefenceQueryService {
         return envelopeFrom(query.metadata(), caseDefendantsOrganisations);
     }
 
-    public JsonObject getCaseDetailsByPersonDefendantAndHearingDate(final JsonEnvelope request, final String firstName, final String lastName, final String dateOfBirth, final String hearingDate, final Optional<Boolean> isCivil){
+    public JsonObject getCaseDetailsByPersonDefendantAndHearingDate(final JsonEnvelope request, final String firstName, final String lastName, final String dateOfBirth, final String hearingDate, final Optional<Boolean> isCivil) {
 
         final JsonObjectBuilder queryParams = createObjectBuilder()
                 .add("firstName", firstName)
                 .add("lastName", lastName)
-                .add("dateOfBirth", dateOfBirth)
                 .add("hearingDate", hearingDate);
+
+        if (isNotEmpty(dateOfBirth)) {
+            queryParams.add("dateOfBirth", dateOfBirth);
+        }
 
         if (isCivil.isPresent()) {
             queryParams.add("isCivil", isCivil.get());
@@ -356,7 +369,11 @@ public class DefenceQueryService {
 
     List<DefenceClient> findDefenceClientByCriteria(final String firstName, final String lastName, final String dob, final String urn, final Optional<Boolean> isCivil) {
         if (isCivil.isPresent()) {
-            return defenceClientRepository.findDefenceClientByCriteria(firstName, lastName, parse(dob), urn.toUpperCase(), isCivil.get());
+            if (EMPTY.equalsIgnoreCase(dob)) {
+                return defenceClientRepository.findDefenceClientByCriteriaWithOutDob(firstName, lastName, urn.toUpperCase(), isCivil.get());
+            } else {
+                return defenceClientRepository.findDefenceClientByCriteria(firstName, lastName, parse(dob), urn.toUpperCase(), isCivil.get());
+            }
         } else {
             return defenceClientRepository.findDefenceClientByCriteria(firstName, lastName, parse(dob), urn.toUpperCase());
         }
@@ -364,7 +381,11 @@ public class DefenceQueryService {
 
     List<DefenceClient> findDefenceClientByCriteria(final String firstName, final String lastName, final String dob, final Optional<Boolean> isCivil) {
         if (isCivil.isPresent()) {
-            return defenceClientRepository.findDefenceClientByCriteria(firstName, lastName, parse(dob), isCivil.get());
+            if (EMPTY.equalsIgnoreCase(dob)) {
+                return defenceClientRepository.findDefenceClientByCriteriaWithOutDob(firstName, lastName, isCivil.get());
+            } else {
+                return defenceClientRepository.findDefenceClientByCriteria(firstName, lastName, parse(dob), isCivil.get());
+            }
         } else {
             return defenceClientRepository.findDefenceClientByCriteria(firstName, lastName, parse(dob));
         }

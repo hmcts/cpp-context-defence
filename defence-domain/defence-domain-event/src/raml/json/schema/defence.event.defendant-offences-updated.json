@@ -60,6 +60,9 @@
           "items": {
             "$ref": "http://justice.gov.uk/cps/defence/offence"
           }
+        },
+        "isCivil": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false
@@ -88,6 +91,9 @@
           "items": {
             "$ref": "http://justice.gov.uk/domain/core/common/definitions.json#/definitions/uuid"
           }
+        },
+        "isCivil": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false
