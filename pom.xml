@@ -10,7 +10,7 @@
 
     <groupId>uk.gov.moj.cpp.defence</groupId>
     <artifactId>defence-parent</artifactId>
-    <version>17.0.87-SNAPSHOT</version>
+    <version>17.0.87-CCT-2271-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -35,7 +35,7 @@
         <referencedataoffences.version>17.0.38</referencedataoffences.version>
         <json-generator.version>0.1.0</json-generator.version>
         <criminal-court-public-model.version>${coredomain.version}</criminal-court-public-model.version>
-        <coredomain.version>17.102.12</coredomain.version>
+        <coredomain.version>17.102.13-CCT-2271-SNAPSHOT</coredomain.version>
         <material.version>17.0.57</material.version>
         <referencedata.version>17.0.118</referencedata.version>
         <listing.version>17.0.125</listing.version>
