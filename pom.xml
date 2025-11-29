@@ -31,15 +31,15 @@
         <people.version>2.0.114</people.version>
         <charging.version>2.0.274</charging.version>
         <usersgroups.version>17.0.40</usersgroups.version>
-        <progression.version>17.0.206</progression.version>
+        <progression.version>17.0.213</progression.version>
         <referencedataoffences.version>17.0.38</referencedataoffences.version>
         <json-generator.version>0.1.0</json-generator.version>
         <criminal-court-public-model.version>${coredomain.version}</criminal-court-public-model.version>
         <coredomain.version>17.103.10</coredomain.version>
-        <material.version>17.0.57</material.version>
-        <referencedata.version>17.0.118</referencedata.version>
-        <listing.version>17.0.125</listing.version>
-        <hearing.version>17.0.117</hearing.version>
+        <material.version>17.0.75</material.version>
+        <referencedata.version>17.0.119</referencedata.version>
+        <listing.version>17.0.131</listing.version>
+        <hearing.version>17.0.133</hearing.version>
         <system.documentgenerator.client.version>1.0.4</system.documentgenerator.client.version>
         <systemdocgenerator.version>17.0.96</systemdocgenerator.version>
         <sonar.coverage.exclusions>
