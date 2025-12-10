@@ -10,7 +10,7 @@
 
     <groupId>uk.gov.moj.cpp.defence</groupId>
     <artifactId>defence-parent</artifactId>
-    <version>17.0.87-CCT-2357-SNAPSHOT</version>
+    <version>17.0.88-CCT-2357-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
