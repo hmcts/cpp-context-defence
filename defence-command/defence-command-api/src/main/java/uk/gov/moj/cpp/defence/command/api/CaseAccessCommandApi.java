@@ -40,7 +40,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -124,12 +124,12 @@ public class CaseAccessCommandApi {
     }
 
     private JsonObject enrichAssignCasePayload(final AssignCaseByHearing assignCaseByHearing, final Metadata metadata) {
-        final JsonArrayBuilder caseHearingAssignmentDetails = Json.createArrayBuilder();
+        final JsonArrayBuilder caseHearingAssignmentDetails = JsonObjects.createArrayBuilder();
         final PersonDetails assigneeDetails = usersGroupService.getUserDetailsWithEmail(assignCaseByHearing.getAssigneeEmailId(), metadata, requester);
 
         assignCaseByHearing.getCaseHearings().forEach(caseHearing -> {
             final UUID caseId = caseHearing.getCaseId();
-            final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
+            final JsonObjectBuilder jsonObjectBuilder = JsonObjects.createObjectBuilder()
                     .add(CASE_ID, caseId.toString())
                     .add(HEARING_ID, caseHearing.getHearingId().toString());
             final ProsecutionCaseAuthority prosecutionCaseAuthority = progressionService.getProsecutionCaseAuthority(metadata, caseId);
@@ -155,12 +155,12 @@ public class CaseAccessCommandApi {
     }
 
     private JsonObject enrichAssignCasePayload(final AssignCase assignCase, final Metadata metadata) {
-        final JsonArrayBuilder caseAssignmentDetails = Json.createArrayBuilder();
+        final JsonArrayBuilder caseAssignmentDetails = JsonObjects.createArrayBuilder();
         final PersonDetails assigneeDetails = usersGroupService.getUserDetailsWithEmail(assignCase.getAssigneeEmailId(), metadata, requester);
         assignCase.getCaseIds().forEach(caseId -> {
             final ProsecutionCaseAuthority prosecutionCaseAuthority = progressionService.getProsecutionCaseAuthority(metadata, UUID.fromString(caseId.toString()));
             if (nonNull(prosecutionCaseAuthority)) {
-                final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+                final JsonObjectBuilder jsonObjectBuilder = JsonObjects.createObjectBuilder();
                 validateProsecutionAuthority(metadata, prosecutionCaseAuthority.getProsecutionAuthorityId(), jsonObjectBuilder);
                 jsonObjectBuilder.add(IS_ASSIGNEE_DEFENDING_CASE, isAssigneeDefending(metadata, caseId, assigneeDetails))
                         .add(CASE_ID, caseId.toString())

@@ -18,7 +18,7 @@ import uk.gov.justice.services.messaging.spi.DefaultEnvelope;
 import uk.gov.justice.services.messaging.spi.DefaultJsonEnvelopeProvider;
 import uk.gov.moj.cpp.defence.command.api.service.OrganisationService;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.util.Collections;
 import java.util.List;
@@ -60,7 +60,7 @@ public class DefencePleaCommandApiTest {
         final UUID userId = randomUUID();
         final UUID defendantId=randomUUID();
         List<UUID> defendantIds=Collections.singletonList(defendantId);
-        final JsonObject payload = Json.createObjectBuilder()
+        final JsonObject payload = JsonObjects.createObjectBuilder()
                 .add("organisationId", randomUUID().toString())
                 .add("defendantId",defendantId.toString())
                 .build();
@@ -79,7 +79,7 @@ public class DefencePleaCommandApiTest {
         final UUID userId = randomUUID();
         final UUID defendantId=randomUUID();
         List<UUID> defendantIds=Collections.singletonList(defendantId);
-        final JsonObject payload = Json.createObjectBuilder()
+        final JsonObject payload = JsonObjects.createObjectBuilder()
                 .add("organisationId", randomUUID().toString())
                 .add("defendantId",defendantId.toString())
                 .build();
@@ -95,7 +95,7 @@ public class DefencePleaCommandApiTest {
         final UUID userId = randomUUID();
         final UUID defendantId=randomUUID();
         List<UUID> defendantIds=Collections.singletonList(defendantId);
-        final JsonObject payload = Json.createObjectBuilder()
+        final JsonObject payload = JsonObjects.createObjectBuilder()
                 .add("organisationId", randomUUID().toString())
                 .add("defendantId",defendantId.toString())
                 .build();
@@ -116,7 +116,7 @@ public class DefencePleaCommandApiTest {
     public void shouldThrowExceptionForUpdatePleaForDefendantsOffenceWhenUserNotHavePermission() {
         final UUID userId = randomUUID();
         final UUID defendantId=randomUUID();
-        final JsonObject payload = Json.createObjectBuilder()
+        final JsonObject payload = JsonObjects.createObjectBuilder()
                 .add("organisationId", randomUUID().toString())
                 .add("defendantId",defendantId.toString())
                 .build();

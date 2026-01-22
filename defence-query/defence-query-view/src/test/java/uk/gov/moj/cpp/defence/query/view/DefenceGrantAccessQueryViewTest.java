@@ -27,7 +27,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -184,13 +184,13 @@ public class DefenceGrantAccessQueryViewTest {
     }
 
     private JsonObject stubbedQueryObjectPayloadForClientGrantees(UUID defenceClientId) {
-        return Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
                 .add("defendantClientId", defenceClientId.toString())
                 .build();
     }
 
     private JsonObject stubbedQueryObjectPayloadForDefenceGrantee(final UUID caseId, final UUID granteeUserId) {
-        return Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
                 .add("caseId", caseId.toString())
                 .add("granteeUserId", granteeUserId.toString())
                 .build();

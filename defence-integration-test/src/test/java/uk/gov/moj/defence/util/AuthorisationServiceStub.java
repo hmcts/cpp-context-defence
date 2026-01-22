@@ -12,7 +12,7 @@ import static uk.gov.justice.services.common.http.HeaderConstants.ID;
 
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 
 public class AuthorisationServiceStub {
 
@@ -27,7 +27,7 @@ public class AuthorisationServiceStub {
                         .withStatus(OK.getStatusCode())
                         .withHeader(ID, UUID.randomUUID().toString())
                         .withHeader(CONTENT_TYPE, CAPABILITY_CONTENT_TYPE)
-                        .withBody(Json.createObjectBuilder().add("enabled", true).build().toString()))
+                        .withBody(JsonObjects.createObjectBuilder().add("enabled", true).build().toString()))
         );
     }
 }

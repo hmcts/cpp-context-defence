@@ -13,7 +13,7 @@ import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
 import static java.util.stream.Collectors.toList;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static uk.gov.justice.services.core.annotation.Component.QUERY_API;
@@ -88,7 +88,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -178,7 +178,7 @@ public class CpsCaseAccessQueryView {
         final UUID caseId = fromString(envelope.payloadAsJsonObject().getString(CASE_ID));
         final List<ProsecutionOrganisationAccess> assigneeOrganisationList = organisationAccessRepository.findByCaseId(caseId);
 
-        final JsonArrayBuilder assigneesJson = Json.createArrayBuilder();
+        final JsonArrayBuilder assigneesJson = JsonObjects.createArrayBuilder();
 
         assigneeOrganisationList.forEach(assigneeOrganisation -> {
             if (isNotEmpty(assigneeOrganisation.getProsecutionAdvocatesWithAccess())) {
@@ -194,7 +194,7 @@ public class CpsCaseAccessQueryView {
 
         return envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
+                JsonObjects.createObjectBuilder()
                         .add(ASSIGNEES, assigneesJson)
                         .build());
     }
@@ -207,7 +207,7 @@ public class CpsCaseAccessQueryView {
 
         final List<ProsecutionOrganisationAccess> assigneeOrganisationList = organisationAccessRepository.findByCaseIdAndAssigneeOrganisationId(caseId, organisationId);
 
-        final JsonArrayBuilder assigneesJson = Json.createArrayBuilder();
+        final JsonArrayBuilder assigneesJson = JsonObjects.createArrayBuilder();
 
         assigneeOrganisationList.forEach(assigneeOrganisation -> {
             if (isNotEmpty(assigneeOrganisation.getProsecutionAdvocatesWithAccess())) {
@@ -220,7 +220,7 @@ public class CpsCaseAccessQueryView {
 
         return envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
+                JsonObjects.createObjectBuilder()
                         .add(ASSIGNEES, assigneesJson)
                         .build());
     }
@@ -427,7 +427,7 @@ public class CpsCaseAccessQueryView {
         } else if (isDefending) {
             jsonObjectBuilder.add(IS_ADVOCATE_DEFENDING_OR_PROSECUTING, DEFENDING);
         }
-        final JsonArrayBuilder defendantIdArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder defendantIdArrayBuilder = JsonObjects.createArrayBuilder();
         authorizedDefendantIds.forEach(defendantIdArrayBuilder::add);
         jsonObjectBuilder.add(AUTHORIZED_DEFENDANT_IDS, defendantIdArrayBuilder.build());
         return jsonObjectBuilder.build();
