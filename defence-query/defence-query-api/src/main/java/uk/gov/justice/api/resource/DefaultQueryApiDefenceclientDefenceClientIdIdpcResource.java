@@ -2,7 +2,7 @@
 package uk.gov.justice.api.resource;
 
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 import static javax.ws.rs.core.HttpHeaders.LOCATION;
 import static javax.ws.rs.core.Response.Status.FOUND;
@@ -25,7 +25,7 @@ import java.util.UUID;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Response;
 
@@ -156,7 +156,7 @@ public class DefaultQueryApiDefenceclientDefenceClientIdIdpcResource implements 
     private Response processedMaterialResponse(final Response materialResponse) {
 
         final String url = materialResponse.readEntity(String.class);
-        final JsonObject jsonObject = Json.createObjectBuilder()
+        final JsonObject jsonObject = JsonObjects.createObjectBuilder()
                 .add("url", url)
                 .build();
 

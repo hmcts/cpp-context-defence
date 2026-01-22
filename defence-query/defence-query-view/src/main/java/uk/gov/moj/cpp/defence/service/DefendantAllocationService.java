@@ -13,7 +13,7 @@ import uk.gov.moj.cpp.defence.persistence.DefendantAllocationRepository;
 import uk.gov.moj.cpp.defence.persistence.entity.DefendantAllocation;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class DefendantAllocationService {
             pleasAllocationDetails.add(builder.build());
         });
 
-        final JsonObject responsePayload = Json.createObjectBuilder()
+        final JsonObject responsePayload = JsonObjects.createObjectBuilder()
                 .add("pleasAllocation", listToJsonArrayConverter.convert(pleasAllocationDetails))
                 .build();
 

@@ -36,7 +36,7 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -184,7 +184,7 @@ public class AssociateDefenceOrganisationForLAAHandlerTest {
                 .withId(randomUUID())
                 .withUserId(userId.toString())
                 .build();
-        final JsonObject payload = Json.createObjectBuilder()
+        final JsonObject payload = JsonObjects.createObjectBuilder()
                 .add("defendantId", defendantId)
                 .add("organisationId", orgId)
                 .add("organisationName", orgName)

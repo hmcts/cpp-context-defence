@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -96,7 +96,7 @@ public class ExpiredAssignmentQueryViewTest {
         final ProsecutionAdvocateAccess prosecutionAdvocateAccess = getProsecutionAdvocateAccess(advocateUserId);
         prosecutionAdvocateAccess.setProsecutionOrganisation(getProsecutionOrganisationAccessEntity(caseId, organisationId));
         when(advocateAccessRepository.findExpiredCaseAssignments(50)).thenReturn(singletonList(prosecutionAdvocateAccess));
-        when(envelope.payloadAsJsonObject()).thenReturn(Json.createObjectBuilder().add(EXPIRED_ASSIGNMENTS_SELECT_COUNT, "50").build());
+        when(envelope.payloadAsJsonObject()).thenReturn(JsonObjects.createObjectBuilder().add(EXPIRED_ASSIGNMENTS_SELECT_COUNT, "50").build());
 
         final Envelope<ExpiredProsecutorAssignments> expiredProsecutorAssignmentsEnvelope = advocateAccessQueryView.queryExpiredProsecutorAssignments(envelope);
         final List<ProsecutorAssignment> prosecutorAssignments = expiredProsecutorAssignmentsEnvelope.payload().getProsecutorAssignments();
@@ -150,7 +150,7 @@ public class ExpiredAssignmentQueryViewTest {
         prosecutionAdvocatesWithAccessSet.add(prosecutionAdvocateAccess);
 
         when(organisationAccessRepository.findExpiredCaseAssignments(50)).thenReturn(singletonList(prosecutionOrganisationAccess));
-        when(envelope.payloadAsJsonObject()).thenReturn(Json.createObjectBuilder().add(EXPIRED_ASSIGNMENTS_SELECT_COUNT, "50").build());
+        when(envelope.payloadAsJsonObject()).thenReturn(JsonObjects.createObjectBuilder().add(EXPIRED_ASSIGNMENTS_SELECT_COUNT, "50").build());
 
         final Envelope<ExpiredProsecutorOrganisationAssignments> expiredProsecutorAssignmentsEnvelope = advocateAccessQueryView.queryExpiredProsecutorOrganisationAssignments(envelope);
         final List<OrganisationAssignment> organisationAssignments = expiredProsecutorAssignmentsEnvelope.payload().getOrganisationAssignments();

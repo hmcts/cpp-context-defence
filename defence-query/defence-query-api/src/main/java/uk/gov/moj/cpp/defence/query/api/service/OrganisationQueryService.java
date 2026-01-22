@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 public class OrganisationQueryService {
@@ -29,7 +29,7 @@ public class OrganisationQueryService {
     public List<OrganisationNameVO> getOrganisationNamesForIds(final List<String> ids, final Metadata metadata) {
 
         final String orgIdsToLookUp = String.join(",", ids);
-        final JsonObject getOrganisationForUserRequest = Json.createObjectBuilder().add("ids", orgIdsToLookUp).build();
+        final JsonObject getOrganisationForUserRequest = JsonObjects.createObjectBuilder().add("ids", orgIdsToLookUp).build();
         final Metadata metadataWithActionName = metadataFrom(metadata).withName("usersgroups.get-organisation-names-forids").build();
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getOrganisationForUserRequest);
         final JsonObject response = requester.requestAsAdmin(requestEnvelope, JsonObject.class).payload();
@@ -43,7 +43,7 @@ public class OrganisationQueryService {
     public String getOrganisationOfLoggedInUser(final Metadata metadata) {
 
         final String userId = metadata.userId().orElseThrow(() -> new NullPointerException("User id Not Supplied for the UserGroups look up"));
-        final JsonObject getOrganisationForUserRequest = Json.createObjectBuilder().add("userId", userId).build();
+        final JsonObject getOrganisationForUserRequest = JsonObjects.createObjectBuilder().add("userId", userId).build();
 
         final Metadata metadataWithActionName = metadataFrom(metadata).withName("usersgroups.get-organisation-details-for-user").build();
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getOrganisationForUserRequest);

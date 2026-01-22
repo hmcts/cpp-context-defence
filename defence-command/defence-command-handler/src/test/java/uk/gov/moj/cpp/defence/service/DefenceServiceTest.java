@@ -1,7 +1,7 @@
 package uk.gov.moj.cpp.defence.service;
 
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,7 +16,7 @@ import uk.gov.moj.cpp.defence.query.view.CpsCaseAccessQueryView;
 
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,7 @@ public class DefenceServiceTest {
         final String caseId = randomUUID().toString();
         final String organisationId = randomUUID().toString();
         when(cpsCaseAccessQueryView.getAssignedAdvocatesToTheCaseAndOrganisation(any())).thenReturn(responseEnvelop);
-        when(responseEnvelop.asJsonObject()).thenReturn(Json.createObjectBuilder().add(ASSIGNEES, Json.createArrayBuilder().add(Json.createObjectBuilder().add("assigneeId", randomUUID().toString()).build()).build()).build());
+        when(responseEnvelop.asJsonObject()).thenReturn(JsonObjects.createObjectBuilder().add(ASSIGNEES, JsonObjects.createArrayBuilder().add(JsonObjects.createObjectBuilder().add("assigneeId", randomUUID().toString()).build()).build()).build());
 
         final boolean hasAdvocatesAssignedToTheCase = defenceService.hasAdvocatesAssignedToTheCase(getRemoveCaseAssignmentJsonEnvelope(), caseId, organisationId);
 
@@ -58,7 +58,7 @@ public class DefenceServiceTest {
         final String caseId = randomUUID().toString();
         final String organisationId = randomUUID().toString();
         when(cpsCaseAccessQueryView.getAssignedAdvocatesToTheCaseAndOrganisation(any())).thenReturn(responseEnvelop);
-        when(responseEnvelop.asJsonObject()).thenReturn(Json.createObjectBuilder().add(ASSIGNEES, Json.createArrayBuilder().build()).build());
+        when(responseEnvelop.asJsonObject()).thenReturn(JsonObjects.createObjectBuilder().add(ASSIGNEES, JsonObjects.createArrayBuilder().build()).build());
 
         final boolean hasAdvocatesAssignedToTheCase = defenceService.hasAdvocatesAssignedToTheCase(getRemoveCaseAssignmentJsonEnvelope(), caseId, organisationId);
 
@@ -112,7 +112,7 @@ public class DefenceServiceTest {
                 JsonEnvelope.metadataBuilder()
                         .withId(randomUUID())
                         .withName(DEFENCE_GET_ADVOCATES_BY_CASE_ORGANISATION_QUERY).build(),
-                Json.createObjectBuilder()
+                JsonObjects.createObjectBuilder()
                         .build());
     }
 

@@ -24,7 +24,7 @@ import uk.gov.justice.cps.defence.Permission;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 
 import org.apache.http.HttpHeaders;
 
@@ -247,9 +247,9 @@ public class UsersGroupStub {
                 .willReturn(aResponse().withStatus(ACCEPTED.getStatusCode())
                         .withHeader(ID, randomUUID().toString())
                         .withHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON)
-                        .withBody(Json.createObjectBuilder()
+                        .withBody(JsonObjects.createObjectBuilder()
                                 .add("id", UUID.randomUUID().toString())
-                                .add("metadata", Json.createObjectBuilder().add("name", "usersgroups.create-permission-with-details").build())
+                                .add("metadata", JsonObjects.createObjectBuilder().add("name", "usersgroups.create-permission-with-details").build())
                                 .build().toString())
                 ));
 

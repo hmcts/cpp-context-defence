@@ -39,7 +39,7 @@ import uk.gov.moj.cpp.defence.events.AllocationPleasAdded;
 import uk.gov.moj.cpp.defence.events.AllocationPleasUpdated;
 import uk.gov.moj.cpp.defence.events.OpaTaskRequested;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import java.time.LocalDate;
@@ -168,16 +168,16 @@ public class PleaAllocationEventProcessorTest {
                                         .build()))
                                 .build()))
                 .build();
-        final JsonArray pleasAllocationDetailsOnCaseJsonArray = Json.createArrayBuilder().add(Json.createObjectBuilder()
+        final JsonArray pleasAllocationDetailsOnCaseJsonArray = JsonObjects.createArrayBuilder().add(JsonObjects.createObjectBuilder()
                         .add("caseUrn", "URN1")
                         .add("caseId", caseId.toString())
                         .add("defendantId", defendantId2.toString())
                         .add("additionalInformation", "Additional Information")
                         .add("crownCourtObjection", YesNoNa.Y.toString())
-                        .add("offencePleas", Json.createArrayBuilder().add(Json.createObjectBuilder()
+                        .add("offencePleas", JsonObjects.createArrayBuilder().add(JsonObjects.createObjectBuilder()
                                 .add("offenceId",offenceId.toString())
                                 .add("indicatedPlea",IndicatedPleaValue.INDICATED_GUILTY.toString())))
-                        .add("defendantDetails",Json.createObjectBuilder().add("organisationName","Corrected Organisation Name").build())
+                        .add("defendantDetails",JsonObjects.createObjectBuilder().add("organisationName","Corrected Organisation Name").build())
                         .add("defendantNameDobConfirmation","false")
                         .add("offenceType","youthGraveCrime")
                         .add("additionalInformation","Test additional Info")
