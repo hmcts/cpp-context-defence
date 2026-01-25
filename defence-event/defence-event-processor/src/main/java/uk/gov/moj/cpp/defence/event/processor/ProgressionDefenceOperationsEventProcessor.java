@@ -19,7 +19,7 @@ import uk.gov.moj.cpp.defence.event.processor.events.DefendantOffencesChanged;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
@@ -88,7 +88,7 @@ public class ProgressionDefenceOperationsEventProcessor {
     }
 
     public static JsonObject removeProperty(JsonObject origin, String key) {
-        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        final JsonObjectBuilder builder = JsonObjects.createObjectBuilder();
 
         for (final Map.Entry<String, JsonValue> entry : origin.entrySet()) {
             if (!entry.getKey().equals(key)) {

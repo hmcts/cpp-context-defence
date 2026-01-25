@@ -17,7 +17,7 @@ import uk.gov.justice.services.test.utils.core.enveloper.EnveloperFactory;
 
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -61,7 +61,7 @@ public class IdpcAccessRecordedEventProcessorTest {
                         .withName("defence.event.idpc-access-by-organisation-recorded")
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                JsonObjects.createObjectBuilder()
                         .add("a", "a").build());
 
         //test

@@ -1,6 +1,6 @@
 package uk.gov.moj.cpp.defence.service;
 
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.core.annotation.Component.QUERY_API;
 import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
 
@@ -15,7 +15,7 @@ import uk.gov.moj.cpp.defence.query.view.CpsCaseAccessQueryView;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 public class DefenceService {
@@ -52,7 +52,7 @@ public class DefenceService {
     }
 
     private JsonObject queryRoleInCase(final Envelope request, final UUID caseId, final UUID userId) {
-        final JsonObject roleInCasePayload = Json.createObjectBuilder()
+        final JsonObject roleInCasePayload = JsonObjects.createObjectBuilder()
                 .add("caseId", caseId.toString())
                 .add("userId", userId.toString())
                 .build();

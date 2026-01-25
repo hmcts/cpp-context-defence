@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 
 @ServiceComponent(COMMAND_API)
 public class DefencePleaCommandApi {
@@ -61,7 +61,7 @@ public class DefencePleaCommandApi {
     }
 
     private void sendEnvelopeWithName(final JsonEnvelope envelope, final String name) {
-        sender.send(envelop(Json.createObjectBuilder().add("pleasAllocation", envelope.payloadAsJsonObject()).build())
+        sender.send(envelop(JsonObjects.createObjectBuilder().add("pleasAllocation", envelope.payloadAsJsonObject()).build())
                 .withName(name)
                 .withMetadataFrom(envelope));
     }

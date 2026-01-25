@@ -68,7 +68,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.Test;
@@ -959,9 +959,9 @@ public class DefenceClientTest {
     }
 
     private JsonObject getGroupsResponseJson(final String groupName) {
-        return Json.createObjectBuilder()
-                .add("groups", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
+                .add("groups", JsonObjects.createArrayBuilder()
+                        .add(JsonObjects.createObjectBuilder()
                                 .add("groupName", groupName)
                                 .build()
                         )

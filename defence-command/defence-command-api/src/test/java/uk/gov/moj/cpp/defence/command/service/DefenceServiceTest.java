@@ -10,7 +10,7 @@ import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.justice.services.messaging.Metadata;
 import uk.gov.moj.cpp.defence.query.view.DefenceGrantAccessQueryView;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.util.UUID;
 
@@ -40,9 +40,9 @@ public class DefenceServiceTest {
 
         when(defenceGrantAccessQueryView.getCaseGrantee(any(JsonEnvelope.class))).thenAnswer(invocationOnMock -> {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
-            final JsonObject responsePayload = Json.createObjectBuilder()
-                    .add(GRANTEES, Json.createArrayBuilder()
-                            .add(Json.createObjectBuilder()
+            final JsonObject responsePayload = JsonObjects.createObjectBuilder()
+                    .add(GRANTEES, JsonObjects.createArrayBuilder()
+                            .add(JsonObjects.createObjectBuilder()
                                     .build())
                             .build())
                     .build();
@@ -64,7 +64,7 @@ public class DefenceServiceTest {
 
         when(defenceGrantAccessQueryView.getCaseGrantee(any(JsonEnvelope.class))).thenAnswer(invocationOnMock -> {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
-            final JsonObject responsePayload = Json.createObjectBuilder()
+            final JsonObject responsePayload = JsonObjects.createObjectBuilder()
                     .build();
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
         });
@@ -84,8 +84,8 @@ public class DefenceServiceTest {
 
         when(defenceGrantAccessQueryView.getCaseGrantee(any(JsonEnvelope.class))).thenAnswer(invocationOnMock -> {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
-            final JsonObject responsePayload = Json.createObjectBuilder()
-                    .add(GRANTEES, Json.createArrayBuilder()
+            final JsonObject responsePayload = JsonObjects.createObjectBuilder()
+                    .add(GRANTEES, JsonObjects.createArrayBuilder()
                             .build())
                     .build();
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);

@@ -10,7 +10,7 @@ import uk.gov.justice.services.core.sender.Sender;
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.justice.services.messaging.spi.DefaultEnvelope;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.Test;
@@ -50,7 +50,7 @@ public class DisassociateDefenceOrganisationApiTest {
 
     private JsonEnvelope createDisassociationCommandEnvelope() {
 
-        final JsonObject payload = Json.createObjectBuilder()
+        final JsonObject payload = JsonObjects.createObjectBuilder()
                 .add("organisationId", randomUUID().toString())
                 .build();
 

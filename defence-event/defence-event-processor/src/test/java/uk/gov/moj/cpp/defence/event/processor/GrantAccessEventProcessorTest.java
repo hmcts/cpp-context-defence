@@ -28,7 +28,7 @@ import uk.gov.moj.cpp.defence.service.UserGroupService;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import org.hamcrest.Matchers;
@@ -127,7 +127,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder().build());
+                JsonObjects.createObjectBuilder().build());
 
         //test
         grantAccessEventProcessor.handleGrantAccessFailedEvent(envelope);
@@ -147,7 +147,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder().build());
+                JsonObjects.createObjectBuilder().build());
 
         //test
         grantAccessEventProcessor.handleUserAlreadyGrantedFailedEvent(envelope);
@@ -167,7 +167,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder().build());
+                JsonObjects.createObjectBuilder().build());
 
         //test
         grantAccessEventProcessor.handleGranteeUserNotInAllowedGroupsFailedEvent(envelope);
@@ -187,7 +187,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder().build());
+                JsonObjects.createObjectBuilder().build());
 
         //test
         grantAccessEventProcessor.handleUserNotFoundFailedEvent(envelope);
@@ -210,7 +210,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                JsonObjects.createObjectBuilder()
                         .add("userId", userId.toString())
                         .add("caseId", caseId.toString())
                         .add("email", email)
