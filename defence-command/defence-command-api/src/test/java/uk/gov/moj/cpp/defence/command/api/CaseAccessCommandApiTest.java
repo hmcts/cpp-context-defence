@@ -1,15 +1,24 @@
 package uk.gov.moj.cpp.defence.command.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static com.google.common.collect.ImmutableList.of;
+import static java.lang.Integer.parseInt;
+import static java.time.ZonedDateTime.now;
+import static java.util.UUID.randomUUID;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+import static uk.gov.justice.services.test.utils.core.reflection.ReflectionUtil.setField;
+import static uk.gov.moj.cpp.defence.command.api.CaseAccessCommandApi.DEFENCE_COMMAND_HANDLER_SYSTEM_SCHEDULE_ADVOCATE_ACCESS;
+import static uk.gov.moj.cpp.defence.command.api.CaseAccessCommandApi.ERROR_CODE;
+import static uk.gov.moj.cpp.defence.command.api.CaseAccessCommandApi.FAILURE_REASON;
+import static uk.gov.moj.cpp.defence.common.util.ErrorType.CASE_NOT_FOUND;
+import static uk.gov.moj.cpp.defence.common.util.ErrorType.ORGANISATION_NOT_PROSECUTING_AUTHORITY;
+
 import uk.gov.justice.cps.defence.AssignCase;
 import uk.gov.justice.cps.defence.AssignCaseByHearing;
 import uk.gov.justice.cps.defence.CaseHearings;
@@ -30,29 +39,21 @@ import uk.gov.moj.cpp.defence.service.ReferenceDataService;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
 import uk.gov.moj.cpp.defence.service.UsersGroupQueryService;
 
-import uk.gov.justice.services.messaging.JsonObjects;
-import javax.json.JsonObject;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.google.common.collect.ImmutableList.of;
-import static java.lang.Integer.parseInt;
-import static java.time.ZonedDateTime.now;
-import static java.util.UUID.randomUUID;
-import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static uk.gov.justice.services.test.utils.core.reflection.ReflectionUtil.setField;
-import static uk.gov.moj.cpp.defence.command.api.CaseAccessCommandApi.DEFENCE_COMMAND_HANDLER_SYSTEM_SCHEDULE_ADVOCATE_ACCESS;
-import static uk.gov.moj.cpp.defence.command.api.CaseAccessCommandApi.ERROR_CODE;
-import static uk.gov.moj.cpp.defence.command.api.CaseAccessCommandApi.FAILURE_REASON;
-import static uk.gov.moj.cpp.defence.common.util.ErrorType.CASE_NOT_FOUND;
-import static uk.gov.moj.cpp.defence.common.util.ErrorType.ORGANISATION_NOT_PROSECUTING_AUTHORITY;
+import javax.json.JsonObject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class CaseAccessCommandApiTest {

@@ -4,15 +4,15 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
-import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static uk.gov.justice.cps.defence.ErrorCode.CASE_NOT_FOUND;
 import static uk.gov.justice.cps.defence.ErrorCode.ORGANISATION_NOT_PROSECUTING_AUTHORITY;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.messaging.JsonObjects.getBoolean;
 import static uk.gov.justice.services.messaging.JsonObjects.getString;
-import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
-import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
 
 import uk.gov.justice.cps.defence.Allegations;
 import uk.gov.justice.cps.defence.CaseDefendantsOrganisations;
@@ -44,14 +44,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.InternalServerErrorException;
-
-import org.apache.commons.lang3.StringUtils;
 
 @ServiceComponent(Component.QUERY_VIEW)
 public class DefenceQueryView {
