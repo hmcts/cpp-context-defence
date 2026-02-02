@@ -11,6 +11,7 @@ import static org.mockito.BDDMockito.verify;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.messaging.spi.DefaultJsonMetadata.metadataBuilder;
 import static uk.gov.moj.cpp.progression.json.schema.event.PublicDefendantIdpcAdded.publicDefendantIdpcAdded;
 
@@ -35,8 +36,6 @@ import uk.gov.moj.cpp.progression.json.schema.event.PublicDefendantIdpcAdded;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
-
-import javax.json.Json;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -110,7 +109,7 @@ public class DefenceClientEventProcessorTest {
         defenceClientEventProcessor.handleSuspectAdded(envelopeDcmtac);
 
         verify(sender, times(1)).send(receiveDefenceClientEnvelope);
-        verify(defenceClientMappedToACase,times(1)).getDefendantId();
+        verify(defenceClientMappedToACase, times(1)).getDefendantId();
     }
 
     @Test
@@ -163,7 +162,7 @@ public class DefenceClientEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add("a", "a").build());
 
         //test

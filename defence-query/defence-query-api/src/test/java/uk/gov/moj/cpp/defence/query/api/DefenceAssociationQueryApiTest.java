@@ -4,9 +4,10 @@ import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.justice.services.messaging.MetadataBuilder;
@@ -17,7 +18,6 @@ import uk.gov.moj.cpp.defence.query.view.DefenceAssociationQueryView;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -164,16 +164,16 @@ public class DefenceAssociationQueryApiTest {
     private JsonEnvelope emptyOrganisationDetails(final UUID userId) {
         return JsonEnvelope.envelopeFrom(
                 stubbedMetadataBuilder(userId),
-                Json.createObjectBuilder()
-                        .add("association", Json.createObjectBuilder())
+                createObjectBuilder()
+                        .add("association", createObjectBuilder())
                         .build());
     }
 
     private JsonEnvelope noOrganisationsAssociated(final UUID userId) {
         return JsonEnvelope.envelopeFrom(
                 stubbedMetadataBuilder(userId),
-                Json.createObjectBuilder()
-                        .add("associations", Json.createArrayBuilder())
+                createObjectBuilder()
+                        .add("associations", createArrayBuilder())
                         .build());
     }
 
@@ -192,8 +192,8 @@ public class DefenceAssociationQueryApiTest {
     }
 
     private JsonObject stubbedDefenceAssociationDataToReturnFromPersistedData(final String organisationId) {
-        return Json.createObjectBuilder()
-                .add("association", Json.createObjectBuilder()
+        return createObjectBuilder()
+                .add("association", createObjectBuilder()
                         .add("organisationId", organisationId)
                         .add("status", "Active Barrister/Solicitor of record")
                         .add("startDate", ZonedDateTime.now().toString())
@@ -203,15 +203,15 @@ public class DefenceAssociationQueryApiTest {
     }
 
     private JsonObject stubbedDefenceAssociationListToReturnFromPersistedData(final String organisationId1, final String organisationId2) {
-        return Json.createObjectBuilder()
-                .add("associations", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
+        return createObjectBuilder()
+                .add("associations", createArrayBuilder()
+                        .add(createObjectBuilder()
                                 .add("organisationId", organisationId1)
                                 .add("status", "")
                                 .add("startDate", ZonedDateTime.now().minusDays(30).toString())
                                 .add("endDate", ZonedDateTime.now().minusDays(1).toString())
                                 .add("representationType", "PRO_BONO1"))
-                        .add(Json.createObjectBuilder()
+                        .add(createObjectBuilder()
                                 .add("organisationId", organisationId2)
                                 .add("status", "Active Barrister/Solicitor of record")
                                 .add("startDate", ZonedDateTime.now().toString())
@@ -220,7 +220,7 @@ public class DefenceAssociationQueryApiTest {
     }
 
     private JsonObject stubbedDefenceAssociationDataReturnedFromUsersAndGroupService(final String organisationId) {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add("organisationId", organisationId)
                 .add("organisationName", organisationName)
                 .add("addressLine1", "add line 1")

@@ -13,13 +13,14 @@ import static java.util.Optional.of;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
 import static java.util.stream.Collectors.toList;
-import static javax.json.Json.createObjectBuilder;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static uk.gov.justice.services.core.annotation.Component.QUERY_API;
 import static uk.gov.justice.services.core.annotation.Component.QUERY_VIEW;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.messaging.JsonObjects.getJsonArray;
 import static uk.gov.justice.services.messaging.JsonObjects.getString;
 
@@ -88,7 +89,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -178,7 +178,7 @@ public class CpsCaseAccessQueryView {
         final UUID caseId = fromString(envelope.payloadAsJsonObject().getString(CASE_ID));
         final List<ProsecutionOrganisationAccess> assigneeOrganisationList = organisationAccessRepository.findByCaseId(caseId);
 
-        final JsonArrayBuilder assigneesJson = Json.createArrayBuilder();
+        final JsonArrayBuilder assigneesJson = createArrayBuilder();
 
         assigneeOrganisationList.forEach(assigneeOrganisation -> {
             if (isNotEmpty(assigneeOrganisation.getProsecutionAdvocatesWithAccess())) {
@@ -194,7 +194,7 @@ public class CpsCaseAccessQueryView {
 
         return envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(ASSIGNEES, assigneesJson)
                         .build());
     }
@@ -207,7 +207,7 @@ public class CpsCaseAccessQueryView {
 
         final List<ProsecutionOrganisationAccess> assigneeOrganisationList = organisationAccessRepository.findByCaseIdAndAssigneeOrganisationId(caseId, organisationId);
 
-        final JsonArrayBuilder assigneesJson = Json.createArrayBuilder();
+        final JsonArrayBuilder assigneesJson = createArrayBuilder();
 
         assigneeOrganisationList.forEach(assigneeOrganisation -> {
             if (isNotEmpty(assigneeOrganisation.getProsecutionAdvocatesWithAccess())) {
@@ -220,7 +220,7 @@ public class CpsCaseAccessQueryView {
 
         return envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(ASSIGNEES, assigneesJson)
                         .build());
     }
@@ -320,7 +320,7 @@ public class CpsCaseAccessQueryView {
     @Handles("advocate.query.expired-prosecutor-assignments")
     public Envelope<ExpiredProsecutorAssignments> queryExpiredProsecutorAssignments(final JsonEnvelope envelope) {
         final List<ProsecutionAdvocateAccess> expiredProsecutorAssignmentList;
-        if (envelope.payloadAsJsonObject().containsKey(EXPIRED_ASSIGNMENTS_SELECT_COUNT)){
+        if (envelope.payloadAsJsonObject().containsKey(EXPIRED_ASSIGNMENTS_SELECT_COUNT)) {
             expiredProsecutorAssignmentList = advocateAssignmentRepository.findExpiredCaseAssignments(Integer.valueOf(envelope.payloadAsJsonObject().getString(EXPIRED_ASSIGNMENTS_SELECT_COUNT)));
         } else {
             expiredProsecutorAssignmentList = advocateAssignmentRepository.findExpiredCaseAssignments();
@@ -332,7 +332,7 @@ public class CpsCaseAccessQueryView {
     @Handles("advocate.query.expired-prosecutor-organisation-assignments")
     public Envelope<ExpiredProsecutorOrganisationAssignments> queryExpiredProsecutorOrganisationAssignments(final JsonEnvelope envelope) {
         final List<ProsecutionOrganisationAccess> expiredProsecutorAssignmentList;
-        if (envelope.payloadAsJsonObject().containsKey(EXPIRED_ASSIGNMENTS_SELECT_COUNT)){
+        if (envelope.payloadAsJsonObject().containsKey(EXPIRED_ASSIGNMENTS_SELECT_COUNT)) {
             expiredProsecutorAssignmentList = organisationAccessRepository.findExpiredCaseAssignments(Integer.valueOf(envelope.payloadAsJsonObject().getString(EXPIRED_ASSIGNMENTS_SELECT_COUNT)));
         } else {
             expiredProsecutorAssignmentList = organisationAccessRepository.findExpiredCaseAssignments();
@@ -427,7 +427,7 @@ public class CpsCaseAccessQueryView {
         } else if (isDefending) {
             jsonObjectBuilder.add(IS_ADVOCATE_DEFENDING_OR_PROSECUTING, DEFENDING);
         }
-        final JsonArrayBuilder defendantIdArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder defendantIdArrayBuilder = createArrayBuilder();
         authorizedDefendantIds.forEach(defendantIdArrayBuilder::add);
         jsonObjectBuilder.add(AUTHORIZED_DEFENDANT_IDS, defendantIdArrayBuilder.build());
         return jsonObjectBuilder.build();
@@ -562,14 +562,15 @@ public class CpsCaseAccessQueryView {
             }
             return false;
         } else {
-            if ((inputRole.equals(roleFromDB) || BOTH.equals(roleFromDB) )) {
+            if ((inputRole.equals(roleFromDB) || BOTH.equals(roleFromDB))) {
                 return inputRole.equals(DEFENDING);
             }
             throw new ForbiddenRequestException(format(USER_HAS_NO_PERMISSION_FOR_THE_S_VIEW, inputRole));
         }
     }
+
     @SuppressWarnings("squid:S3655")
-    private Optional<String> isNonCPSProsecutor(JsonEnvelope request, final UUID caseId){
+    private Optional<String> isNonCPSProsecutor(JsonEnvelope request, final UUID caseId) {
         final UUID userId = request.metadata().userId().isPresent() ? fromString(request.metadata().userId().get()) : null;
         final UUID prosecutorId = progressionService.getProsecutorOrProsecutionCaseAuthorityID(request.metadata(), caseId);
         final Optional<JsonObject> prosecutorJsonObjectOptional = referenceDataService.getProsecutor(request.metadata(), prosecutorId);
@@ -817,13 +818,13 @@ public class CpsCaseAccessQueryView {
     }
 
     private SearchCaseByUrn updateSearchCaseByUrnWithAuthorizedDefendantIds(final Envelope<SearchCaseByUrn> request, JsonObject roleInCaseJsonObject, final List<Defendants> defendants) {
-        final Map<UUID,UUID> defendantMasterDefMap = new HashMap<>();
+        final Map<UUID, UUID> defendantMasterDefMap = new HashMap<>();
         ofNullable(defendants).ifPresent(defendantsList -> defendantsList.forEach(def -> defendantMasterDefMap.put(def.getId(), def.getMasterDefendantId())));
         final List<UUID> authorizedDefendantIds = roleInCaseJsonObject.getJsonArray(AUTHORIZED_DEFENDANT_IDS).stream()
                 .map(id -> ((JsonString) id).getString())
                 .map(UUID::fromString)
                 .collect(toList());
-        if(!defendantMasterDefMap.isEmpty()){
+        if (!defendantMasterDefMap.isEmpty()) {
             final List<UUID> masterDefendantIds = authorizedDefendantIds.stream()
                     .map(defendantMasterDefMap::get)
                     .filter(Objects::nonNull)

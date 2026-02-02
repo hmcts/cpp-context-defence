@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static uk.gov.justice.services.core.annotation.Component.COMMAND_HANDLER;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.test.utils.core.helper.EventStreamMockHelper.verifyAppendAndGetArgumentFrom;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMatcher.isHandler;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMethodMatcher.method;
@@ -26,10 +27,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -97,7 +96,7 @@ public class AssociateOrphanedCaseHandlerTest {
 
 
     private static JsonObject createPayloadForOrphanedDefendantAssociation() {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add(DEFENDANT_ID, defendantId.toString())
                 .add(ORGANISATION_ID, organisationId)
                 .add(LAA_CONTRACT_NUMBER, laaContractNumber)

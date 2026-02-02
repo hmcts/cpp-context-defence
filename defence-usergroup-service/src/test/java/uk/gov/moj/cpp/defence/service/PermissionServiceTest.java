@@ -6,6 +6,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.moj.cpp.defence.common.util.ActionTypes.VIEW;
 import static uk.gov.moj.cpp.defence.common.util.GrantAccessUtil.ACTION;
 import static uk.gov.moj.cpp.defence.common.util.GrantAccessUtil.OBJECT;
@@ -22,7 +24,6 @@ import uk.gov.justice.services.messaging.Metadata;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -74,7 +75,7 @@ public class PermissionServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals(USER_GROUP_PERMISSIONS)) {
-                responsePayload = Json.createObjectBuilder().add("actions", buildPermissionPayloads(uuid, userId)).build();
+                responsePayload = createObjectBuilder().add("actions", buildPermissionPayloads(uuid, userId)).build();
             }
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
         });
@@ -93,7 +94,7 @@ public class PermissionServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals(USER_GROUP_PERMISSIONS)) {
-                responsePayload = Json.createObjectBuilder().add(PERMISSIONS, Json.createArrayBuilder()).build();
+                responsePayload = createObjectBuilder().add(PERMISSIONS, createArrayBuilder()).build();
             }
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
         });
@@ -111,7 +112,7 @@ public class PermissionServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals(USER_GROUP_PERMISSIONS)) {
-                responsePayload = Json.createObjectBuilder().add(PERMISSIONS, buildPermissionPayloads(uuid, userId)).build();
+                responsePayload = createObjectBuilder().add(PERMISSIONS, buildPermissionPayloads(uuid, userId)).build();
             }
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
         });
@@ -149,7 +150,7 @@ public class PermissionServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals(USER_GROUP_PERMISSIONS)) {
-                responsePayload = Json.createObjectBuilder().add("actions", buildPermissionPayloads(uuid, userId)).build();
+                responsePayload = createObjectBuilder().add("actions", buildPermissionPayloads(uuid, userId)).build();
             }
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
         });
@@ -166,7 +167,7 @@ public class PermissionServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals(USER_GROUP_PERMISSIONS)) {
-                responsePayload = Json.createObjectBuilder().add(PERMISSIONS, Json.createArrayBuilder()).build();
+                responsePayload = createObjectBuilder().add(PERMISSIONS, createArrayBuilder()).build();
             }
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
         });
@@ -183,7 +184,7 @@ public class PermissionServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals(USERSGROUPS_GET_LOGGED_IN_USER_PERMISSIONS)) {
-                responsePayload = Json.createObjectBuilder().add(PERMISSIONS, buildPermissionPayloads(uuid, userId)).build();
+                responsePayload = createObjectBuilder().add(PERMISSIONS, buildPermissionPayloads(uuid, userId)).build();
             }
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
         });
@@ -198,13 +199,13 @@ public class PermissionServiceTest {
     }
 
     private JsonArray buildPermissionPayloads(UUID uuid, UUID userId) {
-        final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder jsonArrayBuilder = createArrayBuilder();
         jsonArrayBuilder.add(this.buildPermissionPayload(uuid, userId));
         return jsonArrayBuilder.build();
     }
 
     private JsonObjectBuilder buildPermissionPayload(UUID uuid, UUID userId) {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add(ACTION, VIEW.getActionName())
                 .add(OBJECT, DEFENCE_CLIENT.getObjectName())
                 .add(SOURCE, uuid.toString())

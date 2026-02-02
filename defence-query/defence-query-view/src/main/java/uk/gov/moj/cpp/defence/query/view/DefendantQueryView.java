@@ -2,6 +2,8 @@ package uk.gov.moj.cpp.defence.query.view;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.stream.Collectors.toList;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.services.core.annotation.Component;
 import uk.gov.justice.services.core.annotation.Handles;
@@ -16,7 +18,6 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -33,7 +34,7 @@ public class DefendantQueryView {
         final String laaContractNumberAsString = payload.getString("laaContractNumbers");
         final List<String> laaContractNumbers = Stream.of(laaContractNumberAsString.split(",")).collect(toList());
         final List<DefenceAssociation> defenceAssociations = defenceAssociationRepository.findByLAAContractNumber(laaContractNumbers);
-        final JsonObject responsePayload = Json.createObjectBuilder()
+        final JsonObject responsePayload = createObjectBuilder()
                 .add("defendants", convertToJsonArray(defenceAssociations))
                 .build();
 
@@ -50,9 +51,9 @@ public class DefendantQueryView {
                                 entry.getLaaContractNumber())
                 ).collect(toList());
 
-        final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder jsonArrayBuilder = createArrayBuilder();
         defendantIdList.forEach(entry -> jsonArrayBuilder
-                .add(Json.createObjectBuilder().add("id", entry.getKey()).add("laaContractNumber", entry.getValue())));
+                .add(createObjectBuilder().add("id", entry.getKey()).add("laaContractNumber", entry.getValue())));
 
         return jsonArrayBuilder.build();
     }

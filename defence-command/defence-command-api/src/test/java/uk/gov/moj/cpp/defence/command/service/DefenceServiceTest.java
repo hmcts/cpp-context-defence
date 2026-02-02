@@ -1,24 +1,27 @@
 package uk.gov.moj.cpp.defence.command.service;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.justice.services.messaging.Envelope;
-import uk.gov.justice.services.messaging.JsonEnvelope;
-import uk.gov.justice.services.messaging.Metadata;
-import uk.gov.moj.cpp.defence.query.view.DefenceGrantAccessQueryView;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-import java.util.UUID;
-
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+
+import uk.gov.justice.services.messaging.Envelope;
+import uk.gov.justice.services.messaging.JsonEnvelope;
+import uk.gov.justice.services.messaging.Metadata;
+import uk.gov.moj.cpp.defence.query.view.DefenceGrantAccessQueryView;
+
+import java.util.UUID;
+
+import javax.json.JsonObject;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class DefenceServiceTest {
@@ -40,9 +43,9 @@ public class DefenceServiceTest {
 
         when(defenceGrantAccessQueryView.getCaseGrantee(any(JsonEnvelope.class))).thenAnswer(invocationOnMock -> {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
-            final JsonObject responsePayload = Json.createObjectBuilder()
-                    .add(GRANTEES, Json.createArrayBuilder()
-                            .add(Json.createObjectBuilder()
+            final JsonObject responsePayload = createObjectBuilder()
+                    .add(GRANTEES, createArrayBuilder()
+                            .add(createObjectBuilder()
                                     .build())
                             .build())
                     .build();
@@ -64,7 +67,7 @@ public class DefenceServiceTest {
 
         when(defenceGrantAccessQueryView.getCaseGrantee(any(JsonEnvelope.class))).thenAnswer(invocationOnMock -> {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
-            final JsonObject responsePayload = Json.createObjectBuilder()
+            final JsonObject responsePayload = createObjectBuilder()
                     .build();
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
         });
@@ -84,8 +87,8 @@ public class DefenceServiceTest {
 
         when(defenceGrantAccessQueryView.getCaseGrantee(any(JsonEnvelope.class))).thenAnswer(invocationOnMock -> {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
-            final JsonObject responsePayload = Json.createObjectBuilder()
-                    .add(GRANTEES, Json.createArrayBuilder()
+            final JsonObject responsePayload = createObjectBuilder()
+                    .add(GRANTEES, createArrayBuilder()
                             .build())
                     .build();
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);

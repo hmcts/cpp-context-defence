@@ -1,26 +1,29 @@
 package uk.gov.moj.cpp.defence.command.api.service;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.justice.services.core.requester.Requester;
-import uk.gov.justice.services.messaging.Envelope;
-import uk.gov.justice.services.messaging.Metadata;
-import uk.gov.moj.cpp.defence.command.api.CommandClientTestBase;
-
-import javax.json.Json;
-import javax.json.JsonObject;
-import java.util.List;
-import java.util.UUID;
-
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+
+import uk.gov.justice.services.core.requester.Requester;
+import uk.gov.justice.services.messaging.Envelope;
+import uk.gov.justice.services.messaging.Metadata;
+import uk.gov.moj.cpp.defence.command.api.CommandClientTestBase;
+
+import java.util.List;
+import java.util.UUID;
+
+import javax.json.JsonObject;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class OrganisationServiceTest {
@@ -52,8 +55,8 @@ public class OrganisationServiceTest {
 
     @Test
     public void shouldReturnEmptyOrganisationDetails() {
-        final JsonObject jsonObjectPayload = Json.createObjectBuilder()
-                .add("association", Json.createObjectBuilder())
+        final JsonObject jsonObjectPayload = createObjectBuilder()
+                .add("association", createObjectBuilder())
                 .build();
         final Metadata metadata = CommandClientTestBase.metadataFor(DEFENCE_ASSOCIATION_QUERY, randomUUID().toString());
         final Envelope envelope = Envelope.envelopeFrom(metadata, jsonObjectPayload);
@@ -67,8 +70,8 @@ public class OrganisationServiceTest {
     @Test
     public void shouldReturnDefendantIdsWhenDefenceIsAssociatedWithDefendants() {
 
-        final JsonObject jsonObjectPayload = Json.createObjectBuilder()
-                .add("defendantIds", Json.createArrayBuilder()
+        final JsonObject jsonObjectPayload = createObjectBuilder()
+                .add("defendantIds", createArrayBuilder()
                         .add(randomUUID().toString())
                         .add(randomUUID().toString())
                 ).build();
@@ -85,8 +88,8 @@ public class OrganisationServiceTest {
     @Test
     public void shouldReturnEmptyDefendantIdsWhenDefenceIsNotAssociatedWithDefendants() {
 
-        final JsonObject jsonObjectPayload = Json.createObjectBuilder()
-                .add("defendantIds", Json.createArrayBuilder()).build();
+        final JsonObject jsonObjectPayload = createObjectBuilder()
+                .add("defendantIds", createArrayBuilder()).build();
         final Metadata metadata = CommandClientTestBase.metadataFor(DEFENCE_ASSOCIATED_DEFENDANTS_QUERY, randomUUID().toString());
         final Envelope envelope = Envelope.envelopeFrom(metadata, jsonObjectPayload);
 

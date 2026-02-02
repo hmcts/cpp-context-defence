@@ -7,7 +7,6 @@ import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
 import static java.util.stream.Collectors.toList;
-import static javax.json.Json.createObjectBuilder;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
@@ -17,6 +16,8 @@ import static uk.gov.justice.services.core.enveloper.Enveloper.envelop;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
 import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS;
 import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_1;
 import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_2;
@@ -68,7 +69,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -337,9 +337,9 @@ public class CpsCaseAccessQueryApi {
                         .withHearingId(hearingSummary.getId())
                         .withCaseId(prosecutionCaseSummary.getId())
                         .withCaseUrn(
-                                null!=prosecutionCaseSummary.getProsecutionCaseIdentifier().getCaseURN()
-                                        ?prosecutionCaseSummary.getProsecutionCaseIdentifier().getCaseURN()
-                                        :prosecutionCaseSummary.getProsecutionCaseIdentifier().getProsecutionAuthorityReference())
+                                null != prosecutionCaseSummary.getProsecutionCaseIdentifier().getCaseURN()
+                                        ? prosecutionCaseSummary.getProsecutionCaseIdentifier().getCaseURN()
+                                        : prosecutionCaseSummary.getProsecutionCaseIdentifier().getProsecutionAuthorityReference())
                         .withDefendants(getDefendants(prosecutionCaseSummary.getDefendants()))
                         .withAssignedProsecutors(getAssignedProsecutors(metadata, prosecutionCaseSummary.getId()))
                         .build())
@@ -498,13 +498,13 @@ public class CpsCaseAccessQueryApi {
         final List<JsonObject> addressJsonList = assigneesJsonArray.stream().map(jsonValue -> {
             final JsonObjectBuilder jsonObjectBuilder = createObjectBuilder((JsonObject) jsonValue);
             JsonObject addressJsonObject = getAddressJsonObject(viewResponseEnvelope, (JsonObject) jsonValue);
-            if(nonNull(addressJsonObject)) {
+            if (nonNull(addressJsonObject)) {
                 jsonObjectBuilder.add(ADDRESS, addressJsonObject);
             }
             return jsonObjectBuilder.build();
         }).collect(toList());
 
-        final JsonArrayBuilder updatedJsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder updatedJsonArrayBuilder = createArrayBuilder();
         addressJsonList.forEach(updatedJsonArrayBuilder::add);
         return updatedJsonArrayBuilder.build();
     }
@@ -513,7 +513,7 @@ public class CpsCaseAccessQueryApi {
         final JsonObject organisationDetailsForUserJsonObject = usersAndGroupsService.getOrganisationDetails(viewResponseEnvelope, getOrganisationId(jsonValue));
         String address2 = "";
         String address3 = "";
-        if(nonNull(organisationDetailsForUserJsonObject)) {
+        if (nonNull(organisationDetailsForUserJsonObject)) {
             if (organisationDetailsForUserJsonObject.toString().contains(ADDRESS_LINE_2)) {
                 address2 = organisationDetailsForUserJsonObject.getString(ADDRESS_LINE_2);
             }

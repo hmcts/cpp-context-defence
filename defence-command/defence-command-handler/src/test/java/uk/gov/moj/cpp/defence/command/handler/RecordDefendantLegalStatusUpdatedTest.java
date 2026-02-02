@@ -1,14 +1,13 @@
 package uk.gov.moj.cpp.defence.command.handler;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static java.util.UUID.randomUUID;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.services.core.aggregate.AggregateService;
+import uk.gov.justice.services.core.requester.Requester;
 import uk.gov.justice.services.eventsourcing.source.core.EventSource;
 import uk.gov.justice.services.eventsourcing.source.core.EventStream;
 import uk.gov.justice.services.eventsourcing.source.core.exception.EventStreamException;
@@ -16,15 +15,19 @@ import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.moj.cpp.defence.OrganisationDetails;
 import uk.gov.moj.cpp.defence.aggregate.DefenceAssociation;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
-import uk.gov.justice.services.core.requester.Requester;
 
-import javax.json.Json;
-import javax.json.JsonObject;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import static java.util.UUID.randomUUID;
-import static org.mockito.Mockito.*;
+import javax.json.JsonObject;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class RecordDefendantLegalStatusUpdatedTest {
@@ -70,7 +73,7 @@ public class RecordDefendantLegalStatusUpdatedTest {
         String legalStatusUpdated = "GRANTED";
         String laaContractNumber = "ABC123";
 
-        JsonObject payload = Json.createObjectBuilder()
+        JsonObject payload = createObjectBuilder()
                 .add(DEFENDANT_ID, defendantId.toString())
                 .add(LAA_CONTRACT_NUMBER, laaContractNumber)
                 .add(LEGAL_AID_STATUS, legalStatusUpdated)

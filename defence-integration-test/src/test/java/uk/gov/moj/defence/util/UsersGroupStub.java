@@ -17,14 +17,13 @@ import static javax.ws.rs.core.Response.Status.ACCEPTED;
 import static javax.ws.rs.core.Response.Status.OK;
 import static uk.gov.justice.services.common.http.HeaderConstants.ID;
 import static uk.gov.justice.services.common.http.HeaderConstants.USER_ID;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.moj.defence.util.TestUtils.getPayloadForCreatingRequest;
 
 import uk.gov.justice.cps.defence.Permission;
 
 import java.util.List;
 import java.util.UUID;
-
-import javax.json.Json;
 
 import org.apache.http.HttpHeaders;
 
@@ -247,9 +246,9 @@ public class UsersGroupStub {
                 .willReturn(aResponse().withStatus(ACCEPTED.getStatusCode())
                         .withHeader(ID, randomUUID().toString())
                         .withHeader(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON)
-                        .withBody(Json.createObjectBuilder()
+                        .withBody(createObjectBuilder()
                                 .add("id", UUID.randomUUID().toString())
-                                .add("metadata", Json.createObjectBuilder().add("name", "usersgroups.create-permission-with-details").build())
+                                .add("metadata", createObjectBuilder().add("name", "usersgroups.create-permission-with-details").build())
                                 .build().toString())
                 ));
 

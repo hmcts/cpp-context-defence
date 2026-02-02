@@ -9,6 +9,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.JsonEnvelope.metadataBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.test.utils.core.enveloper.EnveloperFactory.createEnveloper;
 
 import uk.gov.justice.services.core.enveloper.Enveloper;
@@ -17,7 +18,6 @@ import uk.gov.justice.services.messaging.JsonEnvelope;
 
 import java.util.Optional;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -48,9 +48,9 @@ public class ProgressionServiceTest {
 
     @BeforeEach
     public void initMocks() {
-        final JsonObject jsonObject = Json.createObjectBuilder()
-                .add("prosecutionCase", Json.createObjectBuilder().add("prosecutor",
-                        Json.createObjectBuilder().add("prosecutorId", randomUUID().toString())
+        final JsonObject jsonObject = createObjectBuilder()
+                .add("prosecutionCase", createObjectBuilder().add("prosecutor",
+                        createObjectBuilder().add("prosecutorId", randomUUID().toString())
                                 .add("prosecutorName", "CPS").build()))
                 .build();
         when(finalEnvelope.payloadAsJsonObject()).thenReturn(jsonObject);
@@ -72,8 +72,8 @@ public class ProgressionServiceTest {
     @Test
     public void shouldGetProsecutionCaseJsonObjectWithoutProsecutorWhenProsecutorIsNotPresent() {
 
-        final JsonObject jsonObject = Json.createObjectBuilder()
-                .add("prosecutionCase", Json.createObjectBuilder().build())
+        final JsonObject jsonObject = createObjectBuilder()
+                .add("prosecutionCase", createObjectBuilder().build())
                 .build();
         when(finalEnvelope.payloadAsJsonObject()).thenReturn(jsonObject);
         final JsonEnvelope jsonEnvelope = getEnvelope(DEFENCE_QUERY_DEFENCE_CLIENT_ID);
@@ -86,7 +86,7 @@ public class ProgressionServiceTest {
     private JsonEnvelope getEnvelope(final String name) {
         return envelopeFrom(
                 metadataBuilder().withId(randomUUID()).withName(name).build(),
-                Json.createObjectBuilder().build());
+                createObjectBuilder().build());
     }
 
 }

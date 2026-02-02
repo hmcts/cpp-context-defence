@@ -4,6 +4,8 @@ import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static java.util.UUID.fromString;
 import static uk.gov.justice.services.core.annotation.Component.QUERY_VIEW;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.cps.defence.Grantee;
 import uk.gov.justice.services.common.converter.ObjectToJsonObjectConverter;
@@ -20,7 +22,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 
 
@@ -66,14 +67,14 @@ public class DefenceGrantAccessQueryView {
         }
 
         final List<Grantee> grantees = defenceGrantAccess.stream().map(this::mapToResponse).collect(Collectors.toList());
-        final JsonArrayBuilder granteesJson = Json.createArrayBuilder();
+        final JsonArrayBuilder granteesJson = createArrayBuilder();
         for (final Grantee grantee : grantees) {
             granteesJson.add(objectToJsonObjectConverter.convert(grantee));
 
         }
         return JsonEnvelope.envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(GRANTEES, granteesJson)
                         .build());
     }
@@ -96,8 +97,8 @@ public class DefenceGrantAccessQueryView {
     private JsonEnvelope emptyAssociation(final JsonEnvelope envelope, final String fieldName) {
         return JsonEnvelope.envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
-                        .add(fieldName, Json.createArrayBuilder())
+                createObjectBuilder()
+                        .add(fieldName, createArrayBuilder())
                         .build());
     }
 

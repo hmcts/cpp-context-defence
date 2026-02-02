@@ -1,9 +1,17 @@
 package uk.gov.moj.cpp.defence.event.processor;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static java.util.Collections.emptyList;
+import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
+import static java.util.Optional.ofNullable;
+import static java.util.UUID.fromString;
+import static java.util.UUID.randomUUID;
+import static uk.gov.justice.services.core.annotation.Component.EVENT_PROCESSOR;
+import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+
 import uk.gov.justice.core.courts.Defendant;
 import uk.gov.justice.core.courts.Offence;
 import uk.gov.justice.core.courts.Organisation;
@@ -39,10 +47,6 @@ import uk.gov.moj.cpp.defence.events.AllocationPleasAdded;
 import uk.gov.moj.cpp.defence.events.AllocationPleasUpdated;
 import uk.gov.moj.cpp.defence.events.OpaTaskRequested;
 
-import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -53,17 +57,14 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static java.util.Collections.emptyList;
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-import static java.util.Optional.ofNullable;
-import static java.util.UUID.fromString;
-import static java.util.UUID.randomUUID;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
-import static uk.gov.justice.services.core.annotation.Component.EVENT_PROCESSOR;
-import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
-import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
+import javax.inject.Inject;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SuppressWarnings({"squid:S1067", "squid:S3776", "squid:S1188", "squid:S3655", "squid:S2259"})
 @ServiceComponent(EVENT_PROCESSOR)
@@ -142,7 +143,7 @@ public class PleaAllocationEventProcessor {
         documentGeneratorService.generateOpaDocument(requestEnvelopeWithDefendant, documentPayload, OPA_TEMPLATE, materialId, fileName);
         final JsonObject courtDocument = buildCourtDocument(pleasAllocation.getCaseId(), materialId, fileName);
 
-        final JsonObject jsonObject = Json.createObjectBuilder()
+        final JsonObject jsonObject = createObjectBuilder()
                 .add("materialId", materialId.toString())
                 .add("courtDocument", courtDocument)
                 .build();
@@ -155,6 +156,7 @@ public class PleaAllocationEventProcessor {
         sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("public.defence.allocation-pleas-added"),
                 allocationPleasAdded));
     }
+
     @SuppressWarnings("squid:MethodCyclomaticComplexity")
     private AddOrUpdateOffencePleasDocument getAddOrUpdateOffencePleasDocument(final UserDetails userDetails, final DateTimeFormatter formatter, final PleasAllocationDetails pleasAllocation, final List<PleasAllocationDetails> pleasAndAllocationDetails, final Defendant defendantOnOpa, final List<Defendant> defendantsOnCase) {
         return AddOrUpdateOffencePleasDocument.addOrUpdateOffencePleasDocument()
@@ -201,7 +203,7 @@ public class PleaAllocationEventProcessor {
     }
 
     private String getUserSelectedTheftFromShopOption(final YesNoNa theftFromShop) {
-        if(nonNull(theftFromShop)) {
+        if (nonNull(theftFromShop)) {
             final String optionSelected = theftFromShop.toString();
             if ("Y".equals(optionSelected)) {
                 return THEFT_FROM_SHOP_AGREE_TEXT;
@@ -214,21 +216,21 @@ public class PleaAllocationEventProcessor {
         return EMPTY;
     }
 
-    private String getDefendantCorrectedName(final PleaDefendantDetails defendantNameDobDetails){
-        if(nonNull(defendantNameDobDetails)){
-            if(isNull(defendantNameDobDetails.getOrganisationName())) {
+    private String getDefendantCorrectedName(final PleaDefendantDetails defendantNameDobDetails) {
+        if (nonNull(defendantNameDobDetails)) {
+            if (isNull(defendantNameDobDetails.getOrganisationName())) {
                 return Stream.of(defendantNameDobDetails.getFirstName(), defendantNameDobDetails.getMiddleName(), defendantNameDobDetails.getSurname())
                         .filter(StringUtils::isNotBlank)
                         .collect(Collectors.joining(StringUtils.SPACE));
-            }else{
+            } else {
                 return defendantNameDobDetails.getOrganisationName();
             }
         }
         return EMPTY;
     }
 
-    private String getDefendantCorrectedDob(final PleaDefendantDetails defendantNameDobDetails){
-        if(nonNull(defendantNameDobDetails) && nonNull(defendantNameDobDetails.getDob())
+    private String getDefendantCorrectedDob(final PleaDefendantDetails defendantNameDobDetails) {
+        if (nonNull(defendantNameDobDetails) && nonNull(defendantNameDobDetails.getDob())
                 && isNull(defendantNameDobDetails.getOrganisationName())) {
             final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
             return formatter.format(defendantNameDobDetails.getDob());
@@ -236,12 +238,12 @@ public class PleaAllocationEventProcessor {
         return EMPTY;
     }
 
-    private String getOrganisationName(final Defendant defendant){
-        if(nonNull(defendant) && nonNull(defendant.getLegalEntityDefendant())
+    private String getOrganisationName(final Defendant defendant) {
+        if (nonNull(defendant) && nonNull(defendant.getLegalEntityDefendant())
                 && nonNull(defendant.getLegalEntityDefendant().getOrganisation())
                 && nonNull(defendant.getLegalEntityDefendant().getOrganisation().getName())) {
             return defendant.getLegalEntityDefendant().getOrganisation().getName();
-        }else{
+        } else {
             return EMPTY;
         }
     }
@@ -249,7 +251,7 @@ public class PleaAllocationEventProcessor {
     private List<PleasAllocationDetails> getPleaAndAllocationDetails(final JsonArray pleasAndAllocationDetailsJson) {
         final List<PleasAllocationDetails> pleasAllocationDetails = new ArrayList<>();
         if (Objects.nonNull(pleasAndAllocationDetailsJson)) {
-            for (int i = 0 ; i < pleasAndAllocationDetailsJson.size() ; i++) {
+            for (int i = 0; i < pleasAndAllocationDetailsJson.size(); i++) {
                 pleasAllocationDetails.add(jsonObjectToObjectConverter.convert(pleasAndAllocationDetailsJson.getJsonObject(i), PleasAllocationDetails.class));
             }
         }
@@ -272,9 +274,9 @@ public class PleaAllocationEventProcessor {
     @Handles("defence.event.opa-task-requested")
     public void handleOpaTaskRequested(final Envelope<OpaTaskRequested> envelope) {
         final OpaTaskRequested opaTaskRequested = envelope.payload();
-        LOGGER.info("public.defence.opa-task-requested for case {} ",opaTaskRequested.getCaseUrn());
+        LOGGER.info("public.defence.opa-task-requested for case {} ", opaTaskRequested.getCaseUrn());
         final UUID organisationId = usersGroupService.getOrganisationByType(envelope.metadata());
-        final OpaTaskRequested publicOpaTaskRequested =OpaTaskRequested.opaTaskRequested().withValuesFrom(opaTaskRequested).withOrganisationId(organisationId).build();
+        final OpaTaskRequested publicOpaTaskRequested = OpaTaskRequested.opaTaskRequested().withValuesFrom(opaTaskRequested).withOrganisationId(organisationId).build();
         sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("public.defence.opa-task-requested"),
                 publicOpaTaskRequested));
     }
@@ -286,7 +288,7 @@ public class PleaAllocationEventProcessor {
         final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy 'submitted at' hh:mma");
 
         final AllocationPleasUpdated allocationPleasUpdated = envelope.payload();
-        LOGGER.info("handleAllocationUpdated {} ",allocationPleasUpdated.getPleasAllocation().getAllocationId());
+        LOGGER.info("handleAllocationUpdated {} ", allocationPleasUpdated.getPleasAllocation().getAllocationId());
 
         final PleasAllocationDetails pleasAllocation = allocationPleasUpdated.getPleasAllocation();
         final UUID defendantId = pleasAllocation.getDefendantId();
@@ -318,7 +320,7 @@ public class PleaAllocationEventProcessor {
 
         final JsonObject courtDocument = buildCourtDocument(pleasAllocation.getCaseId(), materialId, fileName);
 
-        final JsonObject jsonObject = Json.createObjectBuilder()
+        final JsonObject jsonObject = createObjectBuilder()
                 .add("materialId", materialId.toString())
                 .add("courtDocument", courtDocument)
                 .build();
@@ -327,7 +329,7 @@ public class PleaAllocationEventProcessor {
         final JsonEnvelope requestEnvelope = JsonEnvelope.envelopeFrom(metadataWithActionName, jsonObject);
         sender.sendAsAdmin(Enveloper.envelop(jsonObject).withName(PROGRESSION_ADD_COURT_DOCUMENT).withMetadataFrom(requestEnvelope));
 
-        LOGGER.info("public.defence.allocation-pleas-updated for defendant {} ",allocationPleasUpdated.getPleasAllocation().getDefendantId());
+        LOGGER.info("public.defence.allocation-pleas-updated for defendant {} ", allocationPleasUpdated.getPleasAllocation().getDefendantId());
         sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("public.defence.allocation-pleas-updated"),
                 allocationPleasUpdated));
     }
@@ -356,8 +358,8 @@ public class PleaAllocationEventProcessor {
                 .add("name", filename)
                 .add("containsFinancialMeans", false)
                 .add("mimeType", "application/pdf")
-                .add("sendToCps",true)
-                .add("notificationType","opa-form-submitted")
+                .add("sendToCps", true)
+                .add("notificationType", "opa-form-submitted")
                 .add("materials", createArrayBuilder()
                         .add(createObjectBuilder()
                                 .add("id", materialId.toString())
@@ -369,7 +371,7 @@ public class PleaAllocationEventProcessor {
 
     private String getDefendantName(final Defendant defendant) {
         final PersonDefendant personDefendant = ofNullable(defendant.getPersonDefendant()).orElse(null);
-        final Person personDetails = nonNull(personDefendant)?personDefendant.getPersonDetails():null;
+        final Person personDetails = nonNull(personDefendant) ? personDefendant.getPersonDetails() : null;
         if (nonNull(personDetails)) {
             return Stream.of(personDetails.getFirstName(), personDetails.getMiddleName(), personDetails.getLastName())
                     .filter(StringUtils::isNotBlank)
@@ -391,7 +393,7 @@ public class PleaAllocationEventProcessor {
         Address address = null;
         final Person personDetails = nonNull(defendant.getPersonDefendant()) ? defendant.getPersonDefendant().getPersonDetails() : null;
         final Organisation organisationDetails = nonNull(defendant.getLegalEntityDefendant()) ? defendant.getLegalEntityDefendant().getOrganisation() : null;
-        if (nonNull(personDetails) && nonNull(personDetails.getAddress())){
+        if (nonNull(personDetails) && nonNull(personDetails.getAddress())) {
             address = Address.address()
                     .withAddress1(personDetails.getAddress().getAddress1())
                     .withAddress2(personDetails.getAddress().getAddress2())
@@ -406,7 +408,7 @@ public class PleaAllocationEventProcessor {
                     .withPostcode(personDetails.getAddress().getPostcode())
                     .build();
         }
-        if (nonNull(organisationDetails) && nonNull(organisationDetails.getAddress())){
+        if (nonNull(organisationDetails) && nonNull(organisationDetails.getAddress())) {
             address = Address.address()
                     .withAddress1(organisationDetails.getAddress().getAddress1())
                     .withAddress2(organisationDetails.getAddress().getAddress2())

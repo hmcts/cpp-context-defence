@@ -9,6 +9,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.justice.services.messaging.MetadataBuilder;
@@ -23,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -248,14 +248,14 @@ public class DefenceAssociationQueryViewTest {
     private JsonEnvelope getQueryWithUserId() {
         return JsonEnvelope.envelopeFrom(
                 stubbedMetadataBuilder(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add("userId", USER_ID.toString())
                         .build()
         );
     }
 
     private JsonObject stubbedQueryObjectPayload() {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add("defendantId", DEFENDANT_ID.toString())
                 .build();
     }
