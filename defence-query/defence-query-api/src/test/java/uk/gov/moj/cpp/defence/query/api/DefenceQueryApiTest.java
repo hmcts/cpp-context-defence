@@ -1,19 +1,49 @@
 package uk.gov.moj.cpp.defence.query.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.MatcherAssert;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static java.time.ZonedDateTime.now;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static java.util.UUID.fromString;
+import static java.util.UUID.randomUUID;
+import static javax.json.JsonValue.NULL;
+import static org.apache.commons.io.FileUtils.readFileToString;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.mockito.internal.verification.VerificationModeFactory.times;
+import static uk.gov.justice.services.core.annotation.Component.QUERY_API;
+import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+import static uk.gov.justice.services.test.utils.core.matchers.HandlerMatcher.isHandler;
+import static uk.gov.justice.services.test.utils.core.matchers.HandlerMethodMatcher.method;
+import static uk.gov.moj.cpp.defence.common.util.DefencePermission.VIEW_DEFENDANT_PERMISSION;
+import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_2;
+import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_3;
+import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_4;
+import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_LINE_2;
+import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_LINE_3;
+import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_LINE_4;
+import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_1;
+import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_LINE_1;
+import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_POSTCODE;
+import static uk.gov.moj.cpp.defence.query.api.DefenceQueryApi.ASSOCIATED_PERSONS;
+import static uk.gov.moj.cpp.defence.query.api.DefenceQueryApi.LAST_ASSOCIATED_ORGANISATION;
+import static uk.gov.moj.cpp.defence.query.api.DefenceQueryApi.PROSECUTION_AUTHORITY_CODE;
+import static uk.gov.moj.cpp.defence.query.api.DefenceQueryApi.WITH_ADDRESS;
+import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelper.CASE_DEFENDANT_ORGANISATION;
+import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelper.DEFENDANTS;
+import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelperTest.ORGANISATION_ADDRESS;
+import static uk.gov.moj.cpp.defence.service.PermissionService.getUserPermissions;
+
 import uk.gov.justice.cps.defence.CaseDefendantsOrganisations;
 import uk.gov.justice.cps.defence.Permission;
 import uk.gov.justice.services.common.converter.ObjectToJsonObjectConverter;
@@ -39,11 +69,6 @@ import uk.gov.moj.cpp.defence.query.api.service.UsersAndGroupsService;
 import uk.gov.moj.cpp.defence.query.view.DefenceQueryView;
 import uk.gov.moj.cpp.defence.service.PermissionService;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -57,49 +82,23 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import static java.time.ZonedDateTime.now;
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static java.util.UUID.fromString;
-import static java.util.UUID.randomUUID;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
-import static javax.json.JsonValue.NULL;
-import static org.apache.commons.io.FileUtils.readFileToString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.mockito.internal.verification.VerificationModeFactory.times;
-import static uk.gov.justice.services.core.annotation.Component.QUERY_API;
-import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
-import static uk.gov.justice.services.test.utils.core.matchers.HandlerMatcher.isHandler;
-import static uk.gov.justice.services.test.utils.core.matchers.HandlerMethodMatcher.method;
-import static uk.gov.moj.cpp.defence.common.util.DefencePermission.VIEW_DEFENDANT_PERMISSION;
-import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_2;
-import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_3;
-import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_4;
-import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_LINE_2;
-import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_LINE_3;
-import static uk.gov.moj.cpp.defence.query.api.CpsCaseAccessQueryApiTest.ADDRESS_LINE_4;
-import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_1;
-import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_LINE_1;
-import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_POSTCODE;
-import static uk.gov.moj.cpp.defence.query.api.DefenceQueryApi.ASSOCIATED_PERSONS;
-import static uk.gov.moj.cpp.defence.query.api.DefenceQueryApi.LAST_ASSOCIATED_ORGANISATION;
-import static uk.gov.moj.cpp.defence.query.api.DefenceQueryApi.PROSECUTION_AUTHORITY_CODE;
-import static uk.gov.moj.cpp.defence.query.api.DefenceQueryApi.WITH_ADDRESS;
-import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelper.CASE_DEFENDANT_ORGANISATION;
-import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelper.DEFENDANTS;
-import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelperTest.ORGANISATION_ADDRESS;
-import static uk.gov.moj.cpp.defence.service.PermissionService.getUserPermissions;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class DefenceQueryApiTest {
@@ -1096,7 +1095,7 @@ public class DefenceQueryApiTest {
 
     private JsonArray buildIdpcAccessOrgDetails(final UUID idpcAccessingOrganisationId_1,
                                                 final UUID idpcAccessingOrganisationId_2) {
-        final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder jsonArrayBuilder = createArrayBuilder();
 
         JsonObjectBuilder objectBuilder = createObjectBuilder()
                 .add(ORDER, 1)
@@ -1112,7 +1111,7 @@ public class DefenceQueryApiTest {
     }
 
     private JsonArray buildInstructions(final List<UUID> instructingOrganisation) {
-        final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder jsonArrayBuilder = createArrayBuilder();
         instructingOrganisation.forEach(orgdid -> {
             jsonArrayBuilder.add(this.buildInstruction(orgdid));
         });

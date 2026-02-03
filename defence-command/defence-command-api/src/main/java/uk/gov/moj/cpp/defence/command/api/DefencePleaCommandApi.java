@@ -2,6 +2,7 @@ package uk.gov.moj.cpp.defence.command.api;
 
 import static uk.gov.justice.services.core.annotation.Component.COMMAND_API;
 import static uk.gov.justice.services.core.enveloper.Enveloper.envelop;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.services.common.converter.JsonObjectToObjectConverter;
 import uk.gov.justice.services.common.exception.ForbiddenRequestException;
@@ -16,13 +17,12 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
 
 @ServiceComponent(COMMAND_API)
 public class DefencePleaCommandApi {
 
     @Inject
-    private  Sender sender;
+    private Sender sender;
 
     @Inject
     private Requester requester;
@@ -61,7 +61,7 @@ public class DefencePleaCommandApi {
     }
 
     private void sendEnvelopeWithName(final JsonEnvelope envelope, final String name) {
-        sender.send(envelop(Json.createObjectBuilder().add("pleasAllocation", envelope.payloadAsJsonObject()).build())
+        sender.send(envelop(createObjectBuilder().add("pleasAllocation", envelope.payloadAsJsonObject()).build())
                 .withName(name)
                 .withMetadataFrom(envelope));
     }

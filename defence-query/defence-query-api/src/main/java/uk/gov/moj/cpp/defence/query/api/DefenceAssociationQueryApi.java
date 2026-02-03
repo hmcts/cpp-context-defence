@@ -2,6 +2,8 @@ package uk.gov.moj.cpp.defence.query.api;
 
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.services.core.annotation.Component;
 import uk.gov.justice.services.core.annotation.Handles;
@@ -14,7 +16,6 @@ import uk.gov.moj.cpp.defence.query.view.DefenceAssociationQueryView;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -74,8 +75,8 @@ public class DefenceAssociationQueryApi {
         } else {
             return JsonEnvelope.envelopeFrom(
                     query.metadata(),
-                    Json.createObjectBuilder()
-                            .add(ASSOCIATIONS, Json.createArrayBuilder())
+                    createObjectBuilder()
+                            .add(ASSOCIATIONS, createArrayBuilder())
                             .build());
         }
     }
@@ -91,7 +92,7 @@ public class DefenceAssociationQueryApi {
         final JsonObject organisationDetailsFromUsersAndGroupsService = usersAndGroupsService.getOrganisationDetails(usersAndGroupsRequestEnvelope);
         return JsonEnvelope.envelopeFrom(
                 associationEnvelope.metadata(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(ASSOCIATION, formResponsePayload(associationEnvelope.payloadAsJsonObject().getJsonObject(ASSOCIATION),
                                 organisationDetailsFromUsersAndGroupsService))
                         .build());
@@ -99,7 +100,7 @@ public class DefenceAssociationQueryApi {
     }
 
     private JsonEnvelope populateAllOrganisationDetails(final JsonEnvelope associationsEnvelope) {
-        final JsonArrayBuilder associationsWithOrganisationDetailsArray = Json.createArrayBuilder();
+        final JsonArrayBuilder associationsWithOrganisationDetailsArray = createArrayBuilder();
         associationsEnvelope.payloadAsJsonObject().getJsonArray(ASSOCIATIONS).forEach(jsonValue -> {
             final JsonString organisationId = jsonValue.asJsonObject().getJsonString(ORGANISATION_ID);
             final JsonEnvelope usersAndGroupsRequestEnvelope = buildUsersAndGroupsRequestEnvelope(associationsEnvelope.metadata(), organisationId);
@@ -109,11 +110,11 @@ public class DefenceAssociationQueryApi {
 
         return JsonEnvelope.envelopeFrom(
                 associationsEnvelope.metadata(),
-                Json.createObjectBuilder().add(ASSOCIATIONS, associationsWithOrganisationDetailsArray).build());
+                createObjectBuilder().add(ASSOCIATIONS, associationsWithOrganisationDetailsArray).build());
     }
 
     private JsonEnvelope buildUsersAndGroupsRequestEnvelope(final Metadata metadata, final JsonString organisationId) {
-        return JsonEnvelope.envelopeFrom(metadata, Json.createObjectBuilder().add(ORGANISATION_ID, organisationId).build());
+        return JsonEnvelope.envelopeFrom(metadata, createObjectBuilder().add(ORGANISATION_ID, organisationId).build());
     }
 
     private boolean associationExists(final JsonObject association) {
@@ -123,8 +124,8 @@ public class DefenceAssociationQueryApi {
     private JsonEnvelope emptyOrganisationDetails(final JsonEnvelope query) {
         return JsonEnvelope.envelopeFrom(
                 query.metadata(),
-                Json.createObjectBuilder()
-                        .add(ASSOCIATION, Json.createObjectBuilder())
+                createObjectBuilder()
+                        .add(ASSOCIATION, createObjectBuilder())
                         .build());
     }
 
@@ -148,10 +149,10 @@ public class DefenceAssociationQueryApi {
             }
         }
         if (nonNull(organisationDetailsForUserJsonObject)) {
-            final JsonObjectBuilder objectBuilder = Json.createObjectBuilder()
+            final JsonObjectBuilder objectBuilder = createObjectBuilder()
                     .add(ORGANISATION_ID, organisationDetailsForUserJsonObject.getString(ORGANISATION_ID))
                     .add(ORGANISATION_NAME, organisationDetailsForUserJsonObject.getString(ORGANISATION_NAME))
-                    .add(ADDRESS, Json.createObjectBuilder()
+                    .add(ADDRESS, createObjectBuilder()
                             .add(ADDRESS_1, organisationDetailsForUserJsonObject.getString(ADDRESS_LINE_1))
                             .add(ADDRESS_2, address2)
                             .add(ADDRESS_3, address3)
@@ -167,7 +168,7 @@ public class DefenceAssociationQueryApi {
             endDate.ifPresent(edt -> objectBuilder.add(END_DATE, edt));
             return objectBuilder.build();
         } else {
-            return Json.createObjectBuilder()
+            return createObjectBuilder()
                     .add(STATUS, status)
                     .add(START_DATE, startDate)
                     .add(REPRESENTATION_TYPE, representationType)

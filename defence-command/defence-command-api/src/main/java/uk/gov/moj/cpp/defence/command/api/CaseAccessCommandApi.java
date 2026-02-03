@@ -10,6 +10,8 @@ import static uk.gov.justice.services.core.annotation.Component.COMMAND_API;
 import static uk.gov.justice.services.core.annotation.Component.QUERY_API;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.moj.cpp.defence.command.helper.JsonHelper.removeProperty;
 import static uk.gov.moj.cpp.defence.common.util.ErrorType.CASE_NOT_FOUND;
 import static uk.gov.moj.cpp.defence.common.util.ErrorType.ORGANISATION_NOT_PROSECUTING_AUTHORITY;
@@ -25,7 +27,6 @@ import uk.gov.justice.services.core.requester.Requester;
 import uk.gov.justice.services.core.sender.Sender;
 import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.justice.services.messaging.JsonEnvelope;
-import uk.gov.justice.services.messaging.JsonObjects;
 import uk.gov.justice.services.messaging.Metadata;
 import uk.gov.moj.cpp.defence.command.error.CaseNotFoundException;
 import uk.gov.moj.cpp.defence.command.error.OrganisationNotProsecutingAuthorityException;
@@ -40,7 +41,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -124,12 +124,12 @@ public class CaseAccessCommandApi {
     }
 
     private JsonObject enrichAssignCasePayload(final AssignCaseByHearing assignCaseByHearing, final Metadata metadata) {
-        final JsonArrayBuilder caseHearingAssignmentDetails = Json.createArrayBuilder();
+        final JsonArrayBuilder caseHearingAssignmentDetails = createArrayBuilder();
         final PersonDetails assigneeDetails = usersGroupService.getUserDetailsWithEmail(assignCaseByHearing.getAssigneeEmailId(), metadata, requester);
 
         assignCaseByHearing.getCaseHearings().forEach(caseHearing -> {
             final UUID caseId = caseHearing.getCaseId();
-            final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder()
+            final JsonObjectBuilder jsonObjectBuilder = createObjectBuilder()
                     .add(CASE_ID, caseId.toString())
                     .add(HEARING_ID, caseHearing.getHearingId().toString());
             final ProsecutionCaseAuthority prosecutionCaseAuthority = progressionService.getProsecutionCaseAuthority(metadata, caseId);
@@ -149,18 +149,18 @@ public class CaseAccessCommandApi {
         });
 
         final JsonObject payload = removeProperty(objectToJsonObjectConverter.convert(assignCaseByHearing), CASE_HEARINGS);
-        final JsonObjectBuilder enrichedAssignCaseBuilder = JsonObjects.createObjectBuilder(payload);
+        final JsonObjectBuilder enrichedAssignCaseBuilder = createObjectBuilder(payload);
         enrichedAssignCaseBuilder.add("caseHearingAssignmentDetails", caseHearingAssignmentDetails.build());
         return enrichedAssignCaseBuilder.build();
     }
 
     private JsonObject enrichAssignCasePayload(final AssignCase assignCase, final Metadata metadata) {
-        final JsonArrayBuilder caseAssignmentDetails = Json.createArrayBuilder();
+        final JsonArrayBuilder caseAssignmentDetails = createArrayBuilder();
         final PersonDetails assigneeDetails = usersGroupService.getUserDetailsWithEmail(assignCase.getAssigneeEmailId(), metadata, requester);
         assignCase.getCaseIds().forEach(caseId -> {
             final ProsecutionCaseAuthority prosecutionCaseAuthority = progressionService.getProsecutionCaseAuthority(metadata, UUID.fromString(caseId.toString()));
             if (nonNull(prosecutionCaseAuthority)) {
-                final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+                final JsonObjectBuilder jsonObjectBuilder = createObjectBuilder();
                 validateProsecutionAuthority(metadata, prosecutionCaseAuthority.getProsecutionAuthorityId(), jsonObjectBuilder);
                 jsonObjectBuilder.add(IS_ASSIGNEE_DEFENDING_CASE, isAssigneeDefending(metadata, caseId, assigneeDetails))
                         .add(CASE_ID, caseId.toString())
@@ -173,7 +173,7 @@ public class CaseAccessCommandApi {
         });
 
         final JsonObject payload = removeProperty(objectToJsonObjectConverter.convert(assignCase), CASE_IDS);
-        final JsonObjectBuilder enrichedAssignCaseBuilder = JsonObjects.createObjectBuilder(payload);
+        final JsonObjectBuilder enrichedAssignCaseBuilder = createObjectBuilder(payload);
         enrichedAssignCaseBuilder.add("caseAssignmentDetails", caseAssignmentDetails.build());
         return enrichedAssignCaseBuilder.build();
 
@@ -197,8 +197,8 @@ public class CaseAccessCommandApi {
         final boolean policeFlag = getBooleanValue(prosecutorJsonObject, POLICE_FLAG);
         jsonObjectBuilder.add(IS_CPS, cpsFlag);
         jsonObjectBuilder.add(IS_POLICE, policeFlag);
-        if(isNonCPSUserWithValidProsecutingAuthority.isPresent()) {
-            if(!ORGANISATION_MATCH.equals(isNonCPSUserWithValidProsecutingAuthority.get())) {
+        if (isNonCPSUserWithValidProsecutingAuthority.isPresent()) {
+            if (!ORGANISATION_MATCH.equals(isNonCPSUserWithValidProsecutingAuthority.get())) {
                 throw new OrganisationNotProsecutingAuthorityException();
             } else {
                 jsonObjectBuilder
@@ -210,6 +210,7 @@ public class CaseAccessCommandApi {
             }
         }
     }
+
     @SuppressWarnings("squid:S3655")
     private void validateProsecutionAuthorityAndCaptureErrors(final Metadata metadata, final UUID prosecutionAuthorityId, final JsonObjectBuilder jsonObjectBuilder) {
         final UUID userId = metadata.userId().isPresent() ? fromString(metadata.userId().get()) : null;
@@ -222,7 +223,7 @@ public class CaseAccessCommandApi {
                     final boolean policeFlag = getBooleanValue(prosecutorJsonObject, POLICE_FLAG);
                     jsonObjectBuilder.add(IS_CPS, cpsFlag);
                     jsonObjectBuilder.add(IS_POLICE, policeFlag);
-                    if(isNonCPSUserWithValidProsecutingAuthority.isPresent()) {
+                    if (isNonCPSUserWithValidProsecutingAuthority.isPresent()) {
                         validateNonCpsProsecutor(jsonObjectBuilder, prosecutorJsonObjectOptional, isNonCPSUserWithValidProsecutingAuthority);
                     } else {
                         if (!cpsFlag && !policeFlag) {
@@ -236,7 +237,7 @@ public class CaseAccessCommandApi {
 
     @SuppressWarnings("squid:S3655")
     private void validateNonCpsProsecutor(final JsonObjectBuilder jsonObjectBuilder, final Optional<JsonObject> prosecutorJsonObjectOptional, final Optional<String> isNonCPSUserWithValidProsecutingAuthority) {
-        if(!ORGANISATION_MATCH.equals(isNonCPSUserWithValidProsecutingAuthority.get())) {
+        if (!ORGANISATION_MATCH.equals(isNonCPSUserWithValidProsecutingAuthority.get())) {
             jsonObjectBuilder
                     .add(FAILURE_REASON, ORGANISATION_NOT_PROSECUTING_AUTHORITY.name())
                     .add(ERROR_CODE, parseInt(ORGANISATION_NOT_PROSECUTING_AUTHORITY.getCode()));

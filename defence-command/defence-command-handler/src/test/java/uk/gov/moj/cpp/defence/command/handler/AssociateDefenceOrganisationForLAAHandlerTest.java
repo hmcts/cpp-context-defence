@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static uk.gov.justice.services.core.annotation.Component.COMMAND_HANDLER;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.test.utils.core.helper.EventStreamMockHelper.verifyAppendAndGetArgumentFrom;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMatcher.isHandler;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMethodMatcher.method;
@@ -36,10 +37,8 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -184,7 +183,7 @@ public class AssociateDefenceOrganisationForLAAHandlerTest {
                 .withId(randomUUID())
                 .withUserId(userId.toString())
                 .build();
-        final JsonObject payload = Json.createObjectBuilder()
+        final JsonObject payload = createObjectBuilder()
                 .add("defendantId", defendantId)
                 .add("organisationId", orgId)
                 .add("organisationName", orgName)

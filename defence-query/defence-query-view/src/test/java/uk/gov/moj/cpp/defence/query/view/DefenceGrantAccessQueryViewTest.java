@@ -11,6 +11,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.services.common.converter.ObjectToJsonObjectConverter;
 import uk.gov.justice.services.common.converter.jackson.ObjectMapperProducer;
@@ -24,10 +25,8 @@ import uk.gov.moj.cpp.defence.persistence.entity.DefenceUserDetails;
 import uk.gov.moj.cpp.defence.persistence.entity.OrganisationDetails;
 
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -184,13 +183,13 @@ public class DefenceGrantAccessQueryViewTest {
     }
 
     private JsonObject stubbedQueryObjectPayloadForClientGrantees(UUID defenceClientId) {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add("defendantClientId", defenceClientId.toString())
                 .build();
     }
 
     private JsonObject stubbedQueryObjectPayloadForDefenceGrantee(final UUID caseId, final UUID granteeUserId) {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add("caseId", caseId.toString())
                 .add("granteeUserId", granteeUserId.toString())
                 .build();

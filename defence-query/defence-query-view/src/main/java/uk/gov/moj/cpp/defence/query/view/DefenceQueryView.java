@@ -4,15 +4,15 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
-import static javax.json.Json.createArrayBuilder;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static uk.gov.justice.cps.defence.ErrorCode.CASE_NOT_FOUND;
 import static uk.gov.justice.cps.defence.ErrorCode.ORGANISATION_NOT_PROSECUTING_AUTHORITY;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.messaging.JsonObjects.getBoolean;
 import static uk.gov.justice.services.messaging.JsonObjects.getString;
-import static javax.json.Json.createObjectBuilder;
-import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
 
 import uk.gov.justice.cps.defence.Allegations;
 import uk.gov.justice.cps.defence.CaseDefendantsOrganisations;
@@ -44,14 +44,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.InternalServerErrorException;
-
-import org.apache.commons.lang3.StringUtils;
 
 @ServiceComponent(Component.QUERY_VIEW)
 public class DefenceQueryView {
@@ -176,7 +173,7 @@ public class DefenceQueryView {
 
     private JsonEnvelope getDefenceClient(final JsonEnvelope request, final DefenceClientIdpcAccessOrganisations clientAndIDPCAccessOrganisations) {
         if (clientAndIDPCAccessOrganisations != null) {
-            final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+            final JsonObjectBuilder jsonObjectBuilder = createObjectBuilder();
             jsonObjectBuilder.add(DEFENCE_CLIENT_ID, clientAndIDPCAccessOrganisations.getDefenceClientId().toString());
             jsonObjectBuilder.add(CASE_ID, clientAndIDPCAccessOrganisations.getCaseId().toString());
             jsonObjectBuilder.add(CASE_URN, clientAndIDPCAccessOrganisations.getCaseUrn());
@@ -198,7 +195,7 @@ public class DefenceQueryView {
         }
         return JsonEnvelope.envelopeFrom(
                 request.metadata(),
-                Json.createObjectBuilder().build());
+                createObjectBuilder().build());
     }
 
     @Handles("defence.defence-organisation-client-idpc-access-orgs")
@@ -262,7 +259,7 @@ public class DefenceQueryView {
     }
 
     private JsonObject buildAssociatedOrganisation(final AssociatedOrganisationVO associatedOrganisation) {
-        final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder();
+        final JsonObjectBuilder jsonObjectBuilder = createObjectBuilder();
         if (isAssociatedOrganisationExist(associatedOrganisation)) {
             jsonObjectBuilder.add(ORGANISATION_ID, associatedOrganisation.getOrganisationId().toString());
         }
@@ -270,9 +267,9 @@ public class DefenceQueryView {
     }
 
     private JsonArray buildOrgList(final List<OrderedOrganisationDetailsVO> orgList) {
-        final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder jsonArrayBuilder = createArrayBuilder();
         for (final OrderedOrganisationDetailsVO organisationDetailsVO : orgList) {
-            final JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            final JsonObjectBuilder objectBuilder = createObjectBuilder();
             objectBuilder.add(ORDER, organisationDetailsVO.getOrder());
             objectBuilder.add(ORGANISATION_ID, organisationDetailsVO.getOrganisationId().toString());
             if (organisationDetailsVO.getName() != null) {
@@ -284,9 +281,9 @@ public class DefenceQueryView {
     }
 
     private JsonArray buildInstructionList(final List<DefenceClientInstructionHistoryVO> instructionHistories) {
-        final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder jsonArrayBuilder = createArrayBuilder();
         for (final DefenceClientInstructionHistoryVO instructionHistory : instructionHistories) {
-            final JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            final JsonObjectBuilder objectBuilder = createObjectBuilder();
             objectBuilder.add(USER_ID, instructionHistory.getUserId().toString());
             objectBuilder.add(ORGANISATION_ID, instructionHistory.getOrganisationId().toString());
             objectBuilder.add(INSTRUCTION_ID, instructionHistory.getId().toString());
@@ -469,7 +466,7 @@ public class DefenceQueryView {
 
         return JsonEnvelope.envelopeFrom(
                 request.metadata(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(DEFENCE_CLIENT_ID, defenceClientId)
                         .add(USER_ID, userId)
                         .add(ORGANISATION_ID, organisationId)

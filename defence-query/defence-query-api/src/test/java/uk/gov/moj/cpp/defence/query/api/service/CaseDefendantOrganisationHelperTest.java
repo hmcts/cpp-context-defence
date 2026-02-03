@@ -1,13 +1,13 @@
 package uk.gov.moj.cpp.defence.query.api.service;
 
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelper.CASE_DEFENDANT_ORGANISATION;
 import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelper.CASE_ID;
 import static uk.gov.moj.cpp.defence.query.api.service.CaseDefendantOrganisationHelper.CASE_URN;

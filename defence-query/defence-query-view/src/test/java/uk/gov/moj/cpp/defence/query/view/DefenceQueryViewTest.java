@@ -1,40 +1,5 @@
 package uk.gov.moj.cpp.defence.query.view;
 
-import org.apache.commons.lang3.StringUtils;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.justice.cps.defence.CaseForProsecutorAssignment;
-import uk.gov.justice.cps.defence.SearchCaseByUrn;
-import uk.gov.justice.services.common.converter.ZonedDateTimes;
-import uk.gov.justice.services.common.exception.ForbiddenRequestException;
-import uk.gov.justice.services.messaging.Envelope;
-import uk.gov.justice.services.messaging.JsonEnvelope;
-import uk.gov.justice.services.messaging.Metadata;
-import uk.gov.moj.cpp.defence.persistence.DefenceClientRepository;
-import uk.gov.moj.cpp.defence.persistence.entity.DefenceClient;
-import uk.gov.moj.cpp.defence.persistence.entity.IdpcDetails;
-import uk.gov.moj.cpp.defence.service.ProgressionService;
-import uk.gov.moj.cpp.defence.service.ReferenceDataService;
-import uk.gov.moj.cpp.defence.service.UsersGroupQueryService;
-
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonString;
-import javax.ws.rs.InternalServerErrorException;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
 import static java.lang.Boolean.FALSE;
 import static java.util.Arrays.asList;
 import static java.util.Optional.empty;
@@ -53,6 +18,43 @@ import static org.mockito.Mockito.when;
 import static uk.gov.justice.cps.defence.ErrorCode.CASE_NOT_FOUND;
 import static uk.gov.justice.cps.defence.ErrorCode.ORGANISATION_NOT_PROSECUTING_AUTHORITY;
 import static uk.gov.justice.services.messaging.Envelope.metadataBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+
+import uk.gov.justice.cps.defence.CaseForProsecutorAssignment;
+import uk.gov.justice.cps.defence.SearchCaseByUrn;
+import uk.gov.justice.services.common.converter.ZonedDateTimes;
+import uk.gov.justice.services.common.exception.ForbiddenRequestException;
+import uk.gov.justice.services.messaging.Envelope;
+import uk.gov.justice.services.messaging.JsonEnvelope;
+import uk.gov.justice.services.messaging.Metadata;
+import uk.gov.moj.cpp.defence.persistence.DefenceClientRepository;
+import uk.gov.moj.cpp.defence.persistence.entity.DefenceClient;
+import uk.gov.moj.cpp.defence.persistence.entity.IdpcDetails;
+import uk.gov.moj.cpp.defence.service.ProgressionService;
+import uk.gov.moj.cpp.defence.service.ReferenceDataService;
+import uk.gov.moj.cpp.defence.service.UsersGroupQueryService;
+
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonString;
+import javax.ws.rs.InternalServerErrorException;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class DefenceQueryViewTest {
@@ -108,7 +110,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.view.defence-client-idpc")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add("defenceClientId", defenceClientId.toString())
                         .add("userId", userId.toString())
                         .add("organisationId", orgId.toString())
@@ -151,7 +153,7 @@ public class DefenceQueryViewTest {
                 .withName("defence.case-for-prosecutor-assignment").build();
         final JsonObject prosecutorJsonObject = getProsecutorQueryResponse(false, true);
         when(searchCaseByUrnEnvelope.metadata()).thenReturn(metadata);
-        when(usersGroupQueryService.validateNonCPSUserOrg(any(),any(),any(),any())).thenReturn(Optional.empty());
+        when(usersGroupQueryService.validateNonCPSUserOrg(any(), any(), any(), any())).thenReturn(Optional.empty());
 
         when(defenceQueryService.getCaseId(urn)).thenReturn(caseId);
         when(progressionService.getProsecutorOrProsecutionCaseAuthorityID(metadata, caseId)).thenReturn(prosecutorOrProsecutionCaseAuthorityID);
@@ -176,7 +178,7 @@ public class DefenceQueryViewTest {
                 .withName("defence.case-for-prosecutor-assignment").build();
         final JsonObject prosecutorJsonObject = getProsecutorQueryResponse(false, true);
         when(searchCaseByUrnEnvelope.metadata()).thenReturn(metadata);
-        when(usersGroupQueryService.validateNonCPSUserOrg(any(),any(),any(),any())).thenReturn(Optional.of("OrgMatch"));
+        when(usersGroupQueryService.validateNonCPSUserOrg(any(), any(), any(), any())).thenReturn(Optional.of("OrgMatch"));
 
         when(defenceQueryService.getCaseId(urn)).thenReturn(caseId);
         when(progressionService.getProsecutorOrProsecutionCaseAuthorityID(metadata, caseId)).thenReturn(prosecutorOrProsecutionCaseAuthorityID);
@@ -204,7 +206,7 @@ public class DefenceQueryViewTest {
                 .withName("defence.case-for-prosecutor-assignment").build();
         final JsonObject prosecutorJsonObject = getProsecutorQueryResponse(false, true);
         when(searchCaseByUrnEnvelope.metadata()).thenReturn(metadata);
-        when(usersGroupQueryService.validateNonCPSUserOrg(any(),any(),any(),any())).thenReturn(Optional.of("OrganisationMisMatch"));
+        when(usersGroupQueryService.validateNonCPSUserOrg(any(), any(), any(), any())).thenReturn(Optional.of("OrganisationMisMatch"));
 
         when(defenceQueryService.getCaseId(urn)).thenReturn(caseId);
         when(progressionService.getProsecutorOrProsecutionCaseAuthorityID(metadata, caseId)).thenReturn(prosecutorOrProsecutionCaseAuthorityID);
@@ -218,7 +220,7 @@ public class DefenceQueryViewTest {
     }
 
     private JsonObject getProsecutorQueryResponse(final boolean cpsFlag, final boolean policeFlag) {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add("cpsFlag", cpsFlag)
                 .add("policeFlag", policeFlag)
                 .add("shortName", "DVLA")
@@ -245,7 +247,7 @@ public class DefenceQueryViewTest {
         final JsonObject prosecutorJsonObject = getProsecutorQueryResponse(true, false);
 
         when(searchCaseByUrnEnvelope.metadata()).thenReturn(metadata);
-        when(usersGroupQueryService.validateNonCPSUserOrg(any(),any(),any(),any())).thenReturn(Optional.empty());
+        when(usersGroupQueryService.validateNonCPSUserOrg(any(), any(), any(), any())).thenReturn(Optional.empty());
 
         when(defenceQueryService.getCaseId(urn)).thenReturn(caseId);
         when(progressionService.getProsecutorOrProsecutionCaseAuthorityID(metadata, caseId)).thenReturn(prosecutorOrProsecutionCaseAuthorityID);
@@ -276,7 +278,7 @@ public class DefenceQueryViewTest {
                 .withUserId(userId.toString())
                 .withName("defence.case-for-prosecutor-assignment").build();
         when(searchCaseByUrnEnvelope.metadata()).thenReturn(metadata);
-        when(usersGroupQueryService.validateNonCPSUserOrg(any(),any(),any(),any())).thenReturn(Optional.of("OrganisationMisMatch"));
+        when(usersGroupQueryService.validateNonCPSUserOrg(any(), any(), any(), any())).thenReturn(Optional.of("OrganisationMisMatch"));
 
         final JsonObject prosecutorJsonObject = getProsecutorQueryResponse(false, false);
 
@@ -327,7 +329,7 @@ public class DefenceQueryViewTest {
         final JsonObject prosecutorJsonObject = getProsecutorQueryResponse(false, true);
         when(searchCaseByUrnEnvelope.metadata()).thenReturn(metadata);
 
-        when(usersGroupQueryService.validateNonCPSUserOrg(any(),any(),any(),any())).thenReturn(Optional.of("OrgMatch"));
+        when(usersGroupQueryService.validateNonCPSUserOrg(any(), any(), any(), any())).thenReturn(Optional.of("OrgMatch"));
 
 
         when(searchCaseByUrnEnvelope.payload()).thenReturn(getSearchCaseByUrnPayload(urn));
@@ -356,7 +358,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.view.defence-client-idpc")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add("defenceClientId", defenceClientId.toString())
                         .add("userId", userId.toString())
                         .add("organisationId", orgId.toString())
@@ -380,7 +382,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.view.defence-client-idpc")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add("defenceClientId", defenceClientId.toString())
                         .add("userId", userId.toString())
                         .add("organisationId", orgId.toString())
@@ -563,8 +565,8 @@ public class DefenceQueryViewTest {
     public void shouldReturnDefenceClientCountWhenMultipleUrnButNoMatchingRecordWithPersonDetailsAndHearingDate() {
 
         when(defenceQueryService.getCasesAssociatedWithDefenceClientByPersonDefendant(anyString(), anyString(), anyString(), any())).thenReturn(asList(randomUUID(), randomUUID()));
-        when(defenceQueryService.getCaseDetailsByPersonDefendantAndHearingDate(any(), any(), any(), any(), any(), any())).thenReturn(Json.createObjectBuilder()
-                .add("prosecutionCases", Json.createArrayBuilder().build()).build());
+        when(defenceQueryService.getCaseDetailsByPersonDefendantAndHearingDate(any(), any(), any(), any(), any(), any())).thenReturn(createObjectBuilder()
+                .add("prosecutionCases", createArrayBuilder().build()).build());
         when(defenceQueryService.getPersonDefendant(anyString(), anyString(), anyString(), any())).thenReturn(asList(randomUUID()));
 
         final JsonEnvelope clientByCriteria = defenceQueryView.findClientByCriteria(createRequestEnvelopeWithoutUrn());
@@ -677,8 +679,8 @@ public class DefenceQueryViewTest {
     public void shouldReturnDefenceClientCountWhenMultipleUrnButNoMatchingRecordWithOrganisationDetailsAndHearingDate() {
 
         when(defenceQueryService.getCasesAssociatedWithDefenceClientByOrganisationDefendant(any(), any())).thenReturn(asList(randomUUID(), randomUUID()));
-        when(defenceQueryService.getCaseDetailsByOrganisationDefendantAndHearingDate(any(), any(), any(), any())).thenReturn(Json.createObjectBuilder()
-                .add("prosecutionCases", Json.createArrayBuilder().build()).build());
+        when(defenceQueryService.getCaseDetailsByOrganisationDefendantAndHearingDate(any(), any(), any(), any())).thenReturn(createObjectBuilder()
+                .add("prosecutionCases", createArrayBuilder().build()).build());
         when(defenceQueryService.getOrganisationDefendant(any(), any())).thenReturn(asList(randomUUID()));
 
         final JsonEnvelope clientByCriteria = defenceQueryView.findOrganisationClientByCriteria(createRequestEnvelopeForOrganisationWithoutUrn());
@@ -897,7 +899,7 @@ public class DefenceQueryViewTest {
 
     private JsonEnvelope createRequestEnvelope(Optional<Boolean> isCivil) {
 
-        JsonObjectBuilder objectBuilder = Json.createObjectBuilder()
+        JsonObjectBuilder objectBuilder = createObjectBuilder()
                 .add(FIRST_NAME, "Donald")
                 .add(LAST_NAME, "Knuth")
                 .add(DOB, "1983-04-20")
@@ -915,7 +917,7 @@ public class DefenceQueryViewTest {
 
     private JsonEnvelope createRequestEnvelopeWithoutDob(Optional<Boolean> isCivil) {
 
-        JsonObjectBuilder objectBuilder = Json.createObjectBuilder()
+        JsonObjectBuilder objectBuilder = createObjectBuilder()
                 .add(FIRST_NAME, "Donald")
                 .add(LAST_NAME, "Knuth")
                 .add(HEARING_DATE, "2022-10-11")
@@ -935,7 +937,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.defence-organisation-client-idpc-access-orgs")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(ORGANISATION_NAME, "Donald ltd")
                         .add(URN, "55DP0028117")
                         .add(HEARING_DATE, "2022-10-11")
@@ -947,7 +949,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.defence-client-id")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(FIRST_NAME, "Donald")
                         .add(LAST_NAME, "Knuth")
                         .add(DOB, "1983-04-20")
@@ -960,16 +962,16 @@ public class DefenceQueryViewTest {
                         .withName("defence.defence-organisation-client-idpc-access-orgs")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(ORGANISATION_NAME, "Donald ltd")
                         .add(HEARING_DATE, "2022-10-11")
                         .build());
     }
 
     private JsonObject createHearingResponseWithOneCase() {
-        return Json.createObjectBuilder()
-                .add("prosecutionCases", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
+        return createObjectBuilder()
+                .add("prosecutionCases", createArrayBuilder()
+                        .add(createObjectBuilder()
                                 .add("caseId", randomUUID().toString())
                                 .add("urn", "TVL123X")
                                 .build()
@@ -979,13 +981,13 @@ public class DefenceQueryViewTest {
     }
 
     private JsonObject createHearingResponseWithMultipleCase() {
-        return Json.createObjectBuilder()
-                .add("prosecutionCases", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
+        return createObjectBuilder()
+                .add("prosecutionCases", createArrayBuilder()
+                        .add(createObjectBuilder()
                                 .add("caseId", randomUUID().toString())
                                 .add("urn", "TVL123X")
                                 .build())
-                        .add(Json.createObjectBuilder()
+                        .add(createObjectBuilder()
                                 .add("caseId", randomUUID().toString())
                                 .add("urn", "TFL123Y")
                                 .build()
@@ -1000,7 +1002,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.defence-client-defendantId")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add("defendantId", defendantId.toString())
                         .build());
 
@@ -1022,7 +1024,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.get-case-by-person-defendant")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(FIRST_NAME, "Donald")
                         .add(LAST_NAME, "Knuth")
                         .add(DOB, "1983-04-20")
@@ -1034,7 +1036,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.get-case-by-person-defendant")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(FIRST_NAME, "Donald")
                         .add(LAST_NAME, "Knuth")
                         .add(DOB, "1983-04-20")
@@ -1047,7 +1049,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.get-case-by-person-defendant")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(FIRST_NAME, "Donald")
                         .add(LAST_NAME, "Knuth")
                         .add(IS_CIVIL, true)
@@ -1059,7 +1061,7 @@ public class DefenceQueryViewTest {
                         .withName("defence.query.get-case-by-organisation-defendant")
                         .withId(randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(ORGANISATION_NAME, "Donald ltd")
                         .build());
     }

@@ -14,13 +14,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static uk.gov.justice.services.messaging.Envelope.metadataBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.moj.cpp.defence.common.util.DefencePermission.UPLOAD_DOCUMENT_PERMISSION;
 import static uk.gov.moj.cpp.defence.common.util.DefencePermission.VIEW_DEFENDANT_PERMISSION;
 import static uk.gov.moj.cpp.defence.common.util.DefencePermission.VIEW_DOCUMENT_PERMISSION;
 import static uk.gov.moj.cpp.defence.common.util.ErrorType.UNAUTHORIZED_REMOVE_GRANTING;
 import static uk.gov.moj.cpp.defence.common.util.GrantAccessUtil.preparePermissionList;
 
-import org.hamcrest.CoreMatchers;
 import uk.gov.justice.cps.defence.AllegationsReceivedAgainstADefenceClient;
 import uk.gov.justice.cps.defence.AssigneeForDefenceIsProsecutingCase;
 import uk.gov.justice.cps.defence.DefendantDetails;
@@ -47,7 +48,6 @@ import uk.gov.moj.cpp.defence.event.listener.events.DeletedOffences;
 import uk.gov.moj.cpp.defence.events.DefenceClientDoesNotExist;
 import uk.gov.moj.cpp.defence.events.DefenceClientReceived;
 import uk.gov.moj.cpp.defence.events.DefenceClientUrnAdded;
-import uk.gov.moj.cpp.defence.events.DefendantDefenceAssociationLockedForLaa;
 import uk.gov.moj.cpp.defence.events.IdpcAccessByOrganisationRecorded;
 import uk.gov.moj.cpp.defence.events.IdpcAccessRecorded;
 import uk.gov.moj.cpp.defence.events.IdpcDetailsRecorded;
@@ -68,9 +68,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -581,7 +581,7 @@ public class DefenceClientTest {
                 randomUUID(),
                 randomUUID(),
                 randomUUID()
-                ).collect(toList());
+        ).collect(toList());
         assertThat(eventStream.size(), is(2));
         assertThat(eventStream.get(0).getClass(), is(CoreMatchers.equalTo(IdpcAccessRecorded.class)));
         assertThat(eventStream.get(1).getClass(), is(CoreMatchers.equalTo(IdpcAccessByOrganisationRecorded.class)));
@@ -593,9 +593,6 @@ public class DefenceClientTest {
         assertThat(idpcAccessByOrganisationRecorded.getDefenceClientId(), is(defenceClientId));
 
     }
-
-
-
 
 
     @Test
@@ -959,9 +956,9 @@ public class DefenceClientTest {
     }
 
     private JsonObject getGroupsResponseJson(final String groupName) {
-        return Json.createObjectBuilder()
-                .add("groups", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
+        return createObjectBuilder()
+                .add("groups", createArrayBuilder()
+                        .add(createObjectBuilder()
                                 .add("groupName", groupName)
                                 .build()
                         )

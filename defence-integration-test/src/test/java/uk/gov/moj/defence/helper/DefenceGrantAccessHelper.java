@@ -1,7 +1,7 @@
 package uk.gov.moj.defence.helper;
 
 import static java.lang.String.format;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static uk.gov.justice.services.test.utils.core.http.BaseUriProvider.getBaseUri;

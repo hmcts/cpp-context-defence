@@ -1,10 +1,11 @@
 package uk.gov.moj.cpp.defence.event.processor;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static uk.gov.justice.services.core.annotation.Component.EVENT_PROCESSOR;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.messaging.spi.DefaultJsonMetadata.metadataBuilder;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMatcher.isHandler;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMethodMatcher.method;
@@ -16,8 +17,6 @@ import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.justice.services.test.utils.core.enveloper.EnveloperFactory;
 
 import java.util.UUID;
-
-import javax.json.Json;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -44,7 +43,6 @@ public class IdpcAccessRecordedEventProcessorTest {
     private IdpcAccessRecordedEventProcessor idpcAccessRecordedEventProcessor;
 
 
-
     @Test
     public void shouldHandleRecordIdpcAccessByOrganisationMethod() {
         assertThat(new IdpcAccessRecordedEventProcessor(), isHandler(EVENT_PROCESSOR)
@@ -61,7 +59,7 @@ public class IdpcAccessRecordedEventProcessorTest {
                         .withName("defence.event.idpc-access-by-organisation-recorded")
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add("a", "a").build());
 
         //test

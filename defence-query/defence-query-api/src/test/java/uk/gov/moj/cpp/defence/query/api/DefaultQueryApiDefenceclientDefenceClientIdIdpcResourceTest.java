@@ -7,6 +7,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.when;
 import static org.mockito.Mockito.mock;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.api.resource.DefaultQueryApiDefenceclientDefenceClientIdIdpcResource;
 import uk.gov.justice.services.common.converter.ZonedDateTimes;
@@ -19,7 +20,6 @@ import uk.gov.moj.cpp.systemusers.ServiceContextSystemUserProvider;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -65,7 +65,7 @@ public class DefaultQueryApiDefenceclientDefenceClientIdIdpcResourceTest {
             JsonEnvelope envelope = ic.inputEnvelope();
             JsonObject request = envelope.payloadAsJsonObject();
             return of(JsonEnvelope.envelopeFrom(envelope.metadata(),
-                    Json.createObjectBuilder()
+                    createObjectBuilder()
                             .add("defenceClientId", request.getString("defenceClientId"))
                             .add("userId", request.getString("userId"))
                             .add("organisationId", orgId.toString())
@@ -83,7 +83,7 @@ public class DefaultQueryApiDefenceclientDefenceClientIdIdpcResourceTest {
         when(mockResponse.getStatus()).thenReturn(200);
         when(mockResponse.readEntity(String.class)).thenReturn("filelocation");
 
-        final JsonObject jsonObject = Json.createObjectBuilder()
+        final JsonObject jsonObject = createObjectBuilder()
                 .add("url", "filelocation")
                 .build();
 

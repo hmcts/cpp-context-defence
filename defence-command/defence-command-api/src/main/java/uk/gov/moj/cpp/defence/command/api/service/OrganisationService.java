@@ -1,5 +1,7 @@
 package uk.gov.moj.cpp.defence.command.api.service;
 
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+
 import uk.gov.justice.services.core.enveloper.Enveloper;
 import uk.gov.justice.services.core.requester.Requester;
 import uk.gov.justice.services.messaging.Envelope;
@@ -8,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -23,7 +24,7 @@ public class OrganisationService {
 
     public JsonObject getAssociatedOrganisation(final Envelope<?> envelope, final String defendantId, final Requester requester) {
 
-        final JsonObject getUserGroupsForUserRequest = Json.createObjectBuilder().add("defendantId", defendantId).build();
+        final JsonObject getUserGroupsForUserRequest = createObjectBuilder().add("defendantId", defendantId).build();
         final Envelope<JsonObject> requestEnvelope = Enveloper.envelop(getUserGroupsForUserRequest)
                 .withName(DEFENCE_ASSOCIATION_QUERY).withMetadataFrom(envelope);
         final Envelope<JsonObject> response = requester.requestAsAdmin(requestEnvelope, JsonObject.class);
@@ -35,7 +36,7 @@ public class OrganisationService {
         final String userId = envelope.metadata().userId()
                 .orElseThrow(() -> new IllegalStateException("User id Not Supplied for the UserGroups look up"));
 
-        final JsonObject request = Json.createObjectBuilder().add("userId", userId).build();
+        final JsonObject request = createObjectBuilder().add("userId", userId).build();
         final Envelope<JsonObject> requestEnvelope = Enveloper.envelop(request)
                 .withName(DEFENCE_ASSOCIATED_DEFENDANTS_QUERY).withMetadataFrom(envelope);
         final Envelope<JsonObject> response = requester.requestAsAdmin(requestEnvelope, JsonObject.class);

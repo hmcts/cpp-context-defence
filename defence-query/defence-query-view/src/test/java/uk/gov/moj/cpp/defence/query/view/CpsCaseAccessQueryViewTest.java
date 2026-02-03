@@ -8,7 +8,6 @@ import static java.util.Collections.singletonList;
 import static java.util.Objects.nonNull;
 import static java.util.UUID.fromString;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -20,6 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.skyscreamer.jsonassert.JSONAssert.assertEquals;
 import static uk.gov.justice.services.messaging.Envelope.metadataBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.test.utils.core.reflection.ReflectionUtil.setField;
 import static uk.gov.moj.cpp.defence.query.view.CpsCaseAccessQueryView.ACTIVE_PROSECUTING_ASSIGNMENTS_ONLY;
 import static uk.gov.moj.cpp.defence.query.view.CpsCaseAccessQueryView.ASSIGNEES;
@@ -76,7 +76,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -562,7 +561,7 @@ public class CpsCaseAccessQueryViewTest {
     }
 
     private JsonObject getProsecutorQueryResponse(final boolean cpsFlag, final boolean policeFlag) {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add("cpsFlag", cpsFlag)
                 .add("policeFlag", policeFlag)
                 .add("shortName", "DVLA")

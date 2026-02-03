@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static uk.gov.justice.services.core.annotation.Component.COMMAND_HANDLER;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMatcher.isHandler;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMethodMatcher.method;
 import static uk.gov.moj.cpp.defence.command.handler.CaseAccessCommandHandler.ASSIGNEE_USER_ID;
@@ -39,15 +40,11 @@ import uk.gov.moj.cpp.defence.service.UserGroupService;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
-
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.Is;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -384,7 +381,7 @@ public class CaseAccessCommandHandlerTest {
         }
         return JsonEnvelope.envelopeFrom(
                 metadataBuilder.build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add(CASE_ID, caseId.toString())
                         .add(ASSIGNEE_USER_ID, assigneeId.toString())
                         .build());

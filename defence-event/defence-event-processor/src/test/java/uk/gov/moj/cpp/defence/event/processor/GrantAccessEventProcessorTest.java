@@ -8,6 +8,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.BDDMockito.any;
 import static org.mockito.BDDMockito.verify;
 import static org.mockito.Mockito.times;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.messaging.spi.DefaultJsonMetadata.metadataBuilder;
 import static uk.gov.moj.cpp.defence.common.util.GrantAccessUtil.preparePermissionList;
 
@@ -28,7 +29,6 @@ import uk.gov.moj.cpp.defence.service.UserGroupService;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
 import org.hamcrest.Matchers;
@@ -64,13 +64,13 @@ public class GrantAccessEventProcessorTest {
                 .withGranteeDetails(PersonDetails.personDetails().withUserId(randomUUID()).build())
                 .withGranterDetails(PersonDetails.personDetails().withUserId(randomUUID()).build())
                 .withGranteeOrganisation(Organisation.organisation().withOrgId(randomUUID()).build())
-                .withPermissions(preparePermissionList(randomUUID(),randomUUID(),true, empty()))
+                .withPermissions(preparePermissionList(randomUUID(), randomUUID(), true, empty()))
                 .build();
         final Envelope<AccessGranted> envelope = createTypedEnvelope(accessGranted);
         grantAccessEventProcessor.handleAccessGrantedEvent(envelope);
 
 
-        verify(usersGroupService, times(3)).givePermission(permissionArgumentCaptor.capture(),any(),any());
+        verify(usersGroupService, times(3)).givePermission(permissionArgumentCaptor.capture(), any(), any());
         verify(sender, times(1)).send(envelopeArgumentCaptor.capture());
 
         final Envelope<DefenceAccessGranted> defenceAccessGrantedEnvelope = (Envelope<DefenceAccessGranted>) envelopeArgumentCaptor.getValue();
@@ -88,17 +88,17 @@ public class GrantAccessEventProcessorTest {
         final UUID defendantId = randomUUID();
 
         final AccessGrantRemoved accessGrantRemoved = AccessGrantRemoved.accessGrantRemoved()
-                .withPermissions(preparePermissionList(defendantId,userId, true, empty()))
+                .withPermissions(preparePermissionList(defendantId, userId, true, empty()))
                 .build();
         final Envelope<AccessGrantRemoved> envelope = createTypedEnvelope(accessGrantRemoved);
         grantAccessEventProcessor.handleAccessGrantRemovedEvent(envelope);
 
 
-        verify(usersGroupService, times(3)).givePermission(permissionArgumentCaptor.capture(),any(),any());
+        verify(usersGroupService, times(3)).givePermission(permissionArgumentCaptor.capture(), any(), any());
         verify(sender, times(1)).send(envelopeArgumentCaptor.capture());
 
 
-        final List<Permission> permissions =  (List<Permission>) permissionArgumentCaptor.getAllValues();
+        final List<Permission> permissions = (List<Permission>) permissionArgumentCaptor.getAllValues();
         assertThat(permissions.size(), is(3));
         permissions.forEach(
                 permission -> {
@@ -127,7 +127,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder().build());
+                createObjectBuilder().build());
 
         //test
         grantAccessEventProcessor.handleGrantAccessFailedEvent(envelope);
@@ -147,7 +147,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder().build());
+                createObjectBuilder().build());
 
         //test
         grantAccessEventProcessor.handleUserAlreadyGrantedFailedEvent(envelope);
@@ -167,7 +167,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder().build());
+                createObjectBuilder().build());
 
         //test
         grantAccessEventProcessor.handleGranteeUserNotInAllowedGroupsFailedEvent(envelope);
@@ -187,7 +187,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder().build());
+                createObjectBuilder().build());
 
         //test
         grantAccessEventProcessor.handleUserNotFoundFailedEvent(envelope);
@@ -210,7 +210,7 @@ public class GrantAccessEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                createObjectBuilder()
                         .add("userId", userId.toString())
                         .add("caseId", caseId.toString())
                         .add("email", email)
@@ -223,7 +223,7 @@ public class GrantAccessEventProcessorTest {
         verify(sender, times(1)).send(envelopeArgumentCaptor.capture());
         assertThat(envelopeArgumentCaptor.getValue().metadata().name(), Matchers.is(publicEventName));
 
-        final JsonObject body = (JsonObject)envelopeArgumentCaptor.getValue().payload();
+        final JsonObject body = (JsonObject) envelopeArgumentCaptor.getValue().payload();
         assertThat(body.getString("email"), Matchers.is(email));
         assertThat(body.getString("userId"), Matchers.is(userId.toString()));
         assertThat(body.getString("caseId"), Matchers.is(caseId.toString()));

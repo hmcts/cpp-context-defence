@@ -9,10 +9,9 @@ import static javax.ws.rs.core.HttpHeaders.ACCEPT;
 import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
 import static javax.ws.rs.core.Response.Status.OK;
 import static uk.gov.justice.services.common.http.HeaderConstants.ID;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import java.util.UUID;
-
-import javax.json.Json;
 
 public class AuthorisationServiceStub {
 
@@ -27,7 +26,7 @@ public class AuthorisationServiceStub {
                         .withStatus(OK.getStatusCode())
                         .withHeader(ID, UUID.randomUUID().toString())
                         .withHeader(CONTENT_TYPE, CAPABILITY_CONTENT_TYPE)
-                        .withBody(Json.createObjectBuilder().add("enabled", true).build().toString()))
+                        .withBody(createObjectBuilder().add("enabled", true).build().toString()))
         );
     }
 }

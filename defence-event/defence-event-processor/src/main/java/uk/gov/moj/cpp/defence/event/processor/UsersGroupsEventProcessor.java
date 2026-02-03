@@ -3,6 +3,7 @@ package uk.gov.moj.cpp.defence.event.processor;
 import static uk.gov.justice.services.core.annotation.Component.EVENT_PROCESSOR;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.services.core.annotation.Handles;
 import uk.gov.justice.services.core.annotation.ServiceComponent;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -65,7 +65,7 @@ public class UsersGroupsEventProcessor {
         final JsonArray defendants = defenceService.getDefendantsByLAAContractNumber(envelope, laaContractNumbers);
 
         defendants.stream().map(defendantJsonValue -> (JsonObject) defendantJsonValue).forEach(defendantJsonObject -> {
-            final JsonObject associateOrphanedCasePayload = Json.createObjectBuilder()
+            final JsonObject associateOrphanedCasePayload = createObjectBuilder()
                     .add(LAA_CONTRACT_NUMBER, defendantJsonObject.getString(LAA_CONTRACT_NUMBER))
                     .add(ORGANISATION_ID, organisationId)
                     .add(ORGANISATION_NAME, organisationName)

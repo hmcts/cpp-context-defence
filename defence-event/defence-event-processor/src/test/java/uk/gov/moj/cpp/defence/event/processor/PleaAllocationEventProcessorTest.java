@@ -1,15 +1,19 @@
 package uk.gov.moj.cpp.defence.event.processor;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
+import static java.util.UUID.randomUUID;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+import static uk.gov.justice.services.test.utils.core.messaging.MetadataBuilderFactory.metadataWithRandomUUID;
+
 import uk.gov.justice.core.courts.Address;
 import uk.gov.justice.core.courts.Defendant;
 import uk.gov.justice.core.courts.IndicatedPleaValue;
@@ -39,24 +43,23 @@ import uk.gov.moj.cpp.defence.events.AllocationPleasAdded;
 import uk.gov.moj.cpp.defence.events.AllocationPleasUpdated;
 import uk.gov.moj.cpp.defence.events.OpaTaskRequested;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.UUID;
 
-import static java.util.UUID.randomUUID;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
-import static uk.gov.justice.services.test.utils.core.messaging.MetadataBuilderFactory.metadataWithRandomUUID;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 public class PleaAllocationEventProcessorTest {
@@ -129,25 +132,25 @@ public class PleaAllocationEventProcessorTest {
         final ProsecutionCase prosecutionCase = ProsecutionCase.prosecutionCase()
                 .withId(caseId)
                 .withDefendants(Arrays.asList(Defendant.defendant()
-                        .withId(defendantId)
-                        .withPersonDefendant(PersonDefendant.personDefendant()
-                                .withPersonDetails(Person.person()
-                                        .withFirstName("First")
-                                        .withLastName("Last")
-                                        .withDateOfBirth("1981-11-11")
-                                        .withAddress(Address.address()
-                                                .withAddress1("address 1")
-                                                .withPostcode("SN1 1AP")
+                                .withId(defendantId)
+                                .withPersonDefendant(PersonDefendant.personDefendant()
+                                        .withPersonDetails(Person.person()
+                                                .withFirstName("First")
+                                                .withLastName("Last")
+                                                .withDateOfBirth("1981-11-11")
+                                                .withAddress(Address.address()
+                                                        .withAddress1("address 1")
+                                                        .withPostcode("SN1 1AP")
+                                                        .build())
                                                 .build())
                                         .build())
-                                .build())
 
-                        .withOffences(Arrays.asList(Offence.offence()
-                                .withId(offenceId)
-                                .withOffenceTitle("Offence Title 1")
-                                .withWording("Wording 1")
-                                .build()))
-                        .build(),
+                                .withOffences(Arrays.asList(Offence.offence()
+                                        .withId(offenceId)
+                                        .withOffenceTitle("Offence Title 1")
+                                        .withWording("Wording 1")
+                                        .build()))
+                                .build(),
                         Defendant.defendant()
                                 .withId(defendantId2)
                                 .withLegalEntityDefendant(LegalEntityDefendant.legalEntityDefendant()
@@ -168,22 +171,22 @@ public class PleaAllocationEventProcessorTest {
                                         .build()))
                                 .build()))
                 .build();
-        final JsonArray pleasAllocationDetailsOnCaseJsonArray = Json.createArrayBuilder().add(Json.createObjectBuilder()
+        final JsonArray pleasAllocationDetailsOnCaseJsonArray = createArrayBuilder().add(createObjectBuilder()
                         .add("caseUrn", "URN1")
                         .add("caseId", caseId.toString())
                         .add("defendantId", defendantId2.toString())
                         .add("additionalInformation", "Additional Information")
                         .add("crownCourtObjection", YesNoNa.Y.toString())
-                        .add("offencePleas", Json.createArrayBuilder().add(Json.createObjectBuilder()
-                                .add("offenceId",offenceId.toString())
-                                .add("indicatedPlea",IndicatedPleaValue.INDICATED_GUILTY.toString())))
-                        .add("defendantDetails",Json.createObjectBuilder().add("organisationName","Corrected Organisation Name").build())
-                        .add("defendantNameDobConfirmation","false")
-                        .add("offenceType","youthGraveCrime")
-                        .add("additionalInformation","Test additional Info")
-                        .add("defendantTurningEighteenDetails","Defendant turning 18")
-                        .add("theftFromShop","Y")
-                        .add("theftFromShopDetails","Theft From Shop Details"))
+                        .add("offencePleas", createArrayBuilder().add(createObjectBuilder()
+                                .add("offenceId", offenceId.toString())
+                                .add("indicatedPlea", IndicatedPleaValue.INDICATED_GUILTY.toString())))
+                        .add("defendantDetails", createObjectBuilder().add("organisationName", "Corrected Organisation Name").build())
+                        .add("defendantNameDobConfirmation", "false")
+                        .add("offenceType", "youthGraveCrime")
+                        .add("additionalInformation", "Test additional Info")
+                        .add("defendantTurningEighteenDetails", "Defendant turning 18")
+                        .add("theftFromShop", "Y")
+                        .add("theftFromShopDetails", "Theft From Shop Details"))
                 .build();
 
         final JsonObject prosecutionCaseJson = objectToJsonObjectConverter.convert(prosecutionCase);
@@ -200,7 +203,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> addCourtDocumentEnvelope = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  addCourtDocumentEnvelope;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) addCourtDocumentEnvelope;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -209,31 +212,31 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult either-way offences"));
+                , is("Adult either-way offences"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getString("defendantOrganisationName")
-                ,is("Organisation Name"));
+                , is("Organisation Name"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getJsonObject("address").getString("address1")
-                ,is("Org address 1"));
+                , is("Org address 1"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getJsonObject("address").getString("address2")
-                ,is("Org address 2"));
+                , is("Org address 2"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getJsonObject("address").getString("address3")
-                ,is("Org address 3"));
+                , is("Org address 3"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getJsonObject("address").getString("postcode")
-                ,is("SW1 9FP"));
+                , is("SW1 9FP"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getString("offenceType")
-                ,is("Youth grave crime"));
+                , is("Youth grave crime"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).get("defendantNameDobConfirmation").toString()
-                ,is("false"));
+                , is("false"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getString("defendantCorrectedName")
-                ,is("Corrected Organisation Name"));
+                , is("Corrected Organisation Name"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getString("additionalInformation")
-                ,is("Test additional Info"));
+                , is("Test additional Info"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getString("defendantTurningEighteenDetails")
-                ,is("Defendant turning 18"));
+                , is("Defendant turning 18"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getString("theftFromShop")
-                ,is("I agree, they are low-value shoplifting offences"));
+                , is("I agree, they are low-value shoplifting offences"));
         assertThat(payloadForDocument.getJsonArray(DEFENDANT_ON_CASE).getJsonObject(0).getString("theftFromShopDetails")
-                ,is("Theft From Shop Details"));
+                , is("Theft From Shop Details"));
         PleasAllocationDetails pleasAllocation = publicEventEnvelope.payload().getPleasAllocation();
         assertPleaAllocationFields(pleasAllocation, caseId, offenceId);
 
@@ -245,8 +248,8 @@ public class PleaAllocationEventProcessorTest {
         assertThat(pleasAllocation.getOffenceType(), is(OffenceType.ADULTEITHERWAY));
         assertThat(pleasAllocation.getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(pleasAllocation.getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_GUILTY.toString()));
-        assertThat(pleasAllocation.getAdditionalInformation(),is("Additional Information"));
-        assertThat(pleasAllocation.getCrownCourtObjection(),is(YesNoNa.Y));
+        assertThat(pleasAllocation.getAdditionalInformation(), is("Additional Information"));
+        assertThat(pleasAllocation.getCrownCourtObjection(), is(YesNoNa.Y));
     }
 
     @Test
@@ -311,7 +314,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> addCourtDocumentEnvelope = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  addCourtDocumentEnvelope;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) addCourtDocumentEnvelope;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -320,14 +323,14 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult indictable only offences"));
+                , is("Adult indictable only offences"));
 
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(true));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTINDICTABLEONLY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
     }
 
     @Test
@@ -398,7 +401,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> addCourtDocumentEnvelope = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  addCourtDocumentEnvelope;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) addCourtDocumentEnvelope;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -410,7 +413,7 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("defendantCorrectedDob"), is(DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(
                 LocalDate.now().minusYears(20))));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult indictable only offences"));
+                , is("Adult indictable only offences"));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(false));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantDetails().getFirstName(), is("John"));
@@ -420,7 +423,7 @@ public class PleaAllocationEventProcessorTest {
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTINDICTABLEONLY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
     }
 
     @Test
@@ -485,7 +488,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> addCourtDocumentEnvelope = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  addCourtDocumentEnvelope;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) addCourtDocumentEnvelope;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -494,13 +497,13 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult indictable only offences"));
+                , is("Adult indictable only offences"));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(true));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTINDICTABLEONLY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_NOT_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
     }
 
     @Test
@@ -570,7 +573,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> addCourtDocumentEnvelope = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  addCourtDocumentEnvelope;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) addCourtDocumentEnvelope;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -579,18 +582,18 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Youth grave crime"));
+                , is("Youth grave crime"));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(true));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.YOUTHGRAVECRIME));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_NOT_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantTurningEighteenDetails(),is("Defendant turning 18"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShop(),is(YesNoNa.Y));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShopDetails(),is("Theft from shop"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getSentencingIndication(),is(YesNoNa.Y));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getRepresentationsOnGraveCrime(),is(false));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantTurningEighteenDetails(), is("Defendant turning 18"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShop(), is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShopDetails(), is("Theft from shop"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getSentencingIndication(), is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getRepresentationsOnGraveCrime(), is(false));
     }
 
     @Test
@@ -678,7 +681,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> value1 = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  value1;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) value1;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -687,15 +690,15 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult either-way offences"));
+                , is("Adult either-way offences"));
 
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(true));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTEITHERWAY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getCrownCourtObjection(),is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getCrownCourtObjection(), is(YesNoNa.Y));
     }
 
     @Test
@@ -772,7 +775,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> value1 = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  value1;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) value1;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -784,15 +787,15 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("defendantCorrectedDob"), is(DateTimeFormatter.ofPattern("dd-MMM-yyyy").format(
                 LocalDate.now().minusYears(20))));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult either-way offences"));
+                , is("Adult either-way offences"));
 
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(false));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTEITHERWAY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getCrownCourtObjection(),is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getCrownCourtObjection(), is(YesNoNa.Y));
     }
 
     @Test
@@ -862,7 +865,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> value1 = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  value1;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) value1;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -871,14 +874,14 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult indictable only offences"));
+                , is("Adult indictable only offences"));
 
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(true));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTINDICTABLEONLY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
     }
 
     @Test
@@ -948,7 +951,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> value1 = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  value1;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) value1;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -957,14 +960,14 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult indictable only offences"));
+                , is("Adult indictable only offences"));
 
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(true));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTINDICTABLEONLY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_NOT_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
     }
 
     @Test
@@ -1039,7 +1042,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> value1 = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  value1;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) value1;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -1048,19 +1051,19 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Youth grave crime"));
+                , is("Youth grave crime"));
 
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(true));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.YOUTHGRAVECRIME));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_NOT_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantTurningEighteenDetails(),is("Defendant turning 18"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShop(),is(YesNoNa.Y));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShopDetails(),is("Theft from shop"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getSentencingIndication(),is(YesNoNa.Y));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getRepresentationsOnGraveCrime(),is(false));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantTurningEighteenDetails(), is("Defendant turning 18"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShop(), is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShopDetails(), is("Theft from shop"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getSentencingIndication(), is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getRepresentationsOnGraveCrime(), is(false));
     }
 
     @Test
@@ -1077,7 +1080,7 @@ public class PleaAllocationEventProcessorTest {
                                         .withCaseId(caseId)
                                         .withDefendantId(defendantId)
                                         .withDefendantDetails(PleaDefendantDetails.pleaDefendantDetails()
-                                               .withOrganisationName("Organisation Name")
+                                                .withOrganisationName("Organisation Name")
                                                 .build())
                                         .withOffenceType(OffenceType.ADULTEITHERWAY)
                                         .withDisputeOffenceValue(true)
@@ -1138,29 +1141,29 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
 
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("defendantOrganisationName")
-                ,is("Organisation Name"));
+                , is("Organisation Name"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address1")
-                ,is("Org address 1"));
+                , is("Org address 1"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address2")
-                ,is("Org address 2"));
+                , is("Org address 2"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address3")
-                ,is("Org address 3"));
+                , is("Org address 3"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("postcode")
-                ,is("SW1 9FP"));
+                , is("SW1 9FP"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult either-way offences"));
+                , is("Adult either-way offences"));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTEITHERWAY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_NOT_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDisputeOffenceValue(),is(true));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDisputeOffenceValueDetails(),is("Dispute Offence details"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShop(),is(YesNoNa.Y));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShopDetails(),is("Theft from shop"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getElectingCrownCourtTrial(),is(false));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getSentencingIndication(),is(YesNoNa.Y));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getConsentToMagistratesCourtTrial(),is("Consents to summary trial"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getSentencingIndication(),is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDisputeOffenceValue(), is(true));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDisputeOffenceValueDetails(), is("Dispute Offence details"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShop(), is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getTheftFromShopDetails(), is("Theft from shop"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getElectingCrownCourtTrial(), is(false));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getSentencingIndication(), is(YesNoNa.Y));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getConsentToMagistratesCourtTrial(), is("Consents to summary trial"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getSentencingIndication(), is(YesNoNa.Y));
     }
 
     @Test
@@ -1232,22 +1235,22 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
 
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("defendantOrganisationName")
-                ,is("Organisation Name"));
+                , is("Organisation Name"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address1")
-                ,is("Org address 1"));
+                , is("Org address 1"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address2")
-                ,is("Org address 2"));
+                , is("Org address 2"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address3")
-                ,is("Org address 3"));
+                , is("Org address 3"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("postcode")
-                ,is("SW1 9FP"));
+                , is("SW1 9FP"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Youth grave crime"));
+                , is("Youth grave crime"));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.YOUTHGRAVECRIME));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantTurningEighteenDetails(),is("Defendant turning 18"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantTurningEighteenDetails(), is("Defendant turning 18"));
     }
 
     @Test
@@ -1317,21 +1320,21 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
 
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("defendantOrganisationName")
-                ,is("Organisation Name"));
+                , is("Organisation Name"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address1")
-                ,is("Org address 1"));
+                , is("Org address 1"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address2")
-                ,is("Org address 2"));
+                , is("Org address 2"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("address3")
-                ,is("Org address 3"));
+                , is("Org address 3"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getJsonObject("address").getString("postcode")
-                ,is("SW1 9FP"));
+                , is("SW1 9FP"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult indictable only offences"));
+                , is("Adult indictable only offences"));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffenceType(), is(OffenceType.ADULTINDICTABLEONLY));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getOffenceId(), is(offenceId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getOffencePleas().get(0).getIndicatedPlea(), is(IndicatedPleaValue.INDICATED_GUILTY.toString()));
-        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(),is("Additional Information"));
+        assertThat(publicEventEnvelope.payload().getPleasAllocation().getAdditionalInformation(), is("Additional Information"));
     }
 
     @Test
@@ -1394,7 +1397,7 @@ public class PleaAllocationEventProcessorTest {
 
         verify(sender, times(1)).sendAsAdmin(argumentCaptor.capture());
         final Envelope<?> value1 = argumentCaptor.getValue();
-        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>)  value1;
+        final Envelope<JsonObject> envelope1 = (Envelope<JsonObject>) value1;
         assertThat(envelope1.payload().getJsonObject("courtDocument").getBoolean("sendToCps"), is(true));
         assertThat(envelope1.payload().getJsonObject("courtDocument").getString("notificationType"), is("opa-form-submitted"));
 
@@ -1403,7 +1406,7 @@ public class PleaAllocationEventProcessorTest {
         assertThat(payloadForDocument.getString("submittedDate"), is(notNullValue()));
         assertThat(payloadForDocument.getString("submittedBy"), is("first last"));
         assertThat(payloadForDocument.getJsonObject(DEFENDANT_ON_OPA).getString("offenceType")
-                ,is("Adult either-way offences"));
+                , is("Adult either-way offences"));
 
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getCaseId(), is(caseId));
         assertThat(publicEventEnvelope.payload().getPleasAllocation().getDefendantNameDobConfirmation(), is(false));

@@ -10,6 +10,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static uk.gov.justice.services.core.annotation.Component.COMMAND_HANDLER;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.test.utils.core.helper.EventStreamMockHelper.verifyAppendAndGetArgumentFrom;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMatcher.isHandler;
 import static uk.gov.justice.services.test.utils.core.matchers.HandlerMethodMatcher.method;
@@ -40,7 +41,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -110,7 +110,7 @@ class LockDefenceAssociationForLAAHandlerTest {
     }
 
     @Test
-     void shouldProcessCommand_whenCaseLockedForDefendant_AssociationShouldFail() throws EventStreamException {
+    void shouldProcessCommand_whenCaseLockedForDefendant_AssociationShouldFail() throws EventStreamException {
         final JsonEnvelope jsonEnvelope = JsonEnvelope.envelopeFrom(
                 JsonEnvelope.metadataBuilder().withUserId(randomUUID().toString()).withId(randomUUID()).withName("defence.command.handler.lock-defence-association-for-laa").build(),
                 createPayloadForLockDefendantAssociation());
@@ -177,7 +177,7 @@ class LockDefenceAssociationForLAAHandlerTest {
 
 
     private static JsonObject createPayloadForLockDefendantAssociation() {
-        return Json.createObjectBuilder()
+        return createObjectBuilder()
                 .add(DEFENDANT_ID, defendantId.toString())
                 .add(LAA_CONTRACT_NUMBER, LAACONTRACTNUMBER)
                 .build();

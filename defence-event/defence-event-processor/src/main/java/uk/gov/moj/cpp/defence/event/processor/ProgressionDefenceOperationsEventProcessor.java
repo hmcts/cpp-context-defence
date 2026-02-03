@@ -3,6 +3,7 @@ package uk.gov.moj.cpp.defence.event.processor;
 import static uk.gov.justice.services.core.annotation.Component.EVENT_PROCESSOR;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 
 import uk.gov.justice.progression.courts.DefendantLegalaidStatusUpdated;
 import uk.gov.justice.services.common.converter.ObjectToJsonObjectConverter;
@@ -19,7 +20,6 @@ import uk.gov.moj.cpp.defence.event.processor.events.DefendantOffencesChanged;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonValue;
@@ -47,7 +47,7 @@ public class ProgressionDefenceOperationsEventProcessor {
     @Handles("public.progression.defendant-offences-changed")
     public void handleDefendantOffencesChanged(final Envelope<DefendantOffencesChanged> envelope) {
         JsonObject jsonObject = objectToJsonObjectConverter.convert(envelope.payload());
-        LOGGER.info("Inside handleDefendantOffencesChanged={}", jsonObject != null ? jsonObject.toString(): "");
+        LOGGER.info("Inside handleDefendantOffencesChanged={}", jsonObject != null ? jsonObject.toString() : "");
         sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("defence.command.update-defendant-offences"),
                 envelope.payload()));
     }
@@ -55,7 +55,7 @@ public class ProgressionDefenceOperationsEventProcessor {
     @Handles("public.progression.defence-organisation-for-laa-associated")
     public void handleAssociateDefenceOrganisationForLAA(final Envelope<DefenceOrganisationForLaaAssociated> envelope) {
         JsonObject jsonObject = objectToJsonObjectConverter.convert(envelope.payload());
-        LOGGER.info("Inside handleAssociateDefenceOrganisationForLAA={}", jsonObject != null ? jsonObject.toString(): "");
+        LOGGER.info("Inside handleAssociateDefenceOrganisationForLAA={}", jsonObject != null ? jsonObject.toString() : "");
         sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("defence.command.associate-defence-organisation-for-laa"),
                 envelope.payload()));
     }
@@ -69,7 +69,7 @@ public class ProgressionDefenceOperationsEventProcessor {
     @Handles("public.progression.defence-organisation-for-laa-disassociated")
     public void handleDefenceOrganisationForLAADisassociated(final Envelope<DefenceOrganisationForLaaDisassociated> envelope) {
         JsonObject jsonObject = objectToJsonObjectConverter.convert(envelope.payload());
-        LOGGER.info("Inside handleDefenceOrganisationForLAADisassociated={}", jsonObject != null ? jsonObject.toString(): "");
+        LOGGER.info("Inside handleDefenceOrganisationForLAADisassociated={}", jsonObject != null ? jsonObject.toString() : "");
         final DefenceOrganisationForLaaDisassociated incomingDisassociation = envelope.payload();
         final DefenceOrganisationForLaaDisassociated defenceOrganisationForLaaDisassociated = DefenceOrganisationForLaaDisassociated.defenceOrganisationForLaaDisassociated()
                 .withOrganisationId(incomingDisassociation.getOrganisationId())
@@ -88,7 +88,7 @@ public class ProgressionDefenceOperationsEventProcessor {
     }
 
     public static JsonObject removeProperty(JsonObject origin, String key) {
-        final JsonObjectBuilder builder = Json.createObjectBuilder();
+        final JsonObjectBuilder builder = createObjectBuilder();
 
         for (final Map.Entry<String, JsonValue> entry : origin.entrySet()) {
             if (!entry.getKey().equals(key)) {
