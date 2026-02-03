@@ -35,7 +35,7 @@
         <referencedataoffences.version>17.0.38</referencedataoffences.version>
         <json-generator.version>0.1.0</json-generator.version>
         <criminal-court-public-model.version>${coredomain.version}</criminal-court-public-model.version>
-        <coredomain.version>17.103.13</coredomain.version>
+        <coredomain.version>17.104.4</coredomain.version>
         <material.version>17.0.79</material.version>
         <referencedata.version>17.103.131</referencedata.version>
         <listing.version>17.103.162</listing.version>
