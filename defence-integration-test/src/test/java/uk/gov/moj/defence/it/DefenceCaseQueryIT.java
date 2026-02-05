@@ -424,7 +424,6 @@ public class DefenceCaseQueryIT {
         final String urn = "TVL12MX";
         final Response response = queryDefenceClient(urn, "Joe", "Bloggs", "1983-04-20", userId);
         assertThat(response.getStatus(), is(HttpStatus.SC_NOT_FOUND));
-        assertThat(response.readEntity(String.class), containsString(""));
     }
 
     @Test
