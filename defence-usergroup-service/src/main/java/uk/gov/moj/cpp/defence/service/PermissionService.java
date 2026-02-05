@@ -42,7 +42,6 @@ public class PermissionService {
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getPermissionsforDefendantRequest);
         final Envelope<JsonObject> response = requester.requestAsAdmin(requestEnvelope, JsonObject.class);
 
-
         if (hasNullPayload(response) || !response.payload().containsKey(PERMISSIONS)) {
             return Collections.emptyList();
         }
