@@ -95,6 +95,7 @@
         </plugins>
     </build>
 
+    <!-- Test dependencies -->
     <dependencyManagement>
         <dependencies>
             <dependency>
