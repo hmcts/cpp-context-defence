@@ -428,12 +428,10 @@ public class DefenceCaseQueryIT {
         String value = null;
         try {
             value = response.readEntity(String.class);
-            assertThat(value, containsString(""));
         } catch (Exception e) {
-            System.out.println("Response closed error handled");
-            Assertions.assertNull(value);
+            // ignore
         }
-
+        assertNull(value);
     }
 
     @Test
