@@ -421,7 +421,7 @@ public class DefenceCaseQueryIT {
     }
 
     @Test
-    public void q() {
+    public void shouldReturnNotFoundWhenUrnIsInvalid() {
         final String urn = "TVL12MX";
         final Response response = queryDefenceClient(urn, "Joe", "Bloggs", "1983-04-20", userId);
         assertThat(response.getStatus(), is(HttpStatus.SC_NOT_FOUND));
