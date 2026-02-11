@@ -431,7 +431,7 @@ public class DefenceCaseQueryIT {
         } catch (Exception e) {
             // ignore
         }
-        assertNull(value);
+        Assertions.assertNull(value);
     }
 
     @Test
