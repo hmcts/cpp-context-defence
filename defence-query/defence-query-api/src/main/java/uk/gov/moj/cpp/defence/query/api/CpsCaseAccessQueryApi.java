@@ -502,7 +502,7 @@ public class CpsCaseAccessQueryApi {
                 jsonObjectBuilder.add(ADDRESS, addressJsonObject);
             }
             return jsonObjectBuilder.build();
-        }).collect(toList());
+        }).toList();
 
         final JsonArrayBuilder updatedJsonArrayBuilder = Json.createArrayBuilder();
         addressJsonList.forEach(updatedJsonArrayBuilder::add);
