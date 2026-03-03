@@ -446,7 +446,7 @@ public class CpsCaseAccessQueryApi {
 
     private ProsecutioncaseCaag removeUnAuthorisedDataForDefence(final ProsecutioncaseCaag prosecutioncaseCaag) {
         return ProsecutioncaseCaag.prosecutioncaseCaag()
-                .withValuesFrom(prosecutioncaseCaag)
+                .withCaseId(prosecutioncaseCaag.getCaseId())
                 .withCaseDetails(CaseDetails.caseDetails()
                         .withCaseStatus(prosecutioncaseCaag.getCaseDetails().getCaseStatus())
                         .withCaseURN(prosecutioncaseCaag.getCaseDetails().getCaseURN())
@@ -457,6 +457,9 @@ public class CpsCaseAccessQueryApi {
                         .withIsGroupMaster(prosecutioncaseCaag.getCaseDetails().getIsGroupMaster())
                         .withIsGroupMember(prosecutioncaseCaag.getCaseDetails().getIsGroupMember())
                         .build())
+                .withDefendants(prosecutioncaseCaag.getDefendants())
+                .withLinkedApplications(prosecutioncaseCaag.getLinkedApplications())
+                .withProsecutorDetails(prosecutioncaseCaag.getProsecutorDetails())
                 .build();
     }
 
@@ -471,9 +474,13 @@ public class CpsCaseAccessQueryApi {
     }
 
     private ProsecutioncaseCaag removeUnAuthorisedDataForProsecutor(final Envelope<ProsecutioncaseCaag> responseEnvelop) {
+        final ProsecutioncaseCaag payload = responseEnvelop.payload();
         return ProsecutioncaseCaag.prosecutioncaseCaag()
-                .withValuesFrom(responseEnvelop.payload())
-                .withDefendants(removeDefendantMarkers(responseEnvelop.payload().getDefendants()))
+                .withCaseId(payload.getCaseId())
+                .withCaseDetails(payload.getCaseDetails())
+                .withDefendants(removeDefendantMarkers(payload.getDefendants()))
+                .withLinkedApplications(payload.getLinkedApplications())
+                .withProsecutorDetails(payload.getProsecutorDetails())
                 .build();
     }
 
