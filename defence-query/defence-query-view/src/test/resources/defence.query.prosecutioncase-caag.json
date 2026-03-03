@@ -11,7 +11,18 @@
         "feeType": "INITIAL"
       }
     ],
-    "isCivil": true
+    "isCivil": true,
+    "migrationSourceSystem": {
+      "defendantFineAccountNumbers": [
+        {
+          "defendantId": "DEFENDANT_ID",
+          "fineAccountNumber": "1234567"
+        }
+      ],
+      "migrationCaseStatus": "INACTIVE",
+      "migrationSourceSystemCaseIdentifier": "XHIBIT-2-HEARINGS",
+      "migrationSourceSystemName": "XHIBIT"
+    }
   },
   "prosecutorDetails": {
     "address": {
@@ -846,5 +857,8 @@
       "subjectId": "12d8962f-773a-40ee-8d0b-6b621228b017",
       "isAppeal": false
     }
-  ]
+  ],
+  "appealsLodgedInfo": {
+    "appealsLodged": false
+  }
 }
