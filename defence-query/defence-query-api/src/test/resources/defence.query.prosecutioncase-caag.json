@@ -3,7 +3,18 @@
   "caseDetails": {
     "caseStatus": "ACTIVE",
     "caseURN": "53NP3458322",
-    "initiationCode": "C"
+    "initiationCode": "C",
+    "migrationSourceSystem": {
+      "defendantFineAccountNumbers": [
+        {
+          "defendantId": "0fb2a4f0-06e6-4175-9c98-cc5795323f63",
+          "fineAccountNumber": "1234567"
+        }
+      ],
+      "migrationCaseStatus": "INACTIVE",
+      "migrationSourceSystemCaseIdentifier": "XHIBIT-HEARINGS",
+      "migrationSourceSystemName": "XHIBIT"
+    }
   },
   "prosecutorDetails": {
     "address": {
