@@ -310,6 +310,7 @@ public class CpsCaseAccessQueryViewTest {
         final UUID orgId = randomUUID();
         final UUID authorisedDefendantId = randomUUID();
         final UUID masterDefendantId = randomUUID();
+        final UUID offenceId = randomUUID();
         final SearchCaseByUrn searchCaseByUrn = SearchCaseByUrn.searchCaseByUrn()
                 .withCaseId(caseId)
                 .withCaseUrn(urn)
@@ -324,7 +325,66 @@ public class CpsCaseAccessQueryViewTest {
         when(userGroupService.getOrganisationDetailsForUser(userId, roleInCaseMetadata, requester)).thenReturn(Organisation.organisation().withOrgId(orgId).build());
         when(searchCaseByUrnEnvelope.metadata()).thenReturn(roleInCaseMetadata);
         when(defenceQueryService.getCaseId(urn)).thenReturn(caseId);
-        when(progressionService.getProsecutionCaseDetails(any(), any())).thenReturn(getProsecutionCaseQueryResponsePayload(authorisedDefendantId));
+
+        final String prosecutionCaseJson = """
+            {
+              "caseId": "%s",
+              "caseDetails": {
+                "caseStatus": "ACTIVE",
+                "caseURN": "caseUrn",
+                "initiationCode": "J",
+                "migrationSourceSystem": {
+                  "defendantFineAccountNumbers": [
+                    {
+                      "defendantId": "%s",
+                      "fineAccountNumber": "xxx"
+                    }
+                  ],
+                  "migrationCaseStatus": "xxx",
+                  "migrationSourceSystemCaseIdentifier": "xxx",
+                  "migrationSourceSystemName": "xxx"
+                }
+              },
+              "prosecutorDetails": {
+                "address": {
+                  "address1": "xxx",
+                  "address2": "xxx",
+                  "address5": "xxx",
+                  "postcode": "xxx"
+                },
+                "prosecutionAuthorityCode": "xxx",
+                "prosecutionAuthorityId": "%s"
+              },
+              "defendants": [
+                {
+                  "id": "%s",
+                  "firstName": "xxx",
+                  "lastName": "xxx",
+                  "associatedPersons": [],
+                  "caagDefendantOffences": [
+                    {
+                      "id": "%s",
+                      "offenceCode": "xxx",
+                      "offenceTitle": "xxx"
+                    }
+                  ]
+                }
+              ],
+              "appealsLodgedInfo": {
+                "appealsLodged": false
+              }
+            }
+            """.formatted(
+                caseId,
+                authorisedDefendantId,
+                randomUUID(),
+                authorisedDefendantId,
+                offenceId
+            );
+        final JsonObject prosecutionCasePayload = Json.createObjectBuilder()
+                .add("prosecutionCase", new DefaultJsonParser().toObject(prosecutionCaseJson, JsonObject.class))
+                .build();
+        when(progressionService.getProsecutionCaseDetails(any(), any())).thenReturn(prosecutionCasePayload);
         when(progressionService.getProsecutionCaseDetailsForCaag(any(), any())).thenReturn(getProsecutionCaseCaagQueryResponsePayload(authorisedDefendantId, masterDefendantId));
 
         DefenceAssociation da = new DefenceAssociation();
