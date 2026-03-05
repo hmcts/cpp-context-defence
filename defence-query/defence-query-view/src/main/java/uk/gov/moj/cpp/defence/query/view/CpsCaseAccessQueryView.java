@@ -31,9 +31,6 @@ import uk.gov.justice.cps.defence.ExpiredProsecutorAssignments;
 import uk.gov.justice.cps.defence.ExpiredProsecutorOrganisationAssignments;
 import uk.gov.justice.cps.defence.Prosecutioncase;
 import uk.gov.justice.cps.defence.SearchCaseByUrn;
-import uk.gov.justice.cps.defence.caag.Defendants;
-import uk.gov.justice.cps.defence.caag.LinkedApplications;
-import uk.gov.justice.cps.defence.caag.ProsecutioncaseCaag;
 import uk.gov.justice.cps.defence.progression.ApplicationSummary;
 import uk.gov.justice.cps.defence.progression.CourtOrder;
 import uk.gov.justice.cps.defence.progression.DefendantHearings;
@@ -57,6 +54,9 @@ import uk.gov.justice.services.messaging.Metadata;
 import uk.gov.moj.cpp.defence.Organisation;
 import uk.gov.moj.cpp.defence.OrganisationAssignment;
 import uk.gov.moj.cpp.defence.ProsecutorAssignment;
+import uk.gov.moj.cpp.defence.caag.Defendants;
+import uk.gov.moj.cpp.defence.caag.LinkedApplications;
+import uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag;
 import uk.gov.moj.cpp.defence.persistence.AdvocateAccessRepository;
 import uk.gov.moj.cpp.defence.persistence.DefenceAssociationRepository;
 import uk.gov.moj.cpp.defence.persistence.DefenceGrantAccessRepository;
@@ -97,6 +97,8 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.persistence.NoResultException;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings({"squid:S1168"})
@@ -345,6 +347,18 @@ public class CpsCaseAccessQueryView {
         final ProsecutioncaseCaag prosecutioncaseCaag = jsonObjectToObjectConverter.convert(prosecutionCaseJson, ProsecutioncaseCaag.class);
 
         return enrichProsecutionCaseCaag(request.metadata(), prosecutioncaseCaag);
+    }
+
+    private ProsecutioncaseCaag removeMigrationSourceSystem(final JsonObject prosecutionCaseJson) {
+        try {
+            Map<String, Object> objectMap = OBJECT_MAPPER.readValue(prosecutionCaseJson.toString(), new TypeReference<>() {});
+            Map<String, Object> caseDetails = OBJECT_MAPPER.convertValue(objectMap.get("caseDetails"), new TypeReference<>() {});
+            caseDetails.remove("migrationSourceSystem");
+            objectMap.put("caseDetails", caseDetails);
+            return OBJECT_MAPPER.convertValue(objectMap, ProsecutioncaseCaag.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private Prosecutioncase getProsecutionCase(final Envelope<SearchCaseByUrn> request, final UUID caseId) throws IOException {

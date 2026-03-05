@@ -30,7 +30,6 @@ import static uk.gov.moj.cpp.defence.query.view.CpsCaseAccessQueryView.ORGANISAT
 import uk.gov.justice.core.courts.AssociatedPerson;
 import uk.gov.justice.cps.defence.Prosecutioncase;
 import uk.gov.justice.cps.defence.SearchCaseByUrn;
-import uk.gov.justice.cps.defence.caag.ProsecutioncaseCaag;
 import uk.gov.justice.json.schemas.hearing.HearingSummaries;
 import uk.gov.justice.json.schemas.hearing.Timeline;
 import uk.gov.justice.listing.events.Hearing;
@@ -46,6 +45,7 @@ import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.justice.services.messaging.Metadata;
 import uk.gov.moj.cpp.defence.Organisation;
+import uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag;
 import uk.gov.moj.cpp.defence.persistence.AdvocateAccessRepository;
 import uk.gov.moj.cpp.defence.persistence.DefenceAssociationRepository;
 import uk.gov.moj.cpp.defence.persistence.DefenceGrantAccessRepository;
@@ -149,12 +149,12 @@ public class CpsCaseAccessQueryViewTest {
 
         final UUID defendantId = randomUUID();
         final String role = "B";
-        final List<uk.gov.justice.cps.defence.caag.Defendants> caagDefendants = asList(buildCaagDefendant(defendantId, role));
+        final List<uk.gov.moj.cpp.defence.caag.Defendants> caagDefendants = asList(buildCaagDefendant(defendantId, role));
 
         final List<uk.gov.justice.core.courts.Defendant> caseDefendants = asList(buildCaseDefendant(randomUUID(), "A"),
                 buildCaseDefendant(randomUUID(), "A"),
                 buildCaseDefendant(defendantId, role));
-        final List<uk.gov.justice.cps.defence.caag.Defendants> updatedDefendants = advocateAccessQueryView.getEnrichedDefendants(caagDefendants, caseDefendants);
+        final List<uk.gov.moj.cpp.defence.caag.Defendants> updatedDefendants = advocateAccessQueryView.getEnrichedDefendants(caagDefendants, caseDefendants);
 
         assertThat(updatedDefendants.size(), is(1));
         assertThat(updatedDefendants.get(0).getAssociatedPersons().size(), is(1));
@@ -166,12 +166,12 @@ public class CpsCaseAccessQueryViewTest {
     public void shouldFindAssociatedPersonsForNonExistingAssPer() {
         final UUID defendantId = randomUUID();
         final String role = "B";
-        final List<uk.gov.justice.cps.defence.caag.Defendants> caagDefendants = asList(buildCaagDefendant(defendantId, role));
+        final List<uk.gov.moj.cpp.defence.caag.Defendants> caagDefendants = asList(buildCaagDefendant(defendantId, role));
 
         final List<uk.gov.justice.core.courts.Defendant> caseDefendants = asList(buildCaseDefendant(randomUUID(), "A"),
                 buildCaseDefendant(randomUUID(), "A"),
                 buildCaseDefendant(defendantId, null));
-        final List<uk.gov.justice.cps.defence.caag.Defendants> updatedDefendants = advocateAccessQueryView.getEnrichedDefendants(caagDefendants, caseDefendants);
+        final List<uk.gov.moj.cpp.defence.caag.Defendants> updatedDefendants = advocateAccessQueryView.getEnrichedDefendants(caagDefendants, caseDefendants);
 
         assertThat(updatedDefendants.size(), is(1));
         assertThat(updatedDefendants.get(0).getAssociatedPersons(), nullValue());
@@ -186,8 +186,8 @@ public class CpsCaseAccessQueryViewTest {
         return defenceBuilder.build();
     }
 
-    private uk.gov.justice.cps.defence.caag.Defendants buildCaagDefendant(final UUID defendantId, final String role) {
-        return uk.gov.justice.cps.defence.caag.Defendants.defendants()
+    private uk.gov.moj.cpp.defence.caag.Defendants buildCaagDefendant(final UUID defendantId, final String role) {
+        return uk.gov.moj.cpp.defence.caag.Defendants.defendants()
                 .withId(defendantId)
                 .build();
     }
