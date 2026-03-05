@@ -11,7 +11,12 @@
         "feeType": "INITIAL"
       }
     ],
-    "isCivil": true
+    "isCivil": true,
+    "migrationSourceSystem": {
+      "migrationCaseStatus": "22333",
+      "migrationSourceSystemCaseIdentifier": "erterte",
+      "migrationSourceSystemName": "ertertert"
+    }
   },
   "prosecutorDetails": {
     "address": {

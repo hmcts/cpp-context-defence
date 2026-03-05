@@ -356,15 +356,36 @@ public class CpsCaseAccessQueryView {
         final JsonObject prosecutionCaseJson = progressionService.getProsecutionCaseDetails(metadata, fromString(prosecutioncaseCaag.getCaseId()));
         final ProsecutionCase prosecutionCase = jsonObjectToObjectConverter.convert(prosecutionCaseJson.getJsonObject(PROSECUTION_CASE), ProsecutionCase.class);
         return ProsecutioncaseCaag.prosecutioncaseCaag()
-                .withValuesFrom(prosecutioncaseCaag)
+                .withCaseId(prosecutioncaseCaag.getCaseId())
+                .withCaseDetails(prosecutioncaseCaag.getCaseDetails())
                 .withDefendants(getEnrichedDefendants(prosecutioncaseCaag.getDefendants(), prosecutionCase.getDefendants()))
+                .withLinkedApplications(prosecutioncaseCaag.getLinkedApplications())
+                .withProsecutorDetails(prosecutioncaseCaag.getProsecutorDetails())
                 .build();
     }
 
     public List<Defendants> getEnrichedDefendants(final List<Defendants> caagDefendants, final List<Defendant> caseDefendants) {
         return caagDefendants.stream()
                 .map(defendant -> Defendants.defendants()
-                        .withValuesFrom(defendant)
+                        .withId(defendant.getId())
+                        .withMasterDefendantId(defendant.getMasterDefendantId())
+                        .withFirstName(defendant.getFirstName())
+                        .withLastName(defendant.getLastName())
+                        .withAddress(defendant.getAddress())
+                        .withDateOfBirth(defendant.getDateOfBirth())
+                        .withAge(defendant.getAge())
+                        .withNationality(defendant.getNationality())
+                        .withInterpreterLanguageNeeds(defendant.getInterpreterLanguageNeeds())
+                        .withRemandStatus(defendant.getRemandStatus())
+                        .withCtlExpiryDate(defendant.getCtlExpiryDate())
+                        .withCtlExpiryCountDown(defendant.getCtlExpiryCountDown())
+                        .withDefendantMarkers(defendant.getDefendantMarkers())
+                        .withRepresentation(defendant.getRepresentation())
+                        .withLegalAidStatus(defendant.getLegalAidStatus())
+                        .withLegalEntityDefendant(defendant.getLegalEntityDefendant())
+                        .withCaagDefendantOffences(defendant.getCaagDefendantOffences())
+                        .withDefendantJudicialResults(defendant.getDefendantJudicialResults())
+                        .withDefendantCaseJudicialResults(defendant.getDefendantCaseJudicialResults())
                         .withAssociatedPersons(findAssociatedPersons(caseDefendants, defendant.getId()))
                         .build())
                 .collect(toList());

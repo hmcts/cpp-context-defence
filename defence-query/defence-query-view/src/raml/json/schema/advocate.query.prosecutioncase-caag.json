@@ -61,7 +61,9 @@
           "type": "string"
         }
       },
-      "additionalProperties": true
+      "additionalProperties": {
+        "type": "object"
+      }
     },
     "prosecutorDetails": {
       "type": "object",
