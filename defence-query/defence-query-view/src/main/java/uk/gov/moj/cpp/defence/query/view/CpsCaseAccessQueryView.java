@@ -97,8 +97,6 @@ import javax.json.JsonString;
 import javax.json.JsonValue;
 import javax.persistence.NoResultException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @SuppressWarnings({"squid:S1168"})
@@ -347,18 +345,6 @@ public class CpsCaseAccessQueryView {
         final ProsecutioncaseCaag prosecutioncaseCaag = jsonObjectToObjectConverter.convert(prosecutionCaseJson, ProsecutioncaseCaag.class);
 
         return enrichProsecutionCaseCaag(request.metadata(), prosecutioncaseCaag);
-    }
-
-    private ProsecutioncaseCaag removeMigrationSourceSystem(final JsonObject prosecutionCaseJson) {
-        try {
-            Map<String, Object> objectMap = OBJECT_MAPPER.readValue(prosecutionCaseJson.toString(), new TypeReference<>() {});
-            Map<String, Object> caseDetails = OBJECT_MAPPER.convertValue(objectMap.get("caseDetails"), new TypeReference<>() {});
-            caseDetails.remove("migrationSourceSystem");
-            objectMap.put("caseDetails", caseDetails);
-            return OBJECT_MAPPER.convertValue(objectMap, ProsecutioncaseCaag.class);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private Prosecutioncase getProsecutionCase(final Envelope<SearchCaseByUrn> request, final UUID caseId) throws IOException {

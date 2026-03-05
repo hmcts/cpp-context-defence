@@ -461,25 +461,6 @@ public class CpsCaseAccessQueryApi {
 
     }
 
-//    private ProsecutioncaseCaag removeUnAuthorisedDataForDefence(final uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag prosecutioncaseCaag) {
-//        return ProsecutioncaseCaag.prosecutioncaseCaag()
-//                .withCaseId(prosecutioncaseCaag.getCaseId())
-//                .withProsecutorDetails(buildProsecutorDetails(prosecutioncaseCaag.getProsecutorDetails()))
-//                .withLinkedApplications(buildLinkedApplications(prosecutioncaseCaag.getLinkedApplications()))
-//                .withDefendants(removeDefendantMarkers(prosecutioncaseCaag.getDefendants()))
-//                .withCaseDetails(CaseDetails.caseDetails()
-//                        .withCaseStatus(prosecutioncaseCaag.getCaseDetails().getCaseStatus())
-//                        .withCaseURN(prosecutioncaseCaag.getCaseDetails().getCaseURN())
-//                        .withInitiationCode(prosecutioncaseCaag.getCaseDetails().getInitiationCode())
-//                        .withRemovalReason(prosecutioncaseCaag.getCaseDetails().getRemovalReason())
-//                        .withIsCivil(prosecutioncaseCaag.getCaseDetails().getIsCivil())
-//                        .withGroupId(prosecutioncaseCaag.getCaseDetails().getGroupId())
-//                        .withIsGroupMaster(prosecutioncaseCaag.getCaseDetails().getIsGroupMaster())
-//                        .withIsGroupMember(prosecutioncaseCaag.getCaseDetails().getIsGroupMember())
-//                        .build())
-//                .build();
-//    }
-
     private Prosecutioncase removeUnAuthorisedDataForDefence(final Prosecutioncase prosecutioncase) {
         return Prosecutioncase.prosecutioncase()
                 .withValuesFrom(prosecutioncase)
@@ -573,6 +554,9 @@ public class CpsCaseAccessQueryApi {
     }
 
     private List<Defendants> removeDefendantMarkers(final List<uk.gov.moj.cpp.defence.caag.Defendants> defendants) {
+        if (isNull(defendants)) {
+            return null;
+        }
         return defendants.stream()
                 .map(defendant -> Defendants.defendants()
                         .withValuesFrom(buildDefendant(defendant))
