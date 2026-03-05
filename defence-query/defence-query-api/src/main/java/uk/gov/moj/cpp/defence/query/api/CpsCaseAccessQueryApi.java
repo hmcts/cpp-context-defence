@@ -35,9 +35,14 @@ import uk.gov.justice.cps.defence.ExpiredProsecutorOrganisationAssignments;
 import uk.gov.justice.cps.defence.IsAdvocateDefendingOrProsecuting;
 import uk.gov.justice.cps.defence.Prosecutioncase;
 import uk.gov.justice.cps.defence.SearchCaseByUrn;
+import uk.gov.justice.cps.defence.caag.CaagDefendantOffence;
+import uk.gov.justice.cps.defence.caag.CaagOrganisation;
+import uk.gov.justice.cps.defence.caag.CaagResult;
+import uk.gov.justice.cps.defence.caag.CaagResultPrompt;
 import uk.gov.justice.cps.defence.caag.CaseDetails;
 import uk.gov.justice.cps.defence.caag.Defendants;
 import uk.gov.justice.cps.defence.caag.ProsecutioncaseCaag;
+import uk.gov.justice.cps.defence.caag.RelatedReference;
 import uk.gov.justice.services.common.converter.JsonObjectToObjectConverter;
 import uk.gov.justice.services.common.exception.ForbiddenRequestException;
 import uk.gov.justice.services.core.annotation.Component;
@@ -150,7 +155,7 @@ public class CpsCaseAccessQueryApi {
             throw new ForbiddenRequestException("User has no permission for defence view!");
         }
 
-        final Envelope<ProsecutioncaseCaag> responseEnvelop = cpsCaseAccessQueryView.queryProsecutioncaseDefenceCaag(request);
+        final Envelope<uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag> responseEnvelop = cpsCaseAccessQueryView.queryProsecutioncaseDefenceCaag(request);
         final ProsecutioncaseCaag prosecutioncaseCaag = removeUnAuthorisedDataForDefence(responseEnvelop.payload());
 
         return envelopeFrom(
@@ -199,7 +204,8 @@ public class CpsCaseAccessQueryApi {
         if (isNotInAdvocateRole(request) && !isNonCpsProsecutor) {
             throw new ForbiddenRequestException(USER_HAS_NO_PERMISSION_FOR_PROSECUTOR_VIEW);
         }
-        final Envelope<ProsecutioncaseCaag> responseEnvelop = cpsCaseAccessQueryView.queryProsecutioncaseProsecutorCaag(request);
+        final Envelope<uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag> responseEnvelop = cpsCaseAccessQueryView.queryProsecutioncaseProsecutorCaag(request);
+
         final ProsecutioncaseCaag prosecutioncaseCaag = removeUnAuthorisedDataForProsecutor(responseEnvelop);
         return envelopeFrom(
                 responseEnvelop.metadata(),
@@ -444,20 +450,15 @@ public class CpsCaseAccessQueryApi {
 
     }
 
-    private ProsecutioncaseCaag removeUnAuthorisedDataForDefence(final ProsecutioncaseCaag prosecutioncaseCaag) {
+    private ProsecutioncaseCaag removeUnAuthorisedDataForDefence(final uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag payload) {
         return ProsecutioncaseCaag.prosecutioncaseCaag()
-                .withValuesFrom(prosecutioncaseCaag)
-                .withCaseDetails(CaseDetails.caseDetails()
-                        .withCaseStatus(prosecutioncaseCaag.getCaseDetails().getCaseStatus())
-                        .withCaseURN(prosecutioncaseCaag.getCaseDetails().getCaseURN())
-                        .withInitiationCode(prosecutioncaseCaag.getCaseDetails().getInitiationCode())
-                        .withRemovalReason(prosecutioncaseCaag.getCaseDetails().getRemovalReason())
-                        .withIsCivil(prosecutioncaseCaag.getCaseDetails().getIsCivil())
-                        .withGroupId(prosecutioncaseCaag.getCaseDetails().getGroupId())
-                        .withIsGroupMaster(prosecutioncaseCaag.getCaseDetails().getIsGroupMaster())
-                        .withIsGroupMember(prosecutioncaseCaag.getCaseDetails().getIsGroupMember())
-                        .build())
+                .withCaseDetails(buildCaseDetails(payload.getCaseDetails()))
+                .withCaseId(payload.getCaseId())
+                .withProsecutorDetails(buildProsecutorDetails(payload.getProsecutorDetails()))
+                .withLinkedApplications(buildLinkedApplications(payload.getLinkedApplications()))
+                .withDefendants(buildDefendants(payload.getDefendants()))
                 .build();
+
     }
 
     private Prosecutioncase removeUnAuthorisedDataForDefence(final Prosecutioncase prosecutioncase) {
@@ -470,20 +471,201 @@ public class CpsCaseAccessQueryApi {
                 .build();
     }
 
-    private ProsecutioncaseCaag removeUnAuthorisedDataForProsecutor(final Envelope<ProsecutioncaseCaag> responseEnvelop) {
+    private ProsecutioncaseCaag removeUnAuthorisedDataForProsecutor(final Envelope<uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag> responseEnvelop) {
+        final uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag payload = responseEnvelop.payload();
         return ProsecutioncaseCaag.prosecutioncaseCaag()
-                .withValuesFrom(responseEnvelop.payload())
-                .withDefendants(removeDefendantMarkers(responseEnvelop.payload().getDefendants()))
+                .withCaseDetails(buildCaseDetails(payload.getCaseDetails()))
+                .withCaseId(payload.getCaseId())
+                .withProsecutorDetails(buildProsecutorDetails(payload.getProsecutorDetails()))
+                .withLinkedApplications(buildLinkedApplications(payload.getLinkedApplications()))
+                .withDefendants(removeDefendantMarkers(payload.getDefendants()))
                 .build();
     }
 
-    private List<Defendants> removeDefendantMarkers(final List<Defendants> defendants) {
+    private List<uk.gov.justice.cps.defence.caag.LinkedApplications> buildLinkedApplications(final List<uk.gov.moj.cpp.defence.caag.LinkedApplications> linkedApplications) {
+        return Optional.ofNullable(linkedApplications)
+                .map(list -> list.stream()
+                        .map(this::buildLinkedApplication)
+                        .toList())
+                .orElse(null);
+    }
+
+    private uk.gov.justice.cps.defence.caag.LinkedApplications buildLinkedApplication(final uk.gov.moj.cpp.defence.caag.LinkedApplications linkedApplication) {
+        return uk.gov.justice.cps.defence.caag.LinkedApplications.linkedApplications()
+                .withApplicantId(linkedApplication.getApplicantId())
+                .withApplicationId(linkedApplication.getApplicationId())
+                .withApplicantDisplayName(linkedApplication.getApplicantDisplayName())
+                .withApplicationReference(linkedApplication.getApplicationReference())
+                .withApplicationStatus(linkedApplication.getApplicationStatus())
+                .withApplicationTitle(linkedApplication.getApplicationTitle())
+                .withIsAppeal(linkedApplication.getIsAppeal())
+                .withRemovalReason(linkedApplication.getRemovalReason())
+                .withRespondentDisplayNames(linkedApplication.getRespondentDisplayNames())
+                .withRespondentIds(linkedApplication.getRespondentIds())
+                .withSubjectId(linkedApplication.getSubjectId())
+                .build();
+    }
+
+    private uk.gov.justice.cps.defence.caag.ProsecutorDetails buildProsecutorDetails(final uk.gov.moj.cpp.defence.caag.ProsecutorDetails prosecutorDetails) {
+        return Optional.ofNullable(prosecutorDetails)
+                .map(details ->
+                        uk.gov.justice.cps.defence.caag.ProsecutorDetails.prosecutorDetails()
+                                .withAddress(details.getAddress())
+                                .withIsCpsOrgVerifyError(details.getIsCpsOrgVerifyError())
+                                .withOldProsecutionAuthorityCode(details.getOldProsecutionAuthorityCode())
+                                .withProsecutionAuthorityCode(details.getProsecutionAuthorityCode())
+                                .withProsecutionAuthorityId(details.getProsecutionAuthorityId())
+                                .withProsecutionAuthorityReference(details.getProsecutionAuthorityReference())
+                                .build()
+                ).orElse(null);
+    }
+
+    private CaseDetails buildCaseDetails(final uk.gov.moj.cpp.defence.caag.CaseDetails caseDetails) {
+        return CaseDetails.caseDetails()
+                .withCaseMarkers(caseDetails.getCaseMarkers())
+                .withCaseStatus(caseDetails.getCaseStatus())
+                .withCaseURN(caseDetails.getCaseURN())
+                .withCivilFees(caseDetails.getCivilFees())
+                .withGroupId(caseDetails.getGroupId())
+                .withInitiationCode(caseDetails.getInitiationCode())
+                .withIsCivil(caseDetails.getIsCivil())
+                .withIsGroupMaster(caseDetails.getIsGroupMaster())
+                .withIsGroupMember(caseDetails.getIsGroupMember())
+                .withRelatedReferenceList(buildRelatedReferenceList(caseDetails.getRelatedReferenceList()))
+                .withRelatedUrn(caseDetails.getRelatedUrn())
+                .withRemovalReason(caseDetails.getRemovalReason())
+                .build();
+    }
+
+    private List<RelatedReference> buildRelatedReferenceList(final List<uk.gov.moj.cpp.defence.caag.RelatedReference> relatedReferenceList) {
+        return Optional.ofNullable(relatedReferenceList)
+                .map(list -> list.stream()
+                        .map(this::buildRelatedReference)
+                        .toList())
+                .orElse(null);
+    }
+
+    private RelatedReference buildRelatedReference(final uk.gov.moj.cpp.defence.caag.RelatedReference relatedReference) {
+        return RelatedReference.relatedReference()
+                .withRelatedReference(relatedReference.getRelatedReference())
+                .withRelatedReferenceId(relatedReference.getRelatedReferenceId())
+                .withProsecutionCaseId(relatedReference.getProsecutionCaseId())
+                .build();
+    }
+
+    private List<Defendants> removeDefendantMarkers(final List<uk.gov.moj.cpp.defence.caag.Defendants> defendants) {
+        if (isNull(defendants)) {
+            return null;
+        }
         return defendants.stream()
                 .map(defendant -> Defendants.defendants()
-                        .withValuesFrom(defendant)
+                        .withValuesFrom(buildDefendant(defendant))
                         .withDefendantMarkers(null)
                         .build())
                 .collect(toList());
+    }
+
+    private List<Defendants> buildDefendants(List<uk.gov.moj.cpp.defence.caag.Defendants> defendants) {
+        return Optional.ofNullable(defendants)
+                .map(list -> list.stream()
+                        .map(this::buildDefendant)
+                        .toList())
+                .orElse(null);
+    }
+
+    private Defendants buildDefendant(uk.gov.moj.cpp.defence.caag.Defendants defendant) {
+        return Defendants.defendants()
+                .withAddress(defendant.getAddress())
+                .withAge(defendant.getAge())
+                .withAssociatedPersons(defendant.getAssociatedPersons())
+                .withCaagDefendantOffences(buildCaagDefendantOffences(defendant.getCaagDefendantOffences()))
+                .withCtlExpiryCountDown(defendant.getCtlExpiryCountDown())
+                .withCtlExpiryDate(defendant.getCtlExpiryDate())
+                .withDateOfBirth(defendant.getDateOfBirth())
+                .withDefendantCaseJudicialResults(defendant.getDefendantCaseJudicialResults())
+                .withDefendantJudicialResults(defendant.getDefendantJudicialResults())
+                .withFirstName(defendant.getFirstName())
+                .withId(defendant.getId())
+                .withInterpreterLanguageNeeds(defendant.getInterpreterLanguageNeeds())
+                .withLastName(defendant.getLastName())
+                .withLegalAidStatus(defendant.getLegalAidStatus())
+                .withLegalEntityDefendant(buildLegalEntityDefendant(defendant.getLegalEntityDefendant()))
+                .withMasterDefendantId(defendant.getMasterDefendantId())
+                .withNationality(defendant.getNationality())
+                .withRemandStatus(defendant.getRemandStatus())
+                .withRepresentation(defendant.getRepresentation())
+                .withDefendantMarkers(defendant.getDefendantMarkers())
+                .build();
+    }
+    private CaagOrganisation buildLegalEntityDefendant(final uk.gov.moj.cpp.defence.caag.CaagOrganisation caagOrganisation) {
+        return Optional.ofNullable(caagOrganisation)
+                .map(legalEntityDefendant ->
+                        CaagOrganisation.caagOrganisation()
+                                .withAddress(legalEntityDefendant.getAddress())
+                                .withName(legalEntityDefendant.getName())
+                                .build()
+                ).orElse(null);
+    }
+
+    private List<CaagDefendantOffence> buildCaagDefendantOffences(final List<uk.gov.moj.cpp.defence.caag.CaagDefendantOffence> caagDefendantOffences) {
+        return caagDefendantOffences.stream().map(this::buildCaagDefendantOffence).toList();
+    }
+
+    private CaagDefendantOffence buildCaagDefendantOffence(final uk.gov.moj.cpp.defence.caag.CaagDefendantOffence caagDefendantOffence) {
+        return CaagDefendantOffence.caagDefendantOffence()
+                .withAllocationDecision(caagDefendantOffence.getAllocationDecision())
+                .withCaagResults(buildCaagResults(caagDefendantOffence.getCaagResults()))
+                .withCount(caagDefendantOffence.getCount())
+                .withCustodyTimeLimit(caagDefendantOffence.getCustodyTimeLimit())
+                .withEndDate(caagDefendantOffence.getEndDate())
+                .withId(caagDefendantOffence.getId())
+                .withIndictmentParticular(caagDefendantOffence.getIndictmentParticular())
+                .withOffenceCode(caagDefendantOffence.getOffenceCode())
+                .withOffenceLegislation(caagDefendantOffence.getOffenceLegislation())
+                .withOffenceLegislationWelsh(caagDefendantOffence.getOffenceLegislationWelsh())
+                .withOffenceTitle(caagDefendantOffence.getOffenceTitle())
+                .withOffenceTitleWelsh(caagDefendantOffence.getOffenceTitleWelsh())
+                .withPlea(caagDefendantOffence.getPlea())
+                .withReportingRestrictions(caagDefendantOffence.getReportingRestrictions())
+                .withStartDate(caagDefendantOffence.getStartDate())
+                .withVerdict(caagDefendantOffence.getVerdict())
+                .withWording(caagDefendantOffence.getWording())
+                .withWordingWelsh(caagDefendantOffence.getWordingWelsh())
+                .build();
+    }
+
+    private List<CaagResult> buildCaagResults(final List<uk.gov.moj.cpp.defence.caag.CaagResult> caagResults) {
+        return caagResults.stream().map(this::buildCaagResult).toList();
+    }
+
+    private CaagResult buildCaagResult(final uk.gov.moj.cpp.defence.caag.CaagResult caagResult) {
+        return CaagResult.caagResult()
+                .withAmendedBy(caagResult.getAmendedBy())
+                .withAmendmentDate(caagResult.getAmendmentDate())
+                .withAmendmentReason(caagResult.getAmendmentReason())
+                .withCaagResultPrompts(buildCaagResultPrompts(caagResult.getCaagResultPrompts()))
+                .withId(caagResult.getId())
+                .withLabel(caagResult.getLabel())
+                .withLastSharedDateTime(caagResult.getLastSharedDateTime())
+                .withOrderedDate(caagResult.getOrderedDate())
+                .withUsergroups(caagResult.getUsergroups())
+                .build();
+    }
+
+    private List<CaagResultPrompt> buildCaagResultPrompts(final List<uk.gov.moj.cpp.defence.caag.CaagResultPrompt> caagResultPrompts) {
+        return Optional.ofNullable(caagResultPrompts)
+                .map(list -> list.stream()
+                        .map(this::buildCaagResultPrompt)
+                        .toList())
+                .orElse(null);
+    }
+
+    private CaagResultPrompt buildCaagResultPrompt(final uk.gov.moj.cpp.defence.caag.CaagResultPrompt caagResultPrompt) {
+        return CaagResultPrompt.caagResultPrompt()
+                .withLabel(caagResultPrompt.getLabel())
+                .withUsergroups(caagResultPrompt.getUsergroups())
+                .withValue(caagResultPrompt.getValue())
+                .build();
     }
 
 

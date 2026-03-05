@@ -1,14 +1,26 @@
 package uk.gov.moj.cpp.defence.query.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
+import static java.time.ZonedDateTime.now;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static java.util.UUID.randomUUID;
+import static javax.json.Json.createArrayBuilder;
+import static javax.json.Json.createObjectBuilder;
+import static javax.json.JsonValue.NULL;
+import static org.apache.commons.io.FileUtils.readFileToString;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
+import static uk.gov.justice.services.messaging.JsonEnvelope.metadataBuilder;
+import static uk.gov.moj.cpp.defence.query.view.CpsCaseAccessQueryView.ACTIVE_PROSECUTING_ASSIGNMENTS_ONLY;
 
 import uk.gov.justice.core.courts.CourtCentre;
 import uk.gov.justice.core.courts.Marker;
@@ -18,7 +30,6 @@ import uk.gov.justice.cps.defence.Assignees;
 import uk.gov.justice.cps.defence.CaseAdvocateAccess;
 import uk.gov.justice.cps.defence.Prosecutioncase;
 import uk.gov.justice.cps.defence.SearchCaseByUrn;
-import uk.gov.justice.cps.defence.caag.CaseDetails;
 import uk.gov.justice.cps.defence.caag.ProsecutioncaseCaag;
 import uk.gov.justice.services.common.converter.JsonObjectToObjectConverter;
 import uk.gov.justice.services.common.converter.jackson.ObjectMapperProducer;
@@ -42,10 +53,6 @@ import uk.gov.moj.cpp.defence.service.ProgressionService;
 import uk.gov.moj.cpp.defence.service.ReferenceDataService;
 import uk.gov.moj.cpp.defence.service.UsersGroupQueryService;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -53,27 +60,19 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.time.ZonedDateTime.now;
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static java.util.UUID.randomUUID;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
-import static javax.json.JsonValue.NULL;
-import static org.apache.commons.io.FileUtils.readFileToString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.when;
-import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
-import static uk.gov.justice.services.messaging.JsonEnvelope.metadataBuilder;
-import static uk.gov.moj.cpp.defence.query.view.CpsCaseAccessQueryView.ACTIVE_PROSECUTING_ASSIGNMENTS_ONLY;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.JsonValue;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
 
 @ExtendWith(MockitoExtension.class)
 public class CpsCaseAccessQueryApiTest {
@@ -322,23 +321,27 @@ public class CpsCaseAccessQueryApiTest {
     @Test
     public void shouldQueryCaagWhenInDefenceRole() {
 
-        final ProsecutioncaseCaag prosecutioncaseCaag = ProsecutioncaseCaag.prosecutioncaseCaag()
-                .withCaseDetails(CaseDetails.caseDetails()
+        final uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag prosecutioncaseCaag = uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag.prosecutioncaseCaag()
+                .withCaseDetails(uk.gov.moj.cpp.defence.caag.CaseDetails.caseDetails()
                         .withCaseURN("caseUrn")
                         .withCaseStatus("ACTIVE")
                         .withInitiationCode("J")
                         .withRemovalReason("any reason")
-                        .build()).build();
+                        .build())
+                .build();
 
-        final Envelope responseEnvelopForCaagQuery = Envelope.envelopeFrom(
+        final Envelope<uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag> responseEnvelopForCaagQuery = Envelope.envelopeFrom(
                 stubbedMetadataBuilder(randomUUID()),
                 prosecutioncaseCaag);
 
         when(cpsCaseAccessQueryView.findAdvocatesRoleInCase(
                 argThat(arg -> !arg.payloadAsJsonObject().containsKey(ACTIVE_PROSECUTING_ASSIGNMENTS_ONLY))))
                 .thenReturn(getProsecutionCaseDefenceCaagJsonMock(true));
+
         when(cpsCaseAccessQueryView.queryProsecutioncaseDefenceCaag(any())).thenReturn(responseEnvelopForCaagQuery);
+
         final Envelope<ProsecutioncaseCaag> responseEnvelope = cpsCaseAccessQueryApi.queryProsecutioncaseDefenceCaag(requestEnvelopeForApiView);
+
         assertThat(responseEnvelope.payload().getCaseDetails().getCaseURN(), is(prosecutioncaseCaag.getCaseDetails().getCaseURN()));
         assertThat(responseEnvelope.payload().getCaseDetails().getCaseStatus(), is(prosecutioncaseCaag.getCaseDetails().getCaseStatus()));
         assertThat(responseEnvelope.payload().getCaseDetails().getRemovalReason(), is(prosecutioncaseCaag.getCaseDetails().getRemovalReason()));
@@ -707,9 +710,9 @@ public class CpsCaseAccessQueryApiTest {
         final UUID prosecutingAuthorityId = randomUUID();
         final UUID authorisedDefendantId = randomUUID();
 
-        final ProsecutioncaseCaag prosecutioncaseCaag = jsonObjectToObjectConverter.convert(getProsecutionCaseCaagQueryResponsePayload(authorisedDefendantId), ProsecutioncaseCaag.class);
+        final uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag prosecutioncaseCaag = jsonObjectToObjectConverter.convert(getProsecutionCaseCaagQueryResponsePayload(authorisedDefendantId), uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag.class);
 
-        final Envelope responseEnvelopForCaagQuery = Envelope.envelopeFrom(
+        final Envelope<uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag> responseEnvelopForCaagQuery = Envelope.envelopeFrom(
                 stubbedMetadataBuilder(randomUUID()),
                 prosecutioncaseCaag);
 
@@ -735,7 +738,7 @@ public class CpsCaseAccessQueryApiTest {
         final UUID prosecutingAuthorityId = randomUUID();
         final UUID authorisedDefendantId = randomUUID();
 
-        final ProsecutioncaseCaag prosecutioncaseCaag = jsonObjectToObjectConverter.convert(getProsecutionCaseCaagQueryResponsePayload(authorisedDefendantId), ProsecutioncaseCaag.class);
+        final uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag prosecutioncaseCaag = jsonObjectToObjectConverter.convert(getProsecutionCaseCaagQueryResponsePayload(authorisedDefendantId), uk.gov.moj.cpp.defence.caag.ProsecutioncaseCaag.class);
 
         final Envelope responseEnvelopForCaagQuery = Envelope.envelopeFrom(
                 stubbedMetadataBuilder(randomUUID()),
