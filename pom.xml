@@ -5,12 +5,12 @@
     <parent>
         <groupId>uk.gov.moj.cpp.common</groupId>
         <artifactId>service-parent-pom</artifactId>
-        <version>17.103.3</version>
+        <version>17.104.1-M2</version>
     </parent>
 
     <groupId>uk.gov.moj.cpp.defence</groupId>
     <artifactId>defence-parent</artifactId>
-    <version>17.0.89-SNAPSHOT</version>
+    <version>17.104.89-PEG-3177-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
