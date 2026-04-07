@@ -35,9 +35,9 @@
         <referencedataoffences.version>17.0.38</referencedataoffences.version>
         <json-generator.version>0.1.0</json-generator.version>
         <criminal-court-public-model.version>${coredomain.version}</criminal-court-public-model.version>
-        <coredomain.version>17.102.18-DLRM7-SNAPSHOT</coredomain.version>
+        <coredomain.version>17.102.20-DLRM7-SNAPSHOT</coredomain.version>
         <material.version>17.0.78</material.version>
-        <referencedata.version>17.103.129</referencedata.version>
+        <referencedata.version>17.103.131</referencedata.version>
         <listing.version>17.103.156</listing.version>
         <hearing.version>17.0.147</hearing.version>
         <system.documentgenerator.client.version>1.0.4</system.documentgenerator.client.version>
@@ -95,6 +95,7 @@
         </plugins>
     </build>
 
+    <!-- Test dependencies -->
     <dependencyManagement>
         <dependencies>
             <dependency>

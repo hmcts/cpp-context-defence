@@ -11,7 +11,6 @@ import uk.gov.justice.services.core.requester.Requester;
 import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.justice.services.messaging.Metadata;
 import uk.gov.moj.cpp.defence.common.util.GenericEnveloper;
-import uk.gov.moj.cpp.referencedata.query.English;
 import uk.gov.moj.cpp.referencedata.query.Offences;
 import uk.gov.moj.cpp.referencedata.query.OffencesList;
 
@@ -35,14 +34,9 @@ public class ReferenceDataService {
                 .map(offence -> {
                     final Offences refDataOffences = getRefDataOffences(offence.getCjsCode(),offence.getStartDate(),metadata,  isCaseCivil);
 
-                    final English english = refDataOffences
-                            .getDetails()
-                            .getDocument()
-                            .getEnglish();
-
                     final OffenceCodeReferenceData.Builder offenceCodeReferenceDataBuilder = OffenceCodeReferenceData.offenceCodeReferenceData();
-                    offenceCodeReferenceDataBuilder.withTitle(english.getTitle());
-                    offenceCodeReferenceDataBuilder.withLegislation(english.getLegislation());
+                    offenceCodeReferenceDataBuilder.withTitle(refDataOffences.getTitle());
+                    offenceCodeReferenceDataBuilder.withLegislation(refDataOffences.getLegislation());
                     return offenceCodeReferenceDataBuilder.withCjsoffencecode(offence.getCjsCode())
                             .build();
 
