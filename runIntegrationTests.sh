@@ -34,8 +34,8 @@ runLiquibase() {
 }
 
 buildDeployAndTest() {
-  loginToDockerContainerRegistry
-  buildWars
+#  loginToDockerContainerRegistry
+#  buildWars
   undeployWarsFromDocker
   buildAndStartContainers
   runLiquibase

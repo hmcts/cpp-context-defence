@@ -18,8 +18,8 @@ import uk.gov.moj.cpp.defence.aggregate.DefenceAssociation;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
 import uk.gov.justice.services.core.requester.Requester;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.util.UUID;
 import java.util.stream.Stream;
 

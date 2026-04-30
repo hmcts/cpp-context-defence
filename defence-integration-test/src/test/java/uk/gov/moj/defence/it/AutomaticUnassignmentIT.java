@@ -1,17 +1,5 @@
 package uk.gov.moj.defence.it;
 
-import org.junit.jupiter.api.Test;
-import org.skyscreamer.jsonassert.Customization;
-import org.skyscreamer.jsonassert.comparator.CustomComparator;
-import uk.gov.justice.services.test.utils.core.rest.RestClient;
-
-import javax.ws.rs.core.Response;
-import java.io.File;
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.UUID;
-
 import static java.util.UUID.randomUUID;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,8 +10,53 @@ import static uk.gov.justice.services.test.utils.core.http.BaseUriProvider.getBa
 import static uk.gov.moj.defence.util.DBUtils.insertProsecutionAdvocateAccessRecords;
 import static uk.gov.moj.defence.util.HttpHeaders.createHttpHeaders;
 
+import uk.gov.justice.services.test.utils.core.rest.RestClient;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
+
+import java.io.File;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
+import jakarta.ws.rs.core.Response;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.Customization;
+import org.skyscreamer.jsonassert.comparator.CustomComparator;
+
 public class AutomaticUnassignmentIT {
+
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
     private final UUID userId = randomUUID();
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
+    }
 
     @Test
     public void shouldReturnExpiredProsecutorAssignmens() throws Exception {

@@ -24,6 +24,7 @@ import static uk.gov.moj.defence.util.WiremockHelper.resetWiremock;
 import uk.gov.justice.json.generator.value.string.RegexGenerator;
 import uk.gov.justice.json.generator.value.string.SimpleStringGenerator;
 import uk.gov.justice.services.test.utils.core.random.LocalDateGenerator;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
 import uk.gov.moj.defence.helper.CreateProsecutionCaseHelper;
 import uk.gov.moj.defence.helper.OrganisationHelper;
 
@@ -45,6 +46,7 @@ public class OrganisationDefenceEndToEndIT {
     private static final String lastName = "";
     private static final String dob = "";
 
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
     private final SimpleStringGenerator simpleStringGenerator = new SimpleStringGenerator(5, 15);
     private String defenceClientIdString;
     private String organisationName;
@@ -66,6 +68,33 @@ public class OrganisationDefenceEndToEndIT {
         stubGetOrganisationNamesForIds(userId, asList(organisationId));
         stubUserPermissions();
         stubForProsecutionCaseQuery();
+    }
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
     }
 
     @BeforeEach

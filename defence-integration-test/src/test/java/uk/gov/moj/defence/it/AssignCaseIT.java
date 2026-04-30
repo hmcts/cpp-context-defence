@@ -3,8 +3,8 @@ package uk.gov.moj.defence.it;
 import static com.jayway.jsonpath.matchers.JsonPathMatchers.withJsonPath;
 import static java.lang.String.format;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
+import static jakarta.json.Json.createArrayBuilder;
+import static jakarta.json.Json.createObjectBuilder;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,6 +36,7 @@ import static uk.gov.moj.defence.util.WiremockHelper.resetWiremock;
 
 import uk.gov.justice.services.test.utils.core.messaging.MessageConsumerClient;
 import uk.gov.justice.services.test.utils.core.rest.RestClient;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +45,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import com.google.common.collect.ImmutableList;
 import com.jayway.jsonpath.ReadContext;
@@ -56,6 +57,8 @@ import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.comparator.CustomComparator;
 
 public class AssignCaseIT {
+
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
 
     public static final String ADVOCATES_ROLE = "Advocates";
     public static final String CHAMBERS_ADMIN_ROLE = "Chambers Admin";
@@ -90,6 +93,33 @@ public class AssignCaseIT {
     private static final String assigneeDefenceLawyerTwoEmailId = "assigneeDefenceLawyer2@hmcts.net";
     private UUID CASE_ID = randomUUID();
     private static final UUID userId = randomUUID();
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
+    }
 
     @BeforeEach
     public void setup() {
@@ -129,7 +159,6 @@ public class AssignCaseIT {
         final String expectedPayload = getExpectedPayload(assigneeAdvocateOneUserId, "public.defence.event.case-assigned-to-advocate.json");
 
         postAssignCaseCommandAndVerifyPublicEventEvent(assigneeAdvocateOneEmailId, assignerUserId.toString(), PUBLIC_DEFENCE_EVENT_CASE_ASSIGNED_TO_PROSECUTOR, CASE_ID.toString(), expectedPayload);
-        queryAndVerifyHearingsTimelineWhenAdvocateIsProsecuting();
 
         List<Matcher<? super ReadContext>> matchers = ImmutableList.<Matcher<? super ReadContext>>builder()
                 .add(withJsonPath("$.assignees[0].assigneeUserId", IsEqual.equalTo(assigneeAdvocateOneUserId.toString())))
@@ -138,6 +167,7 @@ public class AssignCaseIT {
 
         //and
         verifyUserAssignmentToTheCase(CASE_ID.toString(), assigneeAdvocateOneUserId.toString(), matchers);
+        queryAndVerifyHearingsTimelineWhenAdvocateIsProsecuting();
 
         //when
         postRemoveCaseAssignmentCommandAndVerifyPublicEvent(CASE_ID.toString(), assigneeAdvocateOneUserId.toString(), organisationId.toString(), assignerUserId.toString());
@@ -158,7 +188,6 @@ public class AssignCaseIT {
         final String expectedPayload = getExpectedPayload(assigneeAdvocateOneUserId, "public.defence.event.case-assigned-to-advocate-noncps.json");
 
         postAssignCaseCommandAndVerifyPublicEventEvent(assigneeAdvocateOneEmailId, assignerUserId.toString(), PUBLIC_DEFENCE_EVENT_CASE_ASSIGNED_TO_PROSECUTOR, CASE_ID.toString(), expectedPayload);
-        queryAndVerifyHearingsTimelineWhenAdvocateIsProsecuting();
 
         List<Matcher<? super ReadContext>> matchers = ImmutableList.<Matcher<? super ReadContext>>builder()
                 .add(withJsonPath("$.assignees[0].assigneeUserId", IsEqual.equalTo(assigneeAdvocateOneUserId.toString())))
@@ -167,6 +196,7 @@ public class AssignCaseIT {
 
         //and
         verifyUserAssignmentToTheCase(CASE_ID.toString(), assigneeAdvocateOneUserId.toString(), matchers);
+        queryAndVerifyHearingsTimelineWhenAdvocateIsProsecuting();
 
         //when
         postRemoveCaseAssignmentCommandAndVerifyPublicEvent(CASE_ID.toString(), assigneeAdvocateOneUserId.toString(), organisationId.toString(), assignerUserId.toString());

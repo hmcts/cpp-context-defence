@@ -59,13 +59,14 @@ import uk.gov.justice.json.generator.value.string.SimpleStringGenerator;
 import uk.gov.justice.services.test.utils.core.http.ResponseData;
 import uk.gov.justice.services.test.utils.core.matchers.ResponsePayloadMatcher;
 import uk.gov.justice.services.test.utils.core.random.LocalDateGenerator;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
 import uk.gov.moj.defence.helper.CreateProsecutionCaseHelper;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.UUID;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
 import org.hamcrest.Matchers;
@@ -87,6 +88,7 @@ public class DefenceCaseQueryIT {
     private static final String resource2 = "stub-data/listing-service/hearing-cases-by-defendant-with-multiple-cases.json";
     private static final String resource3 = "stub-data/listing-service/hearing-cases-by-defendant-with-no-cases.json";
 
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
     private CreateProsecutionCaseHelper createProsecutionCaseHelper;
 
     private UUID caseId;
@@ -112,6 +114,33 @@ public class DefenceCaseQueryIT {
         stubGetUsersAndGroupsQueryForDefenceUsers(userId.toString());
         stubGetOrganisationDetails(organisationId.toString(), organisationName);
         stubForProsecutionCaseQuery();
+    }
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
     }
 
     @BeforeEach
@@ -424,7 +453,6 @@ public class DefenceCaseQueryIT {
         final String urn = "TVL12MX";
         final Response response = queryDefenceClient(urn, "Joe", "Bloggs", "1983-04-20", userId);
         assertThat(response.getStatus(), is(HttpStatus.SC_NOT_FOUND));
-        assertThat(response.readEntity(String.class), containsString(""));
     }
 
     @Test

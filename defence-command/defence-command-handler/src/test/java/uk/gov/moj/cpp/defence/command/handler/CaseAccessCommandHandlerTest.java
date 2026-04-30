@@ -43,7 +43,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
+import jakarta.json.Json;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.Is;

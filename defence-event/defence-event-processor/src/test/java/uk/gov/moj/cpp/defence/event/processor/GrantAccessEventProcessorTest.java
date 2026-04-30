@@ -28,8 +28,8 @@ import uk.gov.moj.cpp.defence.service.UserGroupService;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;

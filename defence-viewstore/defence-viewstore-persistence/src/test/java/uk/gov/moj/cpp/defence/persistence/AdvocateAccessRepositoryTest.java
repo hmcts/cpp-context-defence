@@ -1,37 +1,38 @@
 package uk.gov.moj.cpp.defence.persistence;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
-import org.hamcrest.core.Is;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import uk.gov.justice.services.test.utils.persistence.BaseTransactionalJunit4Test;
+import static java.time.ZonedDateTime.now;
+import static java.util.UUID.randomUUID;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import uk.gov.justice.services.test.utils.persistence.HibernateTestEntityManagerProvider;
 import uk.gov.moj.cpp.defence.persistence.entity.AssignmentUserDetails;
 import uk.gov.moj.cpp.defence.persistence.entity.ProsecutionAdvocateAccess;
 import uk.gov.moj.cpp.defence.persistence.entity.ProsecutionOrganisationAccess;
 import uk.gov.moj.cpp.defence.persistence.entity.ProsecutionOrganisationCaseKey;
 import uk.gov.moj.cpp.defence.persistence.entity.RepresentationType;
 
-
-import javax.inject.Inject;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static java.time.ZonedDateTime.now;
-import static java.util.UUID.randomUUID;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import org.hamcrest.core.Is;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-@RunWith(CdiTestRunner.class)
-public class AdvocateAccessRepositoryTest extends BaseTransactionalJunit4Test {
+public class AdvocateAccessRepositoryTest {
 
-    @Inject
-    AdvocateAccessRepository advocateAccessRepository;
+    private static final String PERSISTENCE_UNIT = "defence-test-persistence-unit";
 
-    @Inject
-    OrganisationAccessRepository organisationAccessRepository;
+    @RegisterExtension
+    static HibernateTestEntityManagerProvider hibernateTestEntityManagerProvider =
+            new HibernateTestEntityManagerProvider(PERSISTENCE_UNIT);
+
+    private AdvocateAccessRepository advocateAccessRepository;
+    private OrganisationAccessRepository organisationAccessRepository;
 
     private static final UUID CASE_ID = randomUUID();
     private static final UUID ASSIGNEE_ORG_ID = randomUUID();
@@ -39,6 +40,14 @@ public class AdvocateAccessRepositoryTest extends BaseTransactionalJunit4Test {
     private static final UUID ASSIGNOR_ID = randomUUID();
     private static final ZonedDateTime ASSIGNED_TIME = now();
     private static final ZonedDateTime ASSIGNMENT_EXPIRED_DATE = now().plusDays(5);
+
+    @BeforeEach
+    public void setUpRepositories() {
+        advocateAccessRepository = new AdvocateAccessRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(advocateAccessRepository);
+        organisationAccessRepository = new OrganisationAccessRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(organisationAccessRepository);
+    }
 
     @Test
     public void shouldFindCaseIdAndAssigneeId() {
@@ -48,12 +57,11 @@ public class AdvocateAccessRepositoryTest extends BaseTransactionalJunit4Test {
         final List<ProsecutionAdvocateAccess> advocateAccessesListFromDb = advocateAccessRepository.findByCaseIdAndAssigneeId(CASE_ID, ASSIGNEE_ID);
 
         assertThat(advocateAccessesListFromDb.get(0).getCaseId(), is(prosecutionAdvocateAccessList.get(0).getCaseId()));
-        assertThat(advocateAccessesListFromDb.get(0).getAssigneeDetails(), is(prosecutionAdvocateAccessList.get(0).getAssigneeDetails()));
+        assertThat(advocateAccessesListFromDb.get(0).getAssigneeDetails().getId(), is(prosecutionAdvocateAccessList.get(0).getAssigneeDetails().getId()));
         assertThat(advocateAccessesListFromDb.get(0).getAssignmentExpiryDate(), is(prosecutionAdvocateAccessList.get(0).getAssignmentExpiryDate()));
         assertThat(advocateAccessesListFromDb.get(0).getAssignedDate(), is(prosecutionAdvocateAccessList.get(0).getAssignedDate()));
-        assertThat(advocateAccessesListFromDb.get(0).getProsecutionOrganisation(), is(prosecutionAdvocateAccessList.get(0).getProsecutionOrganisation()));
+        assertThat(advocateAccessesListFromDb.get(0).getProsecutionOrganisation().getId(), is(prosecutionAdvocateAccessList.get(0).getProsecutionOrganisation().getId()));
     }
-
 
     @Test
     public void whenPersistEntitiesWithOneToManyAssociation_thenSuccess() {
@@ -80,7 +88,7 @@ public class AdvocateAccessRepositoryTest extends BaseTransactionalJunit4Test {
         organisationAccessRepository.save(prosecutionOrganisationAccess);
         advocateAccessRepository.save(prosecutionAdvocateAccess);
 
-        List<ProsecutionAdvocateAccess>  prosecutionAdvocateAccessList = advocateAccessRepository.findAll();
+        List<ProsecutionAdvocateAccess> prosecutionAdvocateAccessList = advocateAccessRepository.findAll();
 
         assertThat(prosecutionAdvocateAccessList.size(), Is.is(1));
         assertThat(prosecutionAdvocateAccessList.get(0).getProsecutionOrganisation().getAssigneeDetails().getUserId(), Is.is(assigneeUserId));
@@ -95,11 +103,11 @@ public class AdvocateAccessRepositoryTest extends BaseTransactionalJunit4Test {
         assertThat(prosecutionAdvocateAccessList.get(0).getProsecutionOrganisation().getAssignorDetails().getId(), Is.is(prosecutionOrganisationAccess.getAssignorDetails().getId()));
         assertThat(prosecutionAdvocateAccessList.get(0).getProsecutionOrganisation().getAssignorDetails().getFirstName(), Is.is(prosecutionOrganisationAccess.getAssignorDetails().getFirstName()));
         assertThat(prosecutionAdvocateAccessList.get(0).getProsecutionOrganisation().getAssignorDetails().getLastName(), Is.is(prosecutionOrganisationAccess.getAssignorDetails().getLastName()));
-        assertThat(prosecutionAdvocateAccessList.get(0).getCaseId(),is(caseId));
+        assertThat(prosecutionAdvocateAccessList.get(0).getCaseId(), is(caseId));
 
         Optional<ProsecutionOrganisationAccess> prosecutionOrganisationAccessResult = organisationAccessRepository.findByAssigneeOrganisationIdAndCaseId(assigneeOrgId, caseId);
         assertThat(prosecutionOrganisationAccessResult.isPresent(), is(true));
-        assertThat(prosecutionOrganisationAccessResult.get(), is(prosecutionOrganisationAccess));
+        assertThat(prosecutionOrganisationAccessResult.get().getId(), is(prosecutionOrganisationAccess.getId()));
     }
 
     @Test
@@ -145,8 +153,6 @@ public class AdvocateAccessRepositoryTest extends BaseTransactionalJunit4Test {
 
         final List<ProsecutionAdvocateAccess> prosecutionAdvocateAccessList = advocateAccessRepository.findExpiredCaseAssignments(50);
         assertThat(prosecutionAdvocateAccessList.size(), Is.is(1));
-
-
     }
 
     private List<ProsecutionAdvocateAccess> buildProsecutionAdvocateAccessEntity() {
@@ -198,5 +204,4 @@ public class AdvocateAccessRepositoryTest extends BaseTransactionalJunit4Test {
 
         return prosecutionOrganisation;
     }
-
 }

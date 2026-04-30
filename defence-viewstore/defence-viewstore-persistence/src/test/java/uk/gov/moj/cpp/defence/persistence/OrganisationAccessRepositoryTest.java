@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import uk.gov.justice.cps.defence.PersonDetails;
+import uk.gov.justice.services.test.utils.persistence.HibernateTestEntityManagerProvider;
 import uk.gov.moj.cpp.defence.Organisation;
 import uk.gov.moj.cpp.defence.persistence.entity.AssignmentUserDetails;
 import uk.gov.moj.cpp.defence.persistence.entity.ProsecutionOrganisationAccess;
@@ -12,29 +13,27 @@ import uk.gov.moj.cpp.defence.persistence.entity.ProsecutionOrganisationCaseKey;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-@RunWith(CdiTestRunner.class)
-@Transactional
 public class OrganisationAccessRepositoryTest {
 
-    @Inject
+    private static final String PERSISTENCE_UNIT = "defence-test-persistence-unit";
+
+    @RegisterExtension
+    static HibernateTestEntityManagerProvider hibernateTestEntityManagerProvider =
+            new HibernateTestEntityManagerProvider(PERSISTENCE_UNIT);
+
     private OrganisationAccessRepository organisationAccessRepository;
 
-    @Before
-    public void setUp() {
-        organisationAccessRepository.findAll().forEach(organisationAccessRepository::remove);
-        organisationAccessRepository.flush();
+    @BeforeEach
+    public void setUpRepositories() {
+        organisationAccessRepository = new OrganisationAccessRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(organisationAccessRepository);
     }
 
     private void createOrganisationAccessRecord(UUID caseId, UUID assigneeOrgId, UUID assigneeId, ZonedDateTime assignmentExpiryDate) {
-        // Insert OrganisationAccess record inlined logic from ProsecutionCaseAccessTransformer#toOrganisationAccess
         Organisation assignorOrganisation = Organisation.organisation().withOrgId(UUID.randomUUID()).withOrganisationName("Assignor Org").build();
         PersonDetails assigneeUserDetails = PersonDetails.personDetails().withUserId(UUID.randomUUID()).withFirstName("Assignee").build();
         PersonDetails assignorUserDetails = PersonDetails.personDetails().withUserId(UUID.randomUUID()).withFirstName("Assignor").build();
@@ -60,11 +59,9 @@ public class OrganisationAccessRepositoryTest {
 
     @Test
     public void shouldRespectLimitInFindExpiredCaseAssignments() {
-        // Create 3 records with assignment expiry dates in the past
         for (int i = 0; i < 3; i++) {
             createOrganisationAccessRecord(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), ZonedDateTime.now().minusDays(1));
         }
-        // Create 2 records with assignment expiry dates in the future
         for (int i = 0; i < 2; i++) {
             createOrganisationAccessRecord(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(), ZonedDateTime.now().plusDays(1));
         }

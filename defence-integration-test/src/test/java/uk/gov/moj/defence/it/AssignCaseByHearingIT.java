@@ -2,8 +2,8 @@ package uk.gov.moj.defence.it;
 
 import static com.jayway.jsonpath.matchers.JsonPathMatchers.withJsonPath;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
+import static jakarta.json.Json.createArrayBuilder;
+import static jakarta.json.Json.createObjectBuilder;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -30,6 +30,7 @@ import static uk.gov.moj.defence.util.UsersGroupStub.stubUsersGroupsSearchUsersF
 import static uk.gov.moj.defence.util.WiremockHelper.resetWiremock;
 
 import uk.gov.justice.services.test.utils.core.messaging.MessageConsumerClient;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import com.google.common.collect.ImmutableList;
 import com.jayway.jsonpath.ReadContext;
@@ -50,6 +51,8 @@ import org.skyscreamer.jsonassert.Customization;
 import org.skyscreamer.jsonassert.comparator.CustomComparator;
 
 public class AssignCaseByHearingIT {
+
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
 
     public static final String DEFENCE_COMMAND_ADVOCATE_ASSIGN_CASE_BY_HEARING_LISTING = "application/vnd.defence.command.advocate.assign-case-by-hearing-listing+json";
     private UUID organisationId = randomUUID();
@@ -66,6 +69,33 @@ public class AssignCaseByHearingIT {
     private static final String assigneeDefenceLawyerTwoEmailId = "assigneeDefenceLawyer2@hmcts.net";
     private UUID caseId = randomUUID();
     private UUID hearingId = randomUUID();
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
+    }
 
     @BeforeEach
     public void setup() {

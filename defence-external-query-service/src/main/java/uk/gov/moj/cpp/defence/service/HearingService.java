@@ -1,7 +1,7 @@
 package uk.gov.moj.cpp.defence.service;
 
 import static java.util.Objects.nonNull;
-import static javax.json.Json.createObjectBuilder;
+import static jakarta.json.Json.createObjectBuilder;
 import static uk.gov.justice.services.core.annotation.Component.QUERY_API;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
 import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
@@ -17,8 +17,8 @@ import uk.gov.moj.cpp.defence.query.hearing.api.Hearings;
 import java.io.IOException;
 import java.util.UUID;
 
-import javax.inject.Inject;
-import javax.json.JsonObject;
+import jakarta.inject.Inject;
+import jakarta.json.JsonObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 

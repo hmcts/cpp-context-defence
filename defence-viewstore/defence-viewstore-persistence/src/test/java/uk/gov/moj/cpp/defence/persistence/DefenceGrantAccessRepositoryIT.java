@@ -7,7 +7,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static uk.gov.moj.cpp.defence.builder.DefenceClientBuilder.createDefenceClient;
 
-import uk.gov.justice.services.test.utils.persistence.BaseTransactionalJunit4Test;
+import uk.gov.justice.services.test.utils.persistence.HibernateTestEntityManagerProvider;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceClient;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceGrantAccess;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceUserDetails;
@@ -17,32 +17,38 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import javax.inject.Inject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+public class DefenceGrantAccessRepositoryIT {
 
-@RunWith(CdiTestRunner.class)
-public class DefenceGrantAccessRepositoryIT  extends BaseTransactionalJunit4Test {
+    private static final String PERSISTENCE_UNIT = "defence-test-persistence-unit";
 
-    @Inject
-    DefenceGrantAccessRepository defenceGrantAccessRepository;
+    @RegisterExtension
+    static HibernateTestEntityManagerProvider hibernateTestEntityManagerProvider =
+            new HibernateTestEntityManagerProvider(PERSISTENCE_UNIT);
 
-    @Inject
-    DefenceClientRepository defenceClientRepository;
+    private DefenceGrantAccessRepository defenceGrantAccessRepository;
+    private DefenceClientRepository defenceClientRepository;
+
+    @BeforeEach
+    public void setUpRepositories() {
+        defenceGrantAccessRepository = new DefenceGrantAccessRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(defenceGrantAccessRepository);
+        defenceClientRepository = new DefenceClientRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(defenceClientRepository);
+    }
 
     @Test
     public void shouldFindByDefenceGrantAccessId() {
 
         final DefenceClient defClient = createDefenceClient();
-
         defenceClientRepository.save(defClient);
 
         UUID userId = randomUUID();
         UUID grantorUserId = randomUUID();
         UUID organisationId = randomUUID();
-
 
         OrganisationDetails organisationDetails = new OrganisationDetails(randomUUID(), organisationId, "Test Ltd");
         DefenceGrantAccess defenceGrantAccess = new DefenceGrantAccess();
@@ -52,7 +58,6 @@ public class DefenceGrantAccessRepositoryIT  extends BaseTransactionalJunit4Test
         defenceGrantAccess.setGranteeDefenceUserDetails(new DefenceUserDetails(randomUUID(), userId, "John", "Trackey"));
         defenceGrantAccess.setGrantorDefenceUserDetails(new DefenceUserDetails(randomUUID(), grantorUserId, "Tim", "Quick"));
         defenceGrantAccess.setGranteeOrganisationDetails(organisationDetails);
-
 
         defenceGrantAccessRepository.save(defenceGrantAccess);
 
@@ -142,5 +147,4 @@ public class DefenceGrantAccessRepositoryIT  extends BaseTransactionalJunit4Test
         defenceGrantAccess.setRemoved(remove);
         return defenceGrantAccess;
     }
-
 }

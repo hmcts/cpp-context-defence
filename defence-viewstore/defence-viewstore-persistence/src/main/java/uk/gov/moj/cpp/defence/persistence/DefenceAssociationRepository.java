@@ -1,6 +1,5 @@
 package uk.gov.moj.cpp.defence.persistence;
 
-
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceAssociation;
 
 import java.time.ZonedDateTime;
@@ -8,23 +7,52 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.QueryParam;
-import org.apache.deltaspike.data.api.Repository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-@Repository
-public interface DefenceAssociationRepository extends EntityRepository<DefenceAssociation, UUID> {
+@ApplicationScoped
+public class DefenceAssociationRepository {
 
-    @Query(value = "from DefenceAssociation entity where entity.laaContractNumber in (:laaContractNumbers) and end_date is null")
-    List<DefenceAssociation> findByLAAContractNumber(@QueryParam("laaContractNumbers") Collection<String> laaContractNumbers);
+    @PersistenceContext(unitName = "defence")
+    EntityManager entityManager;
 
-    @Query(value = "select da from DefenceAssociation da, DefenceClient dc where da.orgId = :organisationId and da.defenceAssociationDefendant.defendantId=dc.defendantId and dc.caseId = :caseId")
-    List<DefenceAssociation> findByOrganisationIdAndCaseId(
-            @QueryParam("organisationId") final UUID organisationId,
-            @QueryParam("caseId") final UUID caseId);
+    public DefenceAssociation findBy(final UUID id) {
+        return entityManager.find(DefenceAssociation.class, id);
+    }
 
-    @Query(value = "FROM DefenceAssociation da WHERE da.userId = :userId AND (da.endDate is null OR da.startDate <= :currentDate AND da.endDate >= :currentDate)")
-    List<DefenceAssociation> findByUserIdAndCurrentDate(@QueryParam("userId") final UUID userId, @QueryParam("currentDate") final ZonedDateTime currentDate);
+    public List<DefenceAssociation> findByLAAContractNumber(final Collection<String> laaContractNumbers) {
+        return entityManager.createQuery(
+                        "SELECT entity FROM DefenceAssociation entity where entity.laaContractNumber in (:laaContractNumbers) and entity.endDate is null",
+                        DefenceAssociation.class)
+                .setParameter("laaContractNumbers", laaContractNumbers)
+                .getResultList();
+    }
 
+    public List<DefenceAssociation> findByOrganisationIdAndCaseId(final UUID organisationId, final UUID caseId) {
+        return entityManager.createQuery(
+                        "select da from DefenceAssociation da, DefenceClient dc where da.orgId = :organisationId and da.defenceAssociationDefendant.defendantId=dc.defendantId and dc.caseId = :caseId",
+                        DefenceAssociation.class)
+                .setParameter("organisationId", organisationId)
+                .setParameter("caseId", caseId)
+                .getResultList();
+    }
+
+    public List<DefenceAssociation> findByUserIdAndCurrentDate(final UUID userId, final ZonedDateTime currentDate) {
+        return entityManager.createQuery(
+                        "SELECT da FROM DefenceAssociation da WHERE da.userId = :userId AND (da.endDate is null OR da.startDate <= :currentDate AND da.endDate >= :currentDate)",
+                        DefenceAssociation.class)
+                .setParameter("userId", userId)
+                .setParameter("currentDate", currentDate)
+                .getResultList();
+    }
+
+    public DefenceAssociation save(final DefenceAssociation entity) {
+        return entityManager.merge(entity);
+    }
+
+    public void remove(final DefenceAssociation entity) {
+        final DefenceAssociation managed = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+        entityManager.remove(managed);
+    }
 }

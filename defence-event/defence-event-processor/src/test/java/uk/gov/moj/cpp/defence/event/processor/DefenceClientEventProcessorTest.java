@@ -36,7 +36,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
+import jakarta.json.Json;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;

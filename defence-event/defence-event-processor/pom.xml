@@ -3,7 +3,7 @@
     <parent>
         <artifactId>defence-event</artifactId>
         <groupId>uk.gov.moj.cpp.defence</groupId>
-        <version>17.0.91-SNAPSHOT</version>
+        <version>21.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -17,8 +17,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -50,7 +50,6 @@
         <dependency>
             <groupId>uk.gov.moj.cpp.system.documentgenerator</groupId>
             <artifactId>system-documentgenerator-client</artifactId>
-            <version>${system.documentgenerator.client.version}</version>
         </dependency>
         <dependency>
             <groupId>uk.gov.moj.cpp.material</groupId>
@@ -123,6 +122,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <excludes>
+                        <!-- External MI test-jar compiled against javax.json (pre-Jakarta); incompatible with Jakarta EE 10 -->
+                        <exclude>uk/gov/moj/cpp/mi/**</exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -200,8 +208,8 @@
                         </exclusions>
                     </dependency>
                     <dependency>
-                        <groupId>javax</groupId>
-                        <artifactId>javaee-api</artifactId>
+                        <groupId>jakarta.platform</groupId>
+                        <artifactId>jakarta.jakartaee-api</artifactId>
                         <version>${javaee-api.version}</version>
                     </dependency>
                 </dependencies>
@@ -298,8 +306,8 @@
                         </exclusions>
                     </dependency>
                     <dependency>
-                        <groupId>javax</groupId>
-                        <artifactId>javaee-api</artifactId>
+                        <groupId>jakarta.platform</groupId>
+                        <artifactId>jakarta.jakartaee-api</artifactId>
                         <version>${javaee-api.version}</version>
                     </dependency>
                 </dependencies>

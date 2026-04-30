@@ -4,12 +4,33 @@ import uk.gov.moj.cpp.defence.persistence.entity.DefenceCase;
 
 import java.util.UUID;
 
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Repository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-@Repository
-public interface DefenceCaseRepository extends EntityRepository<DefenceCase, UUID> {
+@ApplicationScoped
+public class DefenceCaseRepository {
 
-    DefenceCase findOptionalByUrn(String urn);
+    @PersistenceContext(unitName = "defence")
+    EntityManager entityManager;
 
+    public DefenceCase findBy(final UUID id) {
+        return entityManager.find(DefenceCase.class, id);
+    }
+
+    public DefenceCase findOptionalByUrn(final String urn) {
+        return entityManager.createQuery(
+                        "SELECT c FROM DefenceCase c WHERE c.urn = :urn", DefenceCase.class)
+                .setParameter("urn", urn)
+                .getResultStream().findFirst().orElse(null);
+    }
+
+    public DefenceCase save(final DefenceCase entity) {
+        return entityManager.merge(entity);
+    }
+
+    public void remove(final DefenceCase entity) {
+        final DefenceCase managed = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+        entityManager.remove(managed);
+    }
 }

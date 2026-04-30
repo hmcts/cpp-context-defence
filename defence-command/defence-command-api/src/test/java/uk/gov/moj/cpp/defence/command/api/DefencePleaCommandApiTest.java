@@ -18,8 +18,8 @@ import uk.gov.justice.services.messaging.spi.DefaultEnvelope;
 import uk.gov.justice.services.messaging.spi.DefaultJsonEnvelopeProvider;
 import uk.gov.moj.cpp.defence.command.api.service.OrganisationService;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;

@@ -12,9 +12,9 @@ import uk.gov.justice.services.messaging.Metadata;
 import uk.gov.moj.cpp.defence.persistence.DefendantAllocationRepository;
 import uk.gov.moj.cpp.defence.persistence.entity.DefendantAllocation;
 
-import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.inject.Inject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;

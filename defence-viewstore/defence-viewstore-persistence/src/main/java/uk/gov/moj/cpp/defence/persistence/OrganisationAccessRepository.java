@@ -1,6 +1,5 @@
 package uk.gov.moj.cpp.defence.persistence;
 
-
 import uk.gov.moj.cpp.defence.persistence.entity.ProsecutionOrganisationAccess;
 import uk.gov.moj.cpp.defence.persistence.entity.ProsecutionOrganisationCaseKey;
 
@@ -8,30 +7,94 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.MaxResults;
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.QueryParam;
-import org.apache.deltaspike.data.api.Repository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-@Repository
-public interface OrganisationAccessRepository extends EntityRepository<ProsecutionOrganisationAccess, ProsecutionOrganisationCaseKey> {
+@ApplicationScoped
+public class OrganisationAccessRepository {
 
-    @Query("from ProsecutionOrganisationAccess poa where poa.id.caseId=:caseId")
-    List<ProsecutionOrganisationAccess> findByCaseId(@QueryParam("caseId") UUID caseId);
+    @PersistenceContext(unitName = "defence")
+    EntityManager entityManager;
 
-    @Query("from ProsecutionOrganisationAccess poa where poa.id.assigneeOrganisationId=:assigneeOrganisationId and poa.id.caseId=:caseId")
-    Optional<ProsecutionOrganisationAccess> findByAssigneeOrganisationIdAndCaseId(@QueryParam("assigneeOrganisationId") UUID assigneeOrganisationId, @QueryParam("caseId") UUID caseId);
+    public ProsecutionOrganisationAccess findBy(final ProsecutionOrganisationCaseKey id) {
+        return entityManager.find(ProsecutionOrganisationAccess.class, id);
+    }
 
-    @Query("from ProsecutionOrganisationAccess poa where poa.id.caseId=:caseId and poa.id.assigneeOrganisationId=:assigneeOrganisationId")
-    List<ProsecutionOrganisationAccess> findByCaseIdAndAssigneeOrganisationId(@QueryParam("caseId") UUID caseId, @QueryParam("assigneeOrganisationId") UUID assigneeOrganisationId);
+    public List<ProsecutionOrganisationAccess> findByCaseId(final UUID caseId) {
+        return entityManager.createQuery(
+                        "SELECT poa FROM ProsecutionOrganisationAccess poa where poa.id.caseId = :caseId",
+                        ProsecutionOrganisationAccess.class)
+                .setParameter("caseId", caseId)
+                .getResultList();
+    }
 
-    @Query("from ProsecutionOrganisationAccess poa where poa.id.caseId=:caseId and poa.id.assigneeOrganisationId=:assigneeOrganisationId and (poa.assignmentExpiryDate is null or poa.assignmentExpiryDate > now())")
-    List<ProsecutionOrganisationAccess> findActiveByCaseIdAndAssigneeOrganisationId(@QueryParam("caseId") UUID caseId, @QueryParam("assigneeOrganisationId") UUID assigneeOrganisationId);
+    public Optional<ProsecutionOrganisationAccess> findByAssigneeOrganisationIdAndCaseId(
+            final UUID assigneeOrganisationId, final UUID caseId) {
+        return entityManager.createQuery(
+                        "SELECT poa FROM ProsecutionOrganisationAccess poa where poa.id.assigneeOrganisationId = :assigneeOrganisationId and poa.id.caseId = :caseId",
+                        ProsecutionOrganisationAccess.class)
+                .setParameter("assigneeOrganisationId", assigneeOrganisationId)
+                .setParameter("caseId", caseId)
+                .getResultStream().findFirst();
+    }
 
-    @Query(value = "from ProsecutionOrganisationAccess poa where poa.assignmentExpiryDate  < now() and poa.prosecutionAdvocatesWithAccess is EMPTY order by poa.assignmentExpiryDate desc")
-    List<ProsecutionOrganisationAccess> findExpiredCaseAssignments();
+    public List<ProsecutionOrganisationAccess> findByCaseIdAndAssigneeOrganisationId(final UUID caseId,
+            final UUID assigneeOrganisationId) {
+        return entityManager.createQuery(
+                        "SELECT poa FROM ProsecutionOrganisationAccess poa where poa.id.caseId = :caseId and poa.id.assigneeOrganisationId = :assigneeOrganisationId",
+                        ProsecutionOrganisationAccess.class)
+                .setParameter("caseId", caseId)
+                .setParameter("assigneeOrganisationId", assigneeOrganisationId)
+                .getResultList();
+    }
 
-    @Query(value = "from ProsecutionOrganisationAccess poa where poa.assignmentExpiryDate  < now() and poa.prosecutionAdvocatesWithAccess is EMPTY order by poa.assignmentExpiryDate desc")
-    List<ProsecutionOrganisationAccess> findExpiredCaseAssignments(@MaxResults int max);
+    public List<ProsecutionOrganisationAccess> findActiveByCaseIdAndAssigneeOrganisationId(final UUID caseId,
+            final UUID assigneeOrganisationId) {
+        return entityManager.createQuery(
+                        "SELECT poa FROM ProsecutionOrganisationAccess poa where poa.id.caseId = :caseId and poa.id.assigneeOrganisationId = :assigneeOrganisationId and (poa.assignmentExpiryDate is null or poa.assignmentExpiryDate > CURRENT_TIMESTAMP)",
+                        ProsecutionOrganisationAccess.class)
+                .setParameter("caseId", caseId)
+                .setParameter("assigneeOrganisationId", assigneeOrganisationId)
+                .getResultList();
+    }
+
+    public List<ProsecutionOrganisationAccess> findExpiredCaseAssignments() {
+        return entityManager.createQuery(
+                        "SELECT poa FROM ProsecutionOrganisationAccess poa where poa.assignmentExpiryDate < CURRENT_TIMESTAMP and poa.prosecutionAdvocatesWithAccess is EMPTY order by poa.assignmentExpiryDate desc",
+                        ProsecutionOrganisationAccess.class)
+                .getResultList();
+    }
+
+    public List<ProsecutionOrganisationAccess> findExpiredCaseAssignments(final int max) {
+        return entityManager.createQuery(
+                        "SELECT poa FROM ProsecutionOrganisationAccess poa where poa.assignmentExpiryDate < CURRENT_TIMESTAMP and poa.prosecutionAdvocatesWithAccess is EMPTY order by poa.assignmentExpiryDate desc",
+                        ProsecutionOrganisationAccess.class)
+                .setMaxResults(max)
+                .getResultList();
+    }
+
+    public ProsecutionOrganisationAccess save(final ProsecutionOrganisationAccess entity) {
+        return entityManager.merge(entity);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<ProsecutionOrganisationAccess> findAll() {
+        return entityManager.createQuery("SELECT entity FROM ProsecutionOrganisationAccess entity").getResultList();
+    }
+
+    public void flush() {
+        entityManager.flush();
+    }
+
+    public ProsecutionOrganisationAccess saveAndFlush(final ProsecutionOrganisationAccess entity) {
+        final ProsecutionOrganisationAccess saved = entityManager.merge(entity);
+        entityManager.flush();
+        return saved;
+    }
+
+    public void remove(final ProsecutionOrganisationAccess entity) {
+        final ProsecutionOrganisationAccess managed = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+        entityManager.remove(managed);
+    }
 }

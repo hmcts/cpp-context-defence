@@ -151,6 +151,7 @@ public class CreateProsecutionCaseHelper {
                 .replace(PROSECUTING_AUTHORITY, PROSECUTING_AUTHORITY_TFL);
 
         postPublicMessageToTopic(caseCreatedData, "public.progression.prosecution-case-created");
+        waitForDefenceClientToBeUpdated(fromString(defendantId));
 
     }
 

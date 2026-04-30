@@ -30,8 +30,8 @@ import uk.gov.moj.cpp.defence.service.ReferenceDataService;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
 import uk.gov.moj.cpp.defence.service.UsersGroupQueryService;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -39,7 +39,7 @@ import static com.google.common.collect.ImmutableList.of;
 import static java.lang.Integer.parseInt;
 import static java.time.ZonedDateTime.now;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
+import static jakarta.json.Json.createObjectBuilder;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;

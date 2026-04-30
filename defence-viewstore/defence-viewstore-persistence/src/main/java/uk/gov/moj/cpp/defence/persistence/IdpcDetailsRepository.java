@@ -4,21 +4,50 @@ import uk.gov.moj.cpp.defence.persistence.entity.IdpcDetails;
 
 import java.util.UUID;
 
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.QueryParam;
-import org.apache.deltaspike.data.api.Repository;
-import org.apache.deltaspike.data.api.SingleResultType;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-@Repository
-public interface IdpcDetailsRepository extends EntityRepository<IdpcDetails, UUID> {
+@ApplicationScoped
+public class IdpcDetailsRepository {
 
-    @Query(value = "FROM IdpcDetails idpc WHERE idpc.defenceClientId = :defenceClientId")
-    IdpcDetails findIdpcDetailsForDefenceClient(@QueryParam("defenceClientId") final UUID defenceClientId);
+    @PersistenceContext(unitName = "defence")
+    EntityManager entityManager;
 
-    IdpcDetails findOptionalByDefenceClientId(final UUID defenceClientId);
+    public IdpcDetails findBy(final UUID id) {
+        return entityManager.find(IdpcDetails.class, id);
+    }
 
-    @Query(value = "select idpc FROM IdpcDetails idpc where idpc.defenceClientId in ( select dc.id from DefenceClient dc where defendantId=:defendantId) ",singleResult = SingleResultType.OPTIONAL)
-    IdpcDetails findIdpcDetailsForDefendantId(@QueryParam("defendantId")final UUID defendantId);
+    public IdpcDetails findIdpcDetailsForDefenceClient(final UUID defenceClientId) {
+        return entityManager.createQuery(
+                        "SELECT idpc FROM IdpcDetails idpc WHERE idpc.defenceClientId = :defenceClientId",
+                        IdpcDetails.class)
+                .setParameter("defenceClientId", defenceClientId)
+                .getResultStream().findFirst().orElse(null);
+    }
 
+    public IdpcDetails findOptionalByDefenceClientId(final UUID defenceClientId) {
+        return entityManager.createQuery(
+                        "SELECT idpc FROM IdpcDetails idpc WHERE idpc.defenceClientId = :defenceClientId",
+                        IdpcDetails.class)
+                .setParameter("defenceClientId", defenceClientId)
+                .getResultStream().findFirst().orElse(null);
+    }
+
+    public IdpcDetails findIdpcDetailsForDefendantId(final UUID defendantId) {
+        return entityManager.createQuery(
+                        "select idpc FROM IdpcDetails idpc where idpc.defenceClientId in (select dc.id from DefenceClient dc where defendantId = :defendantId)",
+                        IdpcDetails.class)
+                .setParameter("defendantId", defendantId)
+                .getResultStream().findFirst().orElse(null);
+    }
+
+    public IdpcDetails save(final IdpcDetails entity) {
+        return entityManager.merge(entity);
+    }
+
+    public void remove(final IdpcDetails entity) {
+        final IdpcDetails managed = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+        entityManager.remove(managed);
+    }
 }

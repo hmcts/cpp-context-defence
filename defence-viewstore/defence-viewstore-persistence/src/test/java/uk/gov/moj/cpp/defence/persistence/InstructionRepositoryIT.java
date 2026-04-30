@@ -6,26 +6,34 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static uk.gov.moj.cpp.defence.builder.DefenceClientBuilder.createDefenceClient;
 
-import uk.gov.justice.services.test.utils.persistence.BaseTransactionalJunit4Test;
+import uk.gov.justice.services.test.utils.persistence.HibernateTestEntityManagerProvider;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceClient;
 import uk.gov.moj.cpp.defence.persistence.entity.Instruction;
 
 import java.util.List;
 
-import javax.inject.Inject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+public class InstructionRepositoryIT {
 
-@RunWith(CdiTestRunner.class)
-public class InstructionRepositoryIT extends BaseTransactionalJunit4Test {
+    private static final String PERSISTENCE_UNIT = "defence-test-persistence-unit";
 
-    @Inject
-    InstructionRepository instructionRepository;
+    @RegisterExtension
+    static HibernateTestEntityManagerProvider hibernateTestEntityManagerProvider =
+            new HibernateTestEntityManagerProvider(PERSISTENCE_UNIT);
 
-    @Inject
-    DefenceClientRepository defenceClientRepository;
+    private InstructionRepository instructionRepository;
+    private DefenceClientRepository defenceClientRepository;
+
+    @BeforeEach
+    public void setUpRepositories() {
+        instructionRepository = new InstructionRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(instructionRepository);
+        defenceClientRepository = new DefenceClientRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(defenceClientRepository);
+    }
 
     @Test
     public void findAllegationsByDefenceClientId() {
@@ -47,7 +55,6 @@ public class InstructionRepositoryIT extends BaseTransactionalJunit4Test {
         assertThat(savedInstruction.getOrganisationId(), is(instruction.getOrganisationId()));
         assertThat(savedInstruction.getInstructionDate(), is(instruction.getInstructionDate()));
     }
-
 
     private Instruction createInstruction(final DefenceClient defClient) {
         return new Instruction(randomUUID(), randomUUID(), randomUUID(), defClient, now());

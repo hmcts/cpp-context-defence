@@ -1,31 +1,40 @@
 package uk.gov.moj.cpp.defence.persistence;
 
 import static java.util.UUID.randomUUID;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.nullValue;
 
-import uk.gov.justice.services.test.utils.persistence.BaseTransactionalJunit4Test;
+import uk.gov.justice.services.test.utils.persistence.HibernateTestEntityManagerProvider;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceCase;
 
 import java.util.UUID;
 
-import javax.inject.Inject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+public class DefenceCaseRepositoryIT {
 
-@RunWith(CdiTestRunner.class)
-public class DefenceCaseRepositoryIT extends BaseTransactionalJunit4Test {
+    private static final String PERSISTENCE_UNIT = "defence-test-persistence-unit";
 
-    @Inject
+    @RegisterExtension
+    static HibernateTestEntityManagerProvider hibernateTestEntityManagerProvider =
+            new HibernateTestEntityManagerProvider(PERSISTENCE_UNIT);
+
     private DefenceCaseRepository defenceCaseRepository;
+
+    @BeforeEach
+    public void setUpRepositories() {
+        defenceCaseRepository = new DefenceCaseRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(defenceCaseRepository);
+    }
 
     @Test
     public void findIdpcDetailsForDefenceClientId() {
 
         UUID caseId = randomUUID();
-        String urn = "Test URN";
+        String urn = "TEST URN";
 
         DefenceCase defenceCase = new DefenceCase();
         defenceCase.setId(caseId);
@@ -34,19 +43,20 @@ public class DefenceCaseRepositoryIT extends BaseTransactionalJunit4Test {
         defenceCaseRepository.save(defenceCase);
 
         DefenceCase savedCase = defenceCaseRepository.findBy(caseId);
-        assertEquals(defenceCase, savedCase);
+        assertThat(savedCase.getId(), is(caseId));
+        assertThat(savedCase.getUrn(), is(urn));
 
         savedCase = defenceCaseRepository.findOptionalByUrn(urn);
-        assertEquals(defenceCase, savedCase);
+        assertThat(savedCase.getId(), is(caseId));
+        assertThat(savedCase.getUrn(), is(urn));
     }
 
     @Test
     public void shouldReturnNullWhenDefenceClientNotKnown() {
         DefenceCase random = defenceCaseRepository.findBy(UUID.randomUUID());
-        assertNull(random);
+        assertThat(random, is(nullValue()));
 
         random = defenceCaseRepository.findOptionalByUrn("random");
-        assertNull(random);
-
+        assertThat(random, is(nullValue()));
     }
 }

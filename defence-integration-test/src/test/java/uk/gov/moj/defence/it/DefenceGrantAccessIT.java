@@ -47,6 +47,7 @@ import uk.gov.justice.services.common.json.JsonParser;
 import uk.gov.justice.services.test.utils.core.http.ResponseData;
 import uk.gov.justice.services.test.utils.core.messaging.MessageConsumerClient;
 import uk.gov.justice.services.test.utils.core.random.LocalDateGenerator;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
 import uk.gov.moj.defence.helper.CreateProsecutionCaseHelper;
 import uk.gov.moj.defence.helper.DefenceAssociationHelper;
 import uk.gov.moj.defence.helper.DefenceGrantAccessHelper;
@@ -55,8 +56,8 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.json.JsonObject;
-import javax.ws.rs.core.Response;
+import jakarta.json.JsonObject;
+import jakarta.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
 import org.junit.jupiter.api.BeforeAll;
@@ -83,6 +84,7 @@ public class DefenceGrantAccessIT {
     private static final UUID granteeUserIdEligibleNotAssociatedAndAdmin = randomUUID();
     private static final UUID granteeUserIdEligibleNotAssociatedAndNotAdmin = randomUUID();
     private static final UUID granteeUserIdEligibleNotAssociatedAndNotAdmin_OrgB = randomUUID();
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
     private String firstName;
     private String lastName;
     private String dateOfBirth;
@@ -154,6 +156,33 @@ public class DefenceGrantAccessIT {
         stubForProsecutionCaseQuery();
     }
 
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
+    }
 
     @BeforeEach
     public void setupTests() {

@@ -36,8 +36,8 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

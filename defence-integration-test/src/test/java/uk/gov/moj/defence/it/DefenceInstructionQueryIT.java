@@ -3,7 +3,7 @@ package uk.gov.moj.defence.it;
 import static java.lang.String.format;
 import static java.time.LocalDate.now;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
+import static jakarta.json.Json.createObjectBuilder;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static uk.gov.justice.services.test.utils.core.http.BaseUriProvider.getBaseUri;
@@ -18,7 +18,7 @@ import uk.gov.justice.services.test.utils.core.rest.RestClient;
 
 import java.util.UUID;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

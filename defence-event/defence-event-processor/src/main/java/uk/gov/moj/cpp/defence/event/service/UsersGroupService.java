@@ -1,7 +1,7 @@
 package uk.gov.moj.cpp.defence.event.service;
 
 import static java.util.UUID.fromString;
-import static javax.json.Json.createObjectBuilder;
+import static jakarta.json.Json.createObjectBuilder;
 import static uk.gov.justice.services.core.enveloper.Enveloper.envelop;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
 
@@ -14,8 +14,8 @@ import uk.gov.justice.services.messaging.Metadata;
 
 import java.util.UUID;
 
-import javax.inject.Inject;
-import javax.json.JsonObject;
+import jakarta.inject.Inject;
+import jakarta.json.JsonObject;
 
 
 public class UsersGroupService {

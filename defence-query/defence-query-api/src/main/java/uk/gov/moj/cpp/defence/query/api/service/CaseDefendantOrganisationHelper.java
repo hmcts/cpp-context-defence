@@ -1,7 +1,7 @@
 package uk.gov.moj.cpp.defence.query.api.service;
 
 import static java.util.Optional.ofNullable;
-import static javax.json.Json.createObjectBuilder;
+import static jakarta.json.Json.createObjectBuilder;
 import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
 import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_1;
 import static uk.gov.moj.cpp.defence.query.api.DefenceAssociationQueryApi.ADDRESS_2;
@@ -17,9 +17,9 @@ import static uk.gov.moj.cpp.defence.service.UserGroupService.ORGANISATION_ID;
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.justice.services.messaging.Metadata;
 
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import jakarta.json.JsonArrayBuilder;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 public class CaseDefendantOrganisationHelper {
 

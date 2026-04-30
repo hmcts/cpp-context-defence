@@ -11,10 +11,10 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching;
 import static java.text.MessageFormat.format;
 import static java.util.UUID.randomUUID;
-import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.ACCEPTED;
-import static javax.ws.rs.core.Response.Status.OK;
+import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
+import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.Response.Status.ACCEPTED;
+import static jakarta.ws.rs.core.Response.Status.OK;
 import static uk.gov.justice.services.common.http.HeaderConstants.ID;
 import static uk.gov.justice.services.common.http.HeaderConstants.USER_ID;
 import static uk.gov.moj.defence.util.TestUtils.getPayloadForCreatingRequest;
@@ -24,7 +24,7 @@ import uk.gov.justice.cps.defence.Permission;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
+import jakarta.json.Json;
 
 import org.apache.http.HttpHeaders;
 
@@ -60,6 +60,24 @@ public class UsersGroupStub {
 
 
         stubFor(get(urlPathMatching("/usersgroups-service/query/api/rest/usersgroups/users/[^/]*/organisation"))
+                .willReturn(aResponse().withStatus(OK.getStatusCode())
+                        .withHeader(ID, userId.toString())
+                        .withHeader(CONTENT_TYPE, "application/json")
+                        .withBody(organisationDetailsForUser)));
+    }
+
+    public static void stubGetOrganisationDetailsForSpecificUser(final UUID userId, final UUID organisationId) {
+
+        final String organisationDetailsForUser = getPayloadForCreatingRequest("stub-data/usersgroup-service/organisation-details.json")
+                .replace("ORG-ID", organisationId.toString());
+
+        stubFor(get(urlPathEqualTo("/usersgroups-query-api/query/api/rest/usersgroups/users/" + userId + "/organisation"))
+                .willReturn(aResponse().withStatus(OK.getStatusCode())
+                        .withHeader(ID, userId.toString())
+                        .withHeader(CONTENT_TYPE, "application/json")
+                        .withBody(organisationDetailsForUser)));
+
+        stubFor(get(urlPathEqualTo("/usersgroups-service/query/api/rest/usersgroups/users/" + userId + "/organisation"))
                 .willReturn(aResponse().withStatus(OK.getStatusCode())
                         .withHeader(ID, userId.toString())
                         .withHeader(CONTENT_TYPE, "application/json")

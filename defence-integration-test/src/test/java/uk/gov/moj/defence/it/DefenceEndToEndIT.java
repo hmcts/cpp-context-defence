@@ -38,6 +38,7 @@ import uk.gov.justice.json.generator.value.string.SimpleStringGenerator;
 import uk.gov.justice.services.test.utils.core.http.ResponseData;
 import uk.gov.justice.services.test.utils.core.random.LocalDateGenerator;
 import uk.gov.justice.services.test.utils.core.rest.RestClient;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
 import uk.gov.moj.defence.helper.CreateProsecutionCaseHelper;
 import uk.gov.moj.defence.helper.OrganisationHelper;
 
@@ -45,7 +46,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import com.jayway.jsonpath.ReadContext;
 import org.apache.http.HttpStatus;
@@ -62,6 +63,7 @@ public class DefenceEndToEndIT {
     private static final UUID ORGANISATION_ID = randomUUID();
     private static final RegexGenerator regexGenerator = new RegexGenerator(compile(URN_PATTERN));
 
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
     private final SimpleStringGenerator simpleStringGenerator = new SimpleStringGenerator(5, 15);
     private final LocalDateGenerator localDateGenerator = new LocalDateGenerator(ofYears(10), parse("1983-04-20"), FUTURE);
     private String firstName;
@@ -84,6 +86,33 @@ public class DefenceEndToEndIT {
         stubGetOrganisationNamesForIds(USER_ID, asList(ORGANISATION_ID));
         stubUserPermissions();
         stubForProsecutionCaseQuery();
+    }
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
     }
 
     @BeforeEach

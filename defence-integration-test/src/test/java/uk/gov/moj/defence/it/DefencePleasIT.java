@@ -30,6 +30,7 @@ import static uk.gov.moj.defence.util.WiremockHelper.resetWiremock;
 import uk.gov.justice.json.generator.value.string.RegexGenerator;
 import uk.gov.justice.json.generator.value.string.SimpleStringGenerator;
 import uk.gov.justice.services.test.utils.core.random.LocalDateGenerator;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
 import uk.gov.moj.defence.helper.CreateProsecutionCaseHelper;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ import org.junit.jupiter.api.Test;
 public class DefencePleasIT {
 
 
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
     private final CreateProsecutionCaseHelper createProsecutionCaseHelper = new CreateProsecutionCaseHelper();
 
     private static final String UPDATE_PLEA_ALLOCATION_REQUEST_WITH_DEFENDANT_DETAILS_CORRECTION_TEMPLATE_NAME = "stub-data/commands-payloads/defence.update-offence-pleas-with-def-details.json";
@@ -59,6 +61,33 @@ public class DefencePleasIT {
     private String defendantId;
     private String dateOfBirth;
     private static final RegexGenerator regexGenerator = new RegexGenerator(compile(URN_PATTERN));
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
+    }
 
     @BeforeEach
     public void setupTests() {

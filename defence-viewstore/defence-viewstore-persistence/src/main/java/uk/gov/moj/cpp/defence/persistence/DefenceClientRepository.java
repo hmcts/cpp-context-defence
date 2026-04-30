@@ -4,149 +4,285 @@ import uk.gov.moj.cpp.defence.persistence.entity.DefenceClient;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.QueryParam;
-import org.apache.deltaspike.data.api.Repository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-@Repository
-public interface DefenceClientRepository extends EntityRepository<DefenceClient, UUID> {
+@ApplicationScoped
+public class DefenceClientRepository {
 
-    @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
-            + "dc.dateOfBirth = :dateOfBirth  and c.urn = :ptiUrn and dc.visible = true")
-    List<DefenceClient> findDefenceClientByCriteria(@QueryParam("firstName") final String firstName,
-                                                    @QueryParam("lastName") final String lastName,
-                                                    @QueryParam("dateOfBirth") final LocalDate dateOfBirth,
-                                                    @QueryParam("ptiUrn") final String ptiUrn);
+    @PersistenceContext(unitName = "defence")
+    EntityManager entityManager;
 
-    @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
-            + "dc.dateOfBirth = :dateOfBirth  and c.urn = :ptiUrn and dc.visible = true and c.isCivil = :isCivil")
-    List<DefenceClient> findDefenceClientByCriteria(@QueryParam("firstName") final String firstName,
-                                                    @QueryParam("lastName") final String lastName,
-                                                    @QueryParam("dateOfBirth") final LocalDate dateOfBirth,
-                                                    @QueryParam("ptiUrn") final String ptiUrn,
-                                                    @QueryParam("isCivil") final boolean isCivil);
+    public DefenceClient findBy(final UUID id) {
+        return entityManager.find(DefenceClient.class, id);
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and "
-            + "c.urn = :ptiUrn and dc.visible = true and c.isCivil = :isCivil")
-    List<DefenceClient> findDefenceClientByCriteriaWithOutDob(@QueryParam("firstName") final String firstName,
-                                                    @QueryParam("lastName") final String lastName,
-                                                    @QueryParam("ptiUrn") final String ptiUrn,
-                                                    @QueryParam("isCivil") final boolean isCivil);
+    public Optional<DefenceClient> findOptionalBy(final UUID id) {
+        return Optional.ofNullable(entityManager.find(DefenceClient.class, id));
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON  c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
-            + "dc.dateOfBirth = :dateOfBirth and dc.visible = true")
-    List<DefenceClient> findDefenceClientByCriteria(@QueryParam("firstName") final String firstName,
-                                                    @QueryParam("lastName") final String lastName,
-                                                    @QueryParam("dateOfBirth") final LocalDate dateOfBirth);
+    public List<DefenceClient> findDefenceClientByCriteria(final String firstName, final String lastName,
+            final LocalDate dateOfBirth, final String ptiUrn) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and dc.dateOfBirth = :dateOfBirth and c.urn = :ptiUrn and dc.visible = true",
+                        DefenceClient.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("dateOfBirth", dateOfBirth)
+                .setParameter("ptiUrn", ptiUrn)
+                .getResultList();
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON  c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
-            + "dc.dateOfBirth = :dateOfBirth and dc.visible = true and c.isCivil = :isCivil")
-    List<DefenceClient> findDefenceClientByCriteria(@QueryParam("firstName") final String firstName,
-                                                    @QueryParam("lastName") final String lastName,
-                                                    @QueryParam("dateOfBirth") final LocalDate dateOfBirth,
-                                                    @QueryParam("isCivil") final boolean isCivil);
+    public List<DefenceClient> findDefenceClientByCriteria(final String firstName, final String lastName,
+            final LocalDate dateOfBirth, final String ptiUrn, final boolean isCivil) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and dc.dateOfBirth = :dateOfBirth and c.urn = :ptiUrn and dc.visible = true and c.isCivil = :isCivil",
+                        DefenceClient.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("dateOfBirth", dateOfBirth)
+                .setParameter("ptiUrn", ptiUrn)
+                .setParameter("isCivil", isCivil)
+                .getResultList();
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc INNER JOIN  DefenceCase c ON  c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and "
-            + "dc.visible = true and c.isCivil = :isCivil")
-    List<DefenceClient> findDefenceClientByCriteriaWithOutDob(@QueryParam("firstName") final String firstName,
-                                                    @QueryParam("lastName") final String lastName,
-                                                    @QueryParam("isCivil") final boolean isCivil);
+    public List<DefenceClient> findDefenceClientByCriteriaWithOutDob(final String firstName, final String lastName,
+            final String ptiUrn, final boolean isCivil) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and c.urn = :ptiUrn and dc.visible = true and c.isCivil = :isCivil",
+                        DefenceClient.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("ptiUrn", ptiUrn)
+                .setParameter("isCivil", isCivil)
+                .getResultList();
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName)  and upper(c.urn) = upper(:ptiUrn) and"
-            + " dc.visible = true and dc.caseId = c.id")
-    List<DefenceClient> findDefenceClientByCriteria(@QueryParam("organisationName") final String organisationName,
-                                                    @QueryParam("ptiUrn") final String ptiUrn);
+    public List<DefenceClient> findDefenceClientByCriteria(final String firstName, final String lastName,
+            final LocalDate dateOfBirth) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and dc.dateOfBirth = :dateOfBirth and dc.visible = true",
+                        DefenceClient.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("dateOfBirth", dateOfBirth)
+                .getResultList();
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName)  and upper(c.urn) = upper(:ptiUrn) and"
-            + " dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil")
-    List<DefenceClient> findDefenceClientByCriteria(@QueryParam("organisationName") final String organisationName,
-                                                    @QueryParam("ptiUrn") final String ptiUrn,
-                                                    @QueryParam("isCivil") final boolean isCivil);
+    public List<DefenceClient> findDefenceClientByCriteria(final String firstName, final String lastName,
+            final LocalDate dateOfBirth, final boolean isCivil) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and dc.dateOfBirth = :dateOfBirth and dc.visible = true and c.isCivil = :isCivil",
+                        DefenceClient.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("dateOfBirth", dateOfBirth)
+                .setParameter("isCivil", isCivil)
+                .getResultList();
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and"
-            + " dc.visible = true and dc.caseId = c.id")
-    List<DefenceClient> findDefenceClientByCriteria(@QueryParam("organisationName") final String organisationName);
+    public List<DefenceClient> findDefenceClientByCriteriaWithOutDob(final String firstName, final String lastName,
+            final boolean isCivil) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and dc.visible = true and c.isCivil = :isCivil",
+                        DefenceClient.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("isCivil", isCivil)
+                .getResultList();
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and"
-            + " dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil")
-    List<DefenceClient> findDefenceClientByCriteria(@QueryParam("organisationName") final String organisationName,
-                                                    @QueryParam("isCivil") final boolean isCivil);
+    public List<DefenceClient> findDefenceClientByCriteria(final String organisationName, final String ptiUrn) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and upper(c.urn) = upper(:ptiUrn) and dc.visible = true and dc.caseId = c.id",
+                        DefenceClient.class)
+                .setParameter("organisationName", organisationName)
+                .setParameter("ptiUrn", ptiUrn)
+                .getResultList();
+    }
 
-    DefenceClient findOptionalByDefendantId(UUID defendantId);
+    public List<DefenceClient> findDefenceClientByCriteria(final String organisationName, final String ptiUrn,
+            final boolean isCivil) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and upper(c.urn) = upper(:ptiUrn) and dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil",
+                        DefenceClient.class)
+                .setParameter("organisationName", organisationName)
+                .setParameter("ptiUrn", ptiUrn)
+                .setParameter("isCivil", isCivil)
+                .getResultList();
+    }
 
-    @Query(value = "select dc FROM DefenceClient dc WHERE dc.defendantId = :defendantId")
-    DefenceClient findDefenceClientByCriteria(@QueryParam("defendantId") final UUID defendantId);
+    public List<DefenceClient> findDefenceClientByCriteria(final String organisationName) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and dc.visible = true and dc.caseId = c.id",
+                        DefenceClient.class)
+                .setParameter("organisationName", organisationName)
+                .getResultList();
+    }
 
-    DefenceClient findOptionalByDefendantIdAndCaseId(UUID defendantId, UUID caseId);
+    public List<DefenceClient> findDefenceClientByCriteria(final String organisationName, final boolean isCivil) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil",
+                        DefenceClient.class)
+                .setParameter("organisationName", organisationName)
+                .setParameter("isCivil", isCivil)
+                .getResultList();
+    }
 
-    List<DefenceClient> findByCaseId(UUID caseId);
+    public DefenceClient findOptionalByDefendantId(final UUID defendantId) {
+        return entityManager.createQuery(
+                        "SELECT dc FROM DefenceClient dc WHERE dc.defendantId = :defendantId", DefenceClient.class)
+                .setParameter("defendantId", defendantId)
+                .getResultStream().findFirst().orElse(null);
+    }
 
+    public DefenceClient findDefenceClientByCriteria(final UUID defendantId) {
+        return entityManager.createQuery(
+                        "select dc FROM DefenceClient dc WHERE dc.defendantId = :defendantId", DefenceClient.class)
+                .setParameter("defendantId", defendantId)
+                .getResultStream().findFirst().orElse(null);
+    }
 
-    @Query(value = "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
-            + "dc.dateOfBirth = :dateOfBirth and dc.visible = true and dc.caseId = c.id")
-    List<UUID> findCasesAssociatedWithDefenceClientByPersonDefendant(@QueryParam("firstName") final String firstName,
-                                                                     @QueryParam("lastName") final String lastName,
-                                                                     @QueryParam("dateOfBirth") final LocalDate dateOfBirth);
+    public DefenceClient findOptionalByDefendantIdAndCaseId(final UUID defendantId, final UUID caseId) {
+        return entityManager.createQuery(
+                        "SELECT dc FROM DefenceClient dc WHERE dc.defendantId = :defendantId AND dc.caseId = :caseId",
+                        DefenceClient.class)
+                .setParameter("defendantId", defendantId)
+                .setParameter("caseId", caseId)
+                .getResultStream().findFirst().orElse(null);
+    }
 
-    @Query(value = "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
-            + "dc.dateOfBirth = :dateOfBirth and dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember")
-    List<UUID> findCasesAssociatedWithDefenceClientByPersonDefendant(@QueryParam("firstName") final String firstName,
-                                                                     @QueryParam("lastName") final String lastName,
-                                                                     @QueryParam("dateOfBirth") final LocalDate dateOfBirth,
-                                                                     @QueryParam("isCivil") final boolean isCivil,
-                                                                     @QueryParam("isGroupMember") final boolean isGroupMember);
+    public List<DefenceClient> findByCaseId(final UUID caseId) {
+        return entityManager.createQuery(
+                        "SELECT dc FROM DefenceClient dc WHERE dc.caseId = :caseId", DefenceClient.class)
+                .setParameter("caseId", caseId)
+                .getResultList();
+    }
 
-    @Query(value = "SELECT DISTINCT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and "
-            + "dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember")
-    List<UUID> findCasesAssociatedWithDefenceClientByPersonDefendantWithoutDob(@QueryParam("firstName") final String firstName,
-                                                                     @QueryParam("lastName") final String lastName,
-                                                                     @QueryParam("isCivil") final boolean isCivil,
-                                                                     @QueryParam("isGroupMember") final boolean isGroupMember);
+    public List<UUID> findCasesAssociatedWithDefenceClientByPersonDefendant(final String firstName,
+            final String lastName, final LocalDate dateOfBirth) {
+        return entityManager.createQuery(
+                        "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and dc.dateOfBirth = :dateOfBirth and dc.visible = true and dc.caseId = c.id",
+                        UUID.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("dateOfBirth", dateOfBirth)
+                .getResultList();
+    }
 
+    public List<UUID> findCasesAssociatedWithDefenceClientByPersonDefendant(final String firstName,
+            final String lastName, final LocalDate dateOfBirth, final boolean isCivil, final boolean isGroupMember) {
+        return entityManager.createQuery(
+                        "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and dc.dateOfBirth = :dateOfBirth and dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember",
+                        UUID.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("dateOfBirth", dateOfBirth)
+                .setParameter("isCivil", isCivil)
+                .setParameter("isGroupMember", isGroupMember)
+                .getResultList();
+    }
 
-    @Query(value = "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and"
-            + " dc.visible = true and dc.caseId = c.id")
-    List<UUID> findCasesAssociatedWithDefenceClientByOrganisationDefendant(@QueryParam("organisationName") final String organisationName);
+    public List<UUID> findCasesAssociatedWithDefenceClientByPersonDefendantWithoutDob(final String firstName,
+            final String lastName, final boolean isCivil, final boolean isGroupMember) {
+        return entityManager.createQuery(
+                        "SELECT DISTINCT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember",
+                        UUID.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("isCivil", isCivil)
+                .setParameter("isGroupMember", isGroupMember)
+                .getResultList();
+    }
 
-    @Query(value = "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and"
-            + " dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember")
-    List<UUID> findCasesAssociatedWithDefenceClientByOrganisationDefendant(@QueryParam("organisationName") final String organisationName,
-                                                                           @QueryParam("isCivil") final boolean isCivil,
-                                                                           @QueryParam("isGroupMember") final boolean isGroupMember);
+    public List<UUID> findCasesAssociatedWithDefenceClientByOrganisationDefendant(final String organisationName) {
+        return entityManager.createQuery(
+                        "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and dc.visible = true and dc.caseId = c.id",
+                        UUID.class)
+                .setParameter("organisationName", organisationName)
+                .getResultList();
+    }
 
+    public List<UUID> findCasesAssociatedWithDefenceClientByOrganisationDefendant(final String organisationName,
+            final boolean isCivil, final boolean isGroupMember) {
+        return entityManager.createQuery(
+                        "SELECT dc.caseId FROM DefenceClient dc, DefenceCase c WHERE upper(dc.organisationName) = upper(:organisationName) and dc.visible = true and dc.caseId = c.id and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember",
+                        UUID.class)
+                .setParameter("organisationName", organisationName)
+                .setParameter("isCivil", isCivil)
+                .setParameter("isGroupMember", isGroupMember)
+                .getResultList();
+    }
 
-    @Query(value = "SELECT dc.defendantId FROM DefenceClient dc WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
-            + "dc.dateOfBirth = :dateOfBirth ")
-    List<UUID> getPersonDefendant(@QueryParam("firstName") final String firstName,
-                                  @QueryParam("lastName") final String lastName,
-                                  @QueryParam("dateOfBirth") final LocalDate dateOfBirth);
+    public List<UUID> getPersonDefendant(final String firstName, final String lastName, final LocalDate dateOfBirth) {
+        return entityManager.createQuery(
+                        "SELECT dc.defendantId FROM DefenceClient dc WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and dc.dateOfBirth = :dateOfBirth",
+                        UUID.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("dateOfBirth", dateOfBirth)
+                .getResultList();
+    }
 
-    @Query(value = "SELECT dc.defendantId FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and "
-            + "dc.dateOfBirth = :dateOfBirth and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember")
-    List<UUID> getPersonDefendant(@QueryParam("firstName") final String firstName,
-                                  @QueryParam("lastName") final String lastName,
-                                  @QueryParam("dateOfBirth") final LocalDate dateOfBirth,
-                                  @QueryParam("isCivil") final boolean isCivil,
-                                  @QueryParam("isGroupMember") final boolean isGroupMember);
+    public List<UUID> getPersonDefendant(final String firstName, final String lastName, final LocalDate dateOfBirth,
+            final boolean isCivil, final boolean isGroupMember) {
+        return entityManager.createQuery(
+                        "SELECT dc.defendantId FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE TRIM(upper(dc.firstName)) = upper(:firstName) and TRIM(upper(dc.lastName)) = upper(:lastName) and dc.dateOfBirth = :dateOfBirth and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember",
+                        UUID.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("dateOfBirth", dateOfBirth)
+                .setParameter("isCivil", isCivil)
+                .setParameter("isGroupMember", isGroupMember)
+                .getResultList();
+    }
 
-    @Query(value = "SELECT dc.defendantId FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and "
-            + "c.isCivil = :isCivil and c.isGroupMember = :isGroupMember")
-    List<UUID> getPersonDefendantWithOutDob(@QueryParam("firstName") final String firstName,
-                                            @QueryParam("lastName") final String lastName,
-                                            @QueryParam("isCivil") final boolean isCivil,
-                                            @QueryParam("isGroupMember") final boolean isGroupMember);
+    public List<UUID> getPersonDefendantWithOutDob(final String firstName, final String lastName,
+            final boolean isCivil, final boolean isGroupMember) {
+        return entityManager.createQuery(
+                        "SELECT dc.defendantId FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE upper(dc.firstName) = upper(:firstName) and upper(dc.lastName) = upper(:lastName) and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember",
+                        UUID.class)
+                .setParameter("firstName", firstName)
+                .setParameter("lastName", lastName)
+                .setParameter("isCivil", isCivil)
+                .setParameter("isGroupMember", isGroupMember)
+                .getResultList();
+    }
 
+    public List<UUID> getOrganisationDefendant(final String organisationName) {
+        return entityManager.createQuery(
+                        "SELECT dc.defendantId FROM DefenceClient dc WHERE upper(dc.organisationName) = upper(:organisationName)",
+                        UUID.class)
+                .setParameter("organisationName", organisationName)
+                .getResultList();
+    }
 
-    @Query(value = "SELECT dc.defendantId FROM DefenceClient dc WHERE upper(dc.organisationName) = upper(:organisationName)")
-    List<UUID> getOrganisationDefendant(@QueryParam("organisationName") final String organisationName);
+    public List<UUID> getOrganisationDefendant(final String organisationName, final boolean isCivil,
+            final boolean isGroupMember) {
+        return entityManager.createQuery(
+                        "SELECT dc.defendantId FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE upper(dc.organisationName) = upper(:organisationName) and c.isCivil = :isCivil and c.isGroupMember = :isGroupMember",
+                        UUID.class)
+                .setParameter("organisationName", organisationName)
+                .setParameter("isCivil", isCivil)
+                .setParameter("isGroupMember", isGroupMember)
+                .getResultList();
+    }
 
-    @Query(value = "SELECT dc.defendantId FROM DefenceClient dc INNER JOIN DefenceCase c ON c.id = dc.caseId WHERE upper(dc.organisationName) = upper(:organisationName) and c.isCivil = :isCivil" +
-            " and c.isGroupMember = :isGroupMember")
-    List<UUID> getOrganisationDefendant(@QueryParam("organisationName") final String organisationName,
-                                        @QueryParam("isCivil") final boolean isCivil,
-                                        @QueryParam("isGroupMember") final boolean isGroupMember);
+    public DefenceClient save(final DefenceClient entity) {
+        return entityManager.merge(entity);
+    }
 
+    public void refresh(final DefenceClient entity) {
+        final DefenceClient managed = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+        entityManager.refresh(managed);
+    }
+
+    public void remove(final DefenceClient entity) {
+        final DefenceClient managed = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+        entityManager.remove(managed);
+    }
 }

@@ -1,6 +1,6 @@
 package uk.gov.moj.cpp.defence.query.api.accesscontrol;
 
-import static javax.json.Json.createObjectBuilder;
+import static jakarta.json.Json.createObjectBuilder;
 
 @SuppressWarnings("WeakerAccess")
 public class RuleConstants {

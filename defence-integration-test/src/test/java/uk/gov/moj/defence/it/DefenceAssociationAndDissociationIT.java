@@ -8,7 +8,7 @@ import static java.time.Period.ofYears;
 import static java.util.Arrays.asList;
 import static java.util.UUID.randomUUID;
 import static java.util.regex.Pattern.compile;
-import static javax.ws.rs.core.Response.Status.FORBIDDEN;
+import static jakarta.ws.rs.core.Response.Status.FORBIDDEN;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -55,6 +55,7 @@ import uk.gov.justice.json.generator.value.string.RegexGenerator;
 import uk.gov.justice.json.generator.value.string.SimpleStringGenerator;
 import uk.gov.justice.services.test.utils.core.messaging.MessageConsumerClient;
 import uk.gov.justice.services.test.utils.core.random.LocalDateGenerator;
+import uk.gov.justice.services.test.utils.persistence.DatabaseCleaner;
 import uk.gov.moj.defence.helper.CreateProsecutionCaseHelper;
 
 import java.io.IOException;
@@ -62,7 +63,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 
 import com.google.common.collect.ImmutableList;
 import com.jayway.jsonpath.ReadContext;
@@ -86,6 +87,7 @@ public class DefenceAssociationAndDissociationIT {
 
     private static final String PUBLIC_EVENT_TOPIC = "jms.topic.public.event";
 
+    private final DatabaseCleaner databaseCleaner = new DatabaseCleaner();
     private final CreateProsecutionCaseHelper createProsecutionCaseHelper = new CreateProsecutionCaseHelper();
     private UUID caseId;
     private String urn;
@@ -112,6 +114,33 @@ public class DefenceAssociationAndDissociationIT {
         stubUserPermissions();
         stubProgressionService();
 
+    }
+
+    @BeforeEach
+    public void cleanDatabase() {
+        databaseCleaner.resetEventSubscriptionStatusTable("defence");
+        databaseCleaner.cleanStreamBufferTable("defence");
+        databaseCleaner.cleanStreamStatusTable("defence");
+        databaseCleaner.cleanEventStoreTables("defence");
+        databaseCleaner.cleanProcessedEventTable("defence");
+        databaseCleaner.cleanViewStoreTables("defence",
+                "prosecution_advocate_access",
+                "prosecution_organisation_access",
+                "advocate_access",
+                "defence_grant_access",
+                "defendant_allocation_pleas",
+                "defendant_allocation",
+                "allegation",
+                "instruction",
+                "defence_association",
+                "defence_association_defendant",
+                "defence_case",
+                "idpc_access_history",
+                "idpc_details",
+                "assignment_user_details",
+                "defence_user_details",
+                "organisation_details",
+                "defence_client");
     }
 
     @BeforeEach

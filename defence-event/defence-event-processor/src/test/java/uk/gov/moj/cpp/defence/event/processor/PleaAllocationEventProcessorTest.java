@@ -39,9 +39,9 @@ import uk.gov.moj.cpp.defence.events.AllocationPleasAdded;
 import uk.gov.moj.cpp.defence.events.AllocationPleasUpdated;
 import uk.gov.moj.cpp.defence.events.OpaTaskRequested;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;

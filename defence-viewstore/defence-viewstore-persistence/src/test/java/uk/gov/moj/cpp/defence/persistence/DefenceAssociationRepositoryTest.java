@@ -4,8 +4,9 @@ import static com.google.common.collect.ImmutableList.of;
 import static java.util.UUID.randomUUID;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItems;
 
-import uk.gov.justice.services.test.utils.persistence.BaseTransactionalJunit4Test;
+import uk.gov.justice.services.test.utils.persistence.HibernateTestEntityManagerProvider;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceAssociation;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceAssociationDefendant;
 
@@ -13,22 +14,30 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import javax.inject.Inject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import org.apache.deltaspike.testcontrol.api.junit.CdiTestRunner;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+public class DefenceAssociationRepositoryTest {
 
-@RunWith(CdiTestRunner.class)
-public class DefenceAssociationRepositoryTest extends BaseTransactionalJunit4Test {
+    private static final String PERSISTENCE_UNIT = "defence-test-persistence-unit";
+
+    @RegisterExtension
+    static HibernateTestEntityManagerProvider hibernateTestEntityManagerProvider =
+            new HibernateTestEntityManagerProvider(PERSISTENCE_UNIT);
 
     private static final String LAA_CONTRACT_NUMBER = "l1";
 
-    @Inject
     private DefenceAssociationRepository defenceAssociationRepository;
-
-    @Inject
     private DefenceAssociationDefendantRepository defenceAssociationDefendantRepository;
+
+    @BeforeEach
+    public void setUpRepositories() {
+        defenceAssociationRepository = new DefenceAssociationRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(defenceAssociationRepository);
+        defenceAssociationDefendantRepository = new DefenceAssociationDefendantRepository();
+        hibernateTestEntityManagerProvider.injectEntityManagerInto(defenceAssociationDefendantRepository);
+    }
 
     @Test
     public void shouldFindDefenceAssociationsByLaaContract() {
@@ -36,7 +45,7 @@ public class DefenceAssociationRepositoryTest extends BaseTransactionalJunit4Tes
 
         final List<DefenceAssociation> foundDefenceAssociations = defenceAssociationRepository.findByLAAContractNumber(of(LAA_CONTRACT_NUMBER));
 
-        assertThat(foundDefenceAssociations.get(0), is(defenceAssociation));
+        assertThat(foundDefenceAssociations.get(0).getId(), is(defenceAssociation.getId()));
     }
 
     @Test
@@ -51,14 +60,16 @@ public class DefenceAssociationRepositoryTest extends BaseTransactionalJunit4Tes
         final DefenceAssociation defenceAssociation3 = createDefenceAssociation(laaContractNumber3);
 
         final List<DefenceAssociation> foundDefenceAssociation1 = defenceAssociationRepository.findByLAAContractNumber(of(laaContractNumber1));
-        assertThat(foundDefenceAssociation1, is(of(defenceAssociation1)));
+        assertThat(foundDefenceAssociation1.size(), is(1));
+        assertThat(foundDefenceAssociation1.get(0).getId(), is(defenceAssociation1.getId()));
 
         final List<DefenceAssociation> foundDefenceAssociationAndMore = defenceAssociationRepository.findByLAAContractNumber(of(laaContractNumber1, "some random laa"));
-        assertThat(foundDefenceAssociationAndMore, is(of(defenceAssociation1)));
+        assertThat(foundDefenceAssociationAndMore.size(), is(1));
+        assertThat(foundDefenceAssociationAndMore.get(0).getId(), is(defenceAssociation1.getId()));
 
         final List<DefenceAssociation> foundDefenceAssociation2and3 = defenceAssociationRepository.findByLAAContractNumber(of(laaContractNumber2, laaContractNumber3));
-        assertThat(foundDefenceAssociation2and3, is(of(defenceAssociation2, defenceAssociation3)));
-
+        assertThat(foundDefenceAssociation2and3.size(), is(2));
+        assertThat(foundDefenceAssociation2and3.stream().map(DefenceAssociation::getId).toList(), hasItems(defenceAssociation2.getId(), defenceAssociation3.getId()));
     }
 
     @Test

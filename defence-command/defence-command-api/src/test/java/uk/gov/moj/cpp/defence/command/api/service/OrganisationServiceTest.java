@@ -10,8 +10,8 @@ import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.justice.services.messaging.Metadata;
 import uk.gov.moj.cpp.defence.command.api.CommandClientTestBase;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.util.List;
 import java.util.UUID;
 

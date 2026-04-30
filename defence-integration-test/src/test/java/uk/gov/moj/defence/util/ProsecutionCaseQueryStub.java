@@ -5,14 +5,14 @@ import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlMatching;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
-import static javax.ws.rs.core.HttpHeaders.CONTENT_TYPE;
-import static javax.ws.rs.core.Response.Status.OK;
+import static jakarta.json.Json.createObjectBuilder;
+import static jakarta.ws.rs.core.HttpHeaders.CONTENT_TYPE;
+import static jakarta.ws.rs.core.Response.Status.OK;
 import static uk.gov.justice.services.common.http.HeaderConstants.ID;
 
 import java.util.UUID;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 
 public class ProsecutionCaseQueryStub {
 

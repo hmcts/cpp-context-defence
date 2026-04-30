@@ -5,25 +5,60 @@ import uk.gov.moj.cpp.defence.persistence.entity.IdpcAccess;
 import java.util.List;
 import java.util.UUID;
 
-import org.apache.deltaspike.data.api.EntityRepository;
-import org.apache.deltaspike.data.api.Query;
-import org.apache.deltaspike.data.api.QueryParam;
-import org.apache.deltaspike.data.api.Repository;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
-@Repository
-public interface IdpcAccessHistoryRepository extends EntityRepository<IdpcAccess, UUID> {
+@ApplicationScoped
+public class IdpcAccessHistoryRepository {
 
-    @Query(value = "FROM IdpcAccess ia WHERE ia.defenceClientId = :defenceClientId")
-    List<IdpcAccess> findIdpcAccessByCriteria(@QueryParam("defenceClientId") final UUID defenceClientId);
+    @PersistenceContext(unitName = "defence")
+    EntityManager entityManager;
 
-    @Query(value = "FROM IdpcAccess ia WHERE ia.defenceClientId = :defenceClientId and ia.idpcId = :idpcId")
-    List<IdpcAccess> findIdpcAccessByCriteria(@QueryParam("defenceClientId") final UUID defenceClientId,
-                                              @QueryParam("idpcId") final UUID idpcId);
+    public IdpcAccess findBy(final UUID id) {
+        return entityManager.find(IdpcAccess.class, id);
+    }
 
-    @Query(value = "Select IdpcAccess.organisationId FROM IdpcAccess ia WHERE ia.defenceClientId = :defenceClientId and ia.idpcId = :idpcId")
-    List<UUID> findIdpcAccessOrganisationByCriteria(@QueryParam("defenceClientId") final UUID defenceClientId,
-                                              @QueryParam("idpcId") final UUID idpcId);
+    public List<IdpcAccess> findIdpcAccessByCriteria(final UUID defenceClientId) {
+        return entityManager.createQuery(
+                        "SELECT ia FROM IdpcAccess ia WHERE ia.defenceClientId = :defenceClientId",
+                        IdpcAccess.class)
+                .setParameter("defenceClientId", defenceClientId)
+                .getResultList();
+    }
 
-    @Query(value = "Select  ia.organisationId FROM IdpcAccess ia  WHERE ia.defenceClientId = :defenceClientId GROUP BY ia.organisationId ORDER BY max(accessTimestamp) DESC")
-    List<UUID> findOrderedDistinctOrgIdsOfIdpcAccessForDefenceClient(@QueryParam("defenceClientId") final UUID defenceClientId);
+    public List<IdpcAccess> findIdpcAccessByCriteria(final UUID defenceClientId, final UUID idpcId) {
+        return entityManager.createQuery(
+                        "SELECT ia FROM IdpcAccess ia WHERE ia.defenceClientId = :defenceClientId and ia.idpcId = :idpcId",
+                        IdpcAccess.class)
+                .setParameter("defenceClientId", defenceClientId)
+                .setParameter("idpcId", idpcId)
+                .getResultList();
+    }
+
+    public List<UUID> findIdpcAccessOrganisationByCriteria(final UUID defenceClientId, final UUID idpcId) {
+        return entityManager.createQuery(
+                        "Select ia.organisationId FROM IdpcAccess ia WHERE ia.defenceClientId = :defenceClientId and ia.idpcId = :idpcId",
+                        UUID.class)
+                .setParameter("defenceClientId", defenceClientId)
+                .setParameter("idpcId", idpcId)
+                .getResultList();
+    }
+
+    public List<UUID> findOrderedDistinctOrgIdsOfIdpcAccessForDefenceClient(final UUID defenceClientId) {
+        return entityManager.createQuery(
+                        "Select ia.organisationId FROM IdpcAccess ia WHERE ia.defenceClientId = :defenceClientId GROUP BY ia.organisationId ORDER BY max(accessTimestamp) DESC",
+                        UUID.class)
+                .setParameter("defenceClientId", defenceClientId)
+                .getResultList();
+    }
+
+    public IdpcAccess save(final IdpcAccess entity) {
+        return entityManager.merge(entity);
+    }
+
+    public void remove(final IdpcAccess entity) {
+        final IdpcAccess managed = entityManager.contains(entity) ? entity : entityManager.merge(entity);
+        entityManager.remove(managed);
+    }
 }

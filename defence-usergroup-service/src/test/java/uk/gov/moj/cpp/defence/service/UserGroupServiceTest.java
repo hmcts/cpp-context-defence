@@ -21,8 +21,8 @@ import uk.gov.moj.cpp.defence.OrganisationDetails;
 import uk.gov.moj.cpp.defence.UsergroupDetails;
 import uk.gov.moj.cpp.defence.exception.UserGroupQueryException;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import java.util.List;
 import java.util.UUID;
 

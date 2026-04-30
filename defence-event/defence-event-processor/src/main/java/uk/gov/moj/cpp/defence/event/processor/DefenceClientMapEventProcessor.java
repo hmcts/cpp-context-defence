@@ -14,7 +14,7 @@ import uk.gov.moj.cpp.defence.event.converter.ProsecutionCaseConverter;
 import uk.gov.moj.cpp.defence.event.processor.events.CaseRemovedFromGroupCases;
 import uk.gov.moj.cpp.progression.json.schema.event.ProsecutionCaseCreated;
 
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 
 @ServiceComponent(EVENT_PROCESSOR)
 public class DefenceClientMapEventProcessor {

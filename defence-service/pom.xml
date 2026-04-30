@@ -3,7 +3,7 @@
     <parent>
         <artifactId>defence-parent</artifactId>
         <groupId>uk.gov.moj.cpp.defence</groupId>
-        <version>17.0.91-SNAPSHOT</version>
+        <version>21.0.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -55,6 +55,10 @@
         <dependency>
             <groupId>uk.gov.moj.cpp.common</groupId>
             <artifactId>service-component-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>uk.gov.justice.event-store</groupId>
+            <artifactId>event-tracking-discovery</artifactId>
         </dependency>
         <dependency>
             <groupId>uk.gov.moj.cpp.defence</groupId>
