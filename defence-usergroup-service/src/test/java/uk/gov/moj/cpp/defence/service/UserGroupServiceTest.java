@@ -21,7 +21,7 @@ import uk.gov.moj.cpp.defence.OrganisationDetails;
 import uk.gov.moj.cpp.defence.UsergroupDetails;
 import uk.gov.moj.cpp.defence.exception.UserGroupQueryException;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.util.List;
 import java.util.UUID;
@@ -148,7 +148,7 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.get-organisation-details-for-user")) {
-                responsePayload = Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
                         .add(ORGANISATION_ID, organisationId.toString())
                         .add(ORGANISATION_NAME, ORGANISATION_NAME)
                         .add(ADDRESS_LINE_1, ADDRESS_LINE_1)
@@ -184,7 +184,7 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.get-organisation-details-for-user")) {
-                responsePayload = Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
                         .add(ORGANISATION_ID, organisationId.toString())
                         .add(ORGANISATION_NAME, ORGANISATION_NAME)
                         .build();
@@ -242,7 +242,7 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.search-users")) {
-                responsePayload = Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
                         .build();
             }
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
@@ -263,8 +263,8 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.search-users")) {
-                responsePayload = Json.createObjectBuilder()
-                        .add(USERS, Json.createArrayBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
+                        .add(USERS, JsonObjects.createArrayBuilder()
                                 .build())
                         .build();
             }
@@ -287,9 +287,9 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.search-users")) {
-                responsePayload = Json.createObjectBuilder()
-                        .add(USERS, Json.createArrayBuilder()
-                                .add(Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
+                        .add(USERS, JsonObjects.createArrayBuilder()
+                                .add(JsonObjects.createObjectBuilder()
                                         .add(FIRST_NAME, FIRST_NAME)
                                         .add(LAST_NAME, LAST_NAME)
                                         .add(USER_ID, userId.toString())
@@ -319,9 +319,9 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.search-users")) {
-                responsePayload = Json.createObjectBuilder()
-                        .add(USERS, Json.createArrayBuilder()
-                                .add(Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
+                        .add(USERS, JsonObjects.createArrayBuilder()
+                                .add(JsonObjects.createObjectBuilder()
                                         .add(FIRST_NAME, FIRST_NAME)
                                         .add(LAST_NAME, LAST_NAME)
                                         .add(USER_ID, userId.toString())
@@ -352,12 +352,12 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.get-groups-by-user")) {
-                responsePayload = Json.createObjectBuilder()
-                        .add(GROUPS, Json.createArrayBuilder()
-                                .add(Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
+                        .add(GROUPS, JsonObjects.createArrayBuilder()
+                                .add(JsonObjects.createObjectBuilder()
                                         .add(GROUP_NAME, "groupName1")
                                         .build())
-                                .add(Json.createObjectBuilder()
+                                .add(JsonObjects.createObjectBuilder()
                                         .add(GROUP_NAME, "groupName2")
                                         .build())
                                 .build())
@@ -407,9 +407,9 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.get-logged-in-user-permissions")) {
-                responsePayload = Json.createObjectBuilder()
-                        .add(PERMISSIONS, Json.createArrayBuilder()
-                                .add(Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
+                        .add(PERMISSIONS, JsonObjects.createArrayBuilder()
+                                .add(JsonObjects.createObjectBuilder()
                                         .add(ACTION, permission.getAction())
                                         .add(OBJECT, permission.getObject())
                                         .add(SOURCE, permission.getSource().toString())
@@ -441,7 +441,7 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.get-logged-in-user-permissions")) {
-                responsePayload = Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
                         .build();
             }
             return JsonEnvelope.envelopeFrom(envelope.metadata(), responsePayload);
@@ -464,7 +464,7 @@ public class UserGroupServiceTest {
             final JsonEnvelope envelope = (JsonEnvelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.get-organisation-details-for-user")) {
-                responsePayload = Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
                         .add(ORGANISATION_ID, organisationId.toString())
                         .add(ORGANISATION_NAME, ORGANISATION_NAME)
                         .add(ORGANISATION_TYPE, ORGANISATION_TYPE)
@@ -492,9 +492,9 @@ public class UserGroupServiceTest {
             final Envelope envelope = (Envelope) invocationOnMock.getArguments()[0];
             JsonObject responsePayload = null;
             if (envelope.metadata().name().equals("usersgroups.get-logged-in-user-groups")) {
-                responsePayload = Json.createObjectBuilder()
-                        .add(GROUPS, Json.createArrayBuilder()
-                                .add(Json.createObjectBuilder()
+                responsePayload = JsonObjects.createObjectBuilder()
+                        .add(GROUPS, JsonObjects.createArrayBuilder()
+                                .add(JsonObjects.createObjectBuilder()
                                         .add(GROUP_ID, groupId.toString())
                                         .add(GROUP_NAME, GROUP_NAME)
                                         .build())

@@ -20,7 +20,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArrayBuilder;
 
 
@@ -66,14 +66,14 @@ public class DefenceGrantAccessQueryView {
         }
 
         final List<Grantee> grantees = defenceGrantAccess.stream().map(this::mapToResponse).collect(Collectors.toList());
-        final JsonArrayBuilder granteesJson = Json.createArrayBuilder();
+        final JsonArrayBuilder granteesJson = JsonObjects.createArrayBuilder();
         for (final Grantee grantee : grantees) {
             granteesJson.add(objectToJsonObjectConverter.convert(grantee));
 
         }
         return JsonEnvelope.envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
+                JsonObjects.createObjectBuilder()
                         .add(GRANTEES, granteesJson)
                         .build());
     }
@@ -96,8 +96,8 @@ public class DefenceGrantAccessQueryView {
     private JsonEnvelope emptyAssociation(final JsonEnvelope envelope, final String fieldName) {
         return JsonEnvelope.envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
-                        .add(fieldName, Json.createArrayBuilder())
+                JsonObjects.createObjectBuilder()
+                        .add(fieldName, JsonObjects.createArrayBuilder())
                         .build());
     }
 

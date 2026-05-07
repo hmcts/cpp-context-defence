@@ -16,7 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -90,7 +90,7 @@ public class DefendantQueryViewTest {
     }
 
     private JsonObject stubbedQueryObjectPayload() {
-        return Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
                 .add("laaContractNumbers", LAA_CONTRACT_NUMBER)
                 .build();
     }

@@ -43,7 +43,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.Is;
@@ -384,7 +384,7 @@ public class CaseAccessCommandHandlerTest {
         }
         return JsonEnvelope.envelopeFrom(
                 metadataBuilder.build(),
-                Json.createObjectBuilder()
+                JsonObjects.createObjectBuilder()
                         .add(CASE_ID, caseId.toString())
                         .add(ASSIGNEE_USER_ID, assigneeId.toString())
                         .build());

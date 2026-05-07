@@ -1,6 +1,6 @@
 package uk.gov.moj.cpp.defence.event.service;
 
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static javax.transaction.Transactional.TxType.REQUIRES_NEW;
 
 import org.slf4j.Logger;

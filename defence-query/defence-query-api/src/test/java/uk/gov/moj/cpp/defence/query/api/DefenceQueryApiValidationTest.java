@@ -10,7 +10,7 @@ import uk.gov.justice.services.adapter.rest.exception.BadRequestException;
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.moj.cpp.defence.query.view.DefenceQueryView;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -43,7 +43,7 @@ public class DefenceQueryApiValidationTest {
     @Test
     public void shouldReturnValidResponseWhenInputParamsAreValid() {
 
-        final JsonObject requestPayload = Json.createObjectBuilder().add(DOB, "1978-02-28")
+        final JsonObject requestPayload = JsonObjects.createObjectBuilder().add(DOB, "1978-02-28")
                 .add(FIRST_NAME, "John")
                 .add(LAST_NAME, "Smith")
                 .add(URN, "55DP0028116")
@@ -60,7 +60,7 @@ public class DefenceQueryApiValidationTest {
 
     @Test
     public void shouldThrowBadRequestExceptionWhenDateOfBirthIsInvalid() {
-        final JsonObject requestPayload = Json.createObjectBuilder().add(DOB, "1978-02-xx")
+        final JsonObject requestPayload = JsonObjects.createObjectBuilder().add(DOB, "1978-02-xx")
                 .add(FIRST_NAME, "John")
                 .add(LAST_NAME, "Smith")
                 .add(URN, "55DP00281XX")
@@ -72,7 +72,7 @@ public class DefenceQueryApiValidationTest {
 
     @Test
     public void shouldThrowBadRequestExceptionWhenDateOfBirthIsOptionalForNonCivilCase() {
-        final JsonObject requestPayload = Json.createObjectBuilder()
+        final JsonObject requestPayload = JsonObjects.createObjectBuilder()
                 .add(FIRST_NAME, "John")
                 .add(LAST_NAME, "Smith")
                 .add(URN, "55DP00281XX")
@@ -84,7 +84,7 @@ public class DefenceQueryApiValidationTest {
 
     @Test
     public void shouldThrowBadRequestExceptionWhenDateOfBirthIsWrongFormatPresentForCivilCase() {
-        final JsonObject requestPayload = Json.createObjectBuilder().add(DOB, "1978-02-xx")
+        final JsonObject requestPayload = JsonObjects.createObjectBuilder().add(DOB, "1978-02-xx")
                 .add(FIRST_NAME, "John")
                 .add(LAST_NAME, "Smith")
                 .add(URN, "55DP00281XX")
@@ -97,7 +97,7 @@ public class DefenceQueryApiValidationTest {
 
     @Test
     public void shouldThrowBadRequestExceptionWhenDateOfBirthIsWrongFormatPresentForCivilCase_CasesByPersonDefendant() {
-        final JsonObject requestPayload = Json.createObjectBuilder().add(DOB, "1978-02-xx")
+        final JsonObject requestPayload = JsonObjects.createObjectBuilder().add(DOB, "1978-02-xx")
                 .add(FIRST_NAME, "John")
                 .add(LAST_NAME, "Smith")
                 .add(URN, "55DP00281XX")
@@ -110,7 +110,7 @@ public class DefenceQueryApiValidationTest {
 
     @Test
     public void shouldThrowBadRequestExceptionWhenDateOfBirthIsOptionalForNonCivilCase_CasesByPersonDefendant() {
-        final JsonObject requestPayload = Json.createObjectBuilder()
+        final JsonObject requestPayload = JsonObjects.createObjectBuilder()
                 .add(FIRST_NAME, "John")
                 .add(LAST_NAME, "Smith")
                 .add(URN, "55DP00281XX")

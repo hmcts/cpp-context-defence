@@ -12,7 +12,7 @@ import uk.gov.justice.services.messaging.JsonEnvelope;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 @SuppressWarnings("squid:S1168")
@@ -25,13 +25,13 @@ public class UsersAndGroupsService {
     private Requester requester;
 
     public JsonObject getOrganisationDetails(final JsonEnvelope envelope) {
-        final JsonObject organisationDetail = Json.createObjectBuilder().add(ORGANISATION_ID,
+        final JsonObject organisationDetail = JsonObjects.createObjectBuilder().add(ORGANISATION_ID,
                 envelope.payloadAsJsonObject().getJsonString(ORGANISATION_ID).getString()).build();
         return getOrganisationDetailsFromUserGroups(envelope, organisationDetail);
     }
 
     public JsonObject getOrganisationDetails(final JsonEnvelope envelope, final UUID organisationId) {
-        final JsonObject organisationDetail = Json.createObjectBuilder().add(ORGANISATION_ID,organisationId.toString()).build();
+        final JsonObject organisationDetail = JsonObjects.createObjectBuilder().add(ORGANISATION_ID,organisationId.toString()).build();
         return getOrganisationDetailsFromUserGroups(envelope, organisationDetail);
     }
 

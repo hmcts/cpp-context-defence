@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.JsonValue;
@@ -68,7 +68,7 @@ public class UserGroupService {
 
 
     public void givePermission(final Permission permission, final Metadata metadata, final Sender sender) {
-        final JsonObject permissionRequest = Json.createObjectBuilder()
+        final JsonObject permissionRequest = JsonObjects.createObjectBuilder()
                 .add(DESC, "defence context - grant access")
                 .add(SOURCE, permission.getSource().toString())
                 .add(TARGET, permission.getTarget().toString())
@@ -83,7 +83,7 @@ public class UserGroupService {
     }
 
     public Organisation getOrganisationDetailsForUser(final UUID userId, final Metadata metadata, final Requester requester) {
-        final JsonObject getOrganisationForUserRequest = Json.createObjectBuilder().add(USER_ID, userId.toString()).build();
+        final JsonObject getOrganisationForUserRequest = JsonObjects.createObjectBuilder().add(USER_ID, userId.toString()).build();
         final MetadataBuilder metadataWithActionName = metadataBuilderWithNewActionName(metadata, "usersgroups.get-organisation-details-for-user");
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getOrganisationForUserRequest);
         final Envelope<JsonObject> response = requester.requestAsAdmin(requestEnvelope, JsonObject.class);
@@ -122,7 +122,7 @@ public class UserGroupService {
     }
 
     public PersonDetails getUserDetailsWithEmail(final String email, final Metadata metadata, final Requester requester) {
-        final JsonObject getOrganisationForUserRequest = Json.createObjectBuilder().add(EMAIL, email).build();
+        final JsonObject getOrganisationForUserRequest = JsonObjects.createObjectBuilder().add(EMAIL, email).build();
         final MetadataBuilder metadataWithActionName = metadataBuilderWithNewActionName(metadata, "usersgroups.search-users");
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getOrganisationForUserRequest);
 
@@ -130,7 +130,7 @@ public class UserGroupService {
     }
 
     public PersonDetails getUserDetailsWithUserId(final UUID userId, final Metadata metadata, final Requester requester) {
-        final JsonObject getOrganisationForUserRequest = Json.createObjectBuilder().add(USER_IDS, userId.toString()).build();
+        final JsonObject getOrganisationForUserRequest = JsonObjects.createObjectBuilder().add(USER_IDS, userId.toString()).build();
         final MetadataBuilder metadataWithActionName = metadataBuilderWithNewActionName(metadata, "usersgroups.search-users");
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getOrganisationForUserRequest);
 
@@ -155,7 +155,7 @@ public class UserGroupService {
     }
 
     public List<String> getGroupNamesForUser(final UUID userId, final Metadata metadata, final Requester requester) {
-        final JsonObject getGroupsForUserRequest = Json.createObjectBuilder().add(USER_ID, userId.toString()).build();
+        final JsonObject getGroupsForUserRequest = JsonObjects.createObjectBuilder().add(USER_ID, userId.toString()).build();
         final MetadataBuilder metadataWithActionName = metadataBuilderWithNewActionName(metadata, "usersgroups.get-groups-by-user");
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getGroupsForUserRequest);
         final Envelope<JsonObject> response = requester.requestAsAdmin(requestEnvelope, JsonObject.class);
@@ -172,7 +172,7 @@ public class UserGroupService {
     }
 
     public List<Permission> getPermissions(final UUID userId, final Metadata metadata, final Requester requester) {
-        final JsonObject getOrganisationForUserRequest = Json.createObjectBuilder().build();
+        final JsonObject getOrganisationForUserRequest = JsonObjects.createObjectBuilder().build();
         final MetadataBuilder metadataWithActionName = metadataBuilderWithNewActionName(metadata, "usersgroups.get-logged-in-user-permissions");
         metadataWithActionName.withUserId(userId.toString());
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getOrganisationForUserRequest);
@@ -245,7 +245,7 @@ public class UserGroupService {
     private JsonEnvelope getOrganisationDetailsForUser(final Envelope<?> envelope, final Requester requester) {
 
         final String userId = envelope.metadata().userId().orElse(null);
-        final JsonObject getOrganisationForUserRequest = Json.createObjectBuilder().add(USER_ID, userId).build();
+        final JsonObject getOrganisationForUserRequest = JsonObjects.createObjectBuilder().add(USER_ID, userId).build();
         final Envelope<JsonObject> requestEnvelope = Enveloper.envelop(getOrganisationForUserRequest)
                 .withName("usersgroups.get-organisation-details-for-user").withMetadataFrom(envelope);
         final Envelope<JsonObject> organisationUnitsResponse = requester.requestAsAdmin(envelopeFrom(requestEnvelope.metadata(),
@@ -256,7 +256,7 @@ public class UserGroupService {
 
     private JsonEnvelope getOrganisationDetailsForLaaNumber(final Envelope<?> envelope, final Requester requester, final String laaRef) {
 
-        final JsonObject getOrganisationForUserRequest = Json.createObjectBuilder().add("laaContractNumber", laaRef).build();
+        final JsonObject getOrganisationForUserRequest = JsonObjects.createObjectBuilder().add("laaContractNumber", laaRef).build();
         final Envelope<JsonObject> requestEnvelope = Enveloper.envelop(getOrganisationForUserRequest)
                 .withName("usersgroups.get-organisation-details-by-laaContractNumber").withMetadataFrom(envelope);
         final Envelope<JsonObject> organisationUnitsResponse = requester.requestAsAdmin(envelopeFrom(requestEnvelope.metadata(),
@@ -278,7 +278,7 @@ public class UserGroupService {
     private JsonObject getUserGroupsDetailsForUser(final Envelope<?> envelope, final Requester requester) {
 
         final String userId = envelope.metadata().userId().orElse(null);
-        final JsonObject getUserGroupsForUserRequest = Json.createObjectBuilder().add(USER_ID, userId).build();
+        final JsonObject getUserGroupsForUserRequest = JsonObjects.createObjectBuilder().add(USER_ID, userId).build();
         final Envelope<JsonObject> requestEnvelope = Enveloper.envelop(getUserGroupsForUserRequest)
                 .withName("usersgroups.get-logged-in-user-groups").withMetadataFrom(envelope);
         final JsonEnvelope response = requester.request(requestEnvelope);

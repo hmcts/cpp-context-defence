@@ -24,7 +24,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
@@ -154,7 +154,7 @@ public class DefenceAssociationQueryView {
 
     private JsonObject formDefenceAssociationsPayload(final List<DefenceAssociation> defenceAssociation) {
 
-        final JsonArrayBuilder associationJsonArray = Json.createArrayBuilder();
+        final JsonArrayBuilder associationJsonArray = JsonObjects.createArrayBuilder();
         defenceAssociation.forEach(da -> {
             final String status = isNull(da.getEndDate()) ? ASSOCIATED : EMPTY_VALUE;
             final String startDate = ZonedDateTimes.toString(da.getStartDate());
@@ -162,11 +162,11 @@ public class DefenceAssociationQueryView {
 
             final String representationType = nonNull(da.getRepresentationType()) ? da.getRepresentationType() : EMPTY_VALUE;
 
-            final JsonObjectBuilder associationDetailJson = Json.createObjectBuilder()
+            final JsonObjectBuilder associationDetailJson = JsonObjects.createObjectBuilder()
                     .add(ORGANISATION_ID, da.getOrgId().toString())
                     .add(ORGANISATION_NAME, EMPTY_VALUE)
                     .add(STATUS, status)
-                    .add(ADDRESS, Json.createObjectBuilder()
+                    .add(ADDRESS, JsonObjects.createObjectBuilder()
                             .add(ADDRESS_LINE_1, EMPTY_VALUE)
                             .add(ADDRESS_LINE_4, EMPTY_VALUE)
                             .add(ADDRESS_POSTCODE, EMPTY_VALUE)
@@ -178,7 +178,7 @@ public class DefenceAssociationQueryView {
             associationJsonArray.add(associationDetailJson);
         });
 
-        return Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
                 .add(ASSOCIATIONS, associationJsonArray.build())
                 .build();
     }
@@ -203,12 +203,12 @@ public class DefenceAssociationQueryView {
                                     final String startDate,
                                     final String representationType) {
 
-        return Json.createObjectBuilder()
-                .add(ASSOCIATION, Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
+                .add(ASSOCIATION, JsonObjects.createObjectBuilder()
                         .add(ORGANISATION_ID, organisationId)
                         .add(ORGANISATION_NAME, EMPTY_VALUE)
                         .add(STATUS, status)
-                        .add(ADDRESS, Json.createObjectBuilder()
+                        .add(ADDRESS, JsonObjects.createObjectBuilder()
                                 .add(ADDRESS_LINE_1, EMPTY_VALUE)
                                 .add(ADDRESS_LINE_4, EMPTY_VALUE)
                                 .add(ADDRESS_POSTCODE, EMPTY_VALUE)
@@ -223,26 +223,26 @@ public class DefenceAssociationQueryView {
     private JsonEnvelope emptyAssociation(final JsonEnvelope envelope) {
         return JsonEnvelope.envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
-                        .add(ASSOCIATION, Json.createObjectBuilder())
+                JsonObjects.createObjectBuilder()
+                        .add(ASSOCIATION, JsonObjects.createObjectBuilder())
                         .build());
     }
 
     private JsonEnvelope emptyAssociations(final JsonEnvelope envelope) {
         return JsonEnvelope.envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
-                        .add(ASSOCIATIONS, Json.createArrayBuilder())
+                JsonObjects.createObjectBuilder()
+                        .add(ASSOCIATIONS, JsonObjects.createArrayBuilder())
                         .build());
     }
 
     private JsonObject getDefendants(List<DefenceAssociation> defenceAssociations) {
 
-        final JsonArrayBuilder defendantIdsBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder defendantIdsBuilder = JsonObjects.createArrayBuilder();
         defenceAssociations.forEach(defenceAssociation ->
                 defendantIdsBuilder.add(defenceAssociation.getDefenceAssociationDefendant().getDefendantId().toString())
         );
-        return Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
                 .add("defendantIds", defendantIdsBuilder.build())
                 .build();
     }
@@ -250,8 +250,8 @@ public class DefenceAssociationQueryView {
     private JsonEnvelope emptyDefendants(final JsonEnvelope envelope) {
         return JsonEnvelope.envelopeFrom(
                 envelope.metadata(),
-                Json.createObjectBuilder()
-                        .add("defendantIds", Json.createArrayBuilder())
+                JsonObjects.createObjectBuilder()
+                        .add("defendantIds", JsonObjects.createArrayBuilder())
                         .build()
         );
     }

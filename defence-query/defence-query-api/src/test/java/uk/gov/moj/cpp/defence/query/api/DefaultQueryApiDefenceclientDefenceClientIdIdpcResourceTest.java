@@ -19,7 +19,7 @@ import uk.gov.moj.cpp.systemusers.ServiceContextSystemUserProvider;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -65,7 +65,7 @@ public class DefaultQueryApiDefenceclientDefenceClientIdIdpcResourceTest {
             JsonEnvelope envelope = ic.inputEnvelope();
             JsonObject request = envelope.payloadAsJsonObject();
             return of(JsonEnvelope.envelopeFrom(envelope.metadata(),
-                    Json.createObjectBuilder()
+                    JsonObjects.createObjectBuilder()
                             .add("defenceClientId", request.getString("defenceClientId"))
                             .add("userId", request.getString("userId"))
                             .add("organisationId", orgId.toString())
@@ -83,7 +83,7 @@ public class DefaultQueryApiDefenceclientDefenceClientIdIdpcResourceTest {
         when(mockResponse.getStatus()).thenReturn(200);
         when(mockResponse.readEntity(String.class)).thenReturn("filelocation");
 
-        final JsonObject jsonObject = Json.createObjectBuilder()
+        final JsonObject jsonObject = JsonObjects.createObjectBuilder()
                 .add("url", "filelocation")
                 .build();
 

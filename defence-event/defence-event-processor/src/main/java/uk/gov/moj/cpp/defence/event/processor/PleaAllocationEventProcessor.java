@@ -40,7 +40,7 @@ import uk.gov.moj.cpp.defence.events.AllocationPleasUpdated;
 import uk.gov.moj.cpp.defence.events.OpaTaskRequested;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import java.time.LocalDate;
@@ -59,8 +59,8 @@ import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.justice.services.core.annotation.Component.EVENT_PROCESSOR;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
@@ -142,7 +142,7 @@ public class PleaAllocationEventProcessor {
         documentGeneratorService.generateOpaDocument(requestEnvelopeWithDefendant, documentPayload, OPA_TEMPLATE, materialId, fileName);
         final JsonObject courtDocument = buildCourtDocument(pleasAllocation.getCaseId(), materialId, fileName);
 
-        final JsonObject jsonObject = Json.createObjectBuilder()
+        final JsonObject jsonObject = JsonObjects.createObjectBuilder()
                 .add("materialId", materialId.toString())
                 .add("courtDocument", courtDocument)
                 .build();
@@ -318,7 +318,7 @@ public class PleaAllocationEventProcessor {
 
         final JsonObject courtDocument = buildCourtDocument(pleasAllocation.getCaseId(), materialId, fileName);
 
-        final JsonObject jsonObject = Json.createObjectBuilder()
+        final JsonObject jsonObject = JsonObjects.createObjectBuilder()
                 .add("materialId", materialId.toString())
                 .add("courtDocument", courtDocument)
                 .build();

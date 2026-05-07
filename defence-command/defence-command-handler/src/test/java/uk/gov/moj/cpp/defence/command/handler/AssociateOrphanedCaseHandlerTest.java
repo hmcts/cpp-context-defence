@@ -26,7 +26,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -97,7 +97,7 @@ public class AssociateOrphanedCaseHandlerTest {
 
 
     private static JsonObject createPayloadForOrphanedDefendantAssociation() {
-        return Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
                 .add(DEFENDANT_ID, defendantId.toString())
                 .add(ORGANISATION_ID, organisationId)
                 .add(LAA_CONTRACT_NUMBER, laaContractNumber)

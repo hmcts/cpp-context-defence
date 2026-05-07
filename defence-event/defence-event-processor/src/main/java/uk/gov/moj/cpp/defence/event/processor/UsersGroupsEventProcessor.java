@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -65,7 +65,7 @@ public class UsersGroupsEventProcessor {
         final JsonArray defendants = defenceService.getDefendantsByLAAContractNumber(envelope, laaContractNumbers);
 
         defendants.stream().map(defendantJsonValue -> (JsonObject) defendantJsonValue).forEach(defendantJsonObject -> {
-            final JsonObject associateOrphanedCasePayload = Json.createObjectBuilder()
+            final JsonObject associateOrphanedCasePayload = JsonObjects.createObjectBuilder()
                     .add(LAA_CONTRACT_NUMBER, defendantJsonObject.getString(LAA_CONTRACT_NUMBER))
                     .add(ORGANISATION_ID, organisationId)
                     .add(ORGANISATION_NAME, organisationName)
