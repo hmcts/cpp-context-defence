@@ -10,7 +10,7 @@ import uk.gov.justice.services.core.annotation.ServiceComponent;
 import uk.gov.justice.services.core.sender.Sender;
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.util.UUID;
 
@@ -30,7 +30,7 @@ public class MaterialService {
     public void uploadMaterial(final UUID fileServiceId, final UUID materialId, final JsonEnvelope envelope) {
         LOGGER.info("material being uploaded '{}' file service id '{}'", materialId, fileServiceId);
         final UUID userId = fromString(envelope.metadata().userId().orElseThrow(() -> new RuntimeException("UserId missing from event.")));
-        final JsonObject uploadMaterialPayload = Json.createObjectBuilder()
+        final JsonObject uploadMaterialPayload = JsonObjects.createObjectBuilder()
                 .add(FIELD_MATERIAL_ID, materialId.toString())
                 .add("fileServiceId", fileServiceId.toString())
                 .build();

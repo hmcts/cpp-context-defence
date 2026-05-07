@@ -12,11 +12,11 @@ import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.moj.cpp.defence.event.service.UsersGroupService;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.util.UUID;
 
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -71,11 +71,11 @@ public class UsersGroupServiceTest {
 
     private JsonObject buildGetOrganisationsDetailsForIds() {
         return createObjectBuilder()
-                .add("organisations", Json.createArrayBuilder()
-                        .add(Json.createObjectBuilder()
+                .add("organisations", JsonObjects.createArrayBuilder()
+                        .add(JsonObjects.createObjectBuilder()
                                 .add("organisationId", ORGANISATION_ID.toString())
                         )
-                        .add(Json.createObjectBuilder()
+                        .add(JsonObjects.createObjectBuilder()
                                 .add("organisationId", "1fc69990-bf59-4c4a-9489-d766b9abde9b")
                         ))
                 .build();

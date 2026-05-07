@@ -36,7 +36,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -163,7 +163,7 @@ public class DefenceClientEventProcessorTest {
                         .withName(privateEventName)
                         .withId(UUID.randomUUID())
                         .build(),
-                Json.createObjectBuilder()
+                JsonObjects.createObjectBuilder()
                         .add("a", "a").build());
 
         //test
