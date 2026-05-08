@@ -61,7 +61,7 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class DefenceClientMapEventProcessorTest {
+class DefenceClientMapEventProcessorTest {
 
     private static final String FIRST_NAME = "FirstName";
     private static final String LAST_NAME = "LastName";
@@ -92,7 +92,7 @@ public class DefenceClientMapEventProcessorTest {
     JsonObjectToObjectConverter jsonObjectToObjectConverter = new JsonObjectToObjectConverter(new ObjectMapperProducer().objectMapper());
 
     @Test
-    public void shouldRaiseDefenceCommandForProsecutionCaseReceived() {
+    void shouldRaiseDefenceCommandForProsecutionCaseReceived() {
 
         final Envelope<ProsecutionCaseCreated> envelope = envelopeFrom(metadataWithRandomUUID("public.progression.prosecution-case-created"), createProsecutionCaseCreatedEvent(FALSE, FALSE, FALSE));
         final ProsecutionCaseCreated prosecutionCaseCreated = envelope.payload();
@@ -116,7 +116,7 @@ public class DefenceClientMapEventProcessorTest {
     }
 
     @Test
-    public void shouldRaiseCreateCaseCommandForProsecutionCaseReceivedForBDF() {
+    void shouldRaiseCreateCaseCommandForProsecutionCaseReceivedForBDF() {
         final ProsecutionCase prosecutionCase = ProsecutionCase.prosecutionCase()
                 .withId(randomUUID())
                 .withIsCivil(FALSE)
@@ -148,7 +148,7 @@ public class DefenceClientMapEventProcessorTest {
     }
 
     @Test
-    public void shouldRaiseAddDefendantCommandForProsecutionCaseReceivedForBDF() {
+    void shouldRaiseAddDefendantCommandForProsecutionCaseReceivedForBDF() {
         final UUID defendantId= randomUUID();
         final UUID caseId = randomUUID();
         final String asn = randomUUID().toString();
@@ -204,7 +204,7 @@ public class DefenceClientMapEventProcessorTest {
     }
 
     @Test
-    public void shouldRaiseDefenceCommandForCaseRemovedFromGroupCases() {
+    void shouldRaiseDefenceCommandForCaseRemovedFromGroupCases() {
 
         final Envelope<CaseRemovedFromGroupCases> envelope = envelopeFrom(metadataWithRandomUUID("public.progression.case-removed-from-group-cases"),
                 createCaseRemovedFromGroupCasesEvent());
@@ -229,7 +229,7 @@ public class DefenceClientMapEventProcessorTest {
     }
 
     @Test
-    public void shouldSendDefendantAddedCommandForSpiProsecutionDefendants() {
+    void shouldSendDefendantAddedCommandForSpiProsecutionDefendants() {
 
         final UUID defendantId = randomUUID();
         final String asn = randomUUID().toString();

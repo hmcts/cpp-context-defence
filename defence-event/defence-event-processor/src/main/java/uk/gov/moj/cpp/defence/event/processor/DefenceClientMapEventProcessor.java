@@ -28,6 +28,7 @@ import javax.json.JsonObject;
 @ServiceComponent(EVENT_PROCESSOR)
 public class DefenceClientMapEventProcessor {
 
+    public static final String DEFENCE_COMMAND_PROSECUTION_CASE_RECEIVE_DETAILS = "defence.command.prosecution-case-receive-details";
     @Inject
     ProgressionService progressionService;
 
@@ -54,7 +55,7 @@ public class DefenceClientMapEventProcessor {
         final ProsecutionCase prosecutionCase = jsonObjectToObjectConverter.convert(prosecutionCaseJson, ProsecutionCase.class);
 
         if(Objects.isNull(payload.getDefendantId())) {
-            sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("defence.command.prosecution-case-receive-details"),
+            sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName(DEFENCE_COMMAND_PROSECUTION_CASE_RECEIVE_DETAILS),
                     prosecutionCaseConverter.convertToProsecutionCaseReceiveDetails(prosecutionCase)));
         } else {
             prosecutionCase.getDefendants().stream().filter(def -> def.getId().equals(payload.getDefendantId()))
@@ -66,13 +67,13 @@ public class DefenceClientMapEventProcessor {
 
     @Handles("public.progression.prosecution-case-created")
     public void handleProsecutionCaseReceived(final Envelope<ProsecutionCaseCreated> envelope) {
-        sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("defence.command.prosecution-case-receive-details"),
+        sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName(DEFENCE_COMMAND_PROSECUTION_CASE_RECEIVE_DETAILS),
                 prosecutionCaseConverter.convertToProsecutionCaseReceiveDetails(envelope.payload().getProsecutionCase())));
     }
 
     @Handles("public.progression.case-removed-from-group-cases")
     public void handleCaseRemovedFromGroupCases(final Envelope<CaseRemovedFromGroupCases> envelope) {
-        sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("defence.command.prosecution-case-receive-details"),
+        sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName(DEFENCE_COMMAND_PROSECUTION_CASE_RECEIVE_DETAILS),
                 prosecutionCaseConverter.convertToProsecutionCaseReceiveDetails(envelope.payload().getRemovedCase())));
     }
 

@@ -23,7 +23,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-public class CaseCreatedCommandApiTest {
+class CaseCreatedCommandApiTest {
 
     @Mock
     private Sender sender;
@@ -35,7 +35,7 @@ public class CaseCreatedCommandApiTest {
     CaseCreatedCommandApi caseCreatedCommandApi;
 
     @Test
-    public void shouldHandleCaseCreatedBDF() {
+    void shouldHandleCaseCreatedBDF() {
         final Metadata metadata =  Envelope
                 .metadataBuilder()
                 .withName("defence.prosecution-case-created-bdf")
@@ -53,7 +53,7 @@ public class CaseCreatedCommandApiTest {
     }
 
     @Test
-    public void shouldHandleAssociateOrganisationBdf() {
+    void shouldHandleAssociateOrganisationBdf() {
         final Metadata metadata =  Envelope
                 .metadataBuilder()
                 .withName("defence.associate-organisation-bdf")

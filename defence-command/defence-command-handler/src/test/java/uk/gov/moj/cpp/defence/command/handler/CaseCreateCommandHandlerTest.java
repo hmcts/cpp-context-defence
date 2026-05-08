@@ -36,7 +36,7 @@ import uk.gov.moj.cpp.progression.json.schema.event.ProsecutionCaseCreatedBdf;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class CaseCreateCommandHandlerTest {
+class CaseCreateCommandHandlerTest {
 
     @Spy
     private ObjectMapper objectMapper = new ObjectMapperProducer().objectMapper();
