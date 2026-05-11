@@ -38,6 +38,9 @@ subscriptions_descriptor:
         - name: defence.event.defence-organisation-associated
           schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.defence-organisation-associated.json
 
+        - name: defence.event.defence-organisation-associated-bdf
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.defence-organisation-associated-bdf.json
+
         - name: defence.event.defence-organisation-disassociated
           schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.defence-organisation-disassociated.json
 
