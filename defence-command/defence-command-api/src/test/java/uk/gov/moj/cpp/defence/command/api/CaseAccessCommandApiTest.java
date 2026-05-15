@@ -30,7 +30,7 @@ import uk.gov.moj.cpp.defence.service.ReferenceDataService;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
 import uk.gov.moj.cpp.defence.service.UsersGroupQueryService;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,7 +39,7 @@ import static com.google.common.collect.ImmutableList.of;
 import static java.lang.Integer.parseInt;
 import static java.time.ZonedDateTime.now;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -141,7 +141,7 @@ public class CaseAccessCommandApiTest {
     @Test
     public void shouldHandleScheduleSystemAdvocateAccess() {
         final Metadata metadata = getMetadataWithName("defence.command.system-schedule-advocate-access");
-        final JsonEnvelope jsonEnvelope =  new   DefaultJsonEnvelopeProvider().envelopeFrom(metadata, Json.createObjectBuilder()
+        final JsonEnvelope jsonEnvelope =  new   DefaultJsonEnvelopeProvider().envelopeFrom(metadata, JsonObjects.createObjectBuilder()
                 .build());
         caseAccessCommandApi.scheduleSystemAdvocateAccess(jsonEnvelope);
         verify(sender).send(envelopeArgumentCaptor.capture());
@@ -151,7 +151,7 @@ public class CaseAccessCommandApiTest {
 
     private JsonEnvelope getRemoveCaseAssignmentEnvelope() {
         final Metadata metadata = getMetadataWithName("defence.advocate.remove-case-assignment");
-        return new DefaultJsonEnvelopeProvider().envelopeFrom(metadata, Json.createObjectBuilder()
+        return new DefaultJsonEnvelopeProvider().envelopeFrom(metadata, JsonObjects.createObjectBuilder()
                 .add("assigneeId", randomUUID().toString())
                 .build());
     }

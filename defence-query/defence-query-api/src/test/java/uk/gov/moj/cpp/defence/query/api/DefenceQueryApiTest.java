@@ -39,7 +39,7 @@ import uk.gov.moj.cpp.defence.query.api.service.UsersAndGroupsService;
 import uk.gov.moj.cpp.defence.query.view.DefenceQueryView;
 import uk.gov.moj.cpp.defence.service.PermissionService;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -62,8 +62,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.UUID.fromString;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static javax.json.JsonValue.NULL;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.hamcrest.CoreMatchers.is;
@@ -1096,7 +1096,7 @@ public class DefenceQueryApiTest {
 
     private JsonArray buildIdpcAccessOrgDetails(final UUID idpcAccessingOrganisationId_1,
                                                 final UUID idpcAccessingOrganisationId_2) {
-        final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder jsonArrayBuilder = JsonObjects.createArrayBuilder();
 
         JsonObjectBuilder objectBuilder = createObjectBuilder()
                 .add(ORDER, 1)
@@ -1112,7 +1112,7 @@ public class DefenceQueryApiTest {
     }
 
     private JsonArray buildInstructions(final List<UUID> instructingOrganisation) {
-        final JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder jsonArrayBuilder = JsonObjects.createArrayBuilder();
         instructingOrganisation.forEach(orgdid -> {
             jsonArrayBuilder.add(this.buildInstruction(orgdid));
         });

@@ -10,13 +10,13 @@ import uk.gov.justice.services.core.requester.Requester;
 import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.justice.services.messaging.Metadata;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.codehaus.groovy.runtime.InvokerHelper.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -42,7 +42,7 @@ public class OrganisationQueryServiceTest {
         final Envelope responseEnvelope = mock(Envelope.class);
 
         final JsonObject responseJsonObject = createObjectBuilder()
-                .add("organisations", Json.createArrayBuilder()
+                .add("organisations", JsonObjects.createArrayBuilder()
                         .add(createObjectBuilder()
                                 .add("organisationId", organisationId.toString())
                                 .add(ORGANISATION_NAME, ORGANISATION_NAME)

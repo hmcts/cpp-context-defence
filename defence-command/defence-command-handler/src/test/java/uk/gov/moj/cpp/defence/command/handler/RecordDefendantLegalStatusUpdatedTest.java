@@ -18,7 +18,7 @@ import uk.gov.moj.cpp.defence.aggregate.DefenceAssociation;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
 import uk.gov.justice.services.core.requester.Requester;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -70,7 +70,7 @@ public class RecordDefendantLegalStatusUpdatedTest {
         String legalStatusUpdated = "GRANTED";
         String laaContractNumber = "ABC123";
 
-        JsonObject payload = Json.createObjectBuilder()
+        JsonObject payload = JsonObjects.createObjectBuilder()
                 .add(DEFENDANT_ID, defendantId.toString())
                 .add(LAA_CONTRACT_NUMBER, laaContractNumber)
                 .add(LEGAL_AID_STATUS, legalStatusUpdated)

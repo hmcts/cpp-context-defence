@@ -7,7 +7,7 @@ import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
 import static java.util.stream.Collectors.toList;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.BooleanUtils.toBoolean;
@@ -68,7 +68,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -504,7 +504,7 @@ public class CpsCaseAccessQueryApi {
             return jsonObjectBuilder.build();
         }).collect(toList());
 
-        final JsonArrayBuilder updatedJsonArrayBuilder = Json.createArrayBuilder();
+        final JsonArrayBuilder updatedJsonArrayBuilder = JsonObjects.createArrayBuilder();
         addressJsonList.forEach(updatedJsonArrayBuilder::add);
         return updatedJsonArrayBuilder.build();
     }

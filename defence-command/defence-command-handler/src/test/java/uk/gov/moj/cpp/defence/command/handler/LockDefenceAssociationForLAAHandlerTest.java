@@ -40,7 +40,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -177,7 +177,7 @@ class LockDefenceAssociationForLAAHandlerTest {
 
 
     private static JsonObject createPayloadForLockDefendantAssociation() {
-        return Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
                 .add(DEFENDANT_ID, defendantId.toString())
                 .add(LAA_CONTRACT_NUMBER, LAACONTRACTNUMBER)
                 .build();

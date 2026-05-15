@@ -8,7 +8,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Objects.nonNull;
 import static java.util.UUID.fromString;
 import static java.util.UUID.randomUUID;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.apache.commons.io.FileUtils.readFileToString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -76,7 +76,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -562,7 +562,7 @@ public class CpsCaseAccessQueryViewTest {
     }
 
     private JsonObject getProsecutorQueryResponse(final boolean cpsFlag, final boolean policeFlag) {
-        return Json.createObjectBuilder()
+        return JsonObjects.createObjectBuilder()
                 .add("cpsFlag", cpsFlag)
                 .add("policeFlag", policeFlag)
                 .add("shortName", "DVLA")

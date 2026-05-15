@@ -5,8 +5,8 @@ import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 import static java.util.UUID.fromString;
-import static javax.json.Json.createArrayBuilder;
-import static javax.json.Json.createObjectBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
@@ -64,7 +64,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.json.Json;
+import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -464,7 +464,7 @@ public class DefenceQueryApi {
 
         final Metadata metadataBuilder = metadataFrom(envelope.metadata()).withName("usersgroups.get-organisation-name-for-user").build();
 
-        final JsonEnvelope getOrganisationName = JsonEnvelope.envelopeFrom(metadataBuilder, Json.createObjectBuilder().add(USER_ID, userId).build());
+        final JsonEnvelope getOrganisationName = JsonEnvelope.envelopeFrom(metadataBuilder, JsonObjects.createObjectBuilder().add(USER_ID, userId).build());
 
         final JsonObject organisationObject = requester.requestAsAdmin(getOrganisationName, JsonObject.class).payload();
         return organisationObject.getString(ORGANISATION_ID, null);
@@ -498,7 +498,7 @@ public class DefenceQueryApi {
     private JsonObject getAssociatedOrganisation(final JsonEnvelope response) {
         final JsonObject responsePayload = response.payloadAsJsonObject();
         final JsonObject associatedOrganisation = responsePayload.getJsonObject(ASSOCIATED_ORGANISATION);
-        final JsonObjectBuilder associatedOrganisationJsonObjectBuilder = Json.createObjectBuilder();
+        final JsonObjectBuilder associatedOrganisationJsonObjectBuilder = JsonObjects.createObjectBuilder();
 
         if (associatedOrganisationExists(associatedOrganisation)) {
             final String associatedOrganisationId = associatedOrganisation.getString(ORGANISATION_ID);
@@ -521,7 +521,7 @@ public class DefenceQueryApi {
 
     private JsonObject getLastAssociatedOrganisation(final JsonEnvelope response) {
         final JsonObject responsePayload = response.payloadAsJsonObject();
-        final JsonObjectBuilder associatedOrganisationJsonObjectBuilder = Json.createObjectBuilder();
+        final JsonObjectBuilder associatedOrganisationJsonObjectBuilder = JsonObjects.createObjectBuilder();
         final JsonObject lastAssociatedOrganisation = responsePayload.getJsonObject(LAST_ASSOCIATED_ORGANISATION);
         if (associatedOrganisationExists(lastAssociatedOrganisation)) {
             final String lastAssociatedOrganisationId = lastAssociatedOrganisation.getString(ORGANISATION_ID);
@@ -537,7 +537,7 @@ public class DefenceQueryApi {
                                                                   final Optional<JsonArray> associatedPersons, final String caseUrn, final boolean isCivil) {
 
         final JsonObject responsePayload = response.payloadAsJsonObject();
-        final JsonArrayBuilder associatedPersonsArray = Json.createArrayBuilder();
+        final JsonArrayBuilder associatedPersonsArray = JsonObjects.createArrayBuilder();
         //Add associated persons if present
         if (associatedPersons.isPresent()) {
             for (int i = 0; i < associatedPersons.get().size(); i++) {
@@ -545,7 +545,7 @@ public class DefenceQueryApi {
                 associatedPersonsArray.add(jsonObject);
             }
         }
-        final JsonObjectBuilder jsonObjectBuilder = Json.createObjectBuilder().add(DEFENCE_CLIENT_ID, responsePayload.getString(DEFENCE_CLIENT_ID)).add(CASE_ID, responsePayload.getString(CASE_ID)).add(DEFENDANT_ID, responsePayload.getString(DEFENDANT_ID)).add(LOCKED_BY_REP_ORDER, responsePayload.getBoolean(LOCKED_BY_REP_ORDER)).add(ASSOCIATED_ORGANISATION, associatedOrganisation).add(LAST_ASSOCIATED_ORGANISATION, lastAssociatedOrganisation).add(ASSOCIATED_PERSONS, associatedPersonsArray);
+        final JsonObjectBuilder jsonObjectBuilder = JsonObjects.createObjectBuilder().add(DEFENCE_CLIENT_ID, responsePayload.getString(DEFENCE_CLIENT_ID)).add(CASE_ID, responsePayload.getString(CASE_ID)).add(DEFENDANT_ID, responsePayload.getString(DEFENDANT_ID)).add(LOCKED_BY_REP_ORDER, responsePayload.getBoolean(LOCKED_BY_REP_ORDER)).add(ASSOCIATED_ORGANISATION, associatedOrganisation).add(LAST_ASSOCIATED_ORGANISATION, lastAssociatedOrganisation).add(ASSOCIATED_PERSONS, associatedPersonsArray);
 
         if (responsePayload.containsKey(PROSECUTION_AUTHORITY_CODE)) {
             jsonObjectBuilder.add(PROSECUTION_AUTHORITY_CODE, responsePayload.getString(PROSECUTION_AUTHORITY_CODE));
@@ -590,7 +590,7 @@ public class DefenceQueryApi {
     private JsonArray buildInstructingOrgList(List<DefenceClientInstructionHistoryVO> instructingOrganisations) {
         final JsonArrayBuilder jsonArrayBuilder = createArrayBuilder();
         for (final DefenceClientInstructionHistoryVO InstructingOrganisation : instructingOrganisations) {
-            final JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            final JsonObjectBuilder objectBuilder = JsonObjects.createObjectBuilder();
             objectBuilder.add(USER_ID, InstructingOrganisation.getUserId().toString());
             objectBuilder.add(ORGANISATION_ID, InstructingOrganisation.getOrganisationId().toString());
             objectBuilder.add(INSTRUCTION_ID, InstructingOrganisation.getId().toString());
@@ -605,7 +605,7 @@ public class DefenceQueryApi {
     private JsonArray buildOrgList(final List<OrderedOrganisationDetailsVO> orgList) {
         final JsonArrayBuilder jsonArrayBuilder = createArrayBuilder();
         for (final OrderedOrganisationDetailsVO organisationDetailsVO : orgList) {
-            final JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            final JsonObjectBuilder objectBuilder = JsonObjects.createObjectBuilder();
             objectBuilder.add(ORDER, organisationDetailsVO.getOrder());
             objectBuilder.add(ORGANISATION_ID, organisationDetailsVO.getOrganisationId().toString());
             if (organisationDetailsVO.getName() != null) {
@@ -693,7 +693,7 @@ public class DefenceQueryApi {
 
     private Association getAssociatedOrganisationIdForDefendant(final String defendantId, final Metadata metadata) {
         final Metadata metadataWithActionName = metadataFrom(metadata).withName(DEFENCE_QUERY_ASSOCIATED_ORGANISATION).build();
-        final JsonEnvelope requestEnvelope = JsonEnvelope.envelopeFrom(metadataWithActionName, Json.createObjectBuilder().add(DEFENDANT_ID, defendantId).build());
+        final JsonEnvelope requestEnvelope = JsonEnvelope.envelopeFrom(metadataWithActionName, JsonObjects.createObjectBuilder().add(DEFENDANT_ID, defendantId).build());
         final JsonObject jsonObject = defenceAssociationQueryApi.getAssociatedOrganisation(requestEnvelope).payloadAsJsonObject();
         final JsonObject associatedOrganisationJsonObject = jsonObject.getJsonObject(ASSOCIATION);
 
@@ -711,7 +711,7 @@ public class DefenceQueryApi {
     private boolean isAssociationLockedByRepOrder(final String defendantId, final Metadata metadata) {
         final Metadata metadataBuilder = metadataFrom(metadata).withName("defence.query.defence-client-defendantId").build();
 
-        final JsonEnvelope defenceClientbyDefendantIdEnvelop = JsonEnvelope.envelopeFrom(metadataBuilder, Json.createObjectBuilder().add(DEFENDANT_ID, defendantId).build());
+        final JsonEnvelope defenceClientbyDefendantIdEnvelop = JsonEnvelope.envelopeFrom(metadataBuilder, JsonObjects.createObjectBuilder().add(DEFENDANT_ID, defendantId).build());
 
         final DefenceClient defenceClient = defenceQueryView.getDefenceClientByDefendantId(defenceClientbyDefendantIdEnvelop).payload();
         if (null == defenceClient.isLockedByRepOrder()) {
@@ -732,7 +732,7 @@ public class DefenceQueryApi {
                 }
             }
         }
-        return Optional.of(Json.createArrayBuilder().build());
+        return Optional.of(JsonObjects.createArrayBuilder().build());
     }
 
     private Optional<JsonArray> getDefendants(final JsonEnvelope response, final UUID caseId) {
