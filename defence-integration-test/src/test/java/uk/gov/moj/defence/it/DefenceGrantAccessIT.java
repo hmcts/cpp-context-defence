@@ -159,7 +159,6 @@ public class DefenceGrantAccessIT {
 
     @BeforeEach
     public void cleanDatabase() {
-        databaseCleaner.resetEventSubscriptionStatusTable("defence");
         databaseCleaner.cleanStreamBufferTable("defence");
         databaseCleaner.cleanStreamStatusTable("defence");
         databaseCleaner.cleanEventStoreTables("defence");

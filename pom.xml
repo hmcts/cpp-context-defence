@@ -5,12 +5,12 @@
     <parent>
         <groupId>uk.gov.moj.cpp.common</groupId>
         <artifactId>service-parent-pom</artifactId>
-        <version>21.0.0-SNAPSHOT</version>
+        <version>21.0.0-M1-SNAPSHOT</version>
     </parent>
 
     <groupId>uk.gov.moj.cpp.defence</groupId>
     <artifactId>defence-parent</artifactId>
-    <version>21.0.0-SNAPSHOT</version>
+    <version>21.0.0-M1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -31,15 +31,15 @@
         <people.version>2.0.114</people.version>
         <charging.version>2.0.274</charging.version>
         <usersgroups.version>17.104.48</usersgroups.version>
-        <progression.version>17.0.249</progression.version>
+        <progression.version>17.0.262</progression.version>
         <referencedataoffences.version>17.0.38</referencedataoffences.version>
         <json-generator.version>0.1.0</json-generator.version>
         <criminal-court-public-model.version>${coredomain.version}</criminal-court-public-model.version>
-        <coredomain.version>21.0.0-SNAPSHOT</coredomain.version>
-        <material.version>21.0.0-SNAPSHOT</material.version>
+        <coredomain.version>21.0.0-M1-SNAPSHOT</coredomain.version>
+        <material.version>21.0.0-M1-SNAPSHOT</material.version>
         <referencedata.version>17.103.131</referencedata.version>
         <listing.version>17.103.155</listing.version>
-        <hearing.version>17.0.144</hearing.version>
+        <hearing.version>17.104.168</hearing.version>
         <systemdocgenerator.version>17.0.96</systemdocgenerator.version>
         <sonar.coverage.exclusions>
             **/uk/gov/justice/core/**/*,
