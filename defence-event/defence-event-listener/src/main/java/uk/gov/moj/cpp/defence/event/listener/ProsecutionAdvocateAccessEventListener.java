@@ -31,6 +31,7 @@ import java.util.UUID;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
+import jakarta.persistence.PersistenceContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,7 @@ public class ProsecutionAdvocateAccessEventListener {
     @Inject
     private ProsecutionOrganisationService prosecutionOrganisationService;
 
-    @Inject
+    @PersistenceContext(unitName = "defence")
     private EntityManager entityManager;
 
     @Handles("defence.events.case-assigned-to-advocate")

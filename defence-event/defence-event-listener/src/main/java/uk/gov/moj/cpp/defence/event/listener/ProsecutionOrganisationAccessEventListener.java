@@ -16,6 +16,7 @@ import uk.gov.moj.cpp.defence.persistence.entity.ProsecutionOrganisationCaseKey;
 
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 
 @ServiceComponent(EVENT_LISTENER)
 public class ProsecutionOrganisationAccessEventListener {
@@ -26,7 +27,7 @@ public class ProsecutionOrganisationAccessEventListener {
     @Inject
     private ProsecutionOrganisationService prosecutionOrganisationService;
 
-    @Inject
+    @PersistenceContext(unitName = "defence")
     private EntityManager entityManager;
 
     @Handles("defence.events.case-assigned-to-organisation")
