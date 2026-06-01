@@ -37,6 +37,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+import uk.gov.justice.services.messaging.JsonObjects;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
