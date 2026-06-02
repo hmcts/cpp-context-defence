@@ -52,6 +52,7 @@
         </sonar.coverage.exclusions>
     </properties>
 
+
     <modules>
         <module>defence-common</module>
         <module>defence-datatypes-common</module>
