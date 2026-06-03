@@ -447,11 +447,11 @@ public class RestQueryUtil {
         return pollForCaseByPersonDefendantForCivil(firstName, lastName, dob, userId, payloadMatcher);
     }
 
-    public static ResponseData pollCaseByPersonDefendantForCivilWithOutDob(final String firstName, final String lastName, final UUID userId) {
+    public static ResponseData pollCaseByPersonDefendantForCivilWithOutDob(final UUID caseId, final String firstName, final String lastName, final UUID userId) {
 
         final ResponsePayloadMatcher payloadMatcher = payload()
                 .isJson(
-                        withJsonPath("caseIds", notNullValue())
+                        withJsonPath("$.caseIds[0]", is(caseId.toString()))
                 );
         return pollForCaseByPersonDefendantForCivilWithoutDob(firstName, lastName, userId, payloadMatcher);
     }

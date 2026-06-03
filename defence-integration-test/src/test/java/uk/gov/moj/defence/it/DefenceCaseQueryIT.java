@@ -573,10 +573,9 @@ public class DefenceCaseQueryIT {
     public void shouldGetCaseByPersonDefendantForCivilWithOutDob() {
 
         createProsecutionCaseHelper.createAndVerifyCivilProsecutionCaseWithoutDob(caseId, urn, defendantId, firstName, lastName);
-
         stubAccessControl(true, userId, "Defence Lawyers");
 
-        final ResponseData response =  pollCaseByPersonDefendantForCivilWithOutDob(firstName, lastName, userId);
+        final ResponseData response =  pollCaseByPersonDefendantForCivilWithOutDob(caseId, firstName, lastName, userId);
         final String responseEntity = response.getPayload();
 
         assertThat(responseEntity, isJson(Matchers.allOf(
@@ -605,9 +604,9 @@ public class DefenceCaseQueryIT {
     @Test
     public void shouldGetCaseByOrganisationDefendantForCivil() {
         final String organisationName = simpleStringGenerator.next();
-        createProsecutionCaseHelper.createAndVerifyProsecutionCaseWithOrganisationDefendantForCivil(caseId, urn, defendantId, organisationName, userId);
-
         stubAccessControl(true, userId, "Defence Lawyers");
+
+        createProsecutionCaseHelper.createAndVerifyProsecutionCaseWithOrganisationDefendantForCivil(caseId, urn, defendantId, organisationName, userId);
 
         final ResponseData response = pollCaseByOrganisationDefendantForCivil(organisationName, userId);
         final String responseEntity = response.getPayload();
