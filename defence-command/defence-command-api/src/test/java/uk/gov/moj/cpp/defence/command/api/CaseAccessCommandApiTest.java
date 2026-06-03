@@ -30,7 +30,7 @@ import uk.gov.moj.cpp.defence.service.ReferenceDataService;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
 import uk.gov.moj.cpp.defence.service.UsersGroupQueryService;
 
-import uk.gov.justice.services.messaging.JsonObjects;
+
 import javax.json.JsonObject;
 import java.util.Optional;
 import java.util.UUID;
@@ -141,7 +141,7 @@ public class CaseAccessCommandApiTest {
     @Test
     public void shouldHandleScheduleSystemAdvocateAccess() {
         final Metadata metadata = getMetadataWithName("defence.command.system-schedule-advocate-access");
-        final JsonEnvelope jsonEnvelope =  new   DefaultJsonEnvelopeProvider().envelopeFrom(metadata, JsonObjects.createObjectBuilder()
+        final JsonEnvelope jsonEnvelope =  new   DefaultJsonEnvelopeProvider().envelopeFrom(metadata, createObjectBuilder()
                 .build());
         caseAccessCommandApi.scheduleSystemAdvocateAccess(jsonEnvelope);
         verify(sender).send(envelopeArgumentCaptor.capture());
@@ -151,7 +151,7 @@ public class CaseAccessCommandApiTest {
 
     private JsonEnvelope getRemoveCaseAssignmentEnvelope() {
         final Metadata metadata = getMetadataWithName("defence.advocate.remove-case-assignment");
-        return new DefaultJsonEnvelopeProvider().envelopeFrom(metadata, JsonObjects.createObjectBuilder()
+        return new DefaultJsonEnvelopeProvider().envelopeFrom(metadata, createObjectBuilder()
                 .add("assigneeId", randomUUID().toString())
                 .build());
     }

@@ -2,10 +2,10 @@ package uk.gov.moj.cpp.defence.service;
 
 import static java.util.Objects.nonNull;
 import static java.util.UUID.fromString;
-import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static javax.json.JsonValue.NULL;
 import static uk.gov.justice.services.messaging.JsonEnvelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.JsonEnvelope.metadataFrom;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
 import static uk.gov.moj.cpp.defence.common.util.DefencePermission.VIEW_DEFENDANT_PERMISSION;
 import static uk.gov.moj.cpp.defence.common.util.GrantAccessUtil.ACTION;
 import static uk.gov.moj.cpp.defence.common.util.GrantAccessUtil.OBJECT;
@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import uk.gov.justice.services.messaging.JsonObjects;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 
@@ -37,7 +36,7 @@ public class PermissionService {
     }
 
     public static List<Permission> getPermissions(final Metadata metadata, final Requester requester, String defendantId) {
-        final JsonObject getPermissionsforDefendantRequest = JsonObjects.createObjectBuilder().add(ACTION, VIEW_DEFENDANT_PERMISSION.getActionType()).add(OBJECT, VIEW_DEFENDANT_PERMISSION.getObjectType()).add(TARGET, defendantId).build();
+        final JsonObject getPermissionsforDefendantRequest = createObjectBuilder().add(ACTION, VIEW_DEFENDANT_PERMISSION.getActionType()).add(OBJECT, VIEW_DEFENDANT_PERMISSION.getObjectType()).add(TARGET, defendantId).build();
         final Metadata metadataWithActionName = metadataFrom(metadata).withName("usersgroups.permissions").build();
 
         final JsonEnvelope requestEnvelope = envelopeFrom(metadataWithActionName, getPermissionsforDefendantRequest);
