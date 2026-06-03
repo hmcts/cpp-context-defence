@@ -604,9 +604,9 @@ public class DefenceCaseQueryIT {
     @Test
     public void shouldGetCaseByOrganisationDefendantForCivil() {
         final String organisationName = simpleStringGenerator.next();
-        stubAccessControl(true, userId, "Defence Lawyers");
-
         createProsecutionCaseHelper.createAndVerifyProsecutionCaseWithOrganisationDefendantForCivil(caseId, urn, defendantId, organisationName, userId);
+
+        stubAccessControl(true, userId, "Defence Lawyers");
 
         final ResponseData response = pollCaseByOrganisationDefendantForCivil(organisationName, userId);
         final String responseEntity = response.getPayload();
