@@ -1,5 +1,24 @@
 package uk.gov.moj.cpp.defence.event.processor;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static uk.gov.justice.services.messaging.JsonObjects.createArrayBuilder;
+import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
+import static uk.gov.justice.services.test.utils.core.messaging.MetadataBuilderFactory.metadataWithRandomUUIDAndName;
+
+import uk.gov.justice.services.core.requester.Requester;
+import uk.gov.justice.services.messaging.Envelope;
+import uk.gov.justice.services.messaging.JsonEnvelope;
+import uk.gov.moj.cpp.defence.event.service.UsersGroupService;
+
+import java.util.UUID;
+
+import javax.json.JsonObject;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -7,23 +26,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.justice.services.core.requester.Requester;
-import uk.gov.justice.services.messaging.Envelope;
-import uk.gov.justice.services.messaging.JsonEnvelope;
-import uk.gov.moj.cpp.defence.event.service.UsersGroupService;
-
-import uk.gov.justice.services.messaging.JsonObjects;
-import javax.json.JsonObject;
-import java.util.UUID;
-
-import static uk.gov.justice.services.messaging.JsonObjects.createObjectBuilder;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static uk.gov.justice.services.test.utils.core.messaging.MetadataBuilderFactory.metadataWithRandomUUIDAndName;
 
 @ExtendWith(MockitoExtension.class)
 public class UsersGroupServiceTest {
@@ -52,8 +54,6 @@ public class UsersGroupServiceTest {
 
     private static final UUID ORGANISATION_ID = UUID.randomUUID();
 
-
-
     @Test
     public void shouldGetGroupsWithOrganisation() {
         final JsonEnvelope jsonEnvelope = JsonEnvelope.envelopeFrom(
@@ -61,21 +61,19 @@ public class UsersGroupServiceTest {
 
         when(requester.requestAsAdmin(any(), any())).thenReturn(envelope);
         when(envelope.payload()).thenReturn(buildGetOrganisationsDetailsForIds());
-        UUID organisationId=usersGroupService.getOrganisationByType(jsonEnvelope.metadata());
+        UUID organisationId = usersGroupService.getOrganisationByType(jsonEnvelope.metadata());
         verify(requester).requestAsAdmin(envelopeArgumentCaptor.capture(), any());
         assertThat(envelopeArgumentCaptor.getValue(), notNullValue());
-        assertThat(organisationId,  is(ORGANISATION_ID));
+        assertThat(organisationId, is(ORGANISATION_ID));
     }
-
-
 
     private JsonObject buildGetOrganisationsDetailsForIds() {
         return createObjectBuilder()
-                .add("organisations", JsonObjects.createArrayBuilder()
-                        .add(JsonObjects.createObjectBuilder()
+                .add("organisations", createArrayBuilder()
+                        .add(createObjectBuilder()
                                 .add("organisationId", ORGANISATION_ID.toString())
                         )
-                        .add(JsonObjects.createObjectBuilder()
+                        .add(createObjectBuilder()
                                 .add("organisationId", "1fc69990-bf59-4c4a-9489-d766b9abde9b")
                         ))
                 .build();
