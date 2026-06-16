@@ -37,7 +37,7 @@
         <criminal-court-public-model.version>${coredomain.version}</criminal-court-public-model.version>
         <coredomain.version>17.104.4</coredomain.version>
         <material.version>17.0.79</material.version>
-        <referencedata.version>17.103.131</referencedata.version>
+        <referencedata.version>17.103.133</referencedata.version>
         <listing.version>17.103.162</listing.version>
         <hearing.version>17.104.166</hearing.version>
         <system.documentgenerator.client.version>1.0.4</system.documentgenerator.client.version>
