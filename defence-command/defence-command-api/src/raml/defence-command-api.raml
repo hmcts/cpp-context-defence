@@ -59,6 +59,9 @@ baseUri: http://localhost:8080/defence-command-api/command/api/rest/defence
         (mapping):
              requestType: application/vnd.defence.disassociate-defence-organisation+json
              name: defence.disassociate-defence-organisation
+        (mapping):
+            requestType: application/vnd.defence.associate-organisation-bdf+json
+            name: defence.associate-organisation-bdf
         ...
       body:
         application/vnd.defence.associate-defence-organisation+json:
@@ -71,6 +74,11 @@ baseUri: http://localhost:8080/defence-command-api/command/api/rest/defence
              !include json/defence.disassociate-defence-organisation.json
           schema:
              !include json/schema/defence.disassociate-defence-organisation.json
+        application/vnd.defence.associate-organisation-bdf+json:
+          example:
+             !include json/defence.associate-organisation-bdf.json
+          schema:
+             !include json/schema/defence.associate-organisation-bdf.json
 
 
 /defendants/{defendantId}/defenceorganisation/{organisationId}/unlock-bdf :
@@ -188,3 +196,19 @@ baseUri: http://localhost:8080/defence-command-api/command/api/rest/defence
       responses:
         202:
           description: OK
+
+/createcasebdf :
+  post:
+    description: |
+      create missing case by BDF
+      ...
+      (mapping):
+          requestType: application/vnd.defence.prosecution-case-created-bdf+json
+          name: defence.prosecution-case-created-bdf
+      ...
+    body:
+      application/vnd.defence.prosecution-case-created-bdf+json:
+        example:
+          !include json/defence.prosecution-case-created-bdf.json
+        schema:
+          !include json/schema/defence.prosecution-case-created-bdf.json
