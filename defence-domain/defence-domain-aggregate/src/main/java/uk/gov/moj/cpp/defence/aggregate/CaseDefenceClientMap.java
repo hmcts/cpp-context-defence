@@ -14,6 +14,7 @@ import uk.gov.justice.cps.defence.DefendantDetails;
 import uk.gov.justice.cps.defence.DuplicateDefendantReceivedAgainstADefenceClient;
 import uk.gov.justice.cps.defence.Offence;
 import uk.gov.justice.domain.aggregate.Aggregate;
+import uk.gov.moj.cpp.defence.events.CaseCreatedBdf;
 import uk.gov.moj.cpp.defence.events.ProsecutionCaseReceived;
 import uk.gov.moj.cpp.defence.events.SuspectAlreadyAdded;
 
@@ -32,6 +33,16 @@ public class CaseDefenceClientMap implements Aggregate {
     private UUID caseId;
     private String urn;
     private Boolean isCivil;
+
+    public Stream<Object> createCaseBdf(final UUID prosecutionCaseId, final UUID defendantId){
+        final Stream.Builder<Object> streamBuilder = Stream.builder();
+
+        streamBuilder.add(CaseCreatedBdf.caseCreatedBdf().withProsecutionCaseId(prosecutionCaseId)
+                        .withDefendantId(defendantId)
+                .build());
+
+        return apply(streamBuilder.build());
+    }
 
     public Stream<Object> receiveDetails(final UUID caseId, final String urn, final String prosecutingAuthority, final Boolean isCivil, final Boolean isGroupMember) {
 
@@ -94,6 +105,7 @@ public class CaseDefenceClientMap implements Aggregate {
 
         return apply(streamBuilder.build());
     }
+
 
     public UUID getDefenceClientId(final UUID defendantId){
         return defenceClients.get(defendantId);

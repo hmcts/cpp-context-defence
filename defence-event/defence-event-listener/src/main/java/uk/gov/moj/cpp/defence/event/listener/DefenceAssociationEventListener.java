@@ -12,6 +12,7 @@ import uk.gov.justice.services.core.annotation.Handles;
 import uk.gov.justice.services.core.annotation.ServiceComponent;
 import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.moj.cpp.defence.events.DefenceOrganisationAssociated;
+import uk.gov.moj.cpp.defence.events.DefenceOrganisationAssociatedBdf;
 import uk.gov.moj.cpp.defence.events.DefenceOrganisationAssociationUnlockedBdf;
 import uk.gov.moj.cpp.defence.events.DefenceOrganisationDisassociated;
 import uk.gov.moj.cpp.defence.events.DefendantDefenceAssociationLockedForLaa;
@@ -49,8 +50,27 @@ public class DefenceAssociationEventListener {
 
     @Handles("defence.event.defence-organisation-associated")
     public void processOrganisationAssociated(final Envelope<DefenceOrganisationAssociated> event) {
+        final DefenceOrganisationAssociated payload = event.payload();
+        organisationAssociated(payload);
 
-        final DefenceOrganisationAssociated defenceOrganisationAssociated = event.payload();
+    }
+
+    @Handles("defence.event.defence-organisation-associated-bdf")
+    public void processOrganisationAssociatedBdf(final Envelope<DefenceOrganisationAssociatedBdf> event) {
+        final DefenceOrganisationAssociatedBdf payloadBdf = event.payload();
+        final DefenceOrganisationAssociated payload = DefenceOrganisationAssociated.defenceOrganisationAssociated()
+                .withDefendantId(payloadBdf.getDefendantId())
+                .withUserId(payloadBdf.getUserId())
+                .withOrganisationId(payloadBdf.getOrganisationId())
+                .withStartDate(payloadBdf.getStartDate())
+                .withRepresentationType(payloadBdf.getRepresentationType())
+                .withLaaContractNumber(payloadBdf.getLaaContractNumber())
+                .build();
+        organisationAssociated(payload);
+
+    }
+
+    private void organisationAssociated(final DefenceOrganisationAssociated defenceOrganisationAssociated) {
         final UUID defendantId = defenceOrganisationAssociated.getDefendantId();
         final UUID userId = defenceOrganisationAssociated.getUserId();
         final UUID defenceOrganisationId = defenceOrganisationAssociated.getOrganisationId();
@@ -65,7 +85,6 @@ public class DefenceAssociationEventListener {
         final DefenceAssociationDefendant defenceAssociationDefendant
                 = prepareDefenceAssociationEntity(defendantId, userId, defenceOrganisationId, startDate, representationType, laaContractNumber);
         defenceAssociationDefendantRepository.save(defenceAssociationDefendant);
-
     }
 
     @Handles("defence.event.defence-organisation-disassociated")
@@ -83,10 +102,11 @@ public class DefenceAssociationEventListener {
         }
 
         final DefenceAssociationDefendant defenceAssociationDefendant = defenceAssociationDefendantRepository.findOptionalByDefendantId(defendantId);
+        if(! isNull(defenceAssociationDefendant)) {
+            final DefenceAssociationDefendant updatedDefenceAssociationDefendant = disassociateOrganisation(defenceAssociationDefendant, organisationId, endDate);
 
-        final DefenceAssociationDefendant updatedDefenceAssociationDefendant = disassociateOrganisation(defenceAssociationDefendant, organisationId, endDate);
-
-        defenceAssociationDefendantRepository.save(updatedDefenceAssociationDefendant);
+            defenceAssociationDefendantRepository.save(updatedDefenceAssociationDefendant);
+        }
 
     }
 

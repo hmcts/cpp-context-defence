@@ -83,6 +83,9 @@ subscriptions_descriptor:
         - name: defence.event.system-scheduled-for-advocate-access-triggered
           schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.system-scheduled-for-advocate-access-triggered.json
 
+        - name: defence.event.case-created-bdf
+          schema_uri: http://moj.gov.uk/cpp/defence/events/defence.event.case-created-bdf.json
+
         - name: defence.event.defence-organisation-association-unlocked-bdf
           schema_uri: http://moj.gov.uk/cpp/defence/events/processor/defence.event.defence-organisation-association-unlocked-bdf.json
 
