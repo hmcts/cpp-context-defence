@@ -1,0 +1,36 @@
+{
+  "defendantId": "86e3cc8b-3b73-4b5f-888d-48315e1bfeaa",
+  "isLAA": true,
+  "laaContractNumber": "2N492D",
+  "organisationId": "5d7f7d45-811f-4dff-926f-489369cc183e",
+  "organisationName": "Hatten Wyatt T/A Morlings",
+  "permissions": [
+    {
+      "action": "View",
+      "id": "81f6c1e5-5fea-48a9-9822-87e3df4a66ef",
+      "object": "DefendantDocuments",
+      "source": "5d7f7d45-811f-4dff-926f-489369cc183e",
+      "status": "Added",
+      "target": "86e3cc8b-3b73-4b5f-888d-48315e1bfeaa"
+    },
+    {
+      "action": "Upload",
+      "id": "ed8d86b0-487a-460a-a8aa-1b5ed6121468",
+      "object": "DefendantDocuments",
+      "source": "5d7f7d45-811f-4dff-926f-489369cc183e",
+      "status": "Added",
+      "target": "86e3cc8b-3b73-4b5f-888d-48315e1bfeaa"
+    },
+    {
+      "action": "View",
+      "id": "f723b28a-93a5-4ca5-a9f0-be9255f7583f",
+      "object": "DefenceClient",
+      "source": "5d7f7d45-811f-4dff-926f-489369cc183e",
+      "status": "Added",
+      "target": "86e3cc8b-3b73-4b5f-888d-48315e1bfeaa"
+    }
+  ],
+  "representationType": "REPRESENTATION_ORDER",
+  "startDate": "2024-12-10T13:46:23.255Z",
+  "userId": "7ef2323b-2dc2-4be2-be66-c7ab4c0e0089"
+}

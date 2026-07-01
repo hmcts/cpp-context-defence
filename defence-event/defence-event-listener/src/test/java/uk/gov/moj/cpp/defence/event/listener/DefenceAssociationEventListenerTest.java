@@ -8,6 +8,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,6 +19,7 @@ import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.justice.services.messaging.JsonEnvelope;
 import uk.gov.justice.services.messaging.MetadataBuilder;
 import uk.gov.moj.cpp.defence.events.DefenceOrganisationAssociated;
+import uk.gov.moj.cpp.defence.events.DefenceOrganisationAssociatedBdf;
 import uk.gov.moj.cpp.defence.events.DefenceOrganisationDisassociated;
 import uk.gov.moj.cpp.defence.events.DefendantDefenceAssociationLockedForLaa;
 import uk.gov.moj.cpp.defence.persistence.DefenceAssociationDefendantRepository;
@@ -53,7 +55,6 @@ public class DefenceAssociationEventListenerTest {
     private static final String ORGANISATION_NAME = "LLOYDS";
     private static final ZonedDateTime START_DATE = ZonedDateTime.now().minusDays(2);
     private static final ZonedDateTime END_DATE = ZonedDateTime.now();
-    private static final UUID CASE_ID = randomUUID();
 
     @Mock
     private DefenceClientRepository defenceClientRepository;
@@ -93,6 +94,28 @@ public class DefenceAssociationEventListenerTest {
     }
 
     @Test
+    public void shouldPersistDefenceAssociationForBdf() {
+        //Given
+        DefenceClient defenceClient = generateDefenceClient(DEFENDANT_ID.toString());
+        when(defenceClientRepository.findOptionalByDefendantId(DEFENDANT_ID)).thenReturn(defenceClient);
+
+        //When
+        eventListener.processOrganisationAssociatedBdf(buildAssociatedEventBdf(ORGANISATION_ID));
+
+        //Then
+        verify(defenceClientRepository).save(argumentCaptor.capture());
+        verify(defenceAssociationDefendantRepository).save(defenceAssociationDefendantArgumentCaptor.capture());
+        final DefenceClient updatedDefenceClient = argumentCaptor.getValue();
+        assertThat(updatedDefenceClient.getDefendantId(),is(DEFENDANT_ID));
+        assertThat(updatedDefenceClient.getAssociatedOrganisation(), notNullValue());
+        assertThat(updatedDefenceClient.getAssociatedOrganisation(), is(ORGANISATION_ID));
+
+        final DefenceAssociationDefendant defenceAssociationDefendant = defenceAssociationDefendantArgumentCaptor.getValue();
+        assertThat(DEFENDANT_ID, is(defenceAssociationDefendant.getDefendantId()));
+
+    }
+
+    @Test
     public void shouldRemoveDefenceAssociation() {
         //Given
         DefenceClient defenceClient = generateDefenceClient(DEFENDANT_ID.toString());
@@ -107,6 +130,20 @@ public class DefenceAssociationEventListenerTest {
         final DefenceClient updatedDefenceClient = argumentCaptor.getAllValues().get(1);
         assertThat(updatedDefenceClient.getDefendantId(), is(DEFENDANT_ID));
         assertThat(updatedDefenceClient.getAssociatedOrganisation(), nullValue());
+    }
+
+    @Test
+    public void shouldNotRemoveDefenceAssociationIfNotAssociated() {
+        //Given
+        DefenceClient defenceClient = generateDefenceClient(DEFENDANT_ID.toString());
+        when(defenceClientRepository.findOptionalByDefendantId(DEFENDANT_ID)).thenReturn(defenceClient);
+        when(defenceAssociationDefendantRepository.findOptionalByDefendantId(DEFENDANT_ID)).thenReturn(null);
+        //When
+        eventListener.processOrganisationDisassociated(buildDisassociatedEvent(ORGANISATION_ID));
+
+        //Then
+        verify(defenceClientRepository, never()).save(any());
+        verify(defenceAssociationDefendantRepository, never()).save(any());
     }
 
     @Test
@@ -257,7 +294,6 @@ public class DefenceAssociationEventListenerTest {
     @Test
     public void shouldNotInvokeDefenceClientRepositorySaveUpdateWhenDefenceClientNotThere() {
 
-        final UUID caseId = randomUUID();
         final Envelope<DefendantDefenceAssociationLockedForLaa> envelope = createEnvelopeForUpdateLaaRepOrderForDefenceClient();
 
         final DefenceAssociation defenceAssociation = new DefenceAssociation();
@@ -320,6 +356,22 @@ public class DefenceAssociationEventListenerTest {
         final MetadataBuilder metadataBuilder = getMetadataBuilder(DEFENCE_ORGANISATION_ASSOCIATED_EVENT);
 
         DefenceOrganisationAssociated defenceOrganisationAssociated = DefenceOrganisationAssociated.defenceOrganisationAssociated()
+                .withDefendantId(DEFENDANT_ID)
+                .withLaaContractNumber(LAA_CONTRACT_NUMBER)
+                .withOrganisationId(organisationId)
+                .withOrganisationName(ORGANISATION_NAME)
+                .withRepresentationType(REPRESENTATION_ORDER_APPLIED_FOR)
+                .withStartDate(START_DATE)
+                .withUserId(USER_ID)
+                .build();
+
+        return Envelope.envelopeFrom(metadataBuilder, defenceOrganisationAssociated);
+    }
+
+    protected Envelope<DefenceOrganisationAssociatedBdf> buildAssociatedEventBdf(final UUID organisationId) {
+        final MetadataBuilder metadataBuilder = getMetadataBuilder(DEFENCE_ORGANISATION_ASSOCIATED_EVENT);
+
+        DefenceOrganisationAssociatedBdf defenceOrganisationAssociated = DefenceOrganisationAssociatedBdf.defenceOrganisationAssociatedBdf()
                 .withDefendantId(DEFENDANT_ID)
                 .withLaaContractNumber(LAA_CONTRACT_NUMBER)
                 .withOrganisationId(organisationId)
