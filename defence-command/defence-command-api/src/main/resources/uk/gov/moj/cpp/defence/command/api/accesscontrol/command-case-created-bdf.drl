@@ -1,0 +1,23 @@
+package uk.gov.moj.cpp.defence.command.api.accesscontrol;
+
+import uk.gov.moj.cpp.accesscontrol.drools.Outcome;
+import uk.gov.moj.cpp.accesscontrol.drools.Action;
+global uk.gov.moj.cpp.accesscontrol.common.providers.UserAndGroupProvider userAndGroupProvider;
+
+rule "Command - create the case by bdf"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.prosecution-case-created-bdf");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "System Users"));
+  then
+    $outcome.setSuccess(true);
+end
+
+rule "Command - associate organisation by bdf"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.associate-organisation-bdf");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "System Users"));
+  then
+    $outcome.setSuccess(true);
+end
