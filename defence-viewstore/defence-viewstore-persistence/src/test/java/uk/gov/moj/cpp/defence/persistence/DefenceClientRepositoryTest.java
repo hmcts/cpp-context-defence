@@ -608,6 +608,21 @@ public class DefenceClientRepositoryTest {
         return defenceClient;
     }
 
+    @Test
+    public void shouldFindCasesAssociatedWithOrganisationDefendantFilteredByCivilAndGroupMember() {
+        final DefenceCase defenceCase = new DefenceCase(randomUUID(), PTI_URN, PROSECUTING_AUTHORITY, TRUE, FALSE);
+        final DefenceClient organisationClient = new DefenceClient(randomUUID(), "ORG DEFENDANT LTD", defenceCase.getId(), randomUUID());
+        organisationClient.setVisible(TRUE);
+
+        defenceClientRepository.save(organisationClient);
+        defenceCaseRepository.save(defenceCase);
+
+        final List<UUID> caseIds = defenceClientRepository.findCasesAssociatedWithDefenceClientByOrganisationDefendant("ORG DEFENDANT LTD", TRUE, FALSE);
+
+        assertThat(caseIds, hasSize(1));
+        assertThat(caseIds.get(0), is(defenceCase.getId()));
+    }
+
     private DefenceClient getDefenceClient1(final UUID caseId) {
         final String defenceClientOneFirstName = "TEST ONE FIRST NAME";
         final String defenceClientOneLastName = "TEST ONE LAST NAME";
