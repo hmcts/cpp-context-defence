@@ -10,7 +10,7 @@
 
     <groupId>uk.gov.moj.cpp.defence</groupId>
     <artifactId>defence-parent</artifactId>
-    <version>17.104.103-SNAPSHOT</version>
+    <version>17.104.103-CHD-2845-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -39,7 +39,7 @@
         <material.version>17.0.79</material.version>
         <referencedata.version>17.104.140</referencedata.version>
         <listing.version>17.104.8</listing.version>
-        <hearing.version>17.104.186</hearing.version>
+        <hearing.version>17.104.197</hearing.version>
         <system.documentgenerator.client.version>1.0.4</system.documentgenerator.client.version>
         <systemdocgenerator.version>17.104.114</systemdocgenerator.version>
         <sonar.coverage.exclusions>
