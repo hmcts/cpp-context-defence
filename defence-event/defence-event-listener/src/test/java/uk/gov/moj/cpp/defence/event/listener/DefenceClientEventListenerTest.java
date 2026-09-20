@@ -16,6 +16,7 @@ import uk.gov.justice.services.messaging.Metadata;
 import uk.gov.moj.cpp.defence.Organisation;
 import uk.gov.moj.cpp.defence.common.util.GenericEnveloper;
 import uk.gov.moj.cpp.defence.event.listener.events.DefendantUpdateReceived;
+import uk.gov.moj.cpp.defence.events.AddDefenceClientBdf;
 import uk.gov.moj.cpp.defence.events.DefenceClientReceived;
 import uk.gov.moj.cpp.defence.events.DefendantDefenceAssociationLockedForLaa;
 import uk.gov.moj.cpp.defence.persistence.DefenceClientRepository;
@@ -112,6 +113,23 @@ public class DefenceClientEventListenerTest {
     }
 
 
+    @Test
+    public void shouldInvokeAddDefenceClientRepositorySaveValuesForIndividual() {
+
+        final UUID caseId = randomUUID();
+        final Envelope<AddDefenceClientBdf> envelope = createEnvelopeForAddDefenceClient(caseId);
+
+        defenceClientEventListener.addDefenceClient(envelope);
+
+        verify(defenceClientRepositoryMock).save(argumentCaptor.capture());
+        assertThat(argumentCaptor.getValue().getFirstName(),is(FIRST_NAME));
+        assertThat(argumentCaptor.getValue().getLastName(), is(LAST_NAME));
+        assertThat(argumentCaptor.getValue().getDateOfBirth(), is(DOB));
+        assertThat(argumentCaptor.getValue().getCaseId(),is(caseId));
+        assertThat(argumentCaptor.getValue().getDefendantId(),is(DEFENDANT_ID));
+        assertThat(argumentCaptor.getValue().getOrganisationName(), is(UPDATED_ORGANISATION_NAME));
+    }
+
 
     @Test
     public void shouldInvokeDefenceClientRepositorySaveWithUpdatedValuesForCorporate() {
@@ -172,6 +190,25 @@ public class DefenceClientEventListenerTest {
                 .withDefendantDetails(defendantDetails).build();
 
         return genericEnveloper.envelopeWithNewActionName(defendantUpdateReceived, metadata, "actionName");
+    }
+
+    private Envelope<AddDefenceClientBdf> createEnvelopeForAddDefenceClient(final UUID caseId) {
+        final Metadata metadata = getMetaData();
+
+        AddDefenceClientBdf addDefenceClientBdf = AddDefenceClientBdf.addDefenceClientBdf()
+                .withFirstName(FIRST_NAME)
+                .withLastName(LAST_NAME)
+                .withDateOfBirth(String.valueOf(DOB))
+                .withDefendantId(DEFENDANT_ID)
+                .withIsVisible(true)
+                .withIdpcDetailsId(randomUUID())
+                .withCaseId(caseId)
+                .withIsLockedByRepOrder(true)
+                .withAssociatedOrganisationId(randomUUID())
+                .withOrganisationName(UPDATED_ORGANISATION_NAME)
+                .build();
+
+        return genericEnveloper.envelopeWithNewActionName(addDefenceClientBdf, metadata, "actionName");
     }
 
 

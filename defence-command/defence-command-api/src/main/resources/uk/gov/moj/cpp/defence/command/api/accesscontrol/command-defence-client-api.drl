@@ -32,3 +32,12 @@ rule "Command - API - Action - defence.remove-grant-defence-access"
   then
     $outcome.setSuccess(true);
 end
+
+rule "Command - API - Action - defence.add-defence-client-record-bdf"
+  when
+    $outcome: Outcome();
+    $action: Action(name == "defence.add-defence-client-record-bdf");
+    eval(userAndGroupProvider.isMemberOfAnyOfTheSuppliedGroups($action, "Chambers Clerk", "Chambers Admin", "Defence Lawyers", "Advocates"));
+  then
+    $outcome.setSuccess(true);
+end

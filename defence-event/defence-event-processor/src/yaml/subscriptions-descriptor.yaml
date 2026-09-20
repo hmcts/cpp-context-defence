@@ -29,6 +29,9 @@ subscriptions_descriptor:
         - name: defence.event.defence-disassociation-failed
           schema_uri: http://moj.gov.uk/cpp/defence/event/processor/defence.event.defence-disassociation-failed.json
 
+        - name: defence.event.add-defence-client-bdf
+          schema_uri: http://moj.gov.uk/cpp/defence/event/processor/defence.event.add-defence-client-bdf.json
+
         - name: defence.event.user-not-found
           schema_uri: http://justice.gov.uk/cps/defence/user-not-found
 

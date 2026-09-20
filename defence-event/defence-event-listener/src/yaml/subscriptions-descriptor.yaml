@@ -26,6 +26,9 @@ subscriptions_descriptor:
         - name: defence.event.defendant-update-received
           schema_uri: http://moj.gov.uk/cpp/defence/event/listener/events/defence.event.defendant-update-received.json
 
+        - name: defence.event.add-defence-client-bdf
+          schema_uri: http://moj.gov.uk/cpp/defence/event/listener/events/defence.event.add-defence-client-bdf.json
+
         - name: defence.event.defendant-offences-updated
           schema_uri: http://moj.gov.uk/cpp/defence/event/listener/events/defence.event.defendant-offences-updated.json
 

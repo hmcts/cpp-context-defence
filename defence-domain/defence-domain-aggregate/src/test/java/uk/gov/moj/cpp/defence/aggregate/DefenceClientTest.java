@@ -53,6 +53,7 @@ import uk.gov.moj.cpp.defence.events.IdpcAccessRecorded;
 import uk.gov.moj.cpp.defence.events.IdpcDetailsRecorded;
 import uk.gov.moj.cpp.defence.events.IdpcReceivedBeforeCase;
 import uk.gov.moj.cpp.defence.events.InstructionDetailsRecorded;
+import uk.gov.moj.cpp.defence.events.AddDefenceClientBdf;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
 
 import java.time.LocalDate;
@@ -523,6 +524,19 @@ public class DefenceClientTest {
         assertThat(defenceClientUrnAdded.getDefenceClientId(), is(defenceClientId));
         assertThat(defenceClientUrnAdded.getUrn(), is(urn));
 
+    }
+
+    @Test
+    public void shouldReturnAddDefenceClientBdf() {
+        final UUID caseId = randomUUID();
+
+        final List<Object> eventStream = defenceClient.addDefenceClient("test First Name", "test Last Name", "1990-01-01", true, randomUUID(), caseId, true, randomUUID(), "Test Organisation Name")
+                .collect(toList());
+        assertThat(eventStream.size(), is(1));
+        assertThat(eventStream.get(0).getClass(), is(CoreMatchers.equalTo(AddDefenceClientBdf.class)));
+
+        final AddDefenceClientBdf defenceClientUrnAdded = (AddDefenceClientBdf) eventStream.get(0);
+        assertThat(defenceClientUrnAdded.getCaseId(), is(caseId));
     }
 
     @Test

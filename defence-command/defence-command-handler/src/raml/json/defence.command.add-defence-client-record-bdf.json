@@ -1,0 +1,12 @@
+{
+  "firstName": "test first name",
+  "lastName": "test last name",
+  "dateOfBirth": "1992-01-01",
+  "isVisible": true,
+  "idpcDetailsId": "0c9df1fb-7bce-4e33-88dd-db91f75adeb8",
+  "caseId": "0c9df1fb-7bce-4e33-88dd-db91f75adeb9",
+  "defendantId": "0c9df1fb-7bce-4e33-88dd-db91f75adeb6",
+  "isLockedByRepOrder": true,
+  "associatedOrganisationId": "0c9df1fb-7bce-4e33-88dd-db91f75adeb2",
+  "organisationName": "test organisation name"
+}

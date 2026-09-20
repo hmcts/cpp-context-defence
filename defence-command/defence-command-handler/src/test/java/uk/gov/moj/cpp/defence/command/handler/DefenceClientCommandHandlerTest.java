@@ -5,6 +5,7 @@ import static java.util.UUID.randomUUID;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static uk.gov.justice.cps.defence.AddDefenceClientRecordBdf.addDefenceClientRecordBdf;
 import static uk.gov.justice.cps.defence.DefendantDetails.defendantDetails;
 import static uk.gov.justice.services.core.annotation.Component.COMMAND_HANDLER;
 import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
@@ -17,6 +18,7 @@ import static uk.gov.moj.cpp.defence.test.utils.HandlerTestHelper.matchEvent;
 import static uk.gov.moj.cpp.defence.test.utils.HandlerTestHelper.metadataFor;
 import static uk.gov.moj.cpp.defence.test.utils.HandlerTestHelper.toList;
 
+import uk.gov.justice.cps.defence.AddDefenceClientRecordBdf;
 import uk.gov.justice.cps.defence.DefenceClientDetails;
 import uk.gov.justice.cps.defence.DefenceClientMappedToACase;
 import uk.gov.justice.cps.defence.RecordAccessToIdpc;
@@ -42,6 +44,7 @@ import uk.gov.moj.cpp.defence.events.DefenceClientUrnAdded;
 import uk.gov.moj.cpp.defence.events.IdpcAccessByOrganisationRecorded;
 import uk.gov.moj.cpp.defence.events.IdpcAccessRecorded;
 import uk.gov.moj.cpp.defence.events.IdpcDetailsRecorded;
+import uk.gov.moj.cpp.defence.events.AddDefenceClientBdf;
 import uk.gov.moj.cpp.defence.events.IdpcReceivedBeforeCase;
 import uk.gov.moj.cpp.defence.events.InstructionDetailsRecorded;
 import uk.gov.moj.cpp.defence.service.UserGroupService;
@@ -87,7 +90,8 @@ class DefenceClientCommandHandlerTest {
             IdpcAccessRecorded.class,
             IdpcAccessByOrganisationRecorded.class,
             DefendantOffencesUpdated.class,
-            IdpcReceivedBeforeCase.class
+            IdpcReceivedBeforeCase.class,
+            AddDefenceClientBdf.class
     );
     @Mock
     private EventSource eventSourceMock;
@@ -288,6 +292,62 @@ class DefenceClientCommandHandlerTest {
                 "defence.event.defence-client-does-not-exist",
                 handlerTestHelper.convertFromFile("json/defence-client-does-not-exist.json", JsonValue.class));
 
+    }
+
+    @Test
+    void shouldHandleDefenceClient() throws EventStreamException, IOException {
+        final UUID defenceClientId = fromString("a4391788-f829-4514-a344-61f1d5d9690c");
+        final AddDefenceClientRecordBdf addDefenceClientRecordBdf = addDefenceClientRecordBdf()
+                .withFirstName("test first name")
+                .withLastName("test last name")
+                .withCaseId(UUID.fromString("0c9df1fb-7bce-4e33-88dd-db91f75adeb9"))
+                .withDateOfBirth("1992-01-01")
+                .withIsVisible(true)
+                .withDefendantId(UUID.fromString("0c9df1fb-7bce-4e33-88dd-db91f75adeb6"))
+                .withIdpcDetailsId(UUID.fromString("0c9df1fb-7bce-4e33-88dd-db91f75adeb8"))
+                .withAssociatedOrganisationId(UUID.fromString("0c9df1fb-7bce-4e33-88dd-db91f75adeb2"))
+                .withIsLockedByRepOrder(true)
+                .withOrganisationName("test organisation name")
+                .build();
+
+        final Envelope<AddDefenceClientRecordBdf> envelope = envelopeFrom(metadataFor("defence.command.add-defence-client-record-bdf",
+                defenceClientId), addDefenceClientRecordBdf);
+
+        when(eventSourceMock.getStreamById(any())).thenReturn(eventStreamMock);
+        when(aggregateServiceMock.get(eventStreamMock, DefenceClient.class)).thenReturn(defenceClientAggregate);
+
+        defenceClientCommandHandler.addDefendantClientRecord(envelope);
+
+        matchEvent(verifyAppendAndGetArgumentFrom(eventStreamMock),
+                "defence.event.add-defence-client-bdf",
+                handlerTestHelper.convertFromFile("json/defence.event.add-defence-client.json", JsonValue.class));
+    }
+
+    @Test
+    void shouldHandleDefenceClientWithOrganizationDetailsAreNull() throws EventStreamException, IOException {
+        final UUID defenceClientId = fromString("a4391788-f829-4514-a344-61f1d5d9690c");
+        final AddDefenceClientRecordBdf addDefenceClientRecordBdf = addDefenceClientRecordBdf()
+                .withFirstName("test first name")
+                .withLastName("test last name")
+                .withCaseId(UUID.fromString("0c9df1fb-7bce-4e33-88dd-db91f75adeb9"))
+                .withDateOfBirth("1992-01-01")
+                .withIsVisible(true)
+                .withDefendantId(UUID.fromString("0c9df1fb-7bce-4e33-88dd-db91f75adeb6"))
+                .withIdpcDetailsId(UUID.fromString("0c9df1fb-7bce-4e33-88dd-db91f75adeb8"))
+                .withIsLockedByRepOrder(true)
+                .build();
+
+        final Envelope<AddDefenceClientRecordBdf> envelope = envelopeFrom(metadataFor("defence.command.add-defence-client-record-bdf",
+                defenceClientId), addDefenceClientRecordBdf);
+
+        when(eventSourceMock.getStreamById(any())).thenReturn(eventStreamMock);
+        when(aggregateServiceMock.get(eventStreamMock, DefenceClient.class)).thenReturn(defenceClientAggregate);
+
+        defenceClientCommandHandler.addDefendantClientRecord(envelope);
+
+        matchEvent(verifyAppendAndGetArgumentFrom(eventStreamMock),
+                "defence.event.add-defence-client-bdf",
+                handlerTestHelper.convertFromFile("json/defence.event.add-defence-client-organisation-details-empty.json", JsonValue.class));
     }
 
     @Test

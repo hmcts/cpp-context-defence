@@ -51,6 +51,7 @@ import uk.gov.moj.cpp.defence.events.IdpcAccessRecorded;
 import uk.gov.moj.cpp.defence.events.IdpcDetailsRecorded;
 import uk.gov.moj.cpp.defence.events.IdpcReceivedBeforeCase;
 import uk.gov.moj.cpp.defence.events.InstructionDetailsRecorded;
+import uk.gov.moj.cpp.defence.events.AddDefenceClientBdf;
 
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
@@ -281,6 +282,20 @@ public class DefenceClient implements Aggregate {
         }
     }
 
+    public Stream<Object> addDefenceClient(final String firstName, final String lastName, final String dateOfBirth, final Boolean isVisible, final UUID idpcDetailsId, final UUID caseId, final Boolean isLockedByRepOrder, final UUID associatedOrganisationId, final String organisationName) {
+        return apply(of(AddDefenceClientBdf.addDefenceClientBdf()
+                .withFirstName(firstName)
+                .withLastName(lastName)
+                .withDateOfBirth(dateOfBirth)
+                .withIsVisible(isVisible)
+                .withIdpcDetailsId(idpcDetailsId)
+                .withCaseId(caseId)
+                .withIsLockedByRepOrder(isLockedByRepOrder)
+                .withAssociatedOrganisationId(associatedOrganisationId)
+                .withOrganisationName(organisationName)
+                .build()));
+    }
+
     public Stream<Object> receiveUrn(final UUID defenceClientId, final String urn) {
         return apply(of(DefenceClientUrnAdded.defenceClientUrnAdded()
                 .withDefenceClientId(defenceClientId)
@@ -368,6 +383,10 @@ public class DefenceClient implements Aggregate {
                         .apply(instructionDetailsRecorded ->
                                 organisationsInstructed.add(instructionDetailsRecorded.getOrganisationId())
                         ),
+                when(AddDefenceClientBdf.class)
+                        .apply(addDefenceClientBdf -> {
+                            //do nothing
+                        }),
                 when(IdpcAccessRecorded.class)
                         .apply(idpcAccessRecorded -> {
                         }),

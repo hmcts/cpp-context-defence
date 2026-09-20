@@ -8,6 +8,7 @@ import static uk.gov.justice.services.messaging.Envelope.envelopeFrom;
 import static uk.gov.justice.services.messaging.Envelope.metadataFrom;
 import static uk.gov.moj.cpp.defence.common.util.DateValidator.validateDateString;
 
+import uk.gov.justice.cps.defence.AddDefenceClientRecordBdf;
 import uk.gov.justice.cps.defence.DefenceInstruction;
 import uk.gov.justice.services.adapter.rest.exception.BadRequestException;
 import uk.gov.justice.services.core.annotation.Handles;
@@ -40,4 +41,10 @@ public class DefenceClientCommandApi {
 
     }
 
+
+    @Handles("defence.add-defence-client-record-bdf")
+    public void addDefenceClientRecordBdf(final Envelope<AddDefenceClientRecordBdf> envelope) {
+        sender.send(envelopeFrom(metadataFrom(envelope.metadata()).withName("defence.command.add-defence-client-record-bdf"),
+                envelope.payload()));
+    }
 }

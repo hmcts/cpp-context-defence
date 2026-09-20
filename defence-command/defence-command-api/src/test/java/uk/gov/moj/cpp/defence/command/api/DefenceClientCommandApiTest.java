@@ -8,6 +8,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
+import uk.gov.justice.cps.defence.AddDefenceClientRecordBdf;
 import uk.gov.justice.cps.defence.DefenceInstruction;
 import uk.gov.justice.services.adapter.rest.exception.BadRequestException;
 import uk.gov.justice.services.core.sender.Sender;
@@ -38,6 +39,9 @@ public class DefenceClientCommandApiTest {
 
     @Captor
     ArgumentCaptor<Envelope<DefenceInstruction>> envelopeArgumentCaptor;
+
+    @Captor
+    ArgumentCaptor<Envelope<AddDefenceClientRecordBdf>> addDefenceEnvelopeArgumentCaptor;
 
     @Test
     public void shouldHandleRecordInstructionDate() {
@@ -70,12 +74,34 @@ public class DefenceClientCommandApiTest {
         assertThat(e.getMessage(), is(format("Invalid date format. Input date string: %s", invalidDateString)));
     }
 
+    @Test
+    public void shouldHandleDefenceClient() {
+        final UUID caseId = randomUUID();
+        final UUID defendantId = randomUUID();
+
+        defenceClientCommandApi.addDefenceClientRecordBdf(createDefenceClientEnvelop(caseId, defendantId));
+        verify(sender).send(addDefenceEnvelopeArgumentCaptor.capture());
+
+        final Envelope<AddDefenceClientRecordBdf> addDefenceClientRecordBdfEnvelope = addDefenceEnvelopeArgumentCaptor.getValue();
+        assertThat(addDefenceClientRecordBdfEnvelope.metadata().name(), is("defence.command.add-defence-client-record-bdf"));
+        assertThat(addDefenceClientRecordBdfEnvelope.payload().getCaseId(), is(caseId));
+        assertThat(addDefenceClientRecordBdfEnvelope.payload().getDefendantId(), is(defendantId));
+    }
+
     private Envelope<DefenceInstruction> createEnvelop(final String instructionDate) {
         final DefenceInstruction recordInstrcutionDetailsCommand = new DefenceInstruction(DEFENCE_CLIENT_ID, instructionDate);
         final Metadata metadata = Envelope.metadataBuilder().withId(randomUUID())
                 .withName("defence.record-instruction-details")
                 .createdAt(now()).build();
         return Envelope.envelopeFrom(metadata, recordInstrcutionDetailsCommand);
+    }
+
+    private Envelope<AddDefenceClientRecordBdf> createDefenceClientEnvelop(final UUID caseId, final UUID defendantId) {
+        final AddDefenceClientRecordBdf defenceClientRecordBdf = new AddDefenceClientRecordBdf(randomUUID(), caseId, "01-01-1990", defendantId, "Test First Name", randomUUID(), false, true, "Test Last Name", "Original Test Name");
+        final Metadata metadata = Envelope.metadataBuilder().withId(randomUUID())
+                .withName("defence.add-defence-client-record-bdf")
+                .createdAt(now()).build();
+        return Envelope.envelopeFrom(metadata, defenceClientRecordBdf);
     }
 
 }
