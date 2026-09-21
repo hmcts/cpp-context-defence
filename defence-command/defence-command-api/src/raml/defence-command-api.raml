@@ -17,6 +17,21 @@ baseUri: http://localhost:8080/defence-command-api/command/api/rest/defence
             schema: !include json/schema/defence-instruction.json
             example: !include json/defence-instruction.json
 
+/defenceclients/bdf:
+  post:
+    description: |
+      add defence client record bdf
+      ...
+      (mapping):
+          requestType: application/vnd.defence.add-defence-client-record-bdf+json
+          name: defence.add-defence-client-record-bdf
+      ...
+    body:
+      application/vnd.defence.add-defence-client-record-bdf+json:
+        schema: !include json/schema/defence.add-defence-client-record-bdf.json
+        example: !include json/defence.add-defence-client-record-bdf.json
+
+
 /defenceclients/{defenceClientId}/grantaccess:
   uriParameters:
       defenceClientId:

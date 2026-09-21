@@ -13,6 +13,7 @@ import uk.gov.justice.cps.defence.OffenceCode;
 import uk.gov.justice.cps.defence.OffenceCodeReferenceData;
 import uk.gov.justice.cps.defence.ReceiveAllegationsAgainstADefenceClient;
 import uk.gov.justice.cps.defence.RecordAccessToIdpc;
+import uk.gov.justice.cps.defence.AddDefenceClientRecordBdf;
 import uk.gov.justice.services.common.converter.ObjectToJsonObjectConverter;
 import uk.gov.justice.services.core.aggregate.AggregateService;
 import uk.gov.justice.services.core.annotation.Component;
@@ -326,6 +327,30 @@ public class DefenceClientCommandHandler {
 
     }
 
+    @Handles("defence.command.add-defence-client-record-bdf")
+    public void addDefendantClientRecord(final Envelope<AddDefenceClientRecordBdf> envelope) throws EventStreamException {
+        final AddDefenceClientRecordBdf recordInstructionDetails = envelope.payload();
+
+        final String firstName = recordInstructionDetails.getFirstName();
+        final String lastName = recordInstructionDetails.getLastName();
+        final String dateOfBirth = recordInstructionDetails.getDateOfBirth();
+        final UUID defendantId = recordInstructionDetails.getDefendantId();
+        final Boolean isVisible = recordInstructionDetails.getIsVisible();
+        final UUID idpcDetailsId = recordInstructionDetails.getIdpcDetailsId();
+        final UUID caseId = recordInstructionDetails.getCaseId();
+        final Boolean isLockedByRepOrder = recordInstructionDetails.getIsLockedByRepOrder();
+
+        final UUID associatedOrganisationId = recordInstructionDetails.getAssociatedOrganisationId() != null ? recordInstructionDetails.getAssociatedOrganisationId() : null;
+        final String organisationName = recordInstructionDetails.getOrganisationName() != null ? recordInstructionDetails.getOrganisationName() : null;
+
+        final EventStream eventStream = eventSource.getStreamById(defendantId);
+        final DefenceClient defenceClientAggregate = aggregateService.get(eventStream, DefenceClient.class);
+
+        final Stream<Object> events = defenceClientAggregate.addDefenceClient
+                (firstName, lastName, dateOfBirth, isVisible, idpcDetailsId, caseId, isLockedByRepOrder, associatedOrganisationId, organisationName);
+
+        appendEventsToStream(envelope, eventStream, events);
+    }
 
     @Handles("defence.command.receive-urn-for-defence-client")
     public void receiveUrnForDefenceClient(final Envelope<ReceiveUrnForDefenceClient> envelope) throws EventStreamException {

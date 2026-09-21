@@ -12,6 +12,7 @@ import uk.gov.justice.services.core.annotation.ServiceComponent;
 import uk.gov.justice.services.messaging.Envelope;
 import uk.gov.moj.cpp.defence.Organisation;
 import uk.gov.moj.cpp.defence.event.listener.events.DefendantUpdateReceived;
+import uk.gov.moj.cpp.defence.events.AddDefenceClientBdf;
 import uk.gov.moj.cpp.defence.events.DefenceClientReceived;
 import uk.gov.moj.cpp.defence.persistence.DefenceClientRepository;
 import uk.gov.moj.cpp.defence.persistence.entity.DefenceClient;
@@ -59,6 +60,29 @@ public class DefenceClientEventListener {
             return;
         }
         defenceClientRepository.save(defenceClient);
+    }
+
+    @Handles("defence.event.add-defence-client-bdf")
+    public void addDefenceClient(final Envelope<AddDefenceClientBdf> envelope) {
+        final AddDefenceClientBdf defendantUpdateReceived = envelope.payload();
+        final DefenceClient defenceClient = getDefenceClient(defendantUpdateReceived);
+        defenceClientRepository.save(defenceClient);
+    }
+
+
+    private DefenceClient getDefenceClient(final AddDefenceClientBdf defendantDetails) {
+        DefenceClient defenceClient = new DefenceClient();
+        defenceClient.setFirstName(defendantDetails.getFirstName());
+        defenceClient.setLastName(defendantDetails.getLastName());
+        defenceClient.setDateOfBirth(LocalDate.parse(defendantDetails.getDateOfBirth()));
+        defenceClient.setVisible(defendantDetails.getIsVisible());
+        defenceClient.setIdpcDetailsId(defendantDetails.getIdpcDetailsId());
+        defenceClient.setCaseId(defendantDetails.getCaseId());
+        defenceClient.setDefendantId(defendantDetails.getDefendantId());
+        defenceClient.setLockedByRepOrder(defendantDetails.getIsLockedByRepOrder());
+        defenceClient.setAssociatedOrganisation(defendantDetails.getAssociatedOrganisationId());
+        defenceClient.setOrganisationName(defendantDetails.getOrganisationName());
+        return defenceClient;
     }
 
     private DefenceClient getDefenceClient(final DefendantDetails defendantDetails, final UUID defendantId) {
