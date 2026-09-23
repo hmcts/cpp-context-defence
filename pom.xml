@@ -39,7 +39,7 @@
         <material.version>17.0.79</material.version>
         <referencedata.version>17.104.140</referencedata.version>
         <listing.version>17.104.8</listing.version>
-        <hearing.version>17.104.197</hearing.version>
+        <hearing.version>17.104.200</hearing.version>
         <system.documentgenerator.client.version>1.0.4</system.documentgenerator.client.version>
         <systemdocgenerator.version>17.104.114</systemdocgenerator.version>
         <sonar.coverage.exclusions>
