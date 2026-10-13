@@ -10,7 +10,7 @@
 
     <groupId>uk.gov.moj.cpp.defence</groupId>
     <artifactId>defence-parent</artifactId>
-    <version>17.104.104-SNAPSHOT</version>
+    <version>17.104.0-CIVIL-T3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <properties>
@@ -35,11 +35,11 @@
         <referencedataoffences.version>17.104.52</referencedataoffences.version>
         <json-generator.version>0.1.0</json-generator.version>
         <criminal-court-public-model.version>${coredomain.version}</criminal-court-public-model.version>
-        <coredomain.version>17.104.4</coredomain.version>
+        <coredomain.version>17.104.5-CIVIL-T3-SNAPSHOT</coredomain.version>
         <material.version>17.0.79</material.version>
         <referencedata.version>17.104.140</referencedata.version>
         <listing.version>17.104.8</listing.version>
-        <hearing.version>17.104.200</hearing.version>
+        <hearing.version>17.104.203</hearing.version>
         <system.documentgenerator.client.version>1.0.4</system.documentgenerator.client.version>
         <systemdocgenerator.version>17.104.114</systemdocgenerator.version>
         <sonar.coverage.exclusions>
